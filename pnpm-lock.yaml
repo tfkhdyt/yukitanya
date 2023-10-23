@@ -8,6 +8,12 @@ dependencies:
   '@auth/drizzle-adapter':
     specifier: ^0.3.2
     version: 0.3.4
+  '@fontsource-variable/rubik':
+    specifier: ^5.0.19
+    version: 5.0.19
+  '@fontsource/poppins':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@planetscale/database':
     specifier: ^1.11.0
     version: 1.11.0
@@ -85,6 +91,9 @@ devDependencies:
   eslint-config-next:
     specifier: ^13.5.4
     version: 13.5.6(eslint@8.52.0)(typescript@5.2.2)
+  eslint-plugin-simple-import-sort:
+    specifier: ^10.0.0
+    version: 10.0.0(eslint@8.52.0)
   mysql2:
     specifier: ^3.6.1
     version: 3.6.2
@@ -398,6 +407,14 @@ packages:
     resolution: {integrity: sha512-mjZVbpaeMZludF2fsWLD0Z9gCref1Tk4i9+wddjRvpUNqqcndPkBD09N/Mapey0b3jaXbLm2kICwFv2E64QinA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource-variable/rubik@5.0.19:
+    resolution: {integrity: sha512-tn/3xz7BDopocUOYUUdmcMosjlEStF4C/Jea2j/JAhe9l/5kMQ6ibKFoXYyzGzi+2cljn2i4s2rSlkM2n8oQQg==}
+    dev: false
+
+  /@fontsource/poppins@5.0.8:
+    resolution: {integrity: sha512-P8owfYWluoUY5Nyzk4gT/L6LmLmseP6ezFWhj6VBUa5pRIdnCvNJpoQ6i/vhekjtJOfqX6nKlB+LCttoUl2GQQ==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
@@ -1800,6 +1817,14 @@ packages:
       resolve: 2.0.0-next.5
       semver: 6.3.1
       string.prototype.matchall: 4.0.10
+    dev: true
+
+  /eslint-plugin-simple-import-sort@10.0.0(eslint@8.52.0):
+    resolution: {integrity: sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.52.0
     dev: true
 
   /eslint-scope@7.2.2:
