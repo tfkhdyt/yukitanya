@@ -38,22 +38,24 @@ export function MataPelajaran() {
   ];
 
   return (
-    <section className='container mx-auto my-8 space-y-16 bg-[url(/img/mapel/bg.svg)] bg-cover bg-no-repeat font-poppins text-[#696984]'>
-      <p className='text-center text-lg'>
-        Yuk tanya pelajaran favoritmu disini!
-      </p>
-      <div className='grid lg:grid-cols-7'>
-        {mapel.map((each) => (
-          <div className='flex flex-col items-center' key={each.name}>
-            <Image
-              src={each.imageUrl}
-              alt={each.name}
-              width={110}
-              height={105}
-            />
-            <p className='text-sm font-medium'>{each.name}</p>
-          </div>
-        ))}
+    <section className='bg-[url(/img/mapel/bg.svg)] bg-contain bg-no-repeat py-24'>
+      <div className='container mx-auto space-y-16 font-poppins text-[#696984]'>
+        <p className='text-center text-2xl font-bold text-[#77425A]'>
+          Yuk tanya pelajaran favoritmu disini!
+        </p>
+        <div className='grid lg:grid-cols-7'>
+          {mapel.map((each) => (
+            <div className='flex flex-col items-center' key={each.name}>
+              <Image
+                src={each.imageUrl}
+                alt={each.name}
+                width={110}
+                height={105}
+              />
+              <p className='text-sm font-medium'>{each.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
