@@ -17,7 +17,7 @@ export function Hero() {
           <p className='text-5xl font-extrabold text-[#77425A] drop-shadow-2xl'>
             Untuk Bertanya!
           </p>
-          <div className='flex w-fit items-center rounded-full bg-white font-light'>
+          <div className='flex w-fit items-center rounded-full bg-white font-light shadow-md'>
             <input
               className='rounded-full px-8 py-1 text-xl text-[#77425A] placeholder:text-[#939090] focus:outline-none'
               type='text'
