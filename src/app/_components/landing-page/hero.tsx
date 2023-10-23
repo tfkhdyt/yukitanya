@@ -19,7 +19,7 @@ export function Hero() {
           </p>
           <div className='flex w-fit items-center rounded-full bg-white font-light'>
             <input
-              className='rounded-full px-8 py-1 text-xl placeholder:text-[#939090] focus:outline-none'
+              className='rounded-full px-8 py-1 text-xl text-[#77425A] placeholder:text-[#939090] focus:outline-none'
               type='text'
               placeholder='Mulai bertanya...!'
             />
