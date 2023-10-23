@@ -7,6 +7,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        rubik: ["Rubik Variable", ...fontFamily.sans],
+        poppins: ["Poppins", ...fontFamily.sans],
       },
     },
   },
