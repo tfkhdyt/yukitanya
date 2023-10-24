@@ -1,3 +1,4 @@
+import { Fitur } from './_components/landing-page/fitur';
 import { Hero } from './_components/landing-page/hero';
 import { Keunggulan } from './_components/landing-page/keunggulan';
 import { MataPelajaran } from './_components/landing-page/mata-pelajaran';
@@ -10,6 +11,7 @@ export default function Home() {
       <MataPelajaran />
       <TentangKami />
       <Keunggulan />
+      <Fitur />
     </main>
   );
 }
