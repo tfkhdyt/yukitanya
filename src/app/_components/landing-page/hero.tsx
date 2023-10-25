@@ -4,7 +4,10 @@ import { Header } from './header';
 
 export function Hero() {
   return (
-    <section className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-no-repeat'>
+    <section
+      id='home'
+      className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-no-repeat'
+    >
       <Header />
       <div className='container mx-auto flex items-center px-4 pb-96 pt-12 font-poppins'>
         <div className='w-1/2 space-y-5'>

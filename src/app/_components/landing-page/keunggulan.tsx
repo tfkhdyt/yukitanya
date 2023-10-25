@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { Element } from 'react-scroll';
 
 type TKeunggulan = {
   image: {
@@ -34,7 +37,10 @@ export function Keunggulan() {
   ];
 
   return (
-    <section className='bg-[url(/img/fitur/bg.svg)] bg-cover py-32'>
+    <Element
+      name='keunggulan'
+      className='bg-[url(/img/fitur/bg.svg)] bg-cover pb-44 pt-12'
+    >
       <div className='container mx-auto space-y-12 font-poppins'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Keunggulan</span> Platform Kami
@@ -64,6 +70,6 @@ export function Keunggulan() {
           ))}
         </div>
       </div>
-    </section>
+    </Element>
   );
 }

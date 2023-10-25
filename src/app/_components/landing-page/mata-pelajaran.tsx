@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { Element } from 'react-scroll';
 
 type Mapel = {
   name: string;
@@ -38,7 +41,10 @@ export function MataPelajaran() {
   ];
 
   return (
-    <section className='bg-[url(/img/mapel/bg.svg)] bg-contain bg-no-repeat py-24'>
+    <Element
+      name='tentang-kami'
+      className='bg-[url(/img/mapel/bg.svg)] bg-cover pb-24 pt-12'
+    >
       <div className='container mx-auto space-y-16 font-poppins text-[#696984]'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
           Yuk tanya{' '}
@@ -58,6 +64,6 @@ export function MataPelajaran() {
           ))}
         </div>
       </div>
-    </section>
+    </Element>
   );
 }

@@ -1,5 +1,8 @@
+'use client';
+
 import clsx from 'clsx';
 import Image from 'next/image';
+import { Element } from 'react-scroll';
 
 type TFitur = {
   image: {
@@ -14,8 +17,17 @@ export function Fitur() {
   const fitur: TFitur[] = [
     {
       image: {
+        url: '/img/fitur/forum_tanya_jawab.svg',
+        alt: 'Forum Tanya Jawab',
+      },
+      title: ['Forum', 'tanya jawab'],
+      description:
+        'Fitur ini memungkinkan siswa untuk mengajukan pertanyaan menggunakan teks atau gambar. Kemudian, siswa lain dapat memberikan jawaban atas pertanyaan tersebut. Selain itu, siswa lain juga dapat memberikan penilaian untuk setiap jawaban.',
+    },
+    {
+      image: {
         url: '/img/fitur/tts.svg',
-        alt: 'Text to speech',
+        alt: 'Speech to text',
       },
       title: ['Speech', 'to text'],
       description:
@@ -32,12 +44,12 @@ export function Fitur() {
     },
     {
       image: {
-        url: '/img/fitur/forum_tanya_jawab.svg',
-        alt: 'Forum Tanya Jawab',
+        url: '/img/fitur/private_chat.svg',
+        alt: 'Private chat',
       },
-      title: ['Forum', 'tanya jawab'],
+      title: ['Private chat', 'antar siswa'],
       description:
-        'Fitur ini memungkinkan siswa untuk mengajukan pertanyaan menggunakan teks atau gambar. Kemudian, siswa lain dapat memberikan jawaban atas pertanyaan tersebut. Selain itu, siswa lain juga dapat memberikan penilaian untuk setiap jawaban.',
+        'Fitur ini dapat di akses siswa ketika hendak berdiskusi lebih dalam dengan siswa lainnya yang membantu memberi jawaban di fitur tanya jawab maupun fitur course’s room chat secara private.',
     },
     {
       image: {
@@ -48,19 +60,13 @@ export function Fitur() {
       description:
         'Fitur ini bertujuan untuk merefleksikan atau memberikan suasana yang pas terhadap mood siswa layaknya seperti video game, biasanya ketika adegan semangat maka akan memberikan sound yang semangat juga. Sehingga siswa terbawa suasananya menjadi semangat, tenang dan fokus dalam belajar. Fitur ini juga bisa di nonaktifkan jika siswa tidak mau mengaktifkannya.',
     },
-    {
-      image: {
-        url: '/img/fitur/private_chat.svg',
-        alt: 'Private chat',
-      },
-      title: ['Private chat', 'antar siswa'],
-      description:
-        'Fitur ini dapat di akses siswa ketika hendak berdiskusi lebih dalam dengan siswa lainnya yang membantu memberi jawaban di fitur tanya jawab maupun fitur course’s room chat secara private.',
-    },
   ];
 
   return (
-    <section className='bg-[url(/img/fitur/bg_2.svg)] bg-cover py-32'>
+    <Element
+      name='fitur'
+      className='bg-[url(/img/fitur/bg_2.svg)] bg-cover pb-32 pt-12'
+    >
       <div className='container mx-auto space-y-12 font-poppins'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Fitur</span> Kami
@@ -70,7 +76,8 @@ export function Fitur() {
           menjadi lebih efisien
         </p>
         {fitur.map((each, idx) => (
-          <div
+          <Element
+            name={each.image.alt.replaceAll(' ', '-').toLowerCase()}
             className={clsx(
               'flex items-center gap-8 pt-24',
               idx % 2 === 1 && 'flex-row-reverse',
@@ -106,9 +113,9 @@ export function Fitur() {
                 {each.description}
               </p>
             </div>
-          </div>
+          </Element>
         ))}
       </div>
-    </section>
+    </Element>
   );
 }

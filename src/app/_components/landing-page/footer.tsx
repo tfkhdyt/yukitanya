@@ -1,5 +1,8 @@
+'use client';
+
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 import Image from 'next/image';
+import { Link } from 'react-scroll';
 
 export function Footer() {
   return (
@@ -37,18 +40,34 @@ export function Footer() {
         <div className='flex py-10'>
           <div className='w-1/3 space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Fitur</h3>
-            <a href='' className='block text-xs'>
+            <Link
+              to='forum-tanya-jawab'
+              smooth
+              className='block cursor-pointer text-xs'
+            >
               Forum tanya jawab
-            </a>
-            <a href='' className='block text-xs'>
+            </Link>
+            <Link
+              to='speech-to-text'
+              smooth
+              className='block cursor-pointer text-xs'
+            >
               Speech to text
-            </a>
-            <a href='' className='block text-xs'>
+            </Link>
+            <Link
+              to='chat-room'
+              smooth
+              className='block cursor-pointer text-xs'
+            >
               Course&apos;s chat room
-            </a>
-            <a href='' className='block text-xs'>
+            </Link>
+            <Link
+              to='private-chat'
+              smooth
+              className='block cursor-pointer text-xs'
+            >
               Private chat
-            </a>
+            </Link>
           </div>
           <div className='w-1/3 space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Help</h3>

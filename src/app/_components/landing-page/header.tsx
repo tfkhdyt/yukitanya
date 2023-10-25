@@ -1,6 +1,29 @@
+'use client';
+
 import Image from 'next/image';
+import { Link } from 'react-scroll';
+
+type Navbar = {
+  id: string;
+  title: string;
+};
 
 export function Header() {
+  const navbar: Navbar[] = [
+    {
+      id: 'tentang-kami',
+      title: 'Tentang Kami',
+    },
+    {
+      id: 'keunggulan',
+      title: 'Keunggulan',
+    },
+    {
+      id: 'fitur',
+      title: 'Fitur',
+    },
+  ];
+
   return (
     <header className='container mx-auto flex items-center justify-between px-4 py-6'>
       <div className='flex items-center space-x-3'>
@@ -15,9 +38,17 @@ export function Header() {
       </div>
 
       <nav className='flex items-center space-x-12 font-poppins'>
-        <p className='text-[#696984]'>Home</p>
-        <p className='text-[#696984]'>Fitur</p>
-        <p className='text-[#696984]'>Tentang Kami</p>
+        <button className='text-[#696984]'>Home</button>
+        {navbar.map((each) => (
+          <Link
+            to={each.id}
+            smooth
+            className='cursor-pointer text-[#696984]'
+            key={each.id}
+          >
+            {each.title}
+          </Link>
+        ))}
         <div className='space-x-3'>
           <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
             Masuk

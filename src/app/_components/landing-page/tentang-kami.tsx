@@ -1,6 +1,6 @@
 export function TentangKami() {
   return (
-    <section className='-ml-6 bg-[url(/img/tentang_kami_bg.svg)] bg-cover bg-no-repeat pb-44 pt-32'>
+    <section className='-ml-6 bg-[url(/img/tentang_kami_bg.svg)] bg-cover bg-no-repeat pb-64 pt-12'>
       <div className='container mx-auto space-y-12 font-poppins'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
           <span className='text-[#F48C06]'>Apa itu</span> Yukitanya?
