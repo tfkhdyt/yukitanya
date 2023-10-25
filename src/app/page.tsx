@@ -1,3 +1,4 @@
+import { Berita } from './_components/landing-page/berita';
 import { Fitur } from './_components/landing-page/fitur';
 import { Hero } from './_components/landing-page/hero';
 import { Keunggulan } from './_components/landing-page/keunggulan';
@@ -14,6 +15,7 @@ export default function Home() {
       <Keunggulan />
       <Fitur />
       <Penilaian />
+      <Berita />
     </main>
   );
 }

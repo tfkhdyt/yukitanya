@@ -41,7 +41,8 @@ export function MataPelajaran() {
     <section className='bg-[url(/img/mapel/bg.svg)] bg-contain bg-no-repeat py-24'>
       <div className='container mx-auto space-y-16 font-poppins text-[#696984]'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
-          Yuk tanya pelajaran favoritmu disini!
+          Yuk tanya{' '}
+          <span className='text-[#F48C06]'>pelajaran favoritmu disini!</span>
         </p>
         <div className='grid lg:grid-cols-7'>
           {mapel.map((each) => (

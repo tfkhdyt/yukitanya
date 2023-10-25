@@ -60,7 +60,7 @@ export function Fitur() {
   ];
 
   return (
-    <section className='bg-[url(/img/fitur/bg_2.svg)] bg-cover bg-center py-48'>
+    <section className='bg-[url(/img/fitur/bg_2.svg)] bg-cover py-32'>
       <div className='container mx-auto space-y-12 font-poppins'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Fitur</span> Kami

@@ -34,12 +34,12 @@ export function Keunggulan() {
   ];
 
   return (
-    <section className='bg-[url(/img/fitur/bg.svg)] bg-cover bg-center py-48'>
+    <section className='bg-[url(/img/fitur/bg.svg)] bg-cover py-32'>
       <div className='container mx-auto space-y-12 font-poppins'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Keunggulan</span> Platform Kami
         </p>
-        <p className='text-center text-lg leading-loose text-[#696984]'>
+        <p className='mx-auto max-w-4xl text-lg leading-loose text-[#696984]'>
           Yukitanya adalah salah satu platform tanya jawab online yang
           menggabungkan semua alat yang diperlukan untuk menunjang tugas
           sekolah.
