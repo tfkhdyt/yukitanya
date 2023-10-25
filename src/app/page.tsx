@@ -1,5 +1,6 @@
 import { Berita } from './_components/landing-page/berita';
 import { Fitur } from './_components/landing-page/fitur';
+import { Footer } from './_components/landing-page/footer';
 import { Hero } from './_components/landing-page/hero';
 import { Keunggulan } from './_components/landing-page/keunggulan';
 import { MataPelajaran } from './_components/landing-page/mata-pelajaran';
@@ -16,6 +17,7 @@ export default function Home() {
       <Fitur />
       <Penilaian />
       <Berita />
+      <Footer />
     </main>
   );
 }
