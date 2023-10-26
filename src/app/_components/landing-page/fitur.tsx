@@ -79,7 +79,7 @@ export function Fitur() {
           <Element
             name={each.image.alt.replaceAll(' ', '-').toLowerCase()}
             className={clsx(
-              'flex items-center gap-8 pt-24',
+              'flex items-center gap-8 lg:pt-24',
               idx % 2 === 1 && 'flex-row-reverse',
             )}
             key={each.title[0]}
@@ -93,7 +93,7 @@ export function Fitur() {
                 className='mx-auto w-3/4'
               />
             </div>
-            <div className='w-1/2 space-y-8 p-32'>
+            <div className='w-1/2 space-y-8 p-6 lg:p-32'>
               <p
                 className={clsx(
                   'text-center text-2xl font-extrabold text-[#77425A]',

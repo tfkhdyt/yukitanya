@@ -32,14 +32,14 @@ export function Berita() {
   ];
 
   return (
-    <section className='container mx-auto space-y-12 py-32 font-poppins'>
+    <section className='container mx-auto space-y-12 pb-24 font-poppins lg:py-32'>
       <h2 className='text-center text-2xl font-semibold text-[#77425A]'>
         Berita dan Sejumlah Iklan Terbaru
       </h2>
       <p className='text-center text-[#696984]'>
         Melihat perkembangan yang terjadi pada anak di indonesia
       </p>
-      <div className='mx-auto flex gap-12 px-32 pt-16'>
+      <div className='mx-auto flex gap-12 pt-16 lg:px-32'>
         <div className='w-1/2 space-y-10'>
           <Image
             src='/img/berita/anya.jpg'
@@ -68,7 +68,7 @@ export function Berita() {
         </div>
         <div className='w-1/2 space-y-8'>
           {berita.map((each) => (
-            <div className='flex space-x-6' key={each.title}>
+            <div className='flex items-start space-x-6' key={each.title}>
               <Image
                 src={each.imageUrl}
                 alt={each.title}

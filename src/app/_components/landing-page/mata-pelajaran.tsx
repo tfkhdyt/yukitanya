@@ -43,14 +43,14 @@ export function MataPelajaran() {
   return (
     <Element
       name='tentang-kami'
-      className='bg-[url(/img/mapel/bg.svg)] bg-cover pb-24 pt-12'
+      className='bg-[url(/img/mapel/bg.svg)] bg-cover py-12 lg:pb-24'
     >
       <div className='container mx-auto space-y-16 font-poppins text-[#696984]'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
           Yuk tanya{' '}
           <span className='text-[#F48C06]'>pelajaran favoritmu disini!</span>
         </p>
-        <div className='grid lg:grid-cols-7'>
+        <div className='grid grid-cols-3 gap-4 lg:grid-cols-7'>
           {mapel.map((each) => (
             <div className='flex flex-col items-center' key={each.name}>
               <Image

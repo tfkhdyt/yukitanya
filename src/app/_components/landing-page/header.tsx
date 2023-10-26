@@ -50,7 +50,7 @@ export function Header() {
           <p className='font-rubik text-2xl font-extrabold'>Yukitanya</p>
         </div>
 
-        <nav className='flex items-center space-x-12 font-poppins'>
+        <nav className='hidden items-center space-x-12 font-poppins lg:flex'>
           {navbar.map((each) => (
             <Link
               to={each.id}

@@ -39,7 +39,7 @@ export function Keunggulan() {
   return (
     <Element
       name='keunggulan'
-      className='bg-[url(/img/fitur/bg.svg)] bg-cover pb-44 pt-12'
+      className='bg-[url(/img/fitur/bg.svg)] bg-cover py-12 lg:mt-0'
     >
       <div className='container mx-auto space-y-12 font-poppins'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
@@ -50,10 +50,10 @@ export function Keunggulan() {
           menggabungkan semua alat yang diperlukan untuk menunjang tugas
           sekolah.
         </p>
-        <div className='grid grid-cols-3 gap-16 pb-96 pt-52'>
+        <div className='grid grid-cols-3 gap-16 pb-96 pt-40'>
           {keunggulan.map((each) => (
             <div
-              className='relative flex items-center rounded-2xl bg-white px-12 py-24 shadow-lg'
+              className='relative flex rounded-2xl bg-white px-6 py-20 shadow-lg lg:px-12 lg:py-24'
               key={each.text}
             >
               <Image
@@ -63,7 +63,7 @@ export function Keunggulan() {
                 alt={each.image.alt}
                 className='absolute inset-x-0 -top-32 mx-auto'
               />
-              <p className='text-center font-medium leading-loose text-[#77425A]'>
+              <p className='text-center text-sm font-medium leading-loose text-[#77425A] lg:text-base'>
                 {each.text}
               </p>
             </div>

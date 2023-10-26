@@ -8,8 +8,8 @@ export function Footer() {
   return (
     <section className='bg-[#77425A] font-poppins'>
       <div className='container mx-auto divide-y-2'>
-        <div className='flex items-center justify-between px-2 py-10'>
-          <div className='flex items-center space-x-3'>
+        <div className='flex flex-wrap items-center justify-between px-2 py-10'>
+          <div className='flex w-1/2 items-center space-x-3 lg:w-auto'>
             <Image
               src='/img/yukitanya_logo.svg'
               alt='Yukitanya Logo'
@@ -21,11 +21,11 @@ export function Footer() {
               Yukitanya
             </p>
           </div>
-          <p className='text-white'>
+          <p className='w-1/2 text-right text-white lg:w-auto lg:text-center'>
             © 2023 Copyright Kelompok 5 seKODlah Developing Future Tech
             Innovators{' '}
           </p>
-          <div className='space-x-4'>
+          <div className='mt-6 space-x-4 lg:mt-auto'>
             <button className='rounded-lg bg-white p-2'>
               <Facebook />
             </button>
