@@ -38,7 +38,7 @@ export function Header() {
         y && y > 30 && 'border-b-2 bg-white/50 backdrop-blur',
       )}
     >
-      <div className='container mx-auto flex items-center justify-between px-4 py-6'>
+      <div className='container flex items-center justify-between px-12 py-6 lg:px-0'>
         <div className='flex items-center space-x-3'>
           <Image
             src='/img/yukitanya_logo.svg'

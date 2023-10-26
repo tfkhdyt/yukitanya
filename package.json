@@ -15,6 +15,7 @@
     "@fontsource-variable/rubik": "^5.0.19",
     "@fontsource/poppins": "^5.0.8",
     "@planetscale/database": "^1.11.0",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.42.0",
@@ -22,6 +23,7 @@
     "@trpc/react-query": "^10.42.0",
     "@trpc/server": "^10.42.0",
     "@uidotdev/usehooks": "^2.4.1",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.28.6",
     "lucide-react": "^0.288.0",
@@ -31,6 +33,8 @@
     "react-dom": "18.2.0",
     "react-scroll": "^1.9.0",
     "superjson": "^1.13.3",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
   },
   "devDependencies": {

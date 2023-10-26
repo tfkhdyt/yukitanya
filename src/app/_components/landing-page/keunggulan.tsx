@@ -41,7 +41,7 @@ export function Keunggulan() {
       name='keunggulan'
       className='bg-[url(/img/fitur/bg.svg)] bg-cover py-12 lg:mt-0'
     >
-      <div className='container mx-auto space-y-12 font-poppins'>
+      <div className='container space-y-12 px-16 font-poppins lg:px-0'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Keunggulan</span> Platform Kami
         </p>

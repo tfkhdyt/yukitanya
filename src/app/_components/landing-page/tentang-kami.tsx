@@ -3,7 +3,7 @@ import Image from 'next/image';
 export function TentangKami() {
   return (
     <section className='-ml-6 bg-[url(/img/tentang_kami_bg.svg)] bg-cover'>
-      <div className='container mx-auto space-y-12 font-poppins'>
+      <div className='container space-y-12 px-16 font-poppins lg:px-0'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
           <span className='text-[#F48C06]'>Apa itu</span> Yukitanya?
         </p>

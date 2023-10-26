@@ -10,7 +10,7 @@ export function Hero() {
       name='home'
       className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-bottom'
     >
-      <div className='container mx-auto flex items-center px-4 pb-96 pt-32 font-poppins'>
+      <div className='container flex items-center px-12 pb-96 pt-32 font-poppins lg:px-0'>
         <div className='w-1/2 space-y-5'>
           <p className='text-[#696984] lg:text-lg'>
             Ayo ajukan pertanyaanmu disini!

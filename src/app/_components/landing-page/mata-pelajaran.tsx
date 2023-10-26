@@ -45,7 +45,7 @@ export function MataPelajaran() {
       name='tentang-kami'
       className='bg-[url(/img/mapel/bg.svg)] bg-cover py-12 lg:pb-24'
     >
-      <div className='container mx-auto space-y-16 font-poppins text-[#696984]'>
+      <div className='container space-y-16 px-12 font-poppins text-[#696984] lg:px-0'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
           Yuk tanya{' '}
           <span className='text-[#F48C06]'>pelajaran favoritmu disini!</span>

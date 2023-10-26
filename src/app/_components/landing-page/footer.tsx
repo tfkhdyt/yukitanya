@@ -7,7 +7,7 @@ import { Link } from 'react-scroll';
 export function Footer() {
   return (
     <section className='bg-[#77425A] font-poppins'>
-      <div className='container mx-auto divide-y-2'>
+      <div className='container divide-y-2 px-12 lg:px-0'>
         <div className='flex flex-wrap items-center justify-between px-2 py-10'>
           <div className='flex w-1/2 items-center space-x-3 lg:w-auto'>
             <Image

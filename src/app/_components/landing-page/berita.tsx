@@ -32,7 +32,7 @@ export function Berita() {
   ];
 
   return (
-    <section className='container mx-auto space-y-12 pb-24 font-poppins lg:py-32'>
+    <section className='container space-y-12 px-12 pb-24 font-poppins lg:px-0 lg:py-32'>
       <h2 className='text-center text-2xl font-semibold text-[#77425A]'>
         Berita dan Sejumlah Iklan Terbaru
       </h2>

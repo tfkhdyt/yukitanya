@@ -9,7 +9,7 @@ import Image from 'next/image';
 export function Penilaian() {
   return (
     <section className='bg-[url(/img/testimoni/bg.svg)] bg-cover pb-[25rem] pt-64'>
-      <div className='container mx-auto font-poppins'>
+      <div className='container px-12 font-poppins lg:px-0'>
         <div className='mx-auto w-fit space-y-16 rounded-3xl bg-white p-16 shadow-lg'>
           <h2 className='text-center text-2xl tracking-widest'>Penilaian</h2>
           <div className='flex items-center space-x-8'>

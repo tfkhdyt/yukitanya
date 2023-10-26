@@ -67,7 +67,7 @@ export function Fitur() {
       name='fitur'
       className='bg-[url(/img/fitur/bg_2.svg)] bg-cover pb-32 pt-12'
     >
-      <div className='container mx-auto space-y-12 font-poppins'>
+      <div className='container space-y-12 px-12 font-poppins lg:px-0'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Fitur</span> Kami
         </p>
