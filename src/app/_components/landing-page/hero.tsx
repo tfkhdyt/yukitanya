@@ -1,15 +1,15 @@
-import Image from 'next/image';
+'use client';
 
-import { Header } from './header';
+import Image from 'next/image';
+import { Element } from 'react-scroll';
 
 export function Hero() {
   return (
-    <section
-      id='home'
+    <Element
+      name='home'
       className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-no-repeat'
     >
-      <Header />
-      <div className='container mx-auto flex items-center px-4 pb-96 pt-12 font-poppins'>
+      <div className='container mx-auto flex items-center px-4 pb-96 pt-32 font-poppins'>
         <div className='w-1/2 space-y-5'>
           <p className='text-lg text-[#696984]'>
             Ayo ajukan pertanyaanmu disini!
@@ -46,6 +46,6 @@ export function Hero() {
           />
         </div>
       </div>
-    </section>
+    </Element>
   );
 }
