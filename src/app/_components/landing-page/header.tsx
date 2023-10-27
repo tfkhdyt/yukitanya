@@ -68,7 +68,7 @@ export function Header() {
               </SheetClose>
             ))}
             <div className='space-x-3'>
-              <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
+              <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-black shadow-md'>
                 Masuk
               </button>
               <button className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'>
