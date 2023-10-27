@@ -32,7 +32,7 @@
     "next-auth": "^4.24.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-scroll": "^1.9.0",
+    "react-scroll-into-view": "^2.0.2",
     "superjson": "^1.13.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",

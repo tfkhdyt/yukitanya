@@ -4,7 +4,7 @@ import { useWindowScroll } from '@uidotdev/usehooks';
 import clsx from 'clsx';
 import { AlignJustify } from 'lucide-react';
 import Image from 'next/image';
-import { Link } from 'react-scroll';
+import ScrollIntoView from 'react-scroll-into-view';
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
 
@@ -41,10 +41,10 @@ export function Header() {
         y && y > 30 && 'border-b-2 bg-white/50 backdrop-blur',
       )}
     >
-      <div className='container flex items-center justify-between py-6 md:px-12 lg:px-0'>
+      <div className='container flex items-center justify-between py-6 md:px-12'>
         <div className='flex items-center space-x-3'>
           <Image
-            src='/img/yukitanya_logo.svg'
+            src='/img/yukitanya_logo.png'
             alt='Yukitanya Logo'
             width={60}
             height={57}
@@ -59,14 +59,12 @@ export function Header() {
           <SheetContent className='flex w-fit flex-col space-y-4 pt-12 font-poppins'>
             {navbar.map((each) => (
               <SheetClose asChild key={each.id}>
-                <Link
-                  to={each.id}
-                  smooth
+                <ScrollIntoView
+                  selector={`#${each.id}`}
                   className='cursor-pointer text-[#696984]'
-                  offset={each.id !== 'home' ? -100 : undefined}
                 >
                   {each.title}
-                </Link>
+                </ScrollIntoView>
               </SheetClose>
             ))}
             <div className='space-x-3'>
@@ -82,15 +80,13 @@ export function Header() {
 
         <nav className='hidden items-center space-x-12 font-poppins lg:flex'>
           {navbar.map((each) => (
-            <Link
-              to={each.id}
-              smooth
-              className='cursor-pointer text-[#696984]'
+            <ScrollIntoView
               key={each.id}
-              offset={each.id !== 'home' ? -100 : undefined}
+              selector={`#${each.id}`}
+              className='cursor-pointer text-[#696984]'
             >
               {each.title}
-            </Link>
+            </ScrollIntoView>
           ))}
           <div className='space-x-3'>
             <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>

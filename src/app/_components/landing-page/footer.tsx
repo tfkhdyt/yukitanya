@@ -2,16 +2,16 @@
 
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 import Image from 'next/image';
-import { Link } from 'react-scroll';
+import ScrollIntoView from 'react-scroll-into-view';
 
 export function Footer() {
   return (
     <section className='bg-[#77425A] font-poppins'>
-      <div className='container divide-y-2 md:px-12 lg:px-0'>
+      <div className='container divide-y-2 md:px-12'>
         <div className='grid grid-cols-1 gap-8 px-2 py-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
           <div className='flex items-center space-x-3'>
             <Image
-              src='/img/yukitanya_logo.svg'
+              src='/img/yukitanya_logo.png'
               alt='Yukitanya Logo'
               width={60}
               height={57}
@@ -40,34 +40,30 @@ export function Footer() {
         <div className='grid grid-cols-2 gap-8 py-8 md:grid-cols-3'>
           <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Fitur</h3>
-            <Link
-              to='forum-tanya-jawab'
-              smooth
+            <ScrollIntoView
+              selector='#forum-tanya-jawab'
               className='block cursor-pointer text-xs'
             >
               Forum tanya jawab
-            </Link>
-            <Link
-              to='speech-to-text'
-              smooth
+            </ScrollIntoView>
+            <ScrollIntoView
+              selector='#speech-to-text'
               className='block cursor-pointer text-xs'
             >
               Speech to text
-            </Link>
-            <Link
-              to='chat-room'
-              smooth
+            </ScrollIntoView>
+            <ScrollIntoView
+              selector='#chat-room'
               className='block cursor-pointer text-xs'
             >
               Course&apos;s chat room
-            </Link>
-            <Link
-              to='private-chat'
-              smooth
+            </ScrollIntoView>
+            <ScrollIntoView
+              selector='#private-chat'
               className='block cursor-pointer text-xs'
             >
               Private chat
-            </Link>
+            </ScrollIntoView>
           </div>
           <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Help</h3>

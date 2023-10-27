@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { Element } from 'react-scroll';
 
 type TKeunggulan = {
   image: {
@@ -15,21 +14,21 @@ export function Keunggulan() {
   const keunggulan: TKeunggulan[] = [
     {
       image: {
-        url: '/img/fitur/unik.svg',
+        url: '/img/fitur/unik.png',
         alt: 'Fitur unik',
       },
       text: 'Memiliki fitur yang berbeda dari web lainnya karena dapat memfasilitasi para siswa SD untuk saling berdiskusi mengenai mata pelajaran SD.',
     },
     {
       image: {
-        url: '/img/fitur/menarik.svg',
+        url: '/img/fitur/menarik.png',
         alt: 'Tampilan menarik',
       },
       text: 'Tampilan platform menarik dan sederhana. Sehingga memudahkan pengguna untuk mencari fitur yang ada pada platform.',
     },
     {
       image: {
-        url: '/img/fitur/verifikasi.svg',
+        url: '/img/fitur/verifikasi.png',
         alt: 'Verifikasi Jawaban',
       },
       text: 'Memiliki fitur verifikasi jawaban untuk menilai keakuratan dari jawaban tersebut sehingga memperkuat tingkat kebenarannya.',
@@ -37,11 +36,11 @@ export function Keunggulan() {
   ];
 
   return (
-    <Element
-      name='keunggulan'
-      className='-mt-1 bg-[url(/img/fitur/bg.svg)] bg-cover py-12 lg:mt-0'
+    <section
+      id='keunggulan'
+      className='-mt-1 scroll-mt-20 bg-[url(/img/fitur/bg.svg)] bg-cover py-12 lg:mt-0'
     >
-      <div className='container space-y-12 font-poppins md:px-16 lg:px-0'>
+      <div className='container space-y-12 font-poppins md:px-16'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Keunggulan</span> Platform Kami
         </p>
@@ -70,6 +69,6 @@ export function Keunggulan() {
           ))}
         </div>
       </div>
-    </Element>
+    </section>
   );
 }

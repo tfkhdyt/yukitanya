@@ -2,7 +2,6 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
-import { Element } from 'react-scroll';
 
 type TFitur = {
   image: {
@@ -17,7 +16,7 @@ export function Fitur() {
   const fitur: TFitur[] = [
     {
       image: {
-        url: '/img/fitur/forum_tanya_jawab.svg',
+        url: '/img/fitur/forum_tanya_jawab.png',
         alt: 'Forum Tanya Jawab',
       },
       title: ['Forum', 'tanya jawab'],
@@ -26,7 +25,7 @@ export function Fitur() {
     },
     {
       image: {
-        url: '/img/fitur/tts.svg',
+        url: '/img/fitur/tts.png',
         alt: 'Speech to text',
       },
       title: ['Speech', 'to text'],
@@ -35,7 +34,7 @@ export function Fitur() {
     },
     {
       image: {
-        url: '/img/fitur/chatroom.svg',
+        url: '/img/fitur/chatroom.png',
         alt: 'Chat room',
       },
       title: ["Course's", 'chat room'],
@@ -44,7 +43,7 @@ export function Fitur() {
     },
     {
       image: {
-        url: '/img/fitur/private_chat.svg',
+        url: '/img/fitur/private_chat.png',
         alt: 'Private chat',
       },
       title: ['Private chat', 'antar siswa'],
@@ -53,7 +52,7 @@ export function Fitur() {
     },
     {
       image: {
-        url: '/img/fitur/music.svg',
+        url: '/img/fitur/music.png',
         alt: 'Background music instrumental',
       },
       title: ['Background music', 'instrumental'],
@@ -63,11 +62,11 @@ export function Fitur() {
   ];
 
   return (
-    <Element
-      name='fitur'
-      className='bg-[url(/img/fitur/bg_2.svg)] bg-cover pb-32 pt-12'
+    <section
+      id='fitur'
+      className='scroll-mt-20 bg-[url(/img/fitur/bg_2.svg)] bg-cover pb-32 pt-12'
     >
-      <div className='container space-y-12 font-poppins md:px-12 lg:px-0'>
+      <div className='container space-y-12 font-poppins md:px-12'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Fitur</span> Kami
         </p>
@@ -76,8 +75,8 @@ export function Fitur() {
           menjadi lebih efisien
         </p>
         {fitur.map((each, idx) => (
-          <Element
-            name={each.image.alt.replaceAll(' ', '-').toLowerCase()}
+          <section
+            id={each.image.alt.replaceAll(' ', '-').toLowerCase()}
             className={clsx(
               'flex flex-col items-center gap-8 pt-12 md:flex-row lg:pt-20',
               idx % 2 === 1 && 'md:flex-row-reverse',
@@ -113,9 +112,9 @@ export function Fitur() {
                 {each.description}
               </p>
             </div>
-          </Element>
+          </section>
         ))}
       </div>
-    </Element>
+    </section>
   );
 }

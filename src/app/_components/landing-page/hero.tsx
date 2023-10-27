@@ -2,15 +2,14 @@
 
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import { Element } from 'react-scroll';
 
 export function Hero() {
   return (
-    <Element
-      name='home'
+    <section
+      id='home'
       className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-bottom'
     >
-      <div className='container flex flex-wrap items-center gap-12 pb-96 pt-32 font-poppins md:flex-nowrap md:px-12 lg:px-0'>
+      <div className='container flex flex-wrap items-center gap-12 pb-96 pt-32 font-poppins md:flex-nowrap md:px-12'>
         <div className='space-y-5 md:w-1/2'>
           <p className='text-[#696984] lg:text-lg'>
             Ayo ajukan pertanyaanmu disini!
@@ -34,7 +33,7 @@ export function Hero() {
         </div>
         <div className='md:w-1/2'>
           <Image
-            src='/img/hero_img.svg'
+            src='/img/hero_img.png'
             alt='Yukitanay hero logo'
             width={445}
             height={398}
@@ -42,6 +41,6 @@ export function Hero() {
           />
         </div>
       </div>
-    </Element>
+    </section>
   );
 }

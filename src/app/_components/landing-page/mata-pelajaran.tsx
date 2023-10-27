@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { Element } from 'react-scroll';
 
 type Mapel = {
   name: string;
@@ -12,40 +11,40 @@ export function MataPelajaran() {
   const mapel: Mapel[] = [
     {
       name: 'Ilmu Pengetahuan Sosial',
-      imageUrl: '/img/mapel/ips.svg',
+      imageUrl: '/img/mapel/ips.png',
     },
     {
       name: 'Penjaskes',
-      imageUrl: '/img/mapel/penjas.svg',
+      imageUrl: '/img/mapel/penjas.png',
     },
     {
       name: 'Sejarah',
-      imageUrl: '/img/mapel/sejarah.svg',
+      imageUrl: '/img/mapel/sejarah.png',
     },
     {
       name: 'Matematika',
-      imageUrl: '/img/mapel/matematika.svg',
+      imageUrl: '/img/mapel/matematika.png',
     },
     {
       name: 'B. Indonesia',
-      imageUrl: '/img/mapel/indo.svg',
+      imageUrl: '/img/mapel/indo.png',
     },
     {
       name: 'B. Inggris',
-      imageUrl: '/img/mapel/ing.svg',
+      imageUrl: '/img/mapel/ing.png',
     },
     {
       name: 'Ilmu Pengetahuan Alam',
-      imageUrl: '/img/mapel/ipa.svg',
+      imageUrl: '/img/mapel/ipa.png',
     },
   ];
 
   return (
-    <Element
-      name='tentang-kami'
-      className='bg-[url(/img/mapel/bg.svg)] bg-cover py-12 lg:pb-24'
+    <section
+      id='tentang-kami'
+      className='scroll-mt-20 bg-[url(/img/mapel/bg.svg)] bg-cover py-12 lg:pb-24'
     >
-      <div className='container space-y-16 font-poppins text-[#696984] md:px-12 lg:px-0'>
+      <div className='container space-y-16 font-poppins text-[#696984] md:px-12'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
           Yuk tanya{' '}
           <span className='text-[#F48C06]'>pelajaran favoritmu disini!</span>
@@ -64,6 +63,6 @@ export function MataPelajaran() {
           ))}
         </div>
       </div>
-    </Element>
+    </section>
   );
 }
