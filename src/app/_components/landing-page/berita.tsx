@@ -48,7 +48,7 @@ export function Berita() {
             height={220}
           />
           <div className='space-y-2 pb-6 md:space-y-4'>
-            <div className='mb-4 w-fit rounded-full bg-[#F48C06] px-5 py-0.5 text-sm font-medium text-white'>
+            <div className='mb-4 w-fit rounded-full bg-[#F48C06] px-5 py-0.5 text-sm font-medium text-black'>
               BERITA
             </div>
             <a
@@ -62,7 +62,7 @@ export function Berita() {
               sejak kelas 3 SD......
             </p>
           </div>
-          <a href='' className='text-[#696984] underline'>
+          <a href='#' className='text-[#696984] underline'>
             Baca lebih banyak
           </a>
         </div>
