@@ -37,7 +37,7 @@ export function Header() {
   return (
     <header
       className={clsx(
-        'fixed inset-x-0 top-0 z-10 transition',
+        'fixed inset-x-0 top-0 z-10 transition-all',
         y && y > 30 && 'border-b-2 bg-white/50 backdrop-blur',
       )}
     >
