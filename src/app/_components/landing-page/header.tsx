@@ -41,7 +41,7 @@ export function Header() {
         y && y > 30 && 'border-b-2 bg-white/50 backdrop-blur',
       )}
     >
-      <div className='container flex items-center justify-between px-12 py-6 lg:px-0'>
+      <div className='container flex items-center justify-between py-6 md:px-12 lg:px-0'>
         <div className='flex items-center space-x-3'>
           <Image
             src='/img/yukitanya_logo.svg'
@@ -53,10 +53,8 @@ export function Header() {
           <p className='font-rubik text-2xl font-extrabold'>Yukitanya</p>
         </div>
         <Sheet>
-          <SheetTrigger>
-            <button className='p-2'>
-              <AlignJustify />
-            </button>
+          <SheetTrigger className='p-2 lg:hidden'>
+            <AlignJustify />
           </SheetTrigger>
           <SheetContent className='flex w-fit flex-col space-y-4 pt-12 font-poppins'>
             {navbar.map((each) => (

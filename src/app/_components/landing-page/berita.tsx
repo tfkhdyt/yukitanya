@@ -39,15 +39,15 @@ export function Berita() {
       <p className='text-center text-[#696984]'>
         Melihat perkembangan yang terjadi pada anak di indonesia
       </p>
-      <div className='mx-auto flex gap-12 pt-16 lg:px-32'>
-        <div className='w-1/2 space-y-10'>
+      <div className='mx-auto flex flex-col gap-12 md:flex-row md:pt-16 lg:px-32'>
+        <div className='space-y-6 md:w-1/2 md:space-y-10'>
           <Image
             src='/img/berita/anya.jpg'
             alt='Anya'
             width={375}
             height={220}
           />
-          <div className='space-y-4 pb-6'>
+          <div className='space-y-2 pb-6 md:space-y-4'>
             <div className='mb-4 w-fit rounded-full bg-[#F48C06] px-5 py-0.5 text-sm font-medium text-white'>
               BERITA
             </div>
@@ -66,14 +66,18 @@ export function Berita() {
             Baca lebih banyak
           </a>
         </div>
-        <div className='w-1/2 space-y-8'>
+        <div className='space-y-12 md:w-1/2 md:space-y-8'>
           {berita.map((each) => (
-            <div className='flex items-start space-x-6' key={each.title}>
+            <div
+              className='flex flex-col items-start gap-6 md:flex-row'
+              key={each.title}
+            >
               <Image
                 src={each.imageUrl}
                 alt={each.title}
                 width={179}
                 height={140}
+                className='w-full md:w-1/2'
               />
               <div className='space-y-2'>
                 <h3 className='font-medium text-[#252641]'>{each.title}</h3>

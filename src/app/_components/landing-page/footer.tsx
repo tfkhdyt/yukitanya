@@ -7,9 +7,9 @@ import { Link } from 'react-scroll';
 export function Footer() {
   return (
     <section className='bg-[#77425A] font-poppins'>
-      <div className='container divide-y-2 px-12 lg:px-0'>
-        <div className='flex flex-wrap items-center justify-between px-2 py-10'>
-          <div className='flex w-1/2 items-center space-x-3 lg:w-auto'>
+      <div className='container divide-y-2 md:px-12 lg:px-0'>
+        <div className='grid grid-cols-1 gap-8 px-2 py-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
+          <div className='flex items-center space-x-3'>
             <Image
               src='/img/yukitanya_logo.svg'
               alt='Yukitanya Logo'
@@ -21,11 +21,11 @@ export function Footer() {
               Yukitanya
             </p>
           </div>
-          <p className='w-1/2 text-right text-white lg:w-auto lg:text-center'>
+          <p className='text-sm text-white md:text-right md:text-base lg:text-center'>
             © 2023 Copyright Kelompok 5 seKODlah Developing Future Tech
             Innovators{' '}
           </p>
-          <div className='mt-6 space-x-4 lg:mt-auto'>
+          <div className='space-x-4 md:mt-6 lg:mt-auto lg:justify-self-end'>
             <button className='rounded-lg bg-white p-2'>
               <Facebook />
             </button>
@@ -37,8 +37,8 @@ export function Footer() {
             </button>
           </div>
         </div>
-        <div className='flex py-10'>
-          <div className='w-1/3 space-y-2 text-center text-white'>
+        <div className='grid grid-cols-2 gap-8 py-8 md:grid-cols-3'>
+          <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Fitur</h3>
             <Link
               to='forum-tanya-jawab'
@@ -69,7 +69,7 @@ export function Footer() {
               Private chat
             </Link>
           </div>
-          <div className='w-1/3 space-y-2 text-center text-white'>
+          <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Help</h3>
             <a href='' className='block text-xs'>
               Customer Service
@@ -78,7 +78,7 @@ export function Footer() {
               Contact
             </a>
           </div>
-          <div className='w-1/3 space-y-2 text-center text-white'>
+          <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Legal</h3>
             <a href='' className='block text-xs'>
               Privacy Policy

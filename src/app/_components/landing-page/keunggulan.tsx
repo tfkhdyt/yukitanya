@@ -39,18 +39,18 @@ export function Keunggulan() {
   return (
     <Element
       name='keunggulan'
-      className='bg-[url(/img/fitur/bg.svg)] bg-cover py-12 lg:mt-0'
+      className='-mt-1 bg-[url(/img/fitur/bg.svg)] bg-cover py-12 lg:mt-0'
     >
-      <div className='container space-y-12 px-16 font-poppins lg:px-0'>
+      <div className='container space-y-12 font-poppins md:px-16 lg:px-0'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Keunggulan</span> Platform Kami
         </p>
-        <p className='mx-auto max-w-4xl text-lg leading-loose text-[#696984]'>
+        <p className='mx-auto max-w-4xl text-center leading-loose text-[#696984] md:text-lg md:leading-loose'>
           Yukitanya adalah salah satu platform tanya jawab online yang
           menggabungkan semua alat yang diperlukan untuk menunjang tugas
           sekolah.
         </p>
-        <div className='grid grid-cols-3 gap-16 pb-96 pt-40'>
+        <div className='grid grid-cols-1 gap-48 pb-96 pt-40 md:grid-cols-3 md:gap-16'>
           {keunggulan.map((each) => (
             <div
               className='relative flex rounded-2xl bg-white px-6 py-20 shadow-lg lg:px-12 lg:py-24'

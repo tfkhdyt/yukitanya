@@ -5,8 +5,8 @@ import { Header } from './_components/landing-page/header';
 import { Hero } from './_components/landing-page/hero';
 import { Keunggulan } from './_components/landing-page/keunggulan';
 import { MataPelajaran } from './_components/landing-page/mata-pelajaran';
-import { Penilaian } from './_components/landing-page/penilaian';
 import { TentangKami } from './_components/landing-page/tentang-kami';
+import { Testimoni } from './_components/landing-page/testimoni';
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <TentangKami />
       <Keunggulan />
       <Fitur />
-      <Penilaian />
+      <Testimoni />
       <Berita />
       <Footer />
     </main>

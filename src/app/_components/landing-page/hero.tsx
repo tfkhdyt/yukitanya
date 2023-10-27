@@ -10,8 +10,8 @@ export function Hero() {
       name='home'
       className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-bottom'
     >
-      <div className='container flex items-center px-12 pb-96 pt-32 font-poppins lg:px-0'>
-        <div className='w-1/2 space-y-5'>
+      <div className='container flex flex-wrap items-center gap-12 pb-96 pt-32 font-poppins md:flex-nowrap md:px-12 lg:px-0'>
+        <div className='space-y-5 md:w-1/2'>
           <p className='text-[#696984] lg:text-lg'>
             Ayo ajukan pertanyaanmu disini!
           </p>
@@ -21,9 +21,9 @@ export function Hero() {
           <p className='text-4xl font-extrabold text-[#77425A] drop-shadow-2xl lg:text-5xl'>
             Untuk Bertanya!
           </p>
-          <div className='flex w-fit items-center rounded-full bg-white font-light shadow-md'>
+          <div className='flex items-center rounded-full bg-white font-light shadow-md'>
             <input
-              className='rounded-full px-6 text-[#77425A] placeholder:text-[#939090] focus:outline-none lg:px-8 lg:py-1 lg:text-xl'
+              className='w-full rounded-full px-6 text-[#77425A] placeholder:text-[#939090] focus:outline-none lg:px-8 lg:py-1 lg:text-xl'
               type='text'
               placeholder='Mulai bertanya...!'
             />
@@ -32,13 +32,13 @@ export function Hero() {
             </button>
           </div>
         </div>
-        <div className='w-1/2'>
+        <div className='md:w-1/2'>
           <Image
             src='/img/hero_img.svg'
             alt='Yukitanay hero logo'
             width={445}
             height={398}
-            className='ml-auto w-3/4'
+            className='ml-auto md:w-3/4'
           />
         </div>
       </div>

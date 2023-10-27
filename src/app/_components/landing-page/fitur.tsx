@@ -67,11 +67,11 @@ export function Fitur() {
       name='fitur'
       className='bg-[url(/img/fitur/bg_2.svg)] bg-cover pb-32 pt-12'
     >
-      <div className='container space-y-12 px-12 font-poppins lg:px-0'>
+      <div className='container space-y-12 font-poppins md:px-12 lg:px-0'>
         <p className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Fitur</span> Kami
         </p>
-        <p className='text-center text-[#696984]'>
+        <p className='text-center leading-loose text-[#696984]'>
           Fitur yang sangat luar biasa ini, dapat membuat kegiatan belajar
           menjadi lebih efisien
         </p>
@@ -79,12 +79,12 @@ export function Fitur() {
           <Element
             name={each.image.alt.replaceAll(' ', '-').toLowerCase()}
             className={clsx(
-              'flex items-center gap-8 lg:pt-24',
-              idx % 2 === 1 && 'flex-row-reverse',
+              'flex flex-col items-center gap-8 pt-12 md:flex-row lg:pt-20',
+              idx % 2 === 1 && 'md:flex-row-reverse',
             )}
             key={each.title[0]}
           >
-            <div className='w-1/2'>
+            <div className='md:w-1/2'>
               <Image
                 src={each.image.url}
                 alt={each.image.alt}
@@ -93,7 +93,7 @@ export function Fitur() {
                 className='mx-auto w-3/4'
               />
             </div>
-            <div className='w-1/2 space-y-8 p-6 lg:p-32'>
+            <div className='space-y-8 md:w-1/2 md:p-6 lg:p-32'>
               <p
                 className={clsx(
                   'text-center text-2xl font-extrabold text-[#77425A]',
