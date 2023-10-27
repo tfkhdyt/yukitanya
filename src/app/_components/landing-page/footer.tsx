@@ -26,13 +26,13 @@ export function Footer() {
             Innovators{' '}
           </p>
           <div className='space-x-4 md:mt-6 lg:mt-auto lg:justify-self-end'>
-            <button className='rounded-lg bg-white p-2'>
+            <button className='rounded-lg bg-white p-2' aria-label='Facebook'>
               <Facebook />
             </button>
-            <button className='rounded-lg bg-white p-2'>
+            <button className='rounded-lg bg-white p-2' aria-label='Instagram'>
               <Instagram />
             </button>
-            <button className='rounded-lg bg-white p-2'>
+            <button className='rounded-lg bg-white p-2' aria-label='Twitter'>
               <Twitter />
             </button>
           </div>
@@ -67,19 +67,19 @@ export function Footer() {
           </div>
           <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Help</h3>
-            <a href='' className='block text-xs'>
+            <a href='#' className='block text-xs'>
               Customer Service
             </a>
-            <a href='' className='block text-xs'>
+            <a href='#' className='block text-xs'>
               Contact
             </a>
           </div>
           <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Legal</h3>
-            <a href='' className='block text-xs'>
+            <a href='#' className='block text-xs'>
               Privacy Policy
             </a>
-            <a href='' className='block text-xs'>
+            <a href='#' className='block text-xs'>
               Terms of Use
             </a>
           </div>
