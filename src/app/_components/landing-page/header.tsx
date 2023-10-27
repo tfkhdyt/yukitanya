@@ -2,8 +2,11 @@
 
 import { useWindowScroll } from '@uidotdev/usehooks';
 import clsx from 'clsx';
+import { AlignJustify } from 'lucide-react';
 import Image from 'next/image';
 import { Link } from 'react-scroll';
+
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
 
 type Navbar = {
   id: string;
@@ -49,6 +52,35 @@ export function Header() {
           />
           <p className='font-rubik text-2xl font-extrabold'>Yukitanya</p>
         </div>
+        <Sheet>
+          <SheetTrigger>
+            <button className='p-2'>
+              <AlignJustify />
+            </button>
+          </SheetTrigger>
+          <SheetContent className='flex w-fit flex-col space-y-4 pt-12 font-poppins'>
+            {navbar.map((each) => (
+              <SheetClose asChild key={each.id}>
+                <Link
+                  to={each.id}
+                  smooth
+                  className='cursor-pointer text-[#696984]'
+                  offset={each.id !== 'home' ? -100 : undefined}
+                >
+                  {each.title}
+                </Link>
+              </SheetClose>
+            ))}
+            <div className='space-x-3'>
+              <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
+                Masuk
+              </button>
+              <button className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'>
+                Daftar
+              </button>
+            </div>
+          </SheetContent>
+        </Sheet>
 
         <nav className='hidden items-center space-x-12 font-poppins lg:flex'>
           {navbar.map((each) => (
