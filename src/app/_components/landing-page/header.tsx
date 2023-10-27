@@ -53,7 +53,7 @@ export function Header() {
           <p className='font-rubik text-2xl font-extrabold'>Yukitanya</p>
         </div>
         <Sheet>
-          <SheetTrigger className='p-2 lg:hidden'>
+          <SheetTrigger className='p-2 lg:hidden' aria-label='Mobile nav'>
             <AlignJustify />
           </SheetTrigger>
           <SheetContent className='flex w-fit flex-col space-y-4 pt-12 font-poppins'>

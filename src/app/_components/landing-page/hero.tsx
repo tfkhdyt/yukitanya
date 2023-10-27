@@ -26,7 +26,10 @@ export function Hero() {
               type='text'
               placeholder='Mulai bertanya...!'
             />
-            <button className='m-2 rounded-full border-2 border-black bg-[#EADBC8] p-2'>
+            <button
+              className='m-2 rounded-full border-2 border-black bg-[#EADBC8] p-2'
+              aria-label='Search'
+            >
               <Search />
             </button>
           </div>
@@ -38,6 +41,7 @@ export function Hero() {
             width={445}
             height={398}
             className='ml-auto md:w-3/4'
+            loading='eager'
           />
         </div>
       </div>

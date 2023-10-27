@@ -41,7 +41,7 @@ export function Testimoni() {
                 </p>
               </div>
             </div>
-            <button>
+            <button title='Next'>
               <ArrowRightCircle color='#696984' size={32} />
             </button>
           </div>
