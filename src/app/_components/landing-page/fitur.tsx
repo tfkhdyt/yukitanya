@@ -78,7 +78,7 @@ export function Fitur() {
           <section
             id={each.image.alt.replaceAll(' ', '-').toLowerCase()}
             className={clsx(
-              'flex flex-col items-center gap-8 pt-12 md:flex-row lg:pt-20',
+              'flex scroll-mt-20 flex-col items-center gap-8 pt-12 md:flex-row lg:pt-20',
               idx % 2 === 1 && 'md:flex-row-reverse',
             )}
             key={each.title[0]}
