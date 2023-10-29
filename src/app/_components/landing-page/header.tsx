@@ -73,7 +73,7 @@ export function Header() {
                 Masuk
               </button>
               <Link
-                href='/auth/register'
+                href='/auth/sign-up'
                 className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
               >
                 Daftar
@@ -97,7 +97,7 @@ export function Header() {
               Masuk
             </button>
             <Link
-              href='/auth/register'
+              href='/auth/sign-up'
               className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
             >
               Daftar
