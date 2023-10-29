@@ -47,13 +47,13 @@ export function Footer({ scroll = false }: { scroll: boolean }) {
         </div>
         <div className='grid grid-cols-2 gap-8 py-8 md:grid-cols-3'>
           <div className='space-y-2 text-center text-white'>
-            <h3 className='text-sm font-semibold'>Fitur</h3>
+            <h3 className='font-semibold md:text-sm'>Fitur</h3>
             {fitur.map((each) => {
               if (scroll) {
                 return (
                   <ScrollIntoView
                     selector={`#${each.id}`}
-                    className='block cursor-pointer text-xs'
+                    className='block cursor-pointer text-sm md:text-xs'
                     key={each.id}
                   >
                     {each.name}
@@ -64,7 +64,7 @@ export function Footer({ scroll = false }: { scroll: boolean }) {
               return (
                 <Link
                   href={`/#${each.id}`}
-                  className='block cursor-pointer text-xs'
+                  className='block cursor-pointer text-sm md:text-xs'
                   key={each.id}
                 >
                   {each.name}
@@ -73,20 +73,20 @@ export function Footer({ scroll = false }: { scroll: boolean }) {
             })}
           </div>
           <div className='space-y-2 text-center text-white'>
-            <h3 className='text-sm font-semibold'>Help</h3>
-            <a href='#' className='block text-xs'>
+            <h3 className='font-semibold md:text-sm'>Help</h3>
+            <a href='#' className='block text-sm md:text-xs'>
               Customer Service
             </a>
-            <a href='#' className='block text-xs'>
+            <a href='#' className='block text-sm md:text-xs'>
               Contact
             </a>
           </div>
           <div className='space-y-2 text-center text-white'>
-            <h3 className='text-sm font-semibold'>Legal</h3>
-            <a href='#' className='block text-xs'>
+            <h3 className='font-semibold md:text-sm'>Legal</h3>
+            <a href='#' className='block text-sm md:text-xs'>
               Privacy Policy
             </a>
-            <a href='#' className='block text-xs'>
+            <a href='#' className='block text-sm md:text-xs'>
               Terms of Use
             </a>
           </div>
