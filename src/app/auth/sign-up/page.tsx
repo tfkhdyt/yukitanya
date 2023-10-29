@@ -15,7 +15,7 @@ export default function SignUp() {
   return (
     <>
       <section className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-bottom'>
-        <div className='container pb-64 pt-12'>
+        <div className='container px-5 pb-52 pt-5 md:pb-64 md:pt-12'>
           <Card className='mx-auto w-fit rounded-3xl border-2 border-black p-0 font-poppins md:p-6'>
             <CardHeader>
               <CardTitle className='text-center text-3xl font-extrabold uppercase'>
