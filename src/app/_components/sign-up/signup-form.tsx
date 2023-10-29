@@ -19,7 +19,7 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 
-const registerSchema = z
+const signupSchema = z
   .object({
     firstName: z
       .string({ required_error: 'Nama depan tidak boleh kosong' })
@@ -52,17 +52,17 @@ const registerSchema = z
     path: ['confirmPassword'],
   });
 
-type RegisterSchema = z.infer<typeof registerSchema>;
+type SignupSchema = z.infer<typeof signupSchema>;
 
-export function RegisterForm() {
+export function SignupForm() {
   const [isPasswordShowed, setIsPasswordShowed] = useState(false);
   const [isConfirmPasswordShowed, setIsConfirmPasswordShowed] = useState(false);
 
-  const form = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<SignupSchema>({
+    resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (values: RegisterSchema) => {
+  const onSubmit = (values: SignupSchema) => {
     console.log(values);
   };
 
@@ -161,6 +161,7 @@ export function RegisterForm() {
                       className='rounded-full p-2'
                       variant='outline'
                       onClick={() => setIsPasswordShowed((v) => !v)}
+                      aria-label='Show password'
                     >
                       {isPasswordShowed ? (
                         <EyeOff size={20} />
@@ -194,6 +195,7 @@ export function RegisterForm() {
                       className='rounded-full p-2'
                       variant='outline'
                       onClick={() => setIsConfirmPasswordShowed((v) => !v)}
+                      aria-label='Show confirm password'
                     >
                       {isConfirmPasswordShowed ? (
                         <EyeOff size={20} />
@@ -210,7 +212,7 @@ export function RegisterForm() {
 
           <Button
             type='submit'
-            className='w-full rounded-full bg-[#77425A] hover:bg-slate-800'
+            className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
           >
             Buat akun
           </Button>
@@ -241,7 +243,10 @@ export function RegisterForm() {
       </div>
       <p className='mt-4 text-center text-sm font-medium'>
         Sudah punya akun?{' '}
-        <Link href='/auth/sign-in' className='text-[#00B6EF]'>
+        <Link
+          href='/auth/sign-in'
+          className='font-semibold text-[#005F80] underline'
+        >
           Masuk
         </Link>
       </p>

@@ -19,7 +19,7 @@ export default function Home() {
       <Fitur />
       <Testimoni />
       <Berita />
-      <Footer />
+      <Footer scroll />
     </main>
   );
 }

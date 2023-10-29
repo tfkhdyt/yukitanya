@@ -1,5 +1,5 @@
 import { Footer } from '@/app/_components/landing-page/footer';
-import { RegisterForm } from '@/app/_components/register/register-form';
+import { SignupForm } from '@/app/_components/sign-up/signup-form';
 import {
   Card,
   CardContent,
@@ -23,12 +23,12 @@ export default function SignUp() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <RegisterForm />
+              <SignupForm />
             </CardContent>
           </Card>
         </div>
       </section>
-      <Footer />
+      <Footer scroll={false} />
     </>
   );
 }
