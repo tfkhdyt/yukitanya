@@ -2,9 +2,17 @@
 
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import ScrollIntoView from 'react-scroll-into-view';
 
-export function Footer() {
+export function Footer({ scroll = false }: { scroll: boolean }) {
+  const fitur = [
+    { id: 'forum-tanya-jawab', name: 'Forum tanya jawab' },
+    { id: 'speech-to-text', name: 'Speech to text' },
+    { id: 'chat-room', name: "Course's chat room" },
+    { id: 'private-chat', name: 'Private chat' },
+  ];
+
   return (
     <section className='bg-[#77425A] font-poppins'>
       <div className='container divide-y-2 md:px-12'>
@@ -40,30 +48,29 @@ export function Footer() {
         <div className='grid grid-cols-2 gap-8 py-8 md:grid-cols-3'>
           <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Fitur</h3>
-            <ScrollIntoView
-              selector='#forum-tanya-jawab'
-              className='block cursor-pointer text-xs'
-            >
-              Forum tanya jawab
-            </ScrollIntoView>
-            <ScrollIntoView
-              selector='#speech-to-text'
-              className='block cursor-pointer text-xs'
-            >
-              Speech to text
-            </ScrollIntoView>
-            <ScrollIntoView
-              selector='#chat-room'
-              className='block cursor-pointer text-xs'
-            >
-              Course&apos;s chat room
-            </ScrollIntoView>
-            <ScrollIntoView
-              selector='#private-chat'
-              className='block cursor-pointer text-xs'
-            >
-              Private chat
-            </ScrollIntoView>
+            {fitur.map((each) => {
+              if (scroll) {
+                return (
+                  <ScrollIntoView
+                    selector={`#${each.id}`}
+                    className='block cursor-pointer text-xs'
+                    key={each.id}
+                  >
+                    {each.name}
+                  </ScrollIntoView>
+                );
+              }
+
+              return (
+                <Link
+                  href={`/#${each.id}`}
+                  className='block cursor-pointer text-xs'
+                  key={each.id}
+                >
+                  {each.name}
+                </Link>
+              );
+            })}
           </div>
           <div className='space-y-2 text-center text-white'>
             <h3 className='text-sm font-semibold'>Help</h3>
