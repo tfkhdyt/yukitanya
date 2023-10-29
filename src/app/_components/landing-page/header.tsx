@@ -4,6 +4,7 @@ import { useWindowScroll } from '@uidotdev/usehooks';
 import clsx from 'clsx';
 import { AlignJustify } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import ScrollIntoView from 'react-scroll-into-view';
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
@@ -71,9 +72,12 @@ export function Header() {
               <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-black shadow-md'>
                 Masuk
               </button>
-              <button className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'>
+              <Link
+                href='/auth/register'
+                className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
+              >
                 Daftar
-              </button>
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
@@ -92,9 +96,12 @@ export function Header() {
             <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-black shadow-md'>
               Masuk
             </button>
-            <button className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'>
+            <Link
+              href='/auth/register'
+              className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
+            >
               Daftar
-            </button>
+            </Link>
           </div>
         </nav>
       </div>
