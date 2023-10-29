@@ -8,6 +8,7 @@
     "db:studio": "dotenv drizzle-kit studio",
     "dev": "next dev",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "start": "next start"
   },
   "dependencies": {
