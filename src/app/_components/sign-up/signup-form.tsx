@@ -245,7 +245,7 @@ export function SignupForm() {
         Sudah punya akun?{' '}
         <Link
           href='/auth/sign-in'
-          className='font-semibold text-[#005F80] underline'
+          className='font-semibold text-[#00B6EF] underline'
         >
           Masuk
         </Link>
