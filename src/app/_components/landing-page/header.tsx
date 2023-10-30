@@ -69,7 +69,7 @@ export function Header() {
               </SheetClose>
             ))}
             <div className='space-x-3'>
-              <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-black shadow-md'>
+              <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
                 Masuk
               </button>
               <Link
@@ -93,7 +93,7 @@ export function Header() {
             </ScrollIntoView>
           ))}
           <div className='space-x-3'>
-            <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-black shadow-md'>
+            <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
               Masuk
             </button>
             <Link
