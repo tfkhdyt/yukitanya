@@ -69,9 +69,12 @@ export function Header() {
               </SheetClose>
             ))}
             <div className='space-x-3'>
-              <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
+              <Link
+                href='/auth/sign-in'
+                className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'
+              >
                 Masuk
-              </button>
+              </Link>
               <Link
                 href='/auth/sign-up'
                 className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
@@ -93,9 +96,12 @@ export function Header() {
             </ScrollIntoView>
           ))}
           <div className='space-x-3'>
-            <button className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'>
+            <Link
+              href='/auth/sign-in'
+              className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'
+            >
               Masuk
-            </button>
+            </Link>
             <Link
               href='/auth/sign-up'
               className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
