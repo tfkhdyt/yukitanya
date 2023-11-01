@@ -149,7 +149,7 @@ export default function Home() {
                 <Star size={18} color='#F48C06' />
               </div>
             </div>
-            <div className='space-x-2 pt-2'>
+            <div className='space-x-2 pt-2 text-[#696984]'>
               <Button
                 size='sm'
                 variant='outline'
