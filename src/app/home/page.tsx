@@ -1,5 +1,3 @@
-'use client';
-
 import {
   BellIcon,
   Book,
@@ -13,7 +11,6 @@ import {
   Star,
 } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../_components/ui/avatar';
 import { Badge } from '../_components/ui/badge';
@@ -28,8 +25,6 @@ import {
 } from '../_components/ui/dropdown-menu';
 
 export default function Home() {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-
   return (
     <section className='container flex font-poppins'>
       <aside className='h-screen w-1/4 border-r-2'>
@@ -130,7 +125,7 @@ export default function Home() {
               Pada masa Daulah Abbasiyah, kedudukan kaum muslim di Bagdad berada
               .... a. lebih tinggi daripada warga lainnya b. sejajar dengan
               warga lainnya c. lebih rendah daripada warga lainnya d. sebagai
-              warga yang istimewa​
+              warga yang istimewa
             </p>
             <div className='flex justify-between pt-2'>
               <div className='space-x-1'>
