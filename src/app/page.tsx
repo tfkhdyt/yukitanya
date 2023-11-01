@@ -8,7 +8,7 @@ import { MataPelajaran } from './_components/landing-page/mata-pelajaran';
 import { TentangKami } from './_components/landing-page/tentang-kami';
 import { Testimoni } from './_components/landing-page/testimoni';
 
-export default function Home() {
+export default function Landing() {
   return (
     <main className='relative'>
       <Header />
