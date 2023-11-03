@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
+import { match } from 'ts-pattern';
 
 type TFitur = {
   image: {
@@ -93,21 +94,20 @@ export function Fitur() {
               />
             </div>
             <div className='space-y-8 md:w-1/2 md:p-6 lg:p-32'>
-              <p
-                className={clsx(
-                  'text-center text-2xl font-extrabold text-[#77425A]',
-                  idx % 2 === 0 ? 'text-[#77425A]' : 'text-[#F48C06]',
-                )}
-              >
-                <span
-                  className={clsx(
-                    idx % 2 === 0 ? 'text-[#F48C06]' : 'text-[#77425A]',
-                  )}
-                >
-                  {each.title[0]}
-                </span>{' '}
-                {each.title[1]}
-              </p>
+              {match(idx % 2)
+                .with(0, () => (
+                  <p className='text-center text-2xl font-extrabold text-[#77425A]'>
+                    <span className='text-[#F48C06]'>{each.title[0]}</span>{' '}
+                    {each.title[1]}
+                  </p>
+                ))
+                .otherwise(() => (
+                  <p className='text-center text-2xl font-extrabold text-[#F48C06]'>
+                    <span className='text-[#77425A]'>{each.title[0]}</span>{' '}
+                    {each.title[1]}
+                  </p>
+                ))}
+
               <p className='text-center leading-loose text-[#696984]'>
                 {each.description}
               </p>

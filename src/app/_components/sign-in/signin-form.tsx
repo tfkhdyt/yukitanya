@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { match } from 'ts-pattern';
 import { z } from 'zod';
 
 import { Button } from '../ui/button';
@@ -86,11 +87,10 @@ export function SigninForm() {
                       onClick={() => setIsPasswordShowed((v) => !v)}
                       aria-label='Show password'
                     >
-                      {isPasswordShowed ? (
-                        <EyeOff size={20} />
-                      ) : (
-                        <Eye size={20} />
-                      )}
+                      {match(isPasswordShowed)
+                        .with(true, () => <EyeOff size={20} />)
+                        .with(false, () => <Eye size={20} />)
+                        .exhaustive()}
                     </Button>
                   </span>
                 </FormControl>
