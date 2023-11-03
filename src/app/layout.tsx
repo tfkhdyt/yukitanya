@@ -9,10 +9,14 @@ import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/800.css';
 import '@fontsource/poppins/900.css';
+import 'dayjs/locale/id';
 
+import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 
 import { TRPCReactProvider } from '@/trpc/react';
+
+dayjs.locale('id');
 
 export const metadata = {
   title: 'Yukitanya',
