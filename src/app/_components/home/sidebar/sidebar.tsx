@@ -39,7 +39,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className='h-screen w-1/4 border-r-2'>
+    <aside className='sticky top-0 h-screen w-1/4 border-r-2'>
       <nav className='space-y-8 p-6 text-[#696984]'>
         <div className='ml-4 flex items-end space-x-2'>
           <Image

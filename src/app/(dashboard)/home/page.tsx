@@ -1,4 +1,5 @@
 import { Heart, Link, MessageCircle, PencilIcon, Star } from 'lucide-react';
+import { type Metadata } from 'next';
 import Image from 'next/image';
 
 import {
@@ -8,11 +9,16 @@ import {
 } from '../../_components/ui/avatar';
 import { Badge } from '../../_components/ui/badge';
 import { Button } from '../../_components/ui/button';
+import { Post } from './post';
+
+export const metadata: Metadata = {
+  title: 'Home - Yukitanya',
+};
 
 export default function Home() {
   return (
     <>
-      <div className='flex border-b-2 p-6'>
+      <div className='flex border-b-2 p-6 lg:hidden'>
         <div className='w-2/3 space-y-6'>
           <h2 className='text-xl font-extrabold'>
             AYO BERTANYA, JANGAN MALU-MALU YA...!
@@ -95,6 +101,13 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
     </>
   );
 }
