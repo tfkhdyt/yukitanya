@@ -33,6 +33,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "dayjs": "^1.11.10",
     "drizzle-orm": "^0.28.6",
     "lucide-react": "^0.288.0",
     "next": "^13.5.6",
