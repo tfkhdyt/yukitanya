@@ -59,8 +59,8 @@ export function Sidebar() {
               className='flex w-fit items-center space-x-6 rounded-full border-2 border-white px-4 py-3 transition hover:border-[#F48C06]'
               href={each.url}
             >
-              {match(pathname)
-                .with(each.url, () => (
+              {match(each.url)
+                .with(pathname, () => (
                   <>
                     <each.icon size={28} strokeWidth={2} />
                     <p className='text-xl font-semibold'>{each.title}</p>
