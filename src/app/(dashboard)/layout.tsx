@@ -8,10 +8,10 @@ import { match } from 'ts-pattern';
 
 import { useSidebarStore } from '@/stores/sidebar';
 
-import { ProfileButton } from '../_components/home/sidebar/profile-button';
-import { Sidebar } from '../_components/home/sidebar/sidebar';
 import { Button } from '../_components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../_components/ui/sheet';
+import { ProfileButton } from './home/sidebar/profile-button';
+import { Sidebar } from './home/sidebar/sidebar';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
