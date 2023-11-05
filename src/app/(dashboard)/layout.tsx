@@ -19,10 +19,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <section className='flex font-poppins lg:container'>
-      <aside className='sticky top-0 hidden h-screen w-1/4 border-r-2 md:inline'>
+      <aside className='sticky top-0 hidden h-screen border-r-2 md:inline md:w-1/3 lg:w-1/4'>
         <Sidebar />
       </aside>
-      <main className='w-full md:w-3/4 lg:w-2/4'>
+      <main className='w-full md:w-2/3 lg:w-2/4'>
         <div className='sticky top-0 z-50 flex items-center justify-between border-b-2 bg-white/25 p-3 backdrop-blur'>
           <div className='flex items-center'>
             <div className='mr-4 md:hidden'>
