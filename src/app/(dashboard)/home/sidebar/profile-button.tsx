@@ -1,7 +1,11 @@
 import { MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/app/_components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../ui/dropdown-menu';
+} from '@/app/_components/ui/dropdown-menu';
 
 export function ProfileButton(props: {
   avatar: {
