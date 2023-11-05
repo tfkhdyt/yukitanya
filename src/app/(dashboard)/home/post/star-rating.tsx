@@ -24,5 +24,9 @@ export function StarRating({ rating }: { rating: number }) {
     );
   }
 
-  return <div className='flex items-center space-x-1'>{stars}</div>;
+  return (
+    <div className='flex items-center space-x-1' title={rating.toString()}>
+      {stars}
+    </div>
+  );
 }

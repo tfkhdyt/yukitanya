@@ -10,6 +10,7 @@ import {
 } from '@/app/_components/ui/avatar';
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
+
 import { StarRating } from './star-rating';
 
 dayjs.extend(relativeTime);
@@ -47,15 +48,28 @@ export function Post({
       </Avatar>
       <div className='space-y-1'>
         <div className='flex items-center space-x-2 text-[#696984]'>
-          <p className='font-semibold'>{user.fullName}</p>
-          <p className='font-light'>@{user.username}</p>
-          <p>•</p>
           <p
-            className='text-sm'
+            className='max-w-[6.25rem] truncate font-semibold md:max-w-[12rem]'
+            title={user.fullName}
+          >
+            {user.fullName}
+          </p>
+          <p
+            className='max-w-[6.25rem] truncate font-light md:max-w-[12rem]'
+            title={user.username}
+          >
+            @{user.username}
+          </p>
+          <span
+            className='font-light'
             title={dayjs(post.date).format('dddd, D MMMM YYYY HH:mm:ss')}
           >
-            {dayjs(post.date).fromNow()}
-          </p>
+            <span className='mr-2'>•</span>
+            <span className='md:hidden'>{dayjs(post.date).fromNow(true)}</span>
+            <span className='hidden md:inline'>
+              {dayjs(post.date).fromNow()}
+            </span>
+          </span>
         </div>
         <p className='py-1 text-sm leading-relaxed text-[#696984]'>
           {post.content}
@@ -70,24 +84,36 @@ export function Post({
           </div>
           <StarRating rating={4.3} />
         </div>
-        <div className='space-x-2 pt-2 text-[#696984]'>
-          <NextLink href={`/questions/${post.id}`}>
+        <div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
+          <NextLink
+            href={`/questions/${post.id}`}
+            title={`Lihat Jawaban (${post.numberOfAnswers})`}
+          >
             <Button
               size='sm'
               variant='outline'
               className='rounded-full text-sm'
             >
-              <MessageCircle size={18} className='mr-2' />
-              Lihat jawaban ({post.numberOfAnswers})
+              <MessageCircle size={18} className='mr-1' />
+              {post.numberOfAnswers}
             </Button>
           </NextLink>
-          <Button size='sm' variant='outline' className='rounded-full text-sm'>
-            <Heart size={18} className='mr-2' />
-            Favorit ({post.numberOfFavorites})
+          <Button
+            size='sm'
+            variant='outline'
+            className='rounded-full text-sm'
+            title={`Favorit (${post.numberOfAnswers})`}
+          >
+            <Heart size={18} className='mr-1' />
+            {post.numberOfFavorites}
           </Button>
-          <Button size='sm' variant='outline' className='rounded-full text-sm'>
-            <Link size={18} className='mr-2' />
-            Salin link
+          <Button
+            size='sm'
+            variant='outline'
+            className='rounded-full text-sm'
+            title='Salin link'
+          >
+            <Link size={18} />
           </Button>
         </div>
       </div>

@@ -6,9 +6,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { match } from 'ts-pattern';
 
+import { useSidebarStore } from '@/stores/sidebar';
+
 import { ProfileButton } from './profile-button';
 
-export function Sidebar() {
+export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
   const menu = [
     {
       title: 'Beranda',
@@ -37,44 +39,50 @@ export function Sidebar() {
     },
   ];
   const pathname = usePathname();
+  const toggleSidebar = useSidebarStore((state) => state.toggle);
 
   return (
-    <aside className='sticky top-0 h-screen w-1/4 border-r-2'>
-      <nav className='space-y-6 p-3 text-[#696984] lg:space-y-8 lg:p-6'>
-        <div className='ml-4 flex items-end space-x-2'>
-          <Image
-            src='/img/yukitanya_logo.png'
-            alt='Yukitanya Logo'
-            width={54}
-            height={49}
-            className='h-10 w-auto'
-          />
-          <span className='font-rubik text-xl font-extrabold text-black lg:text-2xl'>
-            Yukitanya
-          </span>
-        </div>
-        <div className='space-y-1 lg:space-y-2'>
-          {menu.map((each) => (
-            <Link
-              key={each.title}
-              className='flex w-fit items-center space-x-6 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'
-              href={each.url}
-            >
-              {match(each.url)
-                .with(pathname, () => (
-                  <>
-                    <each.icon size={28} strokeWidth={2} />
-                    <p className='text-xl font-semibold'>{each.title}</p>
-                  </>
-                ))
-                .otherwise(() => (
-                  <>
-                    <each.icon size={28} strokeWidth={1} />
-                    <p className='text-xl font-light'>{each.title}</p>
-                  </>
-                ))}
-            </Link>
-          ))}
+    <nav className='space-y-6 text-[#696984] md:p-3 lg:space-y-8 lg:p-6'>
+      <div className='ml-4 flex items-end space-x-2'>
+        <Image
+          src='/img/yukitanya_logo.png'
+          alt='Yukitanya Logo'
+          width={54}
+          height={49}
+          className='h-10 w-auto'
+        />
+        <span className='font-rubik text-xl font-extrabold text-black lg:text-2xl'>
+          Yukitanya
+        </span>
+      </div>
+      <div className='space-y-1 lg:space-y-2'>
+        {menu.map((each) => (
+          <Link
+            key={each.title}
+            className='flex w-fit items-center space-x-6 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'
+            href={each.url}
+            onClick={isMobile ? toggleSidebar : undefined}
+          >
+            {match(each.url)
+              .with(pathname, () => (
+                <>
+                  <each.icon size={28} strokeWidth={2} />
+                  <p className='text-xl font-bold md:font-semibold'>
+                    {each.title}
+                  </p>
+                </>
+              ))
+              .otherwise(() => (
+                <>
+                  <each.icon size={28} strokeWidth={1} />
+                  <p className='text-xl font-normal md:font-light'>
+                    {each.title}
+                  </p>
+                </>
+              ))}
+          </Link>
+        ))}
+        <div className='hidden lg:block'>
           <ProfileButton
             fullName='Taufik Hidayat'
             username='tfkhdyt'
@@ -84,7 +92,7 @@ export function Sidebar() {
             }}
           />
         </div>
-      </nav>
-    </aside>
+      </div>
+    </nav>
   );
 }

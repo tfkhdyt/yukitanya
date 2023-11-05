@@ -38,8 +38,8 @@ export default function Home() {
             imageUrl: 'https://github.com/tfkhdyt.png',
             fallback: 'TH',
           },
-          fullName: 'Taufik Hidayat',
-          username: 'tfkhdyt',
+          fullName: 'Taufik Hidayat yang ganteng',
+          username: 'tfkhdytdbkdsdnsdknslddksmdlm',
         }}
         post={{
           id: 'question-123',
