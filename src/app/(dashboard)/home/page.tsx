@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <div className='flex border-b-2 p-6 lg:hidden'>
-        <div className='w-2/3 space-y-6'>
+      <div className='flex border-b-2 p-6 md:items-center lg:hidden'>
+        <div className='w-2/3 space-y-4 pr-2'>
           <h2 className='text-xl font-extrabold'>
-            AYO BERTANYA, JANGAN MALU-MALU YA...!
+            JANGAN MALU UNTUK BERTANYA!
           </h2>
           <Button className='flex items-center space-x-2 rounded-full font-extrabold'>
             <p>Tanyakan Sekarang!</p>

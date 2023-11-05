@@ -63,9 +63,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div>{children}</div>
       </main>
       <aside className='sticky top-0 hidden h-screen w-1/4 space-y-4 border-l-2 p-6 text-2xl font-extrabold text-[#F48C06] lg:inline'>
-        <h2 className='text-xl font-extrabold'>
-          AYO BERTANYA, JANGAN MALU-MALU!
-        </h2>
+        <h2 className='text-xl font-extrabold'>JANGAN MALU UNTUK BERTANYA!</h2>
         <Image
           src='/img/home/mari-bertanya.png'
           alt='Mari bertanya'
