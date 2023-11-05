@@ -10,16 +10,12 @@ type Mapel = {
 export function MataPelajaran() {
   const mapel: Mapel[] = [
     {
-      name: 'Ilmu Pengetahuan Sosial',
-      imageUrl: '/img/mapel/ips.png',
+      name: 'Ilmu Pengetahuan Alam',
+      imageUrl: '/img/mapel/ipa.png',
     },
     {
-      name: 'Penjaskes',
-      imageUrl: '/img/mapel/penjas.png',
-    },
-    {
-      name: 'Sejarah',
-      imageUrl: '/img/mapel/sejarah.png',
+      name: 'PPKn',
+      imageUrl: '/img/mapel/ppkn.png',
     },
     {
       name: 'Matematika',
@@ -34,8 +30,8 @@ export function MataPelajaran() {
       imageUrl: '/img/mapel/ing.png',
     },
     {
-      name: 'Ilmu Pengetahuan Alam',
-      imageUrl: '/img/mapel/ipa.png',
+      name: 'Ilmu Pengetahuan Sosial',
+      imageUrl: '/img/mapel/ips.png',
     },
   ];
 
@@ -49,7 +45,7 @@ export function MataPelajaran() {
           Yuk tanya{' '}
           <span className='text-[#F48C06]'>pelajaran favoritmu disini!</span>
         </p>
-        <div className='grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-7'>
+        <div className='grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6'>
           {mapel.map((each) => (
             <div className='flex flex-col items-center' key={each.name}>
               <Image
