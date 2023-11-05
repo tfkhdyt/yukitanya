@@ -21,7 +21,7 @@ export function ProfileButton(props: {
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-2 border-white px-4 py-3 transition hover:border-[#F48C06]'>
+      <DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'>
         <Avatar>
           <AvatarImage src={props.avatar.imageUrl} />
           <AvatarFallback>{props.avatar.fallback}</AvatarFallback>

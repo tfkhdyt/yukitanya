@@ -56,7 +56,7 @@ export function Sidebar() {
           {menu.map((each) => (
             <Link
               key={each.title}
-              className='flex w-fit items-center space-x-6 rounded-full border-2 border-white px-4 py-3 transition hover:border-[#F48C06]'
+              className='flex w-fit items-center space-x-6 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'
               href={each.url}
             >
               {match(each.url)
