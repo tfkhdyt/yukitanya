@@ -26,9 +26,13 @@ export function ProfileButton(props: {
           <AvatarImage src={props.avatar.imageUrl} />
           <AvatarFallback>{props.avatar.fallback}</AvatarFallback>
         </Avatar>
-        <div className='pr-4 text-left'>
-          <h2 className='font-semibold'>{props.fullName}</h2>
-          <p>@{props.username}</p>
+        <div className='pr-2 text-left lg:pr-4'>
+          <h2 className='text-sm font-semibold lg:text-base'>
+            {props.fullName}
+          </h2>
+          <p className='hidden text-sm lg:inline lg:text-base'>
+            @{props.username}
+          </p>
         </div>
         <MoreHorizontal />
       </DropdownMenuTrigger>

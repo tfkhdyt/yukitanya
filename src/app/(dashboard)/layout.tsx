@@ -13,9 +13,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <section className='container flex font-poppins'>
+    <section className='flex font-poppins lg:container'>
       <Sidebar />
-      <main className='w-2/4'>
+      <main className='md:w-3/4 lg:w-2/4'>
         <div className='sticky top-0 z-50 border-b-2 bg-white/25 p-3 backdrop-blur'>
           <h1 className='text-center text-lg font-semibold text-[#696984]'>
             {match(pathname)
@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </div>
         <div>{children}</div>
       </main>
-      <aside className='sticky top-0 h-screen w-1/4 space-y-4 border-l-2 p-6 text-2xl font-extrabold text-[#F48C06]'>
+      <aside className='sticky top-0 hidden h-screen w-1/4 space-y-4 border-l-2 p-6 text-2xl font-extrabold text-[#F48C06] lg:inline'>
         <h2 className='text-xl font-extrabold'>
           AYO BERTANYA, JANGAN MALU-MALU!
         </h2>

@@ -40,19 +40,20 @@ export function Sidebar() {
 
   return (
     <aside className='sticky top-0 h-screen w-1/4 border-r-2'>
-      <nav className='space-y-8 p-6 text-[#696984]'>
+      <nav className='space-y-6 p-3 text-[#696984] lg:space-y-8 lg:p-6'>
         <div className='ml-4 flex items-end space-x-2'>
           <Image
             src='/img/yukitanya_logo.png'
             alt='Yukitanya Logo'
             width={54}
             height={49}
+            className='h-10 w-auto'
           />
-          <span className='font-rubik text-2xl font-extrabold text-black'>
+          <span className='font-rubik text-xl font-extrabold text-black lg:text-2xl'>
             Yukitanya
           </span>
         </div>
-        <div className='space-y-2'>
+        <div className='space-y-1 lg:space-y-2'>
           {menu.map((each) => (
             <Link
               key={each.title}
