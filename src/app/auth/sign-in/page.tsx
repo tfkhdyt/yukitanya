@@ -1,11 +1,12 @@
-import { Footer } from '@/app/_components/landing-page/footer';
-import { SigninForm } from '@/app/_components/sign-in/signin-form';
+import { Footer } from '@/app/_components/footer';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@/app/_components/ui/card';
+
+import { SigninForm } from './signin-form';
 
 export const metadata = {
   title: 'Sign In - Yukitanya',
@@ -14,8 +15,8 @@ export const metadata = {
 export default function SignIn() {
   return (
     <>
-      <section className='h-auto bg-[url(/img/hero_bg.svg)] bg-cover bg-bottom'>
-        <div className='container px-5 pb-52 pt-5 md:pb-64 md:pt-12'>
+      <section className='h-screen bg-[url(/img/hero_bg.svg)] bg-cover lg:bg-bottom'>
+        <div className='container px-5 pt-5 md:pt-12'>
           <Card className='mx-auto w-fit rounded-3xl border-2 border-black p-0 font-poppins md:p-6'>
             <CardHeader>
               <CardTitle className='text-center text-3xl font-extrabold uppercase'>
@@ -28,7 +29,7 @@ export default function SignIn() {
           </Card>
         </div>
       </section>
-      <Footer scroll={false} />
+      <Footer />
     </>
   );
 }

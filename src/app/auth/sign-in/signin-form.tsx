@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
-import { Button } from '../ui/button';
+import { Button } from '../../_components/ui/button';
 import {
   Form,
   FormControl,
@@ -17,8 +17,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
+} from '../../_components/ui/form';
+import { Input } from '../../_components/ui/input';
 
 const signinSchema = z.object({
   username: z
