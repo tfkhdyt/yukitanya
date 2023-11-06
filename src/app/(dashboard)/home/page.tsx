@@ -39,7 +39,7 @@ export default function Home() {
             fallback: 'TH',
           },
           fullName: 'Taufik Hidayat yang ganteng',
-          username: 'tfkhdytdbkdsdnsdknslddksmdlm',
+          username: 'tfkhdyt',
         }}
         post={{
           id: 'question-123',
