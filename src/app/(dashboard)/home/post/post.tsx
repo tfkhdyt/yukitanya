@@ -75,7 +75,7 @@ export function Post({
           {post.content}
         </p>
         <div className='flex justify-between pt-2'>
-          <div className='space-x-1'>
+          <div className='mr-2 space-x-1'>
             <NextLink href={`/subjects/${post.subject.id}`}>
               <Badge variant='secondary' className='hover:bg-slate-200'>
                 <button>{post.subject.title}</button>
