@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`font-sans`}>
+      <body className='font-poppins'>
         <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
       </body>
     </html>

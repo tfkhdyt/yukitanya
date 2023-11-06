@@ -14,7 +14,7 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
   ];
 
   return (
-    <section className='bg-[#77425A] font-poppins'>
+    <section className='bg-[#77425A]'>
       <div className='container divide-y-2 md:px-12'>
         <div className='grid grid-cols-1 gap-8 px-2 py-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
           <div className='flex items-center space-x-3'>

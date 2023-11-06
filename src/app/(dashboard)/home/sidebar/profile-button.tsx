@@ -42,7 +42,7 @@ export function ProfileButton(props: {
           <MoreHorizontal />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='font-poppins text-[#696984]'>
+      <DropdownMenuContent align='end' className='text-[#696984]'>
         <DropdownMenuLabel>@{props.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href={`/users/${props.username}`}>

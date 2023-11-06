@@ -9,7 +9,7 @@ import Image from 'next/image';
 export function Testimoni() {
   return (
     <section className='bg-[url(/img/testimoni/bg.svg)] bg-cover pb-[25rem] pt-64'>
-      <div className='container font-poppins md:px-12'>
+      <div className='container md:px-12'>
         <div className='mx-auto w-fit space-y-16 rounded-3xl bg-white px-4 py-8 shadow-lg md:p-16'>
           <h2 className='text-center text-2xl tracking-widest'>Testimoni</h2>
           <div className='flex items-center space-x-2 md:space-x-8'>

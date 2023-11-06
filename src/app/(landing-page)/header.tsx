@@ -62,7 +62,7 @@ export function Header() {
           <SheetTrigger className='p-2 lg:hidden' aria-label='Mobile nav'>
             <AlignJustify />
           </SheetTrigger>
-          <SheetContent className='flex w-fit flex-col space-y-4 pt-12 font-poppins'>
+          <SheetContent className='flex w-fit flex-col space-y-4 pt-12'>
             {navbar.map((each) => (
               <SheetClose asChild key={each.id}>
                 <ScrollIntoView
@@ -90,7 +90,7 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        <nav className='hidden items-center space-x-12 font-poppins lg:flex'>
+        <nav className='hidden items-center space-x-12 lg:flex'>
           {navbar.map((each) => (
             <ScrollIntoView
               key={each.id}

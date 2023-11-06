@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const sidebarStore = useSidebarStore();
 
   return (
-    <section className='flex font-poppins lg:container'>
+    <section className='flex lg:container'>
       <aside className='sticky top-0 hidden h-screen border-r-2 md:inline md:w-1/3 lg:w-1/4'>
         <Sidebar />
       </aside>
