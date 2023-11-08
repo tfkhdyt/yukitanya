@@ -76,13 +76,13 @@ export function Header() {
             <div className='space-x-3'>
               <Link
                 href='/auth/sign-in'
-                className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'
+                className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
               >
                 Masuk
               </Link>
               <Link
                 href='/auth/sign-up'
-                className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
+                className='rounded-lg bg-[#77425A] px-4 py-2 font-semibold text-white shadow-md'
               >
                 Daftar
               </Link>
@@ -103,13 +103,13 @@ export function Header() {
           <div className='space-x-3'>
             <Link
               href='/auth/sign-in'
-              className='rounded-lg bg-[#F48C06] px-4 py-2 font-bold text-white shadow-md'
+              className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
             >
               Masuk
             </Link>
             <Link
               href='/auth/sign-up'
-              className='rounded-lg bg-[#77425A] px-4 py-2 font-bold text-white shadow-md'
+              className='rounded-lg bg-[#77425A] px-4 py-2 font-semibold text-white shadow-md'
             >
               Daftar
             </Link>

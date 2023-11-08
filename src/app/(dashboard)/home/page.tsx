@@ -17,7 +17,7 @@ export default function Home() {
           <h2 className='text-xl font-extrabold'>
             JANGAN MALU UNTUK BERTANYA!
           </h2>
-          <Button className='flex items-center space-x-2 rounded-full font-extrabold'>
+          <Button className='flex items-center space-x-2 rounded-full font-semibold'>
             <p>Tanyakan Sekarang!</p>
             <PencilIcon size={16} />
           </Button>

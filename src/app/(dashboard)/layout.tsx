@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           width={168}
           height={129}
         />
-        <Button className='flex items-center space-x-2 rounded-full font-extrabold'>
+        <Button className='flex items-center space-x-2 rounded-full font-semibold'>
           <p>Tanyakan Sekarang!</p>
           <PencilIcon size={16} />
         </Button>
