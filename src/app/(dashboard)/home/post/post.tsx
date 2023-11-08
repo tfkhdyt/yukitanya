@@ -1,6 +1,13 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Heart, LinkIcon, MessageCircle } from 'lucide-react';
+import {
+  FacebookIcon,
+  Heart,
+  LinkIcon,
+  MessageCircle,
+  Share2Icon,
+  TwitterIcon,
+} from 'lucide-react';
 import { default as Link, default as NextLink } from 'next/link';
 
 import {
@@ -11,6 +18,14 @@ import {
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/app/_components/ui/dropdown-menu';
 import { StarRating } from './star-rating';
 
 dayjs.extend(relativeTime);
@@ -50,14 +65,14 @@ export function Post({
         <div className='flex items-center space-x-2 text-[#696984]'>
           <Link
             href={`/users/${user.username}`}
-            className='max-w-[6.25rem] cursor-pointer truncate font-semibold decoration-2 hover:underline md:max-w-[12rem]'
+            className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
             title={user.fullName}
           >
             {user.fullName}
           </Link>
           <Link
             href={`/users/${user.username}`}
-            className='max-w-[6.25rem] truncate font-light md:max-w-[12rem]'
+            className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
             title={`@${user.username}`}
           >
             @{user.username}
@@ -96,6 +111,7 @@ export function Post({
             size='sm'
             variant='outline'
             className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+            title='Jawaban'
           >
             <MessageCircle size={18} className='mr-1' />
             {post.numberOfAnswers}
@@ -104,6 +120,7 @@ export function Post({
             size='sm'
             variant='outline'
             className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+            title='Favorit'
           >
             <Heart size={18} className='mr-1' />
             {post.numberOfFavorites}
@@ -112,9 +129,34 @@ export function Post({
             size='sm'
             variant='outline'
             className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+            title='Salin link'
           >
             <LinkIcon size={18} />
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size='sm'
+                variant='outline'
+                className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                title='Bagikan'
+              >
+                <Share2Icon size={18} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='text-[#696984]'>
+              <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <FacebookIcon size={18} className='mr-1' />
+                <span>Facebook</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <TwitterIcon size={18} className='mr-1' />
+                <span>Twitter</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

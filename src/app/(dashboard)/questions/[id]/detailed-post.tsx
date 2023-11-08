@@ -9,7 +9,22 @@ import {
 } from '@/app/_components/ui/avatar';
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
-import { Heart, LinkIcon, MessageCircle } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/app/_components/ui/dropdown-menu';
+import {
+  FacebookIcon,
+  Heart,
+  LinkIcon,
+  MessageCircle,
+  Share2Icon,
+  TwitterIcon,
+} from 'lucide-react';
 
 dayjs.extend(relativeTime);
 
@@ -40,7 +55,7 @@ export function DetailedPost({
 }) {
   return (
     <>
-      <div className='border-b-2 p-6'>
+      <div className='border-b-2 p-4'>
         <div className='flex items-center space-x-3'>
           <Avatar className='h-12 w-12'>
             <AvatarImage src={user.avatar.imageUrl} />
@@ -70,13 +85,13 @@ export function DetailedPost({
           </p>
         </div>
 
-        <div className='mt-2 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
-          <span className='flex flex-wrap items-center gap-1 text-sm text-[#696984]'>
+        <div className='mt-4 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
+          <span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
             <p>{dayjs(post.date).format('dddd, D MMMM YYYY, HH:mm')}</p>
             <p>·</p>
-            <p className='font-medium'>{post.numberOfAnswers} jawaban</p>
+            <p className='font-semibold'>{post.numberOfAnswers} jawaban</p>
             <p>·</p>
-            <p className='font-medium'>{post.numberOfFavorites} favorit</p>
+            <p className='font-semibold'>{post.numberOfFavorites} favorit</p>
           </span>
           <div className='space-x-1'>
             <NextLink href={`/subjects/${post.subject.id}`}>
@@ -87,7 +102,7 @@ export function DetailedPost({
           </div>
         </div>
       </div>
-      <div className='flex flex-wrap items-center justify-around gap-2 border-b-2 py-2 text-[#696984]'>
+      <div className='flex flex-wrap items-center justify-evenly gap-2 border-b-2 py-2 text-[#696984]'>
         <NextLink
           href={`/questions/${post.id}`}
           title={`Lihat Jawaban (${post.numberOfAnswers})`}
@@ -95,30 +110,55 @@ export function DetailedPost({
           <Button
             size='sm'
             variant='ghost'
-            className='space-x-1 rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+            className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
           >
-            <MessageCircle size={18} className='mr-1' />
+            <MessageCircle size={18} />
             <span>Jawab</span>
           </Button>
         </NextLink>
         <Button
           size='sm'
           variant='ghost'
-          className='space-x-1 rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+          className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
           title={`Favorit (${post.numberOfAnswers})`}
         >
-          <Heart size={18} className='mr-1' />
+          <Heart size={18} />
           <span>Favorit</span>
         </Button>
         <Button
           size='sm'
           variant='ghost'
-          className='space-x-1 rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+          className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
           title='Salin link'
         >
           <LinkIcon size={18} />
           <span>Salin link</span>
         </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              size='sm'
+              variant='ghost'
+              className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
+              title='Bagikan'
+            >
+              <Share2Icon size={18} />
+              <span>Bagikan</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='text-[#696984]'>
+            <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <FacebookIcon size={18} className='mr-1' />
+              <span>Facebook</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <TwitterIcon size={18} className='mr-1' />
+              <span>Twitter</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   );
