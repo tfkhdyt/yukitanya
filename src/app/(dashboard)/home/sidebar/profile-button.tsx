@@ -31,9 +31,7 @@ export function ProfileButton(props: {
           <AvatarFallback>{props.avatar.fallback}</AvatarFallback>
         </Avatar>
         <div className='hidden pr-2 text-left lg:inline lg:pr-4'>
-          <h2 className='text-sm font-semibold lg:text-base'>
-            {props.fullName}
-          </h2>
+          <h2 className='text-sm font-medium lg:text-base'>{props.fullName}</h2>
           <p className='hidden text-sm lg:inline lg:text-base'>
             @{props.username}
           </p>

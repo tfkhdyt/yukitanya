@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               </Sheet>
             </div>
 
-            <div className='text-center text-lg font-semibold text-[#696984]'>
+            <div className='text-center text-lg font-medium text-[#696984]'>
               {match(pathname)
                 .with('/home', () => 'Beranda')
                 .with('/search', () => 'Cari Pertanyaan')

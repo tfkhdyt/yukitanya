@@ -67,7 +67,7 @@ export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
               .with(pathname, () => (
                 <>
                   <each.icon size={28} strokeWidth={2} />
-                  <p className='text-xl font-semibold'>{each.title}</p>
+                  <p className='text-xl font-medium'>{each.title}</p>
                 </>
               ))
               .otherwise(() => (

@@ -64,14 +64,14 @@ export function DetailedPost({
           <div className='text-[#696984]'>
             <Link
               href={`/users/${user.username}`}
-              className='block max-w-full cursor-pointer truncate font-semibold decoration-2 hover:underline'
+              className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
               title={user.fullName}
             >
               {user.fullName}
             </Link>
             <Link
               href={`/users/${user.username}`}
-              className='block max-w-full truncate font-light'
+              className='block max-w-full truncate font-normal'
               title={`@${user.username}`}
             >
               @{user.username}
