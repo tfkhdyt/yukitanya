@@ -41,7 +41,7 @@ export function Post({
   };
 }) {
   return (
-    <div className='flex space-x-3 border-b-2 p-6 transition hover:bg-slate-50'>
+    <div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
       <Avatar>
         <AvatarImage src={user.avatar.imageUrl} />
         <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
