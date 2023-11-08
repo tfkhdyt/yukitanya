@@ -28,7 +28,7 @@ import {
 
 dayjs.extend(relativeTime);
 
-export function DetailedPost({
+export function DetailedQuestion({
   user,
   post,
 }: {
@@ -103,6 +103,15 @@ export function DetailedPost({
         </div>
       </div>
       <div className='flex flex-wrap items-center justify-evenly gap-2 border-b-2 py-2 text-[#696984]'>
+        <Button
+          size='sm'
+          variant='ghost'
+          className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
+          title={`Favorit (${post.numberOfAnswers})`}
+        >
+          <Heart size={18} />
+          <span>Favorit</span>
+        </Button>
         <NextLink
           href={`/questions/${post.id}`}
           title={`Lihat Jawaban (${post.numberOfAnswers})`}
@@ -116,15 +125,6 @@ export function DetailedPost({
             <span>Jawab</span>
           </Button>
         </NextLink>
-        <Button
-          size='sm'
-          variant='ghost'
-          className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
-          title={`Favorit (${post.numberOfAnswers})`}
-        >
-          <Heart size={18} />
-          <span>Favorit</span>
-        </Button>
         <Button
           size='sm'
           variant='ghost'
