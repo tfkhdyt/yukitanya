@@ -3,7 +3,7 @@ import { type Metadata } from 'next';
 import Image from 'next/image';
 
 import { Button } from '../../_components/ui/button';
-import { Post } from './post/post';
+import { Question } from './question';
 
 export const metadata: Metadata = {
   title: 'Home - Yukitanya',
@@ -32,7 +32,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <Post
+      <Question
         user={{
           avatar: {
             imageUrl: 'https://github.com/tfkhdyt.png',

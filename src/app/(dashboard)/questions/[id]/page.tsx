@@ -1,9 +1,10 @@
-import { DetailedPost } from './detailed-post';
+import { Answer } from './answer';
+import { DetailedQuestion } from './detailed-question';
 
 export default function Question() {
   return (
     <div>
-      <DetailedPost
+      <DetailedQuestion
         user={{
           avatar: {
             imageUrl: 'https://github.com/tfkhdyt.png',
@@ -26,6 +27,44 @@ export default function Question() {
           rating: 4.5,
         }}
       />
+      <div>
+        <Answer
+          user={{
+            avatar: {
+              imageUrl: 'https://github.com/Rabiatul9.png',
+              fallback: 'RA',
+            },
+            fullName: 'Rabiatul Adawiyah',
+            username: 'Rabiatul9',
+          }}
+          post={{
+            id: 'answer-123',
+            content: 'Maaf gak tau hehe',
+            date: new Date('2023-11-08T18:27:45'),
+            numberOfVotes: 10,
+            rating: 4.5,
+            isBestAnswer: true,
+          }}
+        />
+        <Answer
+          user={{
+            avatar: {
+              imageUrl: 'https://github.com/ihsanrzi.png',
+              fallback: 'MIR',
+            },
+            fullName: 'Muhammad Ihsan Rizaldi',
+            username: 'ihsanrzi',
+          }}
+          post={{
+            id: 'answer-124',
+            content: 'B. sejajar dengan warga lainnya',
+            date: new Date('2023-11-08T19:18:00'),
+            numberOfVotes: 2,
+            rating: 2.0,
+            isBestAnswer: false,
+          }}
+        />
+      </div>
     </div>
   );
 }
