@@ -18,8 +18,8 @@ export default function Home() {
             JANGAN MALU UNTUK BERTANYA!
           </h2>
           <Button className='flex items-center space-x-2 rounded-full font-semibold'>
-            <p>Tanyakan Sekarang!</p>
             <PencilIcon size={16} />
+            <p>Tanyakan Sekarang!</p>
           </Button>
         </div>
         <div className='w-1/3'>
