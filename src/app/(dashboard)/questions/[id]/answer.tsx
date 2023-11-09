@@ -9,7 +9,6 @@ import {
   StarIcon,
   TwitterIcon,
 } from 'lucide-react';
-import { default as Link } from 'next/link';
 
 import {
   Avatar,
@@ -76,22 +75,19 @@ export function Answer({
         </Avatar>
         <div className='grow space-y-1'>
           <div className='flex items-center space-x-2 text-[#696984]'>
-            <Link
-              href={`/users/${user.username}`}
+            <span
               className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
               title={user.fullName}
             >
               {user.fullName}
-            </Link>
-            <Link
-              href={`/users/${user.username}`}
+            </span>
+            <span
               className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
               title={`@${user.username}`}
             >
               @{user.username}
-            </Link>
-            <Link
-              href={`/questions/${post.id}`}
+            </span>
+            <span
               className='font-light'
               title={dayjs(post.date).format('dddd, D MMMM YYYY HH:mm:ss')}
             >
@@ -102,13 +98,11 @@ export function Answer({
               <span className='hidden hover:underline md:inline'>
                 {dayjs(post.date).fromNow()}
               </span>
-            </Link>
+            </span>
           </div>
-          <Link href={`/questions/${post.id}`}>
-            <p className='py-1 text-sm leading-relaxed text-[#696984]'>
-              {post.content}
-            </p>
-          </Link>
+          <p className='py-1 text-sm leading-relaxed text-[#696984]'>
+            {post.content}
+          </p>
           <div className='flex flex-wrap-reverse items-center gap-4 pt-2 text-[#696984] md:flex-wrap md:justify-between'>
             <div className='flex flex-wrap gap-2'>
               <DropdownMenu>
