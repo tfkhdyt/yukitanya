@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { default as Link, default as NextLink } from 'next/link';
 
 import {
@@ -25,8 +24,7 @@ import {
   Share2Icon,
   TwitterIcon,
 } from 'lucide-react';
-
-dayjs.extend(relativeTime);
+import { AnswerModal } from './answer/answer-modal';
 
 export function DetailedQuestion({
   user,
@@ -112,10 +110,7 @@ export function DetailedQuestion({
           <Heart size={18} />
           <span className='hidden md:inline'>Favorit</span>
         </Button>
-        <NextLink
-          href={`/questions/${post.id}`}
-          title={`Lihat Jawaban (${post.numberOfAnswers})`}
-        >
+        <AnswerModal user={user} post={post}>
           <Button
             size='sm'
             variant='ghost'
@@ -124,7 +119,7 @@ export function DetailedQuestion({
             <MessageCircle size={18} />
             <span className='hidden md:inline'>Jawab</span>
           </Button>
-        </NextLink>
+        </AnswerModal>
         <Button
           size='sm'
           variant='ghost'

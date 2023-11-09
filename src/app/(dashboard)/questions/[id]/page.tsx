@@ -1,7 +1,7 @@
 import { Button } from '@/app/_components/ui/button';
 import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
-import { Answer } from './answer';
+import { AnswerPost } from './answer/answer-post';
 import { DetailedQuestion } from './detailed-question';
 
 export default function Question() {
@@ -71,7 +71,7 @@ export default function Question() {
       <div>
         {answers.length > 0 ? (
           answers.map((answer) => (
-            <Answer
+            <AnswerPost
               user={answer.user}
               post={answer.post}
               key={answer.post.id}

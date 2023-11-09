@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import {
   FacebookIcon,
   Heart,
@@ -27,8 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
-
-dayjs.extend(relativeTime);
+import { AnswerModal } from '../questions/[id]/answer/answer-modal';
 
 export function Question({
   user,
@@ -116,15 +114,17 @@ export function Question({
             <Heart size={18} className='mr-1' />
             {post.numberOfFavorites}
           </Button>
-          <Button
-            size='sm'
-            variant='outline'
-            className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-            title='Jawaban'
-          >
-            <MessageCircle size={18} className='mr-1' />
-            {post.numberOfAnswers}
-          </Button>
+          <AnswerModal user={user} post={post}>
+            <Button
+              size='sm'
+              variant='outline'
+              className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+              title='Beri jawaban mu'
+            >
+              <MessageCircle size={18} className='mr-1' />
+              {post.numberOfAnswers}
+            </Button>
+          </AnswerModal>
           <Button
             size='sm'
             variant='outline'

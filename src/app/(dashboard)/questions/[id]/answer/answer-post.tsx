@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import {
   CheckCircle,
   FacebookIcon,
@@ -32,9 +31,7 @@ import {
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
 
-dayjs.extend(relativeTime);
-
-export function Answer({
+export function AnswerPost({
   user,
   post,
 }: {
@@ -59,7 +56,7 @@ export function Answer({
     <section id={post.id}>
       {post.isBestAnswer && (
         <div className='px-4 pt-4'>
-          <Alert className='border-green-600'>
+          <Alert className='border-green-600 bg-green-50'>
             <CheckCircle className='h-4 w-4' color='#16A34A' />
             <AlertTitle className='text-green-600'>Jawaban Terbaik!</AlertTitle>
             <AlertDescription className='text-green-800'>

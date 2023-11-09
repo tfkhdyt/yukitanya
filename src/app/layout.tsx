@@ -15,8 +15,10 @@ import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 
 import { TRPCReactProvider } from '@/trpc/react';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.locale('id');
+dayjs.extend(relativeTime);
 
 export const metadata = {
   title: 'Yukitanya',
