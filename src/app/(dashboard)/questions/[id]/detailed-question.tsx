@@ -102,7 +102,7 @@ export function DetailedQuestion({
           </div>
         </div>
       </div>
-      <div className='flex flex-wrap items-center justify-evenly gap-2 border-b-2 py-2 text-[#696984]'>
+      <div className='flex flex-wrap items-center justify-around border-b-2 py-2 text-[#696984] md:gap-2'>
         <Button
           size='sm'
           variant='ghost'
@@ -110,7 +110,7 @@ export function DetailedQuestion({
           title={`Favorit (${post.numberOfAnswers})`}
         >
           <Heart size={18} />
-          <span>Favorit</span>
+          <span className='hidden md:inline'>Favorit</span>
         </Button>
         <NextLink
           href={`/questions/${post.id}`}
@@ -122,7 +122,7 @@ export function DetailedQuestion({
             className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
           >
             <MessageCircle size={18} />
-            <span>Jawab</span>
+            <span className='hidden md:inline'>Jawab</span>
           </Button>
         </NextLink>
         <Button
@@ -132,7 +132,7 @@ export function DetailedQuestion({
           title='Salin link'
         >
           <LinkIcon size={18} />
-          <span>Salin link</span>
+          <span className='hidden md:inline'>Salin link</span>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -143,7 +143,7 @@ export function DetailedQuestion({
               title='Bagikan'
             >
               <Share2Icon size={18} />
-              <span>Bagikan</span>
+              <span className='hidden md:inline'>Bagikan</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='text-[#696984]'>
