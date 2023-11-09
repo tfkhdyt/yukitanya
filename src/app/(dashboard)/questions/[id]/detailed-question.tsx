@@ -104,7 +104,7 @@ export function DetailedQuestion({
         <Button
           size='sm'
           variant='ghost'
-          className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
+          className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
           title={`Favorit (${post.numberOfAnswers})`}
         >
           <Heart size={18} />
@@ -114,7 +114,7 @@ export function DetailedQuestion({
           <Button
             size='sm'
             variant='ghost'
-            className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
+            className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
           >
             <MessageCircle size={18} />
             <span className='hidden md:inline'>Jawab</span>
@@ -123,7 +123,7 @@ export function DetailedQuestion({
         <Button
           size='sm'
           variant='ghost'
-          className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
+          className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
           title='Salin link'
         >
           <LinkIcon size={18} />
@@ -134,7 +134,7 @@ export function DetailedQuestion({
             <Button
               size='sm'
               variant='ghost'
-              className='space-x-2 rounded-full text-base hover:bg-slate-100 hover:text-[#696984]'
+              className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
               title='Bagikan'
             >
               <Share2Icon size={18} />
