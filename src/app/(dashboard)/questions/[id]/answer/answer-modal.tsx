@@ -36,7 +36,10 @@ import { z } from 'zod';
 dayjs.extend(relativeTime);
 
 const answerSchema = z.object({
-  answer: z.string().min(1).max(500),
+  answer: z
+    .string({ required_error: 'Jawaban tidak boleh kosong' })
+    .min(1, 'Jawaban tidak boleh kosong')
+    .max(500, 'Jawaban tidak boleh lebih dari 500 karakter'),
 });
 
 export function AnswerModal({
@@ -139,7 +142,7 @@ export function AnswerModal({
                 <AvatarImage src={user.avatar.imageUrl} />
                 <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
               </Avatar>
-              <div className='text-[#696984]'>
+              <div className='text-left text-[#696984]'>
                 <Link
                   href={`/users/${user.username}`}
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'

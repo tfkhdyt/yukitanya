@@ -11,6 +11,7 @@ import { useSidebarStore } from '@/stores/sidebar';
 import clsx from 'clsx';
 import { Button } from '../_components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../_components/ui/sheet';
+import { QuestionModal } from './home/question/question-modal';
 import { ProfileButton } from './home/sidebar/profile-button';
 import { Sidebar } from './home/sidebar/sidebar';
 
@@ -91,10 +92,19 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           width={168}
           height={129}
         />
-        <Button className='flex items-center space-x-2 rounded-full font-semibold'>
-          <PencilIcon size={16} />
-          <p>Tanyakan Sekarang!</p>
-        </Button>
+        <QuestionModal
+          fullName='Taufik Hidayat'
+          username='tfkhdyt'
+          avatar={{
+            imageUrl: 'https://github.com/tfkhdyt.png',
+            fallback: 'TH',
+          }}
+        >
+          <Button className='flex items-center space-x-2 rounded-full font-semibold'>
+            <PencilIcon size={16} />
+            <p>Tanyakan Sekarang!</p>
+          </Button>
+        </QuestionModal>
       </aside>
     </section>
   );
