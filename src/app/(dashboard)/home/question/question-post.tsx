@@ -7,8 +7,9 @@ import {
   Share2Icon,
   TwitterIcon,
 } from 'lucide-react';
-import { default as Link, default as NextLink } from 'next/link';
+import Link from 'next/link';
 
+import { StarRating } from '@/app/_components/star-rating';
 import {
   Avatar,
   AvatarFallback,
@@ -16,8 +17,6 @@ import {
 } from '@/app/_components/ui/avatar';
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
-
-import { StarRating } from '@/app/_components/star-rating';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,9 +25,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
-import { AnswerModal } from '../questions/[id]/answer/answer-modal';
+import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 
-export function Question({
+export function QuestionPost({
   user,
   post,
 }: {
@@ -96,11 +95,11 @@ export function Question({
         </Link>
         <div className='flex justify-between pt-2'>
           <div className='mr-2 space-x-1'>
-            <NextLink href={`/subjects/${post.subject.id}`}>
+            <Link href={`/subjects/${post.subject.id}`}>
               <Badge variant='secondary' className='hover:bg-slate-200'>
                 <button>{post.subject.title}</button>
               </Badge>
-            </NextLink>
+            </Link>
           </div>
           <StarRating rating={post.rating} />
         </div>

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { default as Link, default as NextLink } from 'next/link';
+import Link from 'next/link';
 
 import {
   Avatar,
@@ -92,11 +92,11 @@ export function DetailedQuestion({
             <p className='font-semibold'>{post.numberOfFavorites} favorit</p>
           </span>
           <div className='space-x-1'>
-            <NextLink href={`/subjects/${post.subject.id}`}>
+            <Link href={`/subjects/${post.subject.id}`}>
               <Badge variant='secondary' className='hover:bg-slate-200'>
                 <button>{post.subject.title}</button>
               </Badge>
-            </NextLink>
+            </Link>
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@ export function DetailedQuestion({
           title={`Favorit (${post.numberOfAnswers})`}
         >
           <Heart size={18} />
-          <span className='hidden md:inline'>Favorit</span>
+          <span className='hidden lg:inline'>Favorit</span>
         </Button>
         <AnswerModal user={user} post={post}>
           <Button
@@ -117,7 +117,7 @@ export function DetailedQuestion({
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
           >
             <MessageCircle size={18} />
-            <span className='hidden md:inline'>Jawab</span>
+            <span className='hidden lg:inline'>Jawab</span>
           </Button>
         </AnswerModal>
         <Button
@@ -127,7 +127,7 @@ export function DetailedQuestion({
           title='Salin link'
         >
           <LinkIcon size={18} />
-          <span className='hidden md:inline'>Salin link</span>
+          <span className='hidden lg:inline'>Salin link</span>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -138,7 +138,7 @@ export function DetailedQuestion({
               title='Bagikan'
             >
               <Share2Icon size={18} />
-              <span className='hidden md:inline'>Bagikan</span>
+              <span className='hidden lg:inline'>Bagikan</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='text-[#696984]'>
