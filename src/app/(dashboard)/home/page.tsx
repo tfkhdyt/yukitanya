@@ -3,7 +3,8 @@ import { type Metadata } from 'next';
 import Image from 'next/image';
 
 import { Button } from '../../_components/ui/button';
-import { Question } from './question';
+import { QuestionModal } from './question/question-modal';
+import { QuestionPost } from './question/question-post';
 
 export const metadata: Metadata = {
   title: 'Home - Yukitanya',
@@ -17,10 +18,19 @@ export default function Home() {
           <h2 className='text-xl font-extrabold'>
             JANGAN MALU UNTUK BERTANYA!
           </h2>
-          <Button className='flex items-center space-x-2 rounded-full font-semibold'>
-            <PencilIcon size={16} />
-            <p>Tanyakan Sekarang!</p>
-          </Button>
+          <QuestionModal
+            fullName='Taufik Hidayat'
+            username='tfkhdyt'
+            avatar={{
+              imageUrl: 'https://github.com/tfkhdyt.png',
+              fallback: 'TH',
+            }}
+          >
+            <Button className='flex items-center space-x-2 rounded-full font-semibold'>
+              <PencilIcon size={16} />
+              <p>Tanyakan Sekarang!</p>
+            </Button>
+          </QuestionModal>
         </div>
         <div className='w-1/3'>
           <Image
@@ -32,7 +42,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <Question
+      <QuestionPost
         user={{
           avatar: {
             imageUrl: 'https://github.com/tfkhdyt.png',

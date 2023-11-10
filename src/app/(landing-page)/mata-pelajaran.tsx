@@ -1,40 +1,9 @@
 'use client';
 
+import { mapel } from '@/constants/mapel';
 import Image from 'next/image';
 
-type Mapel = {
-  name: string;
-  imageUrl: string;
-};
-
 export function MataPelajaran() {
-  const mapel: Mapel[] = [
-    {
-      name: 'Ilmu Pengetahuan Alam',
-      imageUrl: '/img/mapel/ipa.png',
-    },
-    {
-      name: 'PPKn',
-      imageUrl: '/img/mapel/ppkn.png',
-    },
-    {
-      name: 'Matematika',
-      imageUrl: '/img/mapel/matematika.png',
-    },
-    {
-      name: 'B. Indonesia',
-      imageUrl: '/img/mapel/indo.png',
-    },
-    {
-      name: 'B. Inggris',
-      imageUrl: '/img/mapel/ing.png',
-    },
-    {
-      name: 'Ilmu Pengetahuan Sosial',
-      imageUrl: '/img/mapel/ips.png',
-    },
-  ];
-
   return (
     <section
       id='tentang-kami'
