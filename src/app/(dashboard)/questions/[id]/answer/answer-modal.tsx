@@ -19,7 +19,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/app/_components/ui/form';
 import { Textarea } from '@/app/_components/ui/textarea';
@@ -134,37 +133,65 @@ export function AnswerModal({
               </div>
             </div>
           </div>
-          <div className='py-2'>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className='space-y-4'
-              >
-                <FormField
-                  control={form.control}
-                  name='answer'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Jawaban mu</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          rows={5}
-                          placeholder='Ketik di sini'
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className='flex justify-end'>
-                  <Button type='submit' className='rounded-full font-semibold'>
-                    <SendIcon className='mr-1' size={16} />
-                    Kirim
-                  </Button>
-                </div>
-              </form>
-            </Form>
+          <div className='pt-2'>
+            <div className='flex items-center space-x-3'>
+              <Avatar>
+                <AvatarImage src={user.avatar.imageUrl} />
+                <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+              </Avatar>
+              <div className='text-[#696984]'>
+                <Link
+                  href={`/users/${user.username}`}
+                  className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+                  title={user.fullName}
+                >
+                  {user.fullName}
+                </Link>
+                <Link
+                  href={`/users/${user.username}`}
+                  className='block max-w-full truncate font-normal'
+                  title={`@${user.username}`}
+                >
+                  @{user.username}
+                </Link>
+              </div>
+            </div>
+
+            <div className='py-2'>
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className='space-y-4'
+                >
+                  <FormField
+                    control={form.control}
+                    name='answer'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea
+                            rows={5}
+                            placeholder='Ketik jawaban mu di sini'
+                            {...field}
+                            className='mt-2'
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className='flex justify-end'>
+                    <Button
+                      type='submit'
+                      className='rounded-full font-semibold'
+                    >
+                      <SendIcon className='mr-1' size={16} />
+                      Kirim
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
           </div>
         </DialogHeader>
       </DialogContent>
