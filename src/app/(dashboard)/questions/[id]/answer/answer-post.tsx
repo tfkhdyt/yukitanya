@@ -3,9 +3,12 @@ import {
   CheckCircle,
   FacebookIcon,
   LinkIcon,
+  MoreHorizontalIcon,
+  PencilIcon,
   Share2Icon,
   Star,
   StarIcon,
+  TrashIcon,
   TwitterIcon,
 } from 'lucide-react';
 
@@ -149,14 +152,6 @@ export function AnswerPost({
               >
                 <CheckCircle size={18} />
               </Button>
-              <Button
-                size='sm'
-                variant='outline'
-                className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-                title='Salin link'
-              >
-                <LinkIcon size={18} />
-              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -178,6 +173,34 @@ export function AnswerPost({
                   <DropdownMenuItem>
                     <TwitterIcon size={18} className='mr-1' />
                     <span>Twitter</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <LinkIcon size={18} className='mr-1' />
+                    <span>Salin link</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size='sm'
+                    variant='outline'
+                    className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                    title='Lainnya'
+                  >
+                    <MoreHorizontalIcon size={18} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='text-[#696984]'>
+                  <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <PencilIcon size={18} className='mr-1' />
+                    <span>Edit</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
+                    <TrashIcon size={18} className='mr-1' />
+                    <span>Hapus</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

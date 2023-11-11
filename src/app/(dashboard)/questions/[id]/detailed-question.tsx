@@ -21,7 +21,10 @@ import {
   Heart,
   LinkIcon,
   MessageCircle,
+  MoreHorizontalIcon,
+  PencilIcon,
   Share2Icon,
+  TrashIcon,
   TwitterIcon,
 } from 'lucide-react';
 import { AnswerModal } from './answer/answer-modal';
@@ -87,9 +90,9 @@ export function DetailedQuestion({
           <span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
             <p>{dayjs(post.date).format('dddd, D MMMM YYYY, HH:mm')}</p>
             <p>·</p>
-            <p className='font-semibold'>{post.numberOfAnswers} jawaban</p>
-            <p>·</p>
             <p className='font-semibold'>{post.numberOfFavorites} favorit</p>
+            <p>·</p>
+            <p className='font-semibold'>{post.numberOfAnswers} jawaban</p>
           </span>
           <div className='space-x-1'>
             <Link href={`/subjects/${post.subject.id}`}>
@@ -105,7 +108,7 @@ export function DetailedQuestion({
           size='sm'
           variant='ghost'
           className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
-          title={`Favorit (${post.numberOfAnswers})`}
+          title={`Favorit (${post.numberOfFavorites})`}
         >
           <Heart size={18} />
           <span className='hidden lg:inline'>Favorit</span>
@@ -115,20 +118,13 @@ export function DetailedQuestion({
             size='sm'
             variant='ghost'
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+            title={`Jawab (${post.numberOfAnswers})`}
           >
             <MessageCircle size={18} />
             <span className='hidden lg:inline'>Jawab</span>
           </Button>
         </AnswerModal>
-        <Button
-          size='sm'
-          variant='ghost'
-          className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
-          title='Salin link'
-        >
-          <LinkIcon size={18} />
-          <span className='hidden lg:inline'>Salin link</span>
-        </Button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -151,6 +147,35 @@ export function DetailedQuestion({
             <DropdownMenuItem>
               <TwitterIcon size={18} className='mr-1' />
               <span>Twitter</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <LinkIcon size={18} className='mr-1' />
+              <span>Salin link</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              size='sm'
+              variant='ghost'
+              className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+              title='Lainnya'
+            >
+              <MoreHorizontalIcon size={18} />
+              <span className='hidden lg:inline'>Lainnya</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='text-[#696984]'>
+            <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <PencilIcon size={18} className='mr-1' />
+              <span>Edit</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
+              <TrashIcon size={18} className='mr-1' />
+              <span>Hapus</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,4 +1,4 @@
-import { MoreHorizontal } from 'lucide-react';
+import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -45,10 +45,14 @@ export function ProfileButton(props: {
         <DropdownMenuSeparator />
         <Link href={`/users/${props.username}`}>
           <DropdownMenuItem className='cursor-pointer'>
+            <UserCircle size={18} className='mr-1' />
             My Profile
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>Sign out</DropdownMenuItem>
+        <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
+          <LogOutIcon size={18} className='mr-1' />
+          Sign out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
