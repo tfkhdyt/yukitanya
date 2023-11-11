@@ -56,7 +56,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 .with('/favorite', () => 'Favorit')
                 .with(P.string.startsWith('/questions/'), () => (
                   <button
-                    onClick={() => router.replace('/home')}
+                    onClick={() => router.back()}
                     className='flex items-center space-x-3'
                   >
                     <ArrowLeft />
