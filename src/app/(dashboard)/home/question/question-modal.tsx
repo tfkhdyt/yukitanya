@@ -79,7 +79,7 @@ export function QuestionModal({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
-          <DialogTitle>Tambah pertanyaan</DialogTitle>
+          <DialogTitle>Ajukan pertanyaan</DialogTitle>
           <div className='-mx-4 p-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>
