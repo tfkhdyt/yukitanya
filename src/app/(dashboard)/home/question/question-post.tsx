@@ -33,6 +33,7 @@ import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 export function QuestionPost({
   user,
   post,
+  highlightedWords,
 }: {
   user: {
     avatar: {
@@ -54,6 +55,7 @@ export function QuestionPost({
     numberOfAnswers: number;
     numberOfFavorites: number;
   };
+  highlightedWords?: string[];
 }) {
   return (
     <div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
@@ -93,7 +95,18 @@ export function QuestionPost({
         </div>
         <Link href={`/questions/${post.id}`}>
           <p className='py-1 text-sm leading-relaxed text-[#696984]'>
-            {post.content}
+            {post.content.split(' ').map((word, idx) => {
+              if (highlightedWords?.includes(word.toLowerCase())) {
+                return (
+                  <span key={idx}>
+                    <span className='bg-yellow-500 px-1 font-medium text-white'>
+                      {word}
+                    </span>{' '}
+                  </span>
+                );
+              }
+              return <span key={idx}>{word} </span>;
+            })}
           </p>
         </Link>
         <div className='flex justify-between pt-2'>
