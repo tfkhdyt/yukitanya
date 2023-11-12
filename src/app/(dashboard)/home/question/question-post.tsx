@@ -86,10 +86,10 @@ export function QuestionPost({
           >
             <span className='mr-2 text-sm font-medium'>·</span>
             <span className='hover:underline md:hidden'>
-              {dayjs(post.date).fromNow(true)}
+              {dayjs(post.date).locale('id').fromNow(true)}
             </span>
             <span className='hidden hover:underline md:inline'>
-              {dayjs(post.date).fromNow()}
+              {dayjs(post.date).locale('id').fromNow()}
             </span>
           </Link>
         </div>
@@ -99,7 +99,7 @@ export function QuestionPost({
               if (highlightedWords?.includes(word.toLowerCase())) {
                 return (
                   <span key={idx}>
-                    <span className='bg-yellow-500 px-1 font-medium text-white'>
+                    <span className='bg-[#F48C06] px-1 font-medium text-white'>
                       {word}
                     </span>{' '}
                   </span>
