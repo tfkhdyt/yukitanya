@@ -34,8 +34,8 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const q = searchParams.get('q');
-  const [query, setQuery] = useState(q ?? '');
+  const q = searchParams.get('q') ?? '';
+  const [query, setQuery] = useState(q);
   const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
@@ -54,31 +54,30 @@ export default function SearchPage() {
         />
       </form>
       <div>
-        {debouncedQuery &&
-          questions
-            .filter((question) => {
-              const searchKeywords = debouncedQuery.toLowerCase().split(' ');
+        {questions
+          .filter((question) => {
+            const searchKeywords = debouncedQuery.toLowerCase().split(' ');
 
-              return searchKeywords.every((word) =>
-                question.content.toLowerCase().includes(word),
-              );
-            })
-            .map((question) => (
-              <QuestionPost
-                key={question.id}
-                user={question.user}
-                post={{
-                  id: question.id,
-                  content: question.content,
-                  date: question.date,
-                  numberOfAnswers: question.numberOfAnswers,
-                  numberOfFavorites: question.numberOfFavorites,
-                  subject: question.subject,
-                  rating: question.rating,
-                }}
-                highlightedWords={debouncedQuery.toLowerCase().split(' ')}
-              />
-            ))}
+            return searchKeywords.every((word) =>
+              question.content.toLowerCase().includes(word),
+            );
+          })
+          .map((question) => (
+            <QuestionPost
+              key={question.id}
+              user={question.user}
+              post={{
+                id: question.id,
+                content: question.content,
+                date: question.date,
+                numberOfAnswers: question.numberOfAnswers,
+                numberOfFavorites: question.numberOfFavorites,
+                subject: question.subject,
+                rating: question.rating,
+              }}
+              highlightedWords={debouncedQuery.toLowerCase().split(' ')}
+            />
+          ))}
       </div>
     </main>
   );
