@@ -4,7 +4,7 @@ import { Bell, Book, Heart, HomeIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { match } from 'ts-pattern';
+import { P, match } from 'ts-pattern';
 
 import { useSidebarStore } from '@/stores/sidebar';
 
@@ -63,8 +63,8 @@ export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
             href={each.url}
             onClick={isMobile ? toggleSidebar : undefined}
           >
-            {match(each.url)
-              .with(pathname, () => (
+            {match(pathname)
+              .with(P.string.startsWith(each.url), () => (
                 <>
                   <each.icon size={28} strokeWidth={2} />
                   <p className='text-xl font-medium'>{each.title}</p>
