@@ -47,7 +47,7 @@ export function DetailedQuestion({
     content: string;
     subject: {
       id: string;
-      title: string;
+      name: string;
     };
     rating: number;
     numberOfAnswers: number;
@@ -97,7 +97,7 @@ export function DetailedQuestion({
           <div className='space-x-1'>
             <Link href={`/subjects/${post.subject.id}`}>
               <Badge variant='secondary' className='hover:bg-slate-200'>
-                <button>{post.subject.title}</button>
+                <button>{post.subject.name}</button>
               </Badge>
             </Link>
           </div>

@@ -62,7 +62,7 @@ export function AnswerModal({
     content: string;
     subject: {
       id: string;
-      title: string;
+      name: string;
     };
     rating: number;
     numberOfAnswers: number;
@@ -130,7 +130,7 @@ export function AnswerModal({
                     variant='secondary'
                     className='mt-3 hover:bg-slate-200'
                   >
-                    {post.subject.title}
+                    {post.subject.name}
                   </Badge>
                 </Link>
               </div>
