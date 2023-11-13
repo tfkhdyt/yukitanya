@@ -1,72 +1,26 @@
 import { Button } from '@/app/_components/ui/button';
+import { answers } from '@/constants/answer';
+import { questions } from '@/constants/question';
 import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { AnswerPost } from './answer/answer-post';
 import { DetailedQuestion } from './detailed-question';
 
-export default function Question() {
-  const answers = [
-    {
-      user: {
-        avatar: {
-          imageUrl: 'https://github.com/Rabiatul9.png',
-          fallback: 'RA',
-        },
-        fullName: 'Rabiatul Adawiyah',
-        username: 'Rabiatul9',
-      },
-      post: {
-        id: 'answer-123',
-        content: 'Maaf gak tau hehe',
-        date: new Date('2023-11-08T18:27:45'),
-        numberOfVotes: 10,
-        rating: 4.5,
-        isBestAnswer: true,
-      },
-    },
-    {
-      user: {
-        avatar: {
-          imageUrl: 'https://github.com/ihsanrzi.png',
-          fallback: 'MIR',
-        },
-        fullName: 'Muhammad Ihsan Rizaldi',
-        username: 'ihsanrzi',
-      },
-      post: {
-        id: 'answer-124',
-        content: 'B. sejajar dengan warga lainnya',
-        date: new Date('2023-11-08T19:18:00'),
-        numberOfVotes: 2,
-        rating: 2.0,
-        isBestAnswer: false,
-      },
-    },
-  ];
+export default function Question({ params }: { params: { id: string } }) {
+  const question = questions.find((qst) => qst.id === params.id)!;
 
   return (
     <div>
       <DetailedQuestion
-        user={{
-          avatar: {
-            imageUrl: 'https://github.com/tfkhdyt.png',
-            fallback: 'TH',
-          },
-          fullName: 'Taufik Hidayat yang ganteng',
-          username: 'tfkhdyt',
-        }}
+        user={question.user}
         post={{
-          id: 'question-123',
-          content:
-            'Pada masa Daulah Abbasiyah, kedudukan kaum muslim di Bagdad berada .... a. lebih tinggi daripada warga lainnya b. sejajar dengan warga lainnya c. lebih rendah daripada warga lainnya d. sebagai warga yang istimewa',
-          date: new Date('2023-11-02T21:43:20'),
-          numberOfAnswers: 2,
-          numberOfFavorites: 5,
-          subject: {
-            id: 'pai',
-            title: 'PAI',
-          },
-          rating: 4.5,
+          id: question.id,
+          content: question.content,
+          date: question.date,
+          numberOfAnswers: question.numberOfAnswers,
+          numberOfFavorites: question.numberOfFavorites,
+          subject: question.subject,
+          rating: question.rating,
         }}
       />
       <div>
@@ -74,8 +28,15 @@ export default function Question() {
           answers.map((answer) => (
             <AnswerPost
               user={answer.user}
-              post={answer.post}
-              key={answer.post.id}
+              post={{
+                id: answer.id,
+                content: answer.content,
+                date: answer.date,
+                isBestAnswer: answer.isBestAnswer,
+                rating: answer.rating,
+                numberOfVotes: answer.numberOfVotes,
+              }}
+              key={answer.id}
             />
           ))
         ) : (

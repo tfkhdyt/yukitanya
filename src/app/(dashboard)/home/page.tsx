@@ -2,12 +2,13 @@ import { PencilIcon } from 'lucide-react';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 
+import { questions } from '@/constants/question';
 import { Button } from '../../_components/ui/button';
 import { QuestionModal } from './question/question-modal';
 import { QuestionPost } from './question/question-post';
 
 export const metadata: Metadata = {
-  title: 'Home - Yukitanya',
+  title: 'Beranda - Yukitanya',
 };
 
 export default function Home() {
@@ -42,29 +43,21 @@ export default function Home() {
           />
         </div>
       </div>
-      <QuestionPost
-        user={{
-          avatar: {
-            imageUrl: 'https://github.com/tfkhdyt.png',
-            fallback: 'TH',
-          },
-          fullName: 'Taufik Hidayat yang ganteng',
-          username: 'tfkhdyt',
-        }}
-        post={{
-          id: 'question-123',
-          content:
-            'Pada masa Daulah Abbasiyah, kedudukan kaum muslim di Bagdad berada .... a. lebih tinggi daripada warga lainnya b. sejajar dengan warga lainnya c. lebih rendah daripada warga lainnya d. sebagai warga yang istimewa',
-          date: new Date('2023-11-02T21:43:20'),
-          numberOfAnswers: 2,
-          numberOfFavorites: 5,
-          subject: {
-            id: 'pai',
-            title: 'PAI',
-          },
-          rating: 4.5,
-        }}
-      />
+      {questions.map((question) => (
+        <QuestionPost
+          key={question.id}
+          user={question.user}
+          post={{
+            id: question.id,
+            content: question.content,
+            date: question.date,
+            numberOfAnswers: question.numberOfAnswers,
+            numberOfFavorites: question.numberOfFavorites,
+            subject: question.subject,
+            rating: question.rating,
+          }}
+        />
+      ))}
     </>
   );
 }
