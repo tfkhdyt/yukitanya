@@ -2,12 +2,13 @@
 
 import { AlignJustify, ArrowLeft, PencilIcon } from 'lucide-react';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { P, match } from 'ts-pattern';
 
 import { useSidebarStore } from '@/stores/sidebar';
 
+import { mapel } from '@/constants/mapel';
 import clsx from 'clsx';
 import { Button } from '../_components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../_components/ui/sheet';
@@ -18,6 +19,7 @@ import { Sidebar } from './home/sidebar/sidebar';
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
   const sidebarStore = useSidebarStore();
 
   return (
@@ -63,6 +65,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     <p className='decoration-2 hover:underline'>Kembali</p>
                   </button>
                 ))
+                .with(
+                  P.string.startsWith('/subjects/') && P.string.minLength(11),
+                  () => (
+                    <button className='flex items-center'>
+                      <p className='decoration-2'>
+                        {mapel.find((mpl) => mpl.id === params.id)?.name ??
+                          '404'}
+                      </p>
+                    </button>
+                  ),
+                )
                 .otherwise(() => pathname.slice(1))}
             </div>
           </div>

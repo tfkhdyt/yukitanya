@@ -1,4 +1,4 @@
-type Mapel = {
+export type Mapel = {
   id: string;
   name: string;
   imageUrl: string;
@@ -11,9 +11,9 @@ export const mapel: Mapel[] = [
     imageUrl: '/img/mapel/ipa.png',
   },
   {
-    id: 'ppkn',
-    name: 'PPKn',
-    imageUrl: '/img/mapel/ppkn.png',
+    id: 'ips',
+    name: 'Ilmu Pengetahuan Sosial',
+    imageUrl: '/img/mapel/ips.png',
   },
   {
     id: 'mtk',
@@ -31,8 +31,13 @@ export const mapel: Mapel[] = [
     imageUrl: '/img/mapel/ing.png',
   },
   {
-    id: 'ips',
-    name: 'Ilmu Pengetahuan Sosial',
-    imageUrl: '/img/mapel/ips.png',
+    id: 'ppkn',
+    name: 'PPKn',
+    imageUrl: '/img/mapel/ppkn.png',
+  },
+  {
+    id: 'other',
+    name: 'Lainnya',
+    imageUrl: '/img/mapel/ppkn.png',
   },
 ];
