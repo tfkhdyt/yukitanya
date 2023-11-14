@@ -53,6 +53,7 @@ export function QuestionModal({
   avatar,
   fullName,
   username,
+  defaultSubject,
 }: {
   children: ReactNode;
   avatar: {
@@ -61,10 +62,14 @@ export function QuestionModal({
   };
   fullName: string;
   username: string;
+  defaultSubject?: string;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
+    defaultValues: {
+      subject: defaultSubject,
+    },
   });
 
   // 2. Define a submit handler.
