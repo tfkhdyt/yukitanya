@@ -7,12 +7,12 @@ export type Mapel = {
 export const mapel: Mapel[] = [
   {
     id: 'ipa',
-    name: 'Ilmu Pengetahuan Alam',
+    name: 'IPA',
     imageUrl: '/img/mapel/ipa.png',
   },
   {
     id: 'ips',
-    name: 'Ilmu Pengetahuan Sosial',
+    name: 'IPS',
     imageUrl: '/img/mapel/ips.png',
   },
   {
@@ -38,6 +38,6 @@ export const mapel: Mapel[] = [
   {
     id: 'other',
     name: 'Lainnya',
-    imageUrl: '/img/mapel/ppkn.png',
+    imageUrl: '/img/mapel/other.png',
   },
 ];
