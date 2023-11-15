@@ -154,7 +154,6 @@ export function QuestionModal({
                                   {each.name}
                                 </SelectItem>
                               ))}
-                              <SelectItem value='other'>Lainnya</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
