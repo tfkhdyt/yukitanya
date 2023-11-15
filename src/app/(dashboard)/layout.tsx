@@ -1,6 +1,11 @@
 'use client';
 
-import { AlignJustify, ArrowLeft, PencilIcon } from 'lucide-react';
+import {
+  AlignJustify,
+  ArrowLeft,
+  CheckCheckIcon,
+  PencilIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
@@ -79,9 +84,15 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 .otherwise(() => pathname.slice(1))}
             </div>
           </div>
+          {pathname.startsWith('/notifications') && (
+            <button title='Tandai semua sudah dibaca' className='ml-auto'>
+              <CheckCheckIcon color='#696984' />
+            </button>
+          )}
+
           <div
             className={clsx(
-              'mr-1 lg:hidden',
+              'ml-4 mr-1 lg:hidden',
               pathname.startsWith('/questions/') && 'hidden',
             )}
           >
