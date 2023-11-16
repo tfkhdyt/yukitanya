@@ -54,6 +54,7 @@ export function QuestionPost({
     rating: number;
     numberOfAnswers: number;
     numberOfFavorites: number;
+    isFavorited?: boolean;
   };
   highlightedWords?: string[];
 }) {
@@ -126,7 +127,11 @@ export function QuestionPost({
             className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
             title='Favorit'
           >
-            <Heart size={18} className='mr-1' />
+            {post.isFavorited ? (
+              <Heart size={18} color='red' fill='red' className='mr-1' />
+            ) : (
+              <Heart size={18} className='mr-1' />
+            )}
             {post.numberOfFavorites}
           </Button>
           <AnswerModal user={user} post={post}>
