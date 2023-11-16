@@ -12,7 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^0.3.5",
+    "@auth/drizzle-adapter": "^0.3.6",
     "@fontsource-variable/rubik": "^5.0.19",
     "@fontsource/poppins": "^5.0.8",
     "@hookform/resolvers": "^3.3.2",
@@ -38,7 +38,7 @@
     "drizzle-orm": "^0.28.6",
     "lucide-react": "^0.288.0",
     "next": "^13.5.6",
-    "next-auth": "^4.24.4",
+    "next-auth": "^4.24.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.48.2",
@@ -56,8 +56,8 @@
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-scroll": "^1.8.10",
-    "@typescript-eslint/eslint-plugin": "^6.10.0",
-    "@typescript-eslint/parser": "^6.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
     "autoprefixer": "^10.4.16",
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.19.13",
@@ -66,7 +66,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "mysql2": "^3.6.3",
     "postcss": "^8.4.31",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2"
