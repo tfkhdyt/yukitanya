@@ -1,3 +1,5 @@
+'use client';
+
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
@@ -28,6 +30,7 @@ import {
   TwitterIcon,
 } from 'lucide-react';
 import { AnswerModal } from './answer/answer-modal';
+import { QuestionModal } from '../../home/question/question-modal';
 
 export function DetailedQuestion({
   user,
@@ -169,10 +172,23 @@ export function DetailedQuestion({
           <DropdownMenuContent className='text-[#696984]'>
             <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <PencilIcon size={18} className='mr-1' />
-              <span>Edit</span>
-            </DropdownMenuItem>
+
+            <QuestionModal
+              fullName='Taufik Hidayat'
+              username='tfkhdyt'
+              avatar={{
+                imageUrl: 'https://github.com/tfkhdyt.png',
+                fallback: 'TH',
+              }}
+              title='Edit pertanyaan'
+              defaultValue={post.content}
+              defaultSubject={post.subject.id}
+            >
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                <PencilIcon size={18} className='mr-1' />
+                <span>Edit</span>
+              </DropdownMenuItem>
+            </QuestionModal>
             <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
               <TrashIcon size={18} className='mr-1' />
               <span>Hapus</span>

@@ -54,6 +54,8 @@ export function QuestionModal({
   fullName,
   username,
   defaultSubject,
+  defaultValue,
+  title = 'Ajukan pertanyaan',
 }: {
   children: ReactNode;
   avatar: {
@@ -63,12 +65,15 @@ export function QuestionModal({
   fullName: string;
   username: string;
   defaultSubject?: string;
+  defaultValue?: string;
+  title?: string;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
       subject: defaultSubject,
+      question: defaultValue,
     },
   });
 
@@ -84,7 +89,7 @@ export function QuestionModal({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
-          <DialogTitle>Ajukan pertanyaan</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           <div className='-mx-4 p-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>
