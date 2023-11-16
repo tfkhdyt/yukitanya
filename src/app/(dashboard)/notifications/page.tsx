@@ -21,6 +21,7 @@ export default function NotifPage() {
           username: 'tfkhdyt',
         }}
         questionId='question-123'
+        description='Lorem ipsum'
       />
       <NotificationItem
         type='rating'
@@ -37,6 +38,7 @@ export default function NotifPage() {
         questionId='question-123'
         answerId='answer-123'
         rating={4.5}
+        description='dolor sit amet'
       />
       <NotificationItem
         type='new-answer'
@@ -52,7 +54,7 @@ export default function NotifPage() {
         }}
         questionId='question-123'
         answerId='answer-123'
-        answer='Gak tau'
+        description='Gak tau'
       />
       <NotificationItem
         type='best-answer'
@@ -68,7 +70,7 @@ export default function NotifPage() {
         }}
         questionId='question-123'
         answerId='answer-123'
-        answer='Hmm apa yaa???'
+        description='Hmm apa yaa???'
       />
     </main>
   );

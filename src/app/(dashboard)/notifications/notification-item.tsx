@@ -26,13 +26,13 @@ type Props = {
     username: string;
   };
   questionId: string;
+  description: string;
 } & (
   | {
       type: 'favorite';
     }
   | {
       type: 'best-answer' | 'new-answer';
-      answer: string;
       answerId: string;
     }
   | {
@@ -53,7 +53,7 @@ export function NotificationItem(props: Props) {
       )}
     >
       {match(props)
-        .with({ type: 'favorite' }, () => (
+        .with({ type: 'favorite' }, (notif) => (
           <>
             <div className='flex items-center space-x-4'>
               <HeartIcon size={28} color='red' fill='red' />
@@ -74,6 +74,12 @@ export function NotificationItem(props: Props) {
                 </Link>{' '}
                 <Link href={`/questions/${props.questionId}`}>
                   menyukai pertanyaan Anda
+                </Link>
+                <Link
+                  href={`/questions/${props.questionId}`}
+                  className='mt-2 block text-sm font-normal'
+                >
+                  {notif.description}
                 </Link>
               </span>
 
@@ -106,6 +112,12 @@ export function NotificationItem(props: Props) {
                 </Link>{' '}
                 <Link href={`/questions/${props.questionId}#${notif.answerId}`}>
                   memberi nilai terhadap jawaban Anda ({notif.rating})
+                </Link>
+                <Link
+                  href={`/questions/${props.questionId}#${notif.answerId}`}
+                  className='mt-2 block text-sm font-normal'
+                >
+                  {notif.description}
                 </Link>
               </span>
 
@@ -143,7 +155,7 @@ export function NotificationItem(props: Props) {
                   href={`/questions/${props.questionId}#${notif.answerId}`}
                   className='mt-2 block text-sm font-normal'
                 >
-                  {notif.answer}
+                  {notif.description}
                 </Link>
               </div>
 
@@ -181,7 +193,7 @@ export function NotificationItem(props: Props) {
                   href={`/questions/${props.questionId}#${notif.answerId}`}
                   className='mt-2 block text-sm font-normal'
                 >
-                  {notif.answer}
+                  {notif.description}
                 </Link>
               </div>
 
