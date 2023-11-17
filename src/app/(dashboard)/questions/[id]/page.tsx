@@ -41,7 +41,7 @@ export default function Question({ params }: { params: { id: string } }) {
           answers.map((answer) => (
             <AnswerPost
               user={answer.user}
-              post={{
+              answer={{
                 id: answer.id,
                 content: answer.content,
                 date: answer.date,
@@ -49,6 +49,7 @@ export default function Question({ params }: { params: { id: string } }) {
                 rating: answer.rating,
                 numberOfVotes: answer.numberOfVotes,
               }}
+              question={question}
               key={answer.id}
             />
           ))
@@ -70,10 +71,7 @@ export default function Question({ params }: { params: { id: string } }) {
                 id: question.id,
                 content: question.content,
                 date: question.date,
-                numberOfAnswers: question.numberOfAnswers,
-                numberOfFavorites: question.numberOfFavorites,
                 subject: question.subject,
-                rating: question.rating,
               }}
             >
               <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>

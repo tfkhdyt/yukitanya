@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
+import { DeleteModal } from '@/app/_components/delete-modal';
 import {
   Avatar,
   AvatarFallback,
@@ -29,8 +30,8 @@ import {
   TrashIcon,
   TwitterIcon,
 } from 'lucide-react';
-import { AnswerModal } from './answer/answer-modal';
 import { QuestionModal } from '../../home/question/question-modal';
+import { AnswerModal } from './answer/answer-modal';
 
 export function DetailedQuestion({
   user,
@@ -116,7 +117,7 @@ export function DetailedQuestion({
           <Heart size={18} />
           <span className='hidden lg:inline'>Favorit</span>
         </Button>
-        <AnswerModal user={user} post={post}>
+        <AnswerModal user={user} question={post}>
           <Button
             size='sm'
             variant='ghost'
@@ -189,10 +190,19 @@ export function DetailedQuestion({
                 <span>Edit</span>
               </DropdownMenuItem>
             </QuestionModal>
-            <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
-              <TrashIcon size={18} className='mr-1' />
-              <span>Hapus</span>
-            </DropdownMenuItem>
+            <DeleteModal
+              title='Hapus pertanyaan'
+              description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
+              onClick={() => ''}
+            >
+              <DropdownMenuItem
+                className='focus:bg-red-100 focus:text-red-900'
+                onSelect={(e) => e.preventDefault()}
+              >
+                <TrashIcon size={18} className='mr-1' />
+                <span>Hapus</span>
+              </DropdownMenuItem>
+            </DeleteModal>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

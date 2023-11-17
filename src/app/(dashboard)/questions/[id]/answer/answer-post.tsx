@@ -1,3 +1,5 @@
+'use client';
+
 import dayjs from 'dayjs';
 import {
   CheckCircle,
@@ -19,6 +21,7 @@ import {
 } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
 
+import { DeleteModal } from '@/app/_components/delete-modal';
 import { StarRating } from '@/app/_components/star-rating';
 import {
   Alert,
@@ -33,10 +36,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { EditAnswerModal } from './edit-answer-modal';
 
 export function AnswerPost({
   user,
-  post,
+  answer,
+  question,
 }: {
   user: {
     avatar: {
@@ -46,7 +51,7 @@ export function AnswerPost({
     fullName: string;
     username: string;
   };
-  post: {
+  answer: {
     id: string;
     date: Date;
     content: string;
@@ -54,10 +59,30 @@ export function AnswerPost({
     numberOfVotes: number;
     isBestAnswer: boolean;
   };
+  question: {
+    id: string;
+    date: Date;
+    content: string;
+    subject: {
+      id: string;
+      name: string;
+    };
+    rating: number;
+    numberOfAnswers: number;
+    numberOfFavorites: number;
+    user: {
+      avatar: {
+        imageUrl: string;
+        fallback: string;
+      };
+      fullName: string;
+      username: string;
+    };
+  };
 }) {
   return (
-    <section id={post.id}>
-      {post.isBestAnswer && (
+    <section id={answer.id}>
+      {answer.isBestAnswer && (
         <div className='px-4 pt-4'>
           <Alert className='border-green-600 bg-green-50'>
             <CheckCircle className='h-4 w-4' color='#16A34A' />
@@ -89,19 +114,19 @@ export function AnswerPost({
             </span>
             <span
               className='font-light'
-              title={dayjs(post.date).format('dddd, D MMMM YYYY HH:mm:ss')}
+              title={dayjs(answer.date).format('dddd, D MMMM YYYY HH:mm:ss')}
             >
               <span className='mr-2 text-sm font-medium'>·</span>
               <span className='hover:underline md:hidden'>
-                {dayjs(post.date).fromNow(true)}
+                {dayjs(answer.date).fromNow(true)}
               </span>
               <span className='hidden hover:underline md:inline'>
-                {dayjs(post.date).fromNow()}
+                {dayjs(answer.date).fromNow()}
               </span>
             </span>
           </div>
           <p className='py-1 text-sm leading-relaxed text-[#696984]'>
-            {post.content}
+            {answer.content}
           </p>
           <div className='flex flex-wrap-reverse items-center gap-4 pt-2 text-[#696984] md:flex-wrap md:justify-between'>
             <div className='flex flex-wrap gap-2'>
@@ -114,7 +139,7 @@ export function AnswerPost({
                     title='Beri nilai'
                   >
                     <Star size={18} className='mr-2' />
-                    <span>{post.numberOfVotes}</span>
+                    <span>{answer.numberOfVotes}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='text-[#696984]'>
@@ -194,19 +219,34 @@ export function AnswerPost({
                 <DropdownMenuContent className='text-[#696984]'>
                   <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <PencilIcon size={18} className='mr-1' />
-                    <span>Edit</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
-                    <TrashIcon size={18} className='mr-1' />
-                    <span>Hapus</span>
-                  </DropdownMenuItem>
+                  <EditAnswerModal
+                    user={user}
+                    question={question}
+                    defaultValue={answer.content}
+                  >
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                      <PencilIcon size={18} className='mr-1' />
+                      <span>Edit</span>
+                    </DropdownMenuItem>
+                  </EditAnswerModal>
+                  <DeleteModal
+                    title='Hapus jawaban'
+                    description='Apakah Anda yakin ingin menghapus jawaban ini?'
+                    onClick={() => ''}
+                  >
+                    <DropdownMenuItem
+                      className='focus:bg-red-100 focus:text-red-900'
+                      onSelect={(e) => e.preventDefault()}
+                    >
+                      <TrashIcon size={18} className='mr-1' />
+                      <span>Hapus</span>
+                    </DropdownMenuItem>
+                  </DeleteModal>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
             <div>
-              <StarRating rating={post.rating} />
+              <StarRating rating={answer.rating} />
             </div>
           </div>
         </div>
