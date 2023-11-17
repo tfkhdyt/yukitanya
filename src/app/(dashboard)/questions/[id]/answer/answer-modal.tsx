@@ -45,7 +45,7 @@ const answerSchema = z.object({
 export function AnswerModal({
   children,
   user,
-  post,
+  question,
 }: {
   children: ReactNode;
   user: {
@@ -56,7 +56,7 @@ export function AnswerModal({
     fullName: string;
     username: string;
   };
-  post: {
+  question: {
     id: string;
     date: Date;
     content: string;
@@ -64,9 +64,6 @@ export function AnswerModal({
       id: string;
       name: string;
     };
-    rating: number;
-    numberOfAnswers: number;
-    numberOfFavorites: number;
   };
 }) {
   // 1. Define your form.
@@ -110,27 +107,29 @@ export function AnswerModal({
                 </Link>
                 <div
                   className='font-light'
-                  title={dayjs(post.date).format('dddd, D MMMM YYYY HH:mm:ss')}
+                  title={dayjs(question.date).format(
+                    'dddd, D MMMM YYYY HH:mm:ss',
+                  )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
                   <span className='hover:underline md:hidden'>
-                    {dayjs(post.date).locale('id').fromNow(true)}
+                    {dayjs(question.date).locale('id').fromNow(true)}
                   </span>
                   <span className='hidden hover:underline md:inline'>
-                    {dayjs(post.date).locale('id').fromNow()}
+                    {dayjs(question.date).locale('id').fromNow()}
                   </span>
                 </div>
               </div>
               <p className='py-1 text-left text-sm leading-relaxed text-[#696984]'>
-                {post.content}
+                {question.content}
               </p>
               <div className='flex justify-start'>
-                <Link href={`/subjects/${post.subject.id}`}>
+                <Link href={`/subjects/${question.subject.id}`}>
                   <Badge
                     variant='secondary'
                     className='mt-3 hover:bg-slate-200'
                   >
-                    {post.subject.name}
+                    {question.subject.name}
                   </Badge>
                 </Link>
               </div>
