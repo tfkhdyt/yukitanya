@@ -1,6 +1,6 @@
+import { questions } from '@/constants/question';
 import { type Metadata } from 'next';
 import { QuestionPost } from '../home/question/question-post';
-import { questions } from '@/constants/question';
 
 export const metadata: Metadata = {
   title: 'Favorit - Yukitanya',
@@ -13,7 +13,7 @@ export default function FavoritePage() {
         <QuestionPost
           key={question.id}
           user={question.user}
-          post={{
+          question={{
             id: question.id,
             content: question.content,
             date: question.date,

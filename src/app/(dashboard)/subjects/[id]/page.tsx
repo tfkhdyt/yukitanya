@@ -27,7 +27,7 @@ export default function SubjectDetail({ params }: { params: { id: string } }) {
           <QuestionPost
             key={question.id}
             user={question.user}
-            post={{
+            question={{
               id: question.id,
               content: question.content,
               date: question.date,
