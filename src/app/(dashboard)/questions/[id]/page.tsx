@@ -26,7 +26,7 @@ export default function Question({ params }: { params: { id: string } }) {
     <div>
       <DetailedQuestion
         user={question.user}
-        post={{
+        question={{
           id: question.id,
           content: question.content,
           date: question.date,
@@ -67,7 +67,7 @@ export default function Question({ params }: { params: { id: string } }) {
             </p>
             <AnswerModal
               user={question.user}
-              post={{
+              question={{
                 id: question.id,
                 content: question.content,
                 date: question.date,

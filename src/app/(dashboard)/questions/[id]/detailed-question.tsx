@@ -35,7 +35,7 @@ import { AnswerModal } from './answer/answer-modal';
 
 export function DetailedQuestion({
   user,
-  post,
+  question,
 }: {
   user: {
     avatar: {
@@ -45,7 +45,7 @@ export function DetailedQuestion({
     fullName: string;
     username: string;
   };
-  post: {
+  question: {
     id: string;
     date: Date;
     content: string;
@@ -86,22 +86,24 @@ export function DetailedQuestion({
 
         <div className='my-2'>
           <p className='py-1 text-sm leading-relaxed text-[#696984]'>
-            {post.content}
+            {question.content}
           </p>
         </div>
 
         <div className='mt-4 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
           <span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
-            <p>{dayjs(post.date).format('dddd, D MMMM YYYY, HH:mm')}</p>
+            <p>{dayjs(question.date).format('dddd, D MMMM YYYY, HH:mm')}</p>
             <p>·</p>
-            <p className='font-semibold'>{post.numberOfFavorites} favorit</p>
+            <p className='font-semibold'>
+              {question.numberOfFavorites} favorit
+            </p>
             <p>·</p>
-            <p className='font-semibold'>{post.numberOfAnswers} jawaban</p>
+            <p className='font-semibold'>{question.numberOfAnswers} jawaban</p>
           </span>
           <div className='space-x-1'>
-            <Link href={`/subjects/${post.subject.id}`}>
+            <Link href={`/subjects/${question.subject.id}`}>
               <Badge variant='secondary' className='hover:bg-slate-200'>
-                <button>{post.subject.name}</button>
+                <button>{question.subject.name}</button>
               </Badge>
             </Link>
           </div>
@@ -112,17 +114,17 @@ export function DetailedQuestion({
           size='sm'
           variant='ghost'
           className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
-          title={`Favorit (${post.numberOfFavorites})`}
+          title={`Favorit (${question.numberOfFavorites})`}
         >
           <Heart size={18} />
           <span className='hidden lg:inline'>Favorit</span>
         </Button>
-        <AnswerModal user={user} question={post}>
+        <AnswerModal user={user} question={question}>
           <Button
             size='sm'
             variant='ghost'
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
-            title={`Jawab (${post.numberOfAnswers})`}
+            title={`Jawab (${question.numberOfAnswers})`}
           >
             <MessageCircle size={18} />
             <span className='hidden lg:inline'>Jawab</span>
@@ -182,8 +184,8 @@ export function DetailedQuestion({
                 fallback: 'TH',
               }}
               title='Edit pertanyaan'
-              defaultValue={post.content}
-              defaultSubject={post.subject.id}
+              defaultValue={question.content}
+              defaultSubject={question.subject.id}
             >
               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                 <PencilIcon size={18} className='mr-1' />
