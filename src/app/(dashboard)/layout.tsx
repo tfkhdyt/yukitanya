@@ -1,5 +1,8 @@
 'use client';
 
+import { mapel } from '@/constants/mapel';
+import { useSidebarStore } from '@/stores/sidebar';
+import clsx from 'clsx';
 import {
   AlignJustify,
   ArrowLeft,
@@ -11,10 +14,6 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { P, match } from 'ts-pattern';
 
-import { useSidebarStore } from '@/stores/sidebar';
-
-import { mapel } from '@/constants/mapel';
-import clsx from 'clsx';
 import { Button } from '../_components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../_components/ui/sheet';
 import { QuestionModal } from './home/question/question-modal';
@@ -26,6 +25,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const params = useParams();
   const sidebarStore = useSidebarStore();
+  let username = '';
+  if (pathname.startsWith('/users/')) {
+    username = params.id as string;
+  }
 
   return (
     <section className='flex lg:container'>
@@ -42,13 +45,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               )}
             >
               <Sheet
-                open={sidebarStore.isOpen}
                 onOpenChange={sidebarStore.toggle}
+                open={sidebarStore.isOpen}
               >
-                <SheetTrigger className='p-2' aria-label='Mobile nav'>
+                <SheetTrigger aria-label='Mobile nav' className='p-2'>
                   <AlignJustify color='#696984' />
                 </SheetTrigger>
-                <SheetContent side='left' className='px-3 py-8'>
+                <SheetContent className='px-3 py-8' side='left'>
                   <Sidebar isMobile />
                 </SheetContent>
               </Sheet>
@@ -63,11 +66,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 .with('/favorite', () => 'Favorit')
                 .with(P.string.startsWith('/questions/'), () => (
                   <button
-                    onClick={() => router.back()}
                     className='flex items-center space-x-3'
+                    onClick={() => router.back()}
                   >
                     <ArrowLeft />
                     <p className='decoration-2 hover:underline'>Kembali</p>
+                  </button>
+                ))
+                .with(P.string.startsWith('/users/'), () => (
+                  <button
+                    className='flex items-center space-x-3'
+                    onClick={() => router.back()}
+                  >
+                    <ArrowLeft />
+                    <p className='decoration-2 hover:underline'>{username}</p>
                   </button>
                 ))
                 .with(
@@ -85,7 +97,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           {pathname.startsWith('/notifications') && (
-            <button title='Tandai semua sudah dibaca' className='ml-auto'>
+            <button className='ml-auto' title='Tandai semua sudah dibaca'>
               <CheckCheckIcon color='#696984' />
             </button>
           )}
@@ -97,12 +109,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             )}
           >
             <ProfileButton
+              avatar={{
+                fallback: 'TH',
+                imageUrl: 'https://github.com/tfkhdyt.png',
+              }}
               fullName='Taufik Hidayat'
               username='tfkhdyt'
-              avatar={{
-                imageUrl: 'https://github.com/tfkhdyt.png',
-                fallback: 'TH',
-              }}
             />
           </div>
         </div>
@@ -111,18 +123,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <aside className='sticky top-0 hidden h-screen w-1/4 space-y-4 border-l-2 p-6 text-2xl font-extrabold text-[#F48C06] lg:inline'>
         <h2 className='text-xl font-extrabold'>JANGAN MALU UNTUK BERTANYA!</h2>
         <Image
-          src='/img/home/mari-bertanya.png'
           alt='Mari bertanya'
-          width={168}
           height={129}
+          src='/img/home/mari-bertanya.png'
+          width={168}
         />
         <QuestionModal
+          avatar={{
+            fallback: 'TH',
+            imageUrl: 'https://github.com/tfkhdyt.png',
+          }}
           fullName='Taufik Hidayat'
           username='tfkhdyt'
-          avatar={{
-            imageUrl: 'https://github.com/tfkhdyt.png',
-            fallback: 'TH',
-          }}
         >
           <Button className='flex items-center space-x-2 rounded-full font-semibold'>
             <PencilIcon size={16} />

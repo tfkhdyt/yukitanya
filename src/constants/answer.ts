@@ -4,6 +4,7 @@ export type Answer = {
   id: string;
   isBestAnswer: boolean;
   numberOfVotes: number;
+  questionId: string;
   rating: number;
   user: {
     avatar: {
@@ -22,6 +23,7 @@ export const answers: Answer[] = [
     id: 'answer-123',
     isBestAnswer: true,
     numberOfVotes: 10,
+    questionId: 'question-123',
     rating: 4.5,
     user: {
       avatar: {
@@ -38,6 +40,7 @@ export const answers: Answer[] = [
     id: 'answer-124',
     isBestAnswer: false,
     numberOfVotes: 2,
+    questionId: 'question-123',
     rating: 2.0,
     user: {
       avatar: {
