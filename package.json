@@ -9,8 +9,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "eslint:fix": "eslint --fix ./src",
-    "format": "prettier -cw ./src",
+    "format": "prettier -cw",
     "start": "next start"
   },
   "dependencies": {

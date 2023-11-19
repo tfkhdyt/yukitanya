@@ -1,0 +1,19 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+#
+pre-push:
+  commands:
+    taze:
+      run: taze --failOnOutdated
+
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: bun lint:fix
+    prettier:
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: bun format {staged_files}
