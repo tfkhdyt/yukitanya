@@ -1,40 +1,39 @@
 'use client';
 
+import { useSidebarStore } from '@/stores/sidebar';
 import { Bell, Book, Heart, HomeIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { P, match } from 'ts-pattern';
 
-import { useSidebarStore } from '@/stores/sidebar';
-
 import { ProfileButton } from './profile-button';
 
 export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
   const menu = [
     {
-      title: 'Beranda',
       icon: HomeIcon,
+      title: 'Beranda',
       url: '/home',
     },
     {
-      title: 'Cari Pertanyaan',
       icon: Search,
+      title: 'Cari Pertanyaan',
       url: '/search',
     },
     {
-      title: 'Mata Pelajaran',
       icon: Book,
+      title: 'Mata Pelajaran',
       url: '/subjects',
     },
     {
-      title: 'Notifikasi',
       icon: Bell,
+      title: 'Notifikasi',
       url: '/notifications',
     },
     {
-      title: 'Favorit',
       icon: Heart,
+      title: 'Favorit',
       url: '/favorite',
     },
   ];
@@ -45,11 +44,11 @@ export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
     <nav className='space-y-6 text-[#696984] md:p-3 lg:space-y-8 lg:p-6'>
       <div className='ml-4 flex items-end space-x-2'>
         <Image
-          src='/img/yukitanya_logo.png'
           alt='Yukitanya Logo'
-          width={54}
-          height={49}
           className='h-10 w-auto'
+          height={49}
+          src='/img/yukitanya_logo.png'
+          width={54}
         />
         <span className='font-rubik text-xl font-extrabold text-black lg:text-2xl'>
           Yukitanya
@@ -58,9 +57,9 @@ export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
       <div className='space-y-1 lg:space-y-2'>
         {menu.map((each) => (
           <Link
-            key={each.title}
             className='flex w-fit items-center space-x-6 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'
             href={each.url}
+            key={each.title}
             onClick={isMobile ? toggleSidebar : undefined}
           >
             {match(pathname)
@@ -80,12 +79,12 @@ export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
         ))}
         <div className='hidden lg:block'>
           <ProfileButton
+            avatar={{
+              fallback: 'TH',
+              imageUrl: 'https://github.com/tfkhdyt.png',
+            }}
             fullName='Taufik Hidayat'
             username='tfkhdyt'
-            avatar={{
-              imageUrl: 'https://github.com/tfkhdyt.png',
-              fallback: 'TH',
-            }}
           />
         </div>
       </div>

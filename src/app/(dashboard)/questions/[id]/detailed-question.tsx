@@ -1,8 +1,5 @@
 'use client';
 
-import dayjs from 'dayjs';
-import Link from 'next/link';
-
 import { DeleteModal } from '@/app/_components/delete-modal';
 import {
   Avatar,
@@ -19,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import dayjs from 'dayjs';
 import {
   FacebookIcon,
   Heart,
@@ -30,32 +28,34 @@ import {
   TrashIcon,
   TwitterIcon,
 } from 'lucide-react';
+import Link from 'next/link';
+
 import { QuestionModal } from '../../home/question/question-modal';
 import { AnswerModal } from './answer/answer-modal';
 
 export function DetailedQuestion({
-  user,
   question,
+  user,
 }: {
-  user: {
-    avatar: {
-      imageUrl: string;
-      fallback: string;
-    };
-    fullName: string;
-    username: string;
-  };
   question: {
-    id: string;
-    date: Date;
     content: string;
+    date: Date;
+    id: string;
+    numberOfAnswers: number;
+    numberOfFavorites: number;
+    rating: number;
     subject: {
       id: string;
       name: string;
     };
-    rating: number;
-    numberOfAnswers: number;
-    numberOfFavorites: number;
+  };
+  user: {
+    avatar: {
+      fallback: string;
+      imageUrl: string;
+    };
+    fullName: string;
+    username: string;
   };
 }) {
   return (
@@ -68,15 +68,15 @@ export function DetailedQuestion({
           </Avatar>
           <div className='text-[#696984]'>
             <Link
-              href={`/users/${user.username}`}
               className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+              href={`/users/${user.username}`}
               title={user.fullName}
             >
               {user.fullName}
             </Link>
             <Link
-              href={`/users/${user.username}`}
               className='block max-w-full truncate font-normal'
+              href={`/users/${user.username}`}
               title={`@${user.username}`}
             >
               @{user.username}
@@ -102,7 +102,7 @@ export function DetailedQuestion({
           </span>
           <div className='space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
-              <Badge variant='secondary' className='hover:bg-slate-200'>
+              <Badge className='hover:bg-slate-200' variant='secondary'>
                 <button>{question.subject.name}</button>
               </Badge>
             </Link>
@@ -111,20 +111,20 @@ export function DetailedQuestion({
       </div>
       <div className='flex flex-wrap items-center justify-around border-b-2 py-2 text-[#696984] md:gap-2'>
         <Button
-          size='sm'
-          variant='ghost'
           className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+          size='sm'
           title={`Favorit (${question.numberOfFavorites})`}
+          variant='ghost'
         >
           <Heart size={18} />
           <span className='hidden lg:inline'>Favorit</span>
         </Button>
-        <AnswerModal user={user} question={question}>
+        <AnswerModal question={question} user={user}>
           <Button
-            size='sm'
-            variant='ghost'
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+            size='sm'
             title={`Jawab (${question.numberOfAnswers})`}
+            variant='ghost'
           >
             <MessageCircle size={18} />
             <span className='hidden lg:inline'>Jawab</span>
@@ -134,10 +134,10 @@ export function DetailedQuestion({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              size='sm'
-              variant='ghost'
               className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+              size='sm'
               title='Bagikan'
+              variant='ghost'
             >
               <Share2Icon size={18} />
               <span className='hidden lg:inline'>Bagikan</span>
@@ -147,15 +147,15 @@ export function DetailedQuestion({
             <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <FacebookIcon size={18} className='mr-1' />
+              <FacebookIcon className='mr-1' size={18} />
               <span>Facebook</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <TwitterIcon size={18} className='mr-1' />
+              <TwitterIcon className='mr-1' size={18} />
               <span>Twitter</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <LinkIcon size={18} className='mr-1' />
+              <LinkIcon className='mr-1' size={18} />
               <span>Salin link</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -163,10 +163,10 @@ export function DetailedQuestion({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              size='sm'
-              variant='ghost'
               className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+              size='sm'
               title='Lainnya'
+              variant='ghost'
             >
               <MoreHorizontalIcon size={18} />
               <span className='hidden lg:inline'>Lainnya</span>
@@ -177,31 +177,31 @@ export function DetailedQuestion({
             <DropdownMenuSeparator />
 
             <QuestionModal
-              fullName='Taufik Hidayat'
-              username='tfkhdyt'
               avatar={{
-                imageUrl: 'https://github.com/tfkhdyt.png',
                 fallback: 'TH',
+                imageUrl: 'https://github.com/tfkhdyt.png',
               }}
-              title='Edit pertanyaan'
-              defaultValue={question.content}
               defaultSubject={question.subject.id}
+              defaultValue={question.content}
+              fullName='Taufik Hidayat'
+              title='Edit pertanyaan'
+              username='tfkhdyt'
             >
               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                <PencilIcon size={18} className='mr-1' />
+                <PencilIcon className='mr-1' size={18} />
                 <span>Edit</span>
               </DropdownMenuItem>
             </QuestionModal>
             <DeleteModal
-              title='Hapus pertanyaan'
               description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
               onClick={() => ''}
+              title='Hapus pertanyaan'
             >
               <DropdownMenuItem
                 className='focus:bg-red-100 focus:text-red-900'
                 onSelect={(e) => e.preventDefault()}
               >
-                <TrashIcon size={18} className='mr-1' />
+                <TrashIcon className='mr-1' size={18} />
                 <span>Hapus</span>
               </DropdownMenuItem>
             </DeleteModal>

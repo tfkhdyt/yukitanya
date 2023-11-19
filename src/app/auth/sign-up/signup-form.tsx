@@ -22,6 +22,13 @@ import { Input } from '../../_components/ui/input';
 
 const signupSchema = z
   .object({
+    confirmPassword: z
+      .string({ required_error: 'Confirm password tidak boleh kosong' })
+      .min(8, 'Confirm password harus lebih dari 8 karakter'),
+    email: z
+      .string({ required_error: 'Email tidak boleh kosong' })
+      .email('Email tidak valid')
+      .trim(),
     firstName: z
       .string({ required_error: 'Nama depan tidak boleh kosong' })
       .min(1)
@@ -32,21 +39,14 @@ const signupSchema = z
       .max(100, 'Nama belakang tidak boleh lebih dari 100 karakter')
       .trim()
       .optional(),
+    password: z
+      .string({ required_error: 'Password tidak boleh kosong' })
+      .min(8, 'Password harus lebih dari 8 karakter'),
     username: z
       .string({ required_error: 'Username tidak boleh kosong' })
       .min(4, 'Username tidak boleh kurang dari 4 karakter')
       .max(25, 'Username tidak boleh lebih dari 25 karakter')
       .trim(),
-    email: z
-      .string({ required_error: 'Email tidak boleh kosong' })
-      .email('Email tidak valid')
-      .trim(),
-    password: z
-      .string({ required_error: 'Password tidak boleh kosong' })
-      .min(8, 'Password harus lebih dari 8 karakter'),
-    confirmPassword: z
-      .string({ required_error: 'Confirm password tidak boleh kosong' })
-      .min(8, 'Confirm password harus lebih dari 8 karakter'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Password tidak cocok',
@@ -70,7 +70,7 @@ export function SignupForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
           <div className='flex flex-col gap-4 md:flex-row'>
             <FormField
               control={form.control}
@@ -157,12 +157,12 @@ export function SignupForm() {
                       className='rounded-full'
                     />
                     <Button
+                      aria-label='Show password'
+                      className='rounded-full p-2'
+                      onClick={() => setIsPasswordShowed((v) => !v)}
                       tabIndex={-1}
                       type='button'
-                      className='rounded-full p-2'
                       variant='outline'
-                      onClick={() => setIsPasswordShowed((v) => !v)}
-                      aria-label='Show password'
                     >
                       {match(isPasswordShowed)
                         .with(true, () => <EyeOff size={20} />)
@@ -190,12 +190,12 @@ export function SignupForm() {
                       className='rounded-full'
                     />
                     <Button
+                      aria-label='Show confirm password'
+                      className='rounded-full p-2'
+                      onClick={() => setIsConfirmPasswordShowed((v) => !v)}
                       tabIndex={-1}
                       type='button'
-                      className='rounded-full p-2'
                       variant='outline'
-                      onClick={() => setIsConfirmPasswordShowed((v) => !v)}
-                      aria-label='Show confirm password'
                     >
                       {match(isConfirmPasswordShowed)
                         .with(true, () => <EyeOff size={20} />)
@@ -210,8 +210,8 @@ export function SignupForm() {
           />
 
           <Button
-            type='submit'
             className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
+            type='submit'
           >
             Buat akun
           </Button>
@@ -220,22 +220,22 @@ export function SignupForm() {
       <p className='mt-4 text-center text-sm font-medium'>atau daftar dengan</p>
       <div className='mt-4 flex items-center justify-center space-x-2'>
         <Button
-          variant='outline'
           className='rounded-full'
           title='Daftar dengan Google'
+          variant='outline'
         >
           <Image
-            src='/img/icon/google.png'
-            height={20}
-            width={20}
             alt='Google'
             className='ml-1'
+            height={20}
+            src='/img/icon/google.png'
+            width={20}
           />
         </Button>
         <Button
-          variant='outline'
           className='rounded-full'
           title='Daftar dengan Facebook'
+          variant='outline'
         >
           <Facebook color='black' />
         </Button>
@@ -243,8 +243,8 @@ export function SignupForm() {
       <p className='mt-4 text-center text-sm font-medium'>
         Sudah punya akun?{' '}
         <Link
-          href='/auth/sign-in'
           className='font-semibold text-[#00B6EF] underline'
+          href='/auth/sign-in'
         >
           Masuk
         </Link>

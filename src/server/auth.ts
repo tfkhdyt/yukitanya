@@ -1,12 +1,11 @@
+import { db } from '@/server/db';
+import { mysqlTable } from '@/server/db/schema';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import {
   type DefaultSession,
-  getServerSession,
   type NextAuthOptions,
+  getServerSession,
 } from 'next-auth';
-
-import { db } from '@/server/db';
-import { mysqlTable } from '@/server/db/schema';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -35,6 +34,7 @@ declare module 'next-auth' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  adapter: DrizzleAdapter(db, mysqlTable),
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
@@ -44,7 +44,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: DrizzleAdapter(db, mysqlTable),
   providers: [
     // DiscordProvider({
     //   clientId: env.DISCORD_CLIENT_ID,

@@ -1,6 +1,3 @@
-import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
-import Link from 'next/link';
-
 import {
   Avatar,
   AvatarFallback,
@@ -14,11 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export function ProfileButton(props: {
   avatar: {
-    imageUrl: string;
     fallback: string;
+    imageUrl: string;
   };
   fullName: string;
   username: string;
@@ -45,12 +44,12 @@ export function ProfileButton(props: {
         <DropdownMenuSeparator />
         <Link href={`/users/${props.username}`}>
           <DropdownMenuItem className='cursor-pointer'>
-            <UserCircle size={18} className='mr-1' />
+            <UserCircle className='mr-1' size={18} />
             My Profile
           </DropdownMenuItem>
         </Link>
         <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
-          <LogOutIcon size={18} className='mr-1' />
+          <LogOutIcon className='mr-1' size={18} />
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

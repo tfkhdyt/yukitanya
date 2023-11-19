@@ -3,6 +3,7 @@ import { mapel } from '@/constants/mapel';
 import { questions } from '@/constants/question';
 import { PencilIcon } from 'lucide-react';
 import Image from 'next/image';
+
 import { QuestionModal } from '../../home/question/question-modal';
 import { QuestionPost } from '../../home/question/question-post';
 
@@ -26,38 +27,38 @@ export default function SubjectDetail({ params }: { params: { id: string } }) {
         filteredPost.map((question) => (
           <QuestionPost
             key={question.id}
-            user={question.user}
             question={{
-              id: question.id,
               content: question.content,
               date: question.date,
+              id: question.id,
               numberOfAnswers: question.numberOfAnswers,
               numberOfFavorites: question.numberOfFavorites,
-              subject: question.subject,
               rating: question.rating,
+              subject: question.subject,
             }}
+            user={question.user}
           />
         ))
       ) : (
         <div className='p-6'>
           <Image
-            src='/img/questions/jawaban-kosong.png'
             alt='Pertanyaan Kosong'
-            height={178}
-            width={213}
             className='mx-auto'
+            height={178}
+            src='/img/questions/jawaban-kosong.png'
+            width={213}
           />
           <p className='text-center text-sm font-medium text-gray-500'>
             Belum ada pertanyaan yang tersedia
           </p>
           <QuestionModal
-            fullName='Taufik Hidayat'
-            username='tfkhdyt'
             avatar={{
-              imageUrl: 'https://github.com/tfkhdyt.png',
               fallback: 'TH',
+              imageUrl: 'https://github.com/tfkhdyt.png',
             }}
             defaultSubject={params.id}
+            fullName='Taufik Hidayat'
+            username='tfkhdyt'
           >
             <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
               <PencilIcon size={16} />

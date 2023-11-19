@@ -13,19 +13,19 @@ export default function SubjectsPage() {
     <main className='grid grid-cols-2'>
       {mapel.map((mpl, idx) => (
         <Link
-          key={mpl.id}
-          href={`/subjects/${mpl.id}`}
           className={clsx(
             `border-b-2 p-6 transition hover:bg-slate-50`,
             (idx + 1) % 2 !== 0 && 'border-r-2',
           )}
+          href={`/subjects/${mpl.id}`}
+          key={mpl.id}
         >
           <Image
-            src={mpl.imageUrl}
-            height={100}
-            width={100}
             alt={mpl.name}
             className='mx-auto'
+            height={100}
+            src={mpl.imageUrl}
+            width={100}
           />
           <p className='text-center text-sm font-medium text-[#696984]'>
             {mpl.name}

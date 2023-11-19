@@ -8,7 +8,7 @@ export function StarRating({ rating }: { rating: number }) {
   // Create an array of JSX elements to represent the stars
   const stars = [];
   for (let i = 0; i < fullStars; i++) {
-    stars.push(<Star key={i} color='#F48C06' fill='#F48C06' />);
+    stars.push(<Star color='#F48C06' fill='#F48C06' key={i} />);
   }
 
   //   if (hasHalfStar) {
@@ -19,7 +19,7 @@ export function StarRating({ rating }: { rating: number }) {
 
   // Fill in the remaining stars with empty stars
   while (stars.length < 5) {
-    stars.push(<Star key={stars.length} color='#F48C06' fill='none' />);
+    stars.push(<Star color='#F48C06' fill='none' key={stars.length} />);
   }
 
   return (

@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { relations, sql } from 'drizzle-orm';
 import {
   bigint,
   index,
@@ -8,8 +8,8 @@ import {
   text,
   timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
-import { type AdapterAccount } from "next-auth/adapters";
+} from 'drizzle-orm/mysql-core';
+import { type AdapterAccount } from 'next-auth/adapters';
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -20,31 +20,31 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const mysqlTable = mysqlTableCreator((name) => `yukitanya_${name}`);
 
 export const posts = mysqlTable(
-  "post",
+  'post',
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("createdById", { length: 255 }).notNull(),
-    createdAt: timestamp("created_at")
+    createdAt: timestamp('created_at')
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt").onUpdateNow(),
+    createdById: varchar('createdById', { length: 255 }).notNull(),
+    id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
+    name: varchar('name', { length: 256 }),
+    updatedAt: timestamp('updatedAt').onUpdateNow(),
   },
   (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  })
+    createdByIdIdx: index('createdById_idx').on(example.createdById),
+    nameIndex: index('name_idx').on(example.name),
+  }),
 );
 
-export const users = mysqlTable("user", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("emailVerified", {
-    mode: "date",
+export const users = mysqlTable('user', {
+  email: varchar('email', { length: 255 }).notNull(),
+  emailVerified: timestamp('emailVerified', {
     fsp: 3,
+    mode: 'date',
   }).default(sql`CURRENT_TIMESTAMP(3)`),
-  image: varchar("image", { length: 255 }),
+  id: varchar('id', { length: 255 }).notNull().primaryKey(),
+  image: varchar('image', { length: 255 }),
+  name: varchar('name', { length: 255 }),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -52,26 +52,26 @@ export const usersRelations = relations(users, ({ many }) => ({
 }));
 
 export const accounts = mysqlTable(
-  "account",
+  'account',
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
-    type: varchar("type", { length: 255 })
-      .$type<AdapterAccount["type"]>()
+    access_token: text('access_token'),
+    expires_at: int('expires_at'),
+    id_token: text('id_token'),
+    provider: varchar('provider', { length: 255 }).notNull(),
+    providerAccountId: varchar('providerAccountId', { length: 255 }).notNull(),
+    refresh_token: text('refresh_token'),
+    scope: varchar('scope', { length: 255 }),
+    session_state: varchar('session_state', { length: 255 }),
+    token_type: varchar('token_type', { length: 255 }),
+    type: varchar('type', { length: 255 })
+      .$type<AdapterAccount['type']>()
       .notNull(),
-    provider: varchar("provider", { length: 255 }).notNull(),
-    providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: int("expires_at"),
-    token_type: varchar("token_type", { length: 255 }),
-    scope: varchar("scope", { length: 255 }),
-    id_token: text("id_token"),
-    session_state: varchar("session_state", { length: 255 }),
+    userId: varchar('userId', { length: 255 }).notNull(),
   },
   (account) => ({
     compoundKey: primaryKey(account.provider, account.providerAccountId),
-    userIdIdx: index("userId_idx").on(account.userId),
-  })
+    userIdIdx: index('userId_idx').on(account.userId),
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -79,17 +79,17 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 }));
 
 export const sessions = mysqlTable(
-  "session",
+  'session',
   {
-    sessionToken: varchar("sessionToken", { length: 255 })
+    expires: timestamp('expires', { mode: 'date' }).notNull(),
+    sessionToken: varchar('sessionToken', { length: 255 })
       .notNull()
       .primaryKey(),
-    userId: varchar("userId", { length: 255 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
+    userId: varchar('userId', { length: 255 }).notNull(),
   },
   (session) => ({
-    userIdIdx: index("userId_idx").on(session.userId),
-  })
+    userIdIdx: index('userId_idx').on(session.userId),
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -97,13 +97,13 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 }));
 
 export const verificationTokens = mysqlTable(
-  "verificationToken",
+  'verificationToken',
   {
-    identifier: varchar("identifier", { length: 255 }).notNull(),
-    token: varchar("token", { length: 255 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
+    expires: timestamp('expires', { mode: 'date' }).notNull(),
+    identifier: varchar('identifier', { length: 255 }).notNull(),
+    token: varchar('token', { length: 255 }).notNull(),
   },
   (vt) => ({
     compoundKey: primaryKey(vt.identifier, vt.token),
-  })
+  }),
 );

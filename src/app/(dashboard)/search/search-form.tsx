@@ -16,6 +16,7 @@ import { PencilIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import { QuestionModal } from '../home/question/question-modal';
 import { QuestionPost } from '../home/question/question-post';
 
@@ -56,13 +57,13 @@ export function SearchForm() {
     <>
       <form className='flex w-full items-center space-x-1 p-4'>
         <Input
-          type='text'
-          placeholder='Cari...'
           className='rounded-l-full'
-          value={query}
           onChange={(e) => setQuery(e.target.value)}
+          placeholder='Cari...'
+          type='text'
+          value={query}
         />
-        <Select value={subject} onValueChange={setSubject}>
+        <Select onValueChange={setSubject} value={subject}>
           <SelectTrigger className='w-44 rounded-r-full'>
             <SelectValue placeholder='Mata Pelajaran' />
           </SelectTrigger>
@@ -80,39 +81,39 @@ export function SearchForm() {
         {debouncedQuery && filteredPost.length > 0
           ? filteredPost.map((question) => (
               <QuestionPost
+                highlightedWords={debouncedQuery.toLowerCase().split(' ')}
                 key={question.id}
-                user={question.user}
                 question={{
-                  id: question.id,
                   content: question.content,
                   date: question.date,
+                  id: question.id,
                   numberOfAnswers: question.numberOfAnswers,
                   numberOfFavorites: question.numberOfFavorites,
-                  subject: question.subject,
                   rating: question.rating,
+                  subject: question.subject,
                 }}
-                highlightedWords={debouncedQuery.toLowerCase().split(' ')}
+                user={question.user}
               />
             ))
           : debouncedQuery && (
               <div className='p-6'>
                 <Image
-                  src='/img/questions/jawaban-kosong.png'
                   alt='Pertanyaan Kosong'
-                  height={178}
-                  width={213}
                   className='mx-auto'
+                  height={178}
+                  src='/img/questions/jawaban-kosong.png'
+                  width={213}
                 />
                 <p className='text-center text-sm font-medium text-gray-500'>
                   Pertanyaan yang kamu cari tidak ditemukan
                 </p>
                 <QuestionModal
+                  avatar={{
+                    fallback: 'TH',
+                    imageUrl: 'https://github.com/tfkhdyt.png',
+                  }}
                   fullName='Taufik Hidayat'
                   username='tfkhdyt'
-                  avatar={{
-                    imageUrl: 'https://github.com/tfkhdyt.png',
-                    fallback: 'TH',
-                  }}
                 >
                   <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
                     <PencilIcon size={16} />

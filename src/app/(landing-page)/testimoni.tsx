@@ -18,11 +18,11 @@ export function Testimoni() {
             </button>
             <div className='relative rounded-3xl border-2 border-[#77425A] md:border-[3px]'>
               <Image
-                src='/img/testimoni/yulianti.png'
                 alt='Testimoni Yulianti'
-                width={138}
-                height={139}
                 className='absolute -left-10 -top-10 w-20 md:-left-16 md:-top-16 md:w-32'
+                height={139}
+                src='/img/testimoni/yulianti.png'
+                width={138}
               />
               <div className='flex flex-col items-center justify-between gap-2 p-4 md:ml-20 md:flex-row'>
                 <p className='text-[#696984]'>Yulianti</p>

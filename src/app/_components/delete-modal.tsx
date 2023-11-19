@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,14 +14,14 @@ import {
 
 export function DeleteModal({
   children,
-  title,
   description,
   onClick,
+  title,
 }: {
   children: ReactNode;
-  title: string;
   description: string;
   onClick: () => void;
+  title: string;
 }) {
   return (
     <AlertDialog>

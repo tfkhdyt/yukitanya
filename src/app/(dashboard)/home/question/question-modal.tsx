@@ -29,7 +29,6 @@ import {
 } from '@/app/_components/ui/select';
 import { Textarea } from '@/app/_components/ui/textarea';
 import { mapel } from '@/constants/mapel';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -49,32 +48,32 @@ const questionSchema = z.object({
 });
 
 export function QuestionModal({
-  children,
   avatar,
-  fullName,
-  username,
+  children,
   defaultSubject,
   defaultValue,
+  fullName,
   title = 'Ajukan pertanyaan',
+  username,
 }: {
-  children: ReactNode;
   avatar: {
-    imageUrl: string;
     fallback: string;
+    imageUrl: string;
   };
-  fullName: string;
-  username: string;
+  children: ReactNode;
   defaultSubject?: string;
   defaultValue?: string;
+  fullName: string;
   title?: string;
+  username: string;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionSchema>>({
-    resolver: zodResolver(questionSchema),
     defaultValues: {
-      subject: defaultSubject,
       question: defaultValue,
+      subject: defaultSubject,
     },
+    resolver: zodResolver(questionSchema),
   });
 
   // 2. Define a submit handler.
@@ -98,15 +97,15 @@ export function QuestionModal({
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
-                  href={`/users/${username}`}
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+                  href={`/users/${username}`}
                   title={fullName}
                 >
                   {fullName}
                 </Link>
                 <Link
-                  href={`/users/${username}`}
                   className='block max-w-full truncate font-normal'
+                  href={`/users/${username}`}
                   title={`@${username}`}
                 >
                   @{username}
@@ -117,8 +116,8 @@ export function QuestionModal({
             <div className='py-2'>
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
                   className='space-y-4'
+                  onSubmit={form.handleSubmit(onSubmit)}
                 >
                   <FormField
                     control={form.control}
@@ -127,8 +126,8 @@ export function QuestionModal({
                       <FormItem>
                         <FormControl>
                           <Textarea
-                            rows={5}
                             placeholder='Ketik pertanyaan mu di sini'
+                            rows={5}
                             {...field}
                             className='mt-2'
                           />
@@ -144,8 +143,8 @@ export function QuestionModal({
                       render={({ field }) => (
                         <FormItem>
                           <Select
-                            onValueChange={field.onChange}
                             defaultValue={field.value}
+                            onValueChange={field.onChange}
                           >
                             <FormControl>
                               <SelectTrigger className='w-[220px]'>
@@ -155,7 +154,7 @@ export function QuestionModal({
 
                             <SelectContent>
                               {mapel.map((each) => (
-                                <SelectItem value={each.id} key={each.id}>
+                                <SelectItem key={each.id} value={each.id}>
                                   {each.name}
                                 </SelectItem>
                               ))}
@@ -166,8 +165,8 @@ export function QuestionModal({
                       )}
                     />
                     <Button
-                      type='submit'
                       className='rounded-full font-semibold'
+                      type='submit'
                     >
                       <SendIcon className='mr-1' size={16} />
                       Kirim

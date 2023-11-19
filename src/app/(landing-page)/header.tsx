@@ -50,24 +50,24 @@ export function Header() {
       <div className='container flex items-center justify-between py-6 md:px-12'>
         <div className='flex items-center space-x-3'>
           <Image
-            src='/img/yukitanya_logo.png'
             alt='Yukitanya Logo'
-            width={60}
-            height={57}
             className='-mt-4'
+            height={57}
+            src='/img/yukitanya_logo.png'
+            width={60}
           />
           <p className='font-rubik text-2xl font-extrabold'>Yukitanya</p>
         </div>
         <Sheet>
-          <SheetTrigger className='p-2 lg:hidden' aria-label='Mobile nav'>
+          <SheetTrigger aria-label='Mobile nav' className='p-2 lg:hidden'>
             <AlignJustify />
           </SheetTrigger>
           <SheetContent className='flex w-fit flex-col space-y-4 pt-12'>
             {navbar.map((each) => (
               <SheetClose asChild key={each.id}>
                 <ScrollIntoView
-                  selector={`#${each.id}`}
                   className='cursor-pointer text-[#696984]'
+                  selector={`#${each.id}`}
                 >
                   {each.title}
                 </ScrollIntoView>
@@ -75,14 +75,14 @@ export function Header() {
             ))}
             <div className='space-x-3'>
               <Link
-                href='/auth/sign-in'
                 className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
+                href='/auth/sign-in'
               >
                 Masuk
               </Link>
               <Link
-                href='/auth/sign-up'
                 className='rounded-lg bg-[#77425A] px-4 py-2 font-semibold text-white shadow-md'
+                href='/auth/sign-up'
               >
                 Daftar
               </Link>
@@ -93,23 +93,23 @@ export function Header() {
         <nav className='hidden items-center space-x-12 lg:flex'>
           {navbar.map((each) => (
             <ScrollIntoView
+              className='cursor-pointer text-[#696984]'
               key={each.id}
               selector={`#${each.id}`}
-              className='cursor-pointer text-[#696984]'
             >
               {each.title}
             </ScrollIntoView>
           ))}
           <div className='space-x-3'>
             <Link
-              href='/auth/sign-in'
               className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
+              href='/auth/sign-in'
             >
               Masuk
             </Link>
             <Link
-              href='/auth/sign-up'
               className='rounded-lg bg-[#77425A] px-4 py-2 font-semibold text-white shadow-md'
+              href='/auth/sign-up'
             >
               Daftar
             </Link>

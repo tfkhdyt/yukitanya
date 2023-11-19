@@ -6,8 +6,8 @@ import Image from 'next/image';
 export function MataPelajaran() {
   return (
     <section
-      id='tentang-kami'
       className='scroll-mt-20 bg-[url(/img/mapel/bg.svg)] bg-cover py-12 lg:pb-24'
+      id='tentang-kami'
     >
       <div className='container space-y-16 text-[#696984] md:px-12'>
         <p className='text-center text-2xl font-bold text-[#77425A]'>
@@ -18,10 +18,10 @@ export function MataPelajaran() {
           {mapel.map((each) => (
             <div className='flex flex-col items-center' key={each.name}>
               <Image
-                src={each.imageUrl}
                 alt={each.name}
-                width={110}
                 height={105}
+                src={each.imageUrl}
+                width={110}
               />
               <p className='text-center text-sm font-medium'>{each.name}</p>
             </div>

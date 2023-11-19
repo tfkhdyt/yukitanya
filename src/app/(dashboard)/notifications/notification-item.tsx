@@ -15,30 +15,30 @@ import Link from 'next/link';
 import { match } from 'ts-pattern';
 
 type Props = {
+  description: string;
   hasBeenRead: boolean;
+  questionId: string;
   timestamp: Date;
   user: {
     avatar: {
-      imageUrl: string;
       fallback: string;
+      imageUrl: string;
     };
     fullName: string;
     username: string;
   };
-  questionId: string;
-  description: string;
 } & (
   | {
-      type: 'favorite';
-    }
-  | {
-      type: 'best-answer' | 'new-answer';
       answerId: string;
-    }
-  | {
-      type: 'rating';
       rating: number;
+      type: 'rating';
+    }
+  | {
       answerId: string;
+      type: 'best-answer' | 'new-answer';
+    }
+  | {
+      type: 'favorite';
     }
 );
 
@@ -56,7 +56,7 @@ export function NotificationItem(props: Props) {
         .with({ type: 'favorite' }, (notif) => (
           <>
             <div className='flex items-center space-x-4'>
-              <HeartIcon size={28} color='red' fill='red' />
+              <HeartIcon color='red' fill='red' size={28} />
               <Link href={`/users/${props.user.username}`}>
                 <Avatar className='h-10 w-10'>
                   <AvatarImage src={props.user.avatar.imageUrl} />
@@ -67,8 +67,8 @@ export function NotificationItem(props: Props) {
             <div className='ml-12 mt-2 flex items-center justify-between gap-4'>
               <span className='text-sm font-medium'>
                 <Link
-                  href={`/users/${props.user.username}`}
                   className='hover:underline'
+                  href={`/users/${props.user.username}`}
                 >
                   {props.user.fullName}
                 </Link>{' '}
@@ -76,8 +76,8 @@ export function NotificationItem(props: Props) {
                   menyukai pertanyaan Anda
                 </Link>
                 <Link
-                  href={`/questions/${props.questionId}`}
                   className='mt-2 block text-sm font-normal'
+                  href={`/questions/${props.questionId}`}
                 >
                   {notif.description}
                 </Link>
@@ -94,7 +94,7 @@ export function NotificationItem(props: Props) {
         .with({ type: 'rating' }, (notif) => (
           <>
             <div className='flex items-center space-x-4'>
-              <StarIcon size={28} color='#F48C06' fill='#F48C06' />
+              <StarIcon color='#F48C06' fill='#F48C06' size={28} />
               <Link href={`/users/${props.user.username}`}>
                 <Avatar className='h-10 w-10'>
                   <AvatarImage src={props.user.avatar.imageUrl} />
@@ -105,8 +105,8 @@ export function NotificationItem(props: Props) {
             <div className='ml-12 mt-2 flex items-center justify-between gap-4'>
               <span className='text-sm font-medium'>
                 <Link
-                  href={`/users/${props.user.username}`}
                   className='hover:underline'
+                  href={`/users/${props.user.username}`}
                 >
                   {props.user.fullName}
                 </Link>{' '}
@@ -114,8 +114,8 @@ export function NotificationItem(props: Props) {
                   memberi nilai terhadap jawaban Anda ({notif.rating})
                 </Link>
                 <Link
-                  href={`/questions/${props.questionId}#${notif.answerId}`}
                   className='mt-2 block text-sm font-normal'
+                  href={`/questions/${props.questionId}#${notif.answerId}`}
                 >
                   {notif.description}
                 </Link>
@@ -132,7 +132,7 @@ export function NotificationItem(props: Props) {
         .with({ type: 'new-answer' }, (notif) => (
           <>
             <div className='flex items-center space-x-4'>
-              <MessageCircleIcon size={28} color='#6364FF' />
+              <MessageCircleIcon color='#6364FF' size={28} />
               <Link href={`/users/${props.user.username}`}>
                 <Avatar className='h-10 w-10'>
                   <AvatarImage src={props.user.avatar.imageUrl} />
@@ -143,8 +143,8 @@ export function NotificationItem(props: Props) {
             <div className='ml-12 mt-2 flex items-end justify-between gap-4'>
               <div className='text-sm font-medium'>
                 <Link
-                  href={`/users/${props.user.username}`}
                   className='hover:underline'
+                  href={`/users/${props.user.username}`}
                 >
                   {props.user.fullName}
                 </Link>{' '}
@@ -152,8 +152,8 @@ export function NotificationItem(props: Props) {
                   menjawab pertanyaan Anda
                 </Link>
                 <Link
-                  href={`/questions/${props.questionId}#${notif.answerId}`}
                   className='mt-2 block text-sm font-normal'
+                  href={`/questions/${props.questionId}#${notif.answerId}`}
                 >
                   {notif.description}
                 </Link>
@@ -170,7 +170,7 @@ export function NotificationItem(props: Props) {
         .with({ type: 'best-answer' }, (notif) => (
           <>
             <div className='flex items-center space-x-4'>
-              <CheckCircle size={28} color='green' />
+              <CheckCircle color='green' size={28} />
               <Link href={`/users/${props.user.username}`}>
                 <Avatar className='h-10 w-10'>
                   <AvatarImage src={props.user.avatar.imageUrl} />
@@ -181,8 +181,8 @@ export function NotificationItem(props: Props) {
             <div className='ml-12 mt-2 flex items-end justify-between'>
               <div className='gap-4 text-sm font-medium'>
                 <Link
-                  href={`/users/${props.user.username}`}
                   className='hover:underline'
+                  href={`/users/${props.user.username}`}
                 >
                   {props.user.fullName}
                 </Link>{' '}
@@ -190,8 +190,8 @@ export function NotificationItem(props: Props) {
                   menjadikan jawaban Anda menjadi yang terbaik
                 </Link>
                 <Link
-                  href={`/questions/${props.questionId}#${notif.answerId}`}
                   className='mt-2 block text-sm font-normal'
+                  href={`/questions/${props.questionId}#${notif.answerId}`}
                 >
                   {notif.description}
                 </Link>

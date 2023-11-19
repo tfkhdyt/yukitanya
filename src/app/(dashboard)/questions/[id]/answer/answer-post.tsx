@@ -1,5 +1,26 @@
 'use client';
 
+import { DeleteModal } from '@/app/_components/delete-modal';
+import { StarRating } from '@/app/_components/star-rating';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@/app/_components/ui/alert';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/app/_components/ui/avatar';
+import { Button } from '@/app/_components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/app/_components/ui/dropdown-menu';
 import dayjs from 'dayjs';
 import {
   CheckCircle,
@@ -14,70 +35,48 @@ import {
   TwitterIcon,
 } from 'lucide-react';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
-
-import { DeleteModal } from '@/app/_components/delete-modal';
-import { StarRating } from '@/app/_components/star-rating';
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@/app/_components/ui/alert';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
 import { EditAnswerModal } from './edit-answer-modal';
 
 export function AnswerPost({
-  user,
   answer,
   question,
+  user,
 }: {
-  user: {
-    avatar: {
-      imageUrl: string;
-      fallback: string;
-    };
-    fullName: string;
-    username: string;
-  };
   answer: {
-    id: string;
-    date: Date;
     content: string;
-    rating: number;
-    numberOfVotes: number;
+    date: Date;
+    id: string;
     isBestAnswer: boolean;
+    numberOfVotes: number;
+    rating: number;
   };
   question: {
-    id: string;
-    date: Date;
     content: string;
+    date: Date;
+    id: string;
+    numberOfAnswers: number;
+    numberOfFavorites: number;
+    rating: number;
     subject: {
       id: string;
       name: string;
     };
-    rating: number;
-    numberOfAnswers: number;
-    numberOfFavorites: number;
     user: {
       avatar: {
-        imageUrl: string;
         fallback: string;
+        imageUrl: string;
       };
       fullName: string;
       username: string;
     };
+  };
+  user: {
+    avatar: {
+      fallback: string;
+      imageUrl: string;
+    };
+    fullName: string;
+    username: string;
   };
 }) {
   return (
@@ -133,12 +132,12 @@ export function AnswerPost({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    size='sm'
-                    variant='outline'
                     className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                    size='sm'
                     title='Beri nilai'
+                    variant='outline'
                   >
-                    <Star size={18} className='mr-2' />
+                    <Star className='mr-2' size={18} />
                     <span>{answer.numberOfVotes}</span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -147,43 +146,43 @@ export function AnswerPost({
                   <DropdownMenuSeparator />
                   <div className='flex justify-center p-2' dir='rtl'>
                     <StarIcon
-                      color='#F48C06'
                       className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      color='#F48C06'
                     />
                     <StarIcon
-                      color='#F48C06'
                       className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      color='#F48C06'
                     />
                     <StarIcon
-                      color='#F48C06'
                       className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      color='#F48C06'
                     />
                     <StarIcon
-                      color='#F48C06'
                       className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      color='#F48C06'
                     />
                     <StarIcon
-                      color='#F48C06'
                       className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      color='#F48C06'
                     />
                   </div>
                 </DropdownMenuContent>
               </DropdownMenu>
               <Button
-                size='sm'
-                variant='outline'
                 className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                size='sm'
                 title='Jawaban terbaik'
+                variant='outline'
               >
                 <CheckCircle size={18} />
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    size='sm'
-                    variant='outline'
                     className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                    size='sm'
                     title='Bagikan'
+                    variant='outline'
                   >
                     <Share2Icon size={18} />
                   </Button>
@@ -192,15 +191,15 @@ export function AnswerPost({
                   <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <FacebookIcon size={18} className='mr-1' />
+                    <FacebookIcon className='mr-1' size={18} />
                     <span>Facebook</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <TwitterIcon size={18} className='mr-1' />
+                    <TwitterIcon className='mr-1' size={18} />
                     <span>Twitter</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <LinkIcon size={18} className='mr-1' />
+                    <LinkIcon className='mr-1' size={18} />
                     <span>Salin link</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -208,10 +207,10 @@ export function AnswerPost({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    size='sm'
-                    variant='outline'
                     className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                    size='sm'
                     title='Lainnya'
+                    variant='outline'
                   >
                     <MoreHorizontalIcon size={18} />
                   </Button>
@@ -220,25 +219,25 @@ export function AnswerPost({
                   <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <EditAnswerModal
-                    user={user}
-                    question={question}
                     defaultValue={answer.content}
+                    question={question}
+                    user={user}
                   >
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                      <PencilIcon size={18} className='mr-1' />
+                      <PencilIcon className='mr-1' size={18} />
                       <span>Edit</span>
                     </DropdownMenuItem>
                   </EditAnswerModal>
                   <DeleteModal
-                    title='Hapus jawaban'
                     description='Apakah Anda yakin ingin menghapus jawaban ini?'
                     onClick={() => ''}
+                    title='Hapus jawaban'
                   >
                     <DropdownMenuItem
                       className='focus:bg-red-100 focus:text-red-900'
                       onSelect={(e) => e.preventDefault()}
                     >
-                      <TrashIcon size={18} className='mr-1' />
+                      <TrashIcon className='mr-1' size={18} />
                       <span>Hapus</span>
                     </DropdownMenuItem>
                   </DeleteModal>

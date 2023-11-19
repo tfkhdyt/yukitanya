@@ -19,11 +19,11 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
         <div className='grid grid-cols-1 gap-8 px-2 py-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
           <div className='flex items-center space-x-3'>
             <Image
-              src='/img/yukitanya_logo.png'
               alt='Yukitanya Logo'
-              width={60}
-              height={57}
               className='-mt-4'
+              height={57}
+              src='/img/yukitanya_logo.png'
+              width={60}
             />
             <p className='font-rubik text-2xl font-extrabold text-white'>
               Yukitanya
@@ -34,13 +34,13 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
             Innovators{' '}
           </p>
           <div className='space-x-4 md:mt-6 lg:mt-auto lg:justify-self-end'>
-            <button className='rounded-lg bg-white p-2' aria-label='Facebook'>
+            <button aria-label='Facebook' className='rounded-lg bg-white p-2'>
               <Facebook />
             </button>
-            <button className='rounded-lg bg-white p-2' aria-label='Instagram'>
+            <button aria-label='Instagram' className='rounded-lg bg-white p-2'>
               <Instagram />
             </button>
-            <button className='rounded-lg bg-white p-2' aria-label='Twitter'>
+            <button aria-label='Twitter' className='rounded-lg bg-white p-2'>
               <Twitter />
             </button>
           </div>
@@ -52,9 +52,9 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
               if (scroll) {
                 return (
                   <ScrollIntoView
-                    selector={`#${each.id}`}
                     className='block cursor-pointer text-sm md:text-xs'
                     key={each.id}
+                    selector={`#${each.id}`}
                   >
                     {each.name}
                   </ScrollIntoView>
@@ -63,8 +63,8 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
 
               return (
                 <Link
-                  href={`/#${each.id}`}
                   className='block cursor-pointer text-sm md:text-xs'
+                  href={`/#${each.id}`}
                   key={each.id}
                 >
                   {each.name}
@@ -74,19 +74,19 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
           </div>
           <div className='space-y-2 text-center text-white'>
             <h3 className='font-semibold md:text-sm'>Help</h3>
-            <a href='#' className='block text-sm md:text-xs'>
+            <a className='block text-sm md:text-xs' href='#'>
               Customer Service
             </a>
-            <a href='#' className='block text-sm md:text-xs'>
+            <a className='block text-sm md:text-xs' href='#'>
               Contact
             </a>
           </div>
           <div className='space-y-2 text-center text-white'>
             <h3 className='font-semibold md:text-sm'>Legal</h3>
-            <a href='#' className='block text-sm md:text-xs'>
+            <a className='block text-sm md:text-xs' href='#'>
               Privacy Policy
             </a>
-            <a href='#' className='block text-sm md:text-xs'>
+            <a className='block text-sm md:text-xs' href='#'>
               Terms of Use
             </a>
           </div>

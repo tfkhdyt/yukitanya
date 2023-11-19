@@ -4,6 +4,7 @@ import { questions } from '@/constants/question';
 import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { P, match } from 'ts-pattern';
+
 import { AnswerModal } from './answer/answer-modal';
 import { AnswerPost } from './answer/answer-post';
 import { DetailedQuestion } from './detailed-question';
@@ -25,54 +26,54 @@ export default function Question({ params }: { params: { id: string } }) {
   return (
     <div>
       <DetailedQuestion
-        user={question.user}
         question={{
-          id: question.id,
           content: question.content,
           date: question.date,
+          id: question.id,
           numberOfAnswers: question.numberOfAnswers,
           numberOfFavorites: question.numberOfFavorites,
-          subject: question.subject,
           rating: question.rating,
+          subject: question.subject,
         }}
+        user={question.user}
       />
       <div>
         {answers.length > 0 ? (
           answers.map((answer) => (
             <AnswerPost
-              user={answer.user}
               answer={{
-                id: answer.id,
                 content: answer.content,
                 date: answer.date,
+                id: answer.id,
                 isBestAnswer: answer.isBestAnswer,
-                rating: answer.rating,
                 numberOfVotes: answer.numberOfVotes,
+                rating: answer.rating,
               }}
-              question={question}
               key={answer.id}
+              question={question}
+              user={answer.user}
             />
           ))
         ) : (
           <div className='p-6'>
             <Image
-              src='/img/questions/jawaban-kosong.png'
               alt='Jawaban Kosong'
-              height={178}
-              width={213}
               className='mx-auto'
+              height={178}
+              src='/img/questions/jawaban-kosong.png'
+              width={213}
             />
             <p className='text-center text-sm font-medium text-gray-500'>
               Taufik Hidayat yang ganteng menunggu bantuan jawabanmu
             </p>
             <AnswerModal
-              user={question.user}
               question={{
-                id: question.id,
                 content: question.content,
                 date: question.date,
+                id: question.id,
                 subject: question.subject,
               }}
+              user={question.user}
             >
               <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
                 <MessageCircle size={16} />

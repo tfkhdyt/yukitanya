@@ -1,11 +1,10 @@
 'use client';
 
+import { type AppRouter } from '@/server/api/root';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { loggerLink, unstable_httpBatchStreamLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
-
-import { type AppRouter } from '@/server/api/root';
 
 import { getUrl, transformer } from './shared';
 
@@ -19,7 +18,6 @@ export function TRPCReactProvider(props: {
 
   const [trpcClient] = useState(() =>
     api.createClient({
-      transformer,
       links: [
         loggerLink({
           enabled: (op) =>
@@ -27,14 +25,15 @@ export function TRPCReactProvider(props: {
             (op.direction === 'down' && op.result instanceof Error),
         }),
         unstable_httpBatchStreamLink({
-          url: getUrl(),
           headers() {
             const heads = new Map(props.headers);
             heads.set('x-trpc-source', 'react');
             return Object.fromEntries(heads);
           },
+          url: getUrl(),
         }),
       ],
+      transformer,
     }),
   );
 

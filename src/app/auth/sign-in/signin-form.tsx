@@ -21,14 +21,14 @@ import {
 import { Input } from '../../_components/ui/input';
 
 const signinSchema = z.object({
+  password: z
+    .string({ required_error: 'Password tidak boleh kosong' })
+    .min(8, 'Password harus lebih dari 8 karakter'),
   username: z
     .string({ required_error: 'Username tidak boleh kosong' })
     .min(4, 'Username tidak boleh kurang dari 4 karakter')
     .max(25, 'Username tidak boleh lebih dari 25 karakter')
     .trim(),
-  password: z
-    .string({ required_error: 'Password tidak boleh kosong' })
-    .min(8, 'Password harus lebih dari 8 karakter'),
 });
 
 type SigninSchema = z.infer<typeof signinSchema>;
@@ -47,7 +47,7 @@ export function SigninForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name='username'
@@ -80,12 +80,12 @@ export function SigninForm() {
                       className='rounded-full'
                     />
                     <Button
+                      aria-label='Show password'
+                      className='rounded-full p-2'
+                      onClick={() => setIsPasswordShowed((v) => !v)}
                       tabIndex={-1}
                       type='button'
-                      className='rounded-full p-2'
                       variant='outline'
-                      onClick={() => setIsPasswordShowed((v) => !v)}
-                      aria-label='Show password'
                     >
                       {match(isPasswordShowed)
                         .with(true, () => <EyeOff size={20} />)
@@ -100,8 +100,8 @@ export function SigninForm() {
           />
           <p className='text-right text-xs font-medium'>Lupa password?</p>
           <Button
-            type='submit'
             className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
+            type='submit'
           >
             Masuk
           </Button>
@@ -110,22 +110,22 @@ export function SigninForm() {
       <p className='mt-4 text-center text-sm font-medium'>atau masuk dengan</p>
       <div className='mt-4 flex items-center justify-center space-x-2'>
         <Button
-          variant='outline'
           className='rounded-full'
           title='Masuk dengan Google'
+          variant='outline'
         >
           <Image
-            src='/img/icon/google.png'
-            height={20}
-            width={20}
             alt='Google'
             className='ml-1'
+            height={20}
+            src='/img/icon/google.png'
+            width={20}
           />
         </Button>
         <Button
-          variant='outline'
           className='rounded-full'
           title='Masuk dengan Facebook'
+          variant='outline'
         >
           <Facebook color='black' />
         </Button>
@@ -133,8 +133,8 @@ export function SigninForm() {
       <p className='mt-4 text-center text-sm font-medium'>
         Belum punya akun?{' '}
         <Link
-          href='/auth/sign-up'
           className='font-semibold text-[#00B6EF] underline'
+          href='/auth/sign-up'
         >
           Daftar
         </Link>

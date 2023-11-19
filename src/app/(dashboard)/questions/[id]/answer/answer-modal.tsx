@@ -22,7 +22,6 @@ import {
   FormMessage,
 } from '@/app/_components/ui/form';
 import { Textarea } from '@/app/_components/ui/textarea';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
@@ -44,26 +43,26 @@ const answerSchema = z.object({
 
 export function AnswerModal({
   children,
-  user,
   question,
+  user,
 }: {
   children: ReactNode;
-  user: {
-    avatar: {
-      imageUrl: string;
-      fallback: string;
-    };
-    fullName: string;
-    username: string;
-  };
   question: {
-    id: string;
-    date: Date;
     content: string;
+    date: Date;
+    id: string;
     subject: {
       id: string;
       name: string;
     };
+  };
+  user: {
+    avatar: {
+      fallback: string;
+      imageUrl: string;
+    };
+    fullName: string;
+    username: string;
   };
 }) {
   // 1. Define your form.
@@ -92,15 +91,15 @@ export function AnswerModal({
             <div className='grow space-y-1'>
               <div className='flex items-center space-x-2 text-[#696984]'>
                 <Link
-                  href={`/users/${user.username}`}
                   className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
+                  href={`/users/${user.username}`}
                   title={user.fullName}
                 >
                   {user.fullName}
                 </Link>
                 <Link
-                  href={`/users/${user.username}`}
                   className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
+                  href={`/users/${user.username}`}
                   title={`@${user.username}`}
                 >
                   @{user.username}
@@ -126,8 +125,8 @@ export function AnswerModal({
               <div className='flex justify-start'>
                 <Link href={`/subjects/${question.subject.id}`}>
                   <Badge
-                    variant='secondary'
                     className='mt-3 hover:bg-slate-200'
+                    variant='secondary'
                   >
                     {question.subject.name}
                   </Badge>
@@ -143,15 +142,15 @@ export function AnswerModal({
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
-                  href={`/users/${user.username}`}
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+                  href={`/users/${user.username}`}
                   title={user.fullName}
                 >
                   {user.fullName}
                 </Link>
                 <Link
-                  href={`/users/${user.username}`}
                   className='block max-w-full truncate font-normal'
+                  href={`/users/${user.username}`}
                   title={`@${user.username}`}
                 >
                   @{user.username}
@@ -162,8 +161,8 @@ export function AnswerModal({
             <div className='py-2'>
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
                   className='space-y-4'
+                  onSubmit={form.handleSubmit(onSubmit)}
                 >
                   <FormField
                     control={form.control}
@@ -172,8 +171,8 @@ export function AnswerModal({
                       <FormItem>
                         <FormControl>
                           <Textarea
-                            rows={5}
                             placeholder='Ketik jawaban mu di sini'
+                            rows={5}
                             {...field}
                             className='mt-2'
                           />
@@ -184,8 +183,8 @@ export function AnswerModal({
                   />
                   <div className='flex justify-end'>
                     <Button
-                      type='submit'
                       className='rounded-full font-semibold'
+                      type='submit'
                     >
                       <SendIcon className='mr-1' size={16} />
                       Kirim

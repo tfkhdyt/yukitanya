@@ -1,4 +1,5 @@
 import { type Metadata } from 'next';
+
 import { SearchForm } from './search-form';
 
 export const metadata: Metadata = {

@@ -17,11 +17,11 @@ export function TentangKami() {
         </p>
       </div>
       <Image
-        src='/img/tentang_kami_wave.svg'
-        width={1920}
-        height={200}
         alt='wave'
         className='mt-24 h-auto w-full'
+        height={200}
+        src='/img/tentang_kami_wave.svg'
+        width={1920}
       />
     </section>
   );
