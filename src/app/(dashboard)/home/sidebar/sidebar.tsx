@@ -1,5 +1,6 @@
 'use client';
 
+import { type User } from '@/server/auth';
 import { useSidebarStore } from '@/stores/sidebar';
 import { Bell, Book, Heart, HomeIcon, Search } from 'lucide-react';
 import Image from 'next/image';
@@ -9,7 +10,13 @@ import { P, match } from 'ts-pattern';
 
 import { ProfileButton } from './profile-button';
 
-export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
+export function Sidebar({
+  isMobile = false,
+  user,
+}: {
+  isMobile?: boolean;
+  user: User | undefined;
+}) {
   const menu = [
     {
       icon: HomeIcon,
@@ -80,11 +87,11 @@ export function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
         <div className='hidden lg:block'>
           <ProfileButton
             avatar={{
-              fallback: 'TH',
-              imageUrl: 'https://github.com/tfkhdyt.png',
+              fallback: user?.initial ?? '',
+              imageUrl: user?.image ?? '',
             }}
-            fullName='Taufik Hidayat'
-            username='tfkhdyt'
+            fullName={user?.name ?? ''}
+            username={user?.username ?? ''}
           />
         </div>
       </div>
