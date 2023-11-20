@@ -15,6 +15,13 @@
       "when": 1700467125978,
       "tag": "0001_lying_risque",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1700470910671,
+      "tag": "0002_chubby_stranger",
+      "breakpoints": true
     }
   ]
 }
