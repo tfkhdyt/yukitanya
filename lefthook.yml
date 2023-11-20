@@ -13,7 +13,7 @@ pre-commit:
   commands:
     eslint:
       glob: '**/*.{js,ts,jsx,tsx}'
-      run: bun lint:fix
+      run: pnpm lint:fix
     prettier:
       glob: '**/*.{js,ts,jsx,tsx}'
-      run: bun format {staged_files}
+      run: pnpm format ./src
