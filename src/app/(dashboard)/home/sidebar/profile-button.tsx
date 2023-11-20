@@ -13,6 +13,7 @@ import {
 } from '@/app/_components/ui/dropdown-menu';
 import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 export function ProfileButton(props: {
   avatar: {
@@ -48,7 +49,14 @@ export function ProfileButton(props: {
             My Profile
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem className='focus:bg-red-100 focus:text-red-900'>
+        <DropdownMenuItem
+          className='cursor-pointer focus:bg-red-100 focus:text-red-900'
+          onClick={() =>
+            signOut({
+              callbackUrl: '/auth/sign-in',
+            })
+          }
+        >
           <LogOutIcon className='mr-1' size={18} />
           Sign out
         </DropdownMenuItem>
