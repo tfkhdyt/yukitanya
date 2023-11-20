@@ -6,6 +6,7 @@
     "build": "next build",
     "db:push": "dotenv drizzle-kit push:pg",
     "db:generate": "dotenv drizzle-kit generate:pg",
+    "db:migrate": "dotenv tsx ./src/server/db/migrate.ts",
     "db:studio": "dotenv drizzle-kit studio",
     "dev": "next dev",
     "lint": "next lint",
@@ -42,6 +43,7 @@
     "dayjs": "^1.11.10",
     "drizzle-orm": "^0.28.6",
     "lucide-react": "^0.288.0",
+    "nanoid": "^5.0.3",
     "next": "^13.5.6",
     "next-auth": "^4.24.5",
     "postgres": "^3.4.3",
@@ -76,6 +78,7 @@
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
+    "tsx": "^4.1.4",
     "typescript": "^5.2.2"
   },
   "ct3aMetadata": {
