@@ -22,7 +22,6 @@ dayjs.extend(relativeTime);
 export const metadata = {
   description:
     'Yukitanya adalah sebuah website yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
-  icons: [{ rel: 'icon', url: '/favicon.ico' }],
   title: 'Yukitanya',
 };
 
