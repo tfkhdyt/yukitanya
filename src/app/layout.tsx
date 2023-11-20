@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { headers } from 'next/headers';
+import { Toaster } from 'react-hot-toast';
 
 dayjs.locale('id');
 dayjs.extend(relativeTime);
@@ -34,6 +35,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className='font-poppins'>
         <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+        <Toaster position='top-right' reverseOrder={false} />
       </body>
     </html>
   );

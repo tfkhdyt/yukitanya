@@ -1,11 +1,12 @@
 import { db } from '@/server/db';
-import { mysqlTable } from '@/server/db/schema';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
+import * as argon2 from 'argon2';
 import {
   type DefaultSession,
   type NextAuthOptions,
   getServerSession,
 } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -34,7 +35,7 @@ declare module 'next-auth' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db, mysqlTable),
+  adapter: DrizzleAdapter(db),
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
@@ -44,7 +45,63 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+  pages: {
+    error: undefined, // Error code passed in query string as ?error=
+    // newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
+    signIn: '/auth/sign-in',
+    // signOut: '/auth/signout',
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+  },
   providers: [
+    CredentialsProvider({
+      async authorize(credentials, _) {
+        // You need to provide your own logic here that takes the credentials
+        // submitted and returns either a object representing a user or value
+        // that is false/null if the credentials are invalid.
+        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+        // You can also use the `req` object to obtain additional parameters
+        // (i.e., the request IP address)
+        // const res = await fetch('/your/endpoint', {
+        //   body: JSON.stringify(credentials),
+        //   headers: { 'Content-Type': 'application/json' },
+        //   method: 'POST',
+        // });
+        // const user = await res.json();
+
+        if (!credentials?.username || !credentials?.password) {
+          return null;
+        }
+
+        const user = await db.query.users.findFirst({
+          where: (users, { eq }) => eq(users.username, credentials.username),
+        });
+
+        if (!user) {
+          throw new Error('User tidak ditemukan');
+        }
+
+        const isPasswordMatch = await argon2.verify(
+          user.password,
+          credentials.password,
+        );
+
+        if (!isPasswordMatch) {
+          throw new Error('Password tidak valid');
+        }
+
+        return user;
+      },
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        password: { label: 'Password', type: 'password' },
+        username: { label: 'Username', placeholder: 'jsmith', type: 'text' },
+      },
+      // The name to display on the sign in form (e.g. 'Sign in with...')
+      name: 'Credentials',
+    }),
     // DiscordProvider({
     //   clientId: env.DISCORD_CLIENT_ID,
     //   clientSecret: env.DISCORD_CLIENT_SECRET,

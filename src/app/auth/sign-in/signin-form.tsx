@@ -4,8 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
@@ -35,13 +37,28 @@ type SigninSchema = z.infer<typeof signinSchema>;
 
 export function SigninForm() {
   const [isPasswordShowed, setIsPasswordShowed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SigninSchema>({
     resolver: zodResolver(signinSchema),
   });
 
-  const onSubmit = (values: SigninSchema) => {
-    console.log(values);
+  const onSubmit = async (values: SigninSchema) => {
+    setIsLoading(true);
+    const toastId = toast.loading('Loading...');
+
+    const result = await signIn('credentials', {
+      password: values.password,
+      redirect: false,
+      username: values.username,
+    });
+
+    if (!result?.ok && result?.error) {
+      toast.error(result.error, {
+        id: toastId,
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -101,6 +118,7 @@ export function SigninForm() {
           <p className='text-right text-xs font-medium'>Lupa password?</p>
           <Button
             className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
+            disabled={isLoading}
             type='submit'
           >
             Masuk
