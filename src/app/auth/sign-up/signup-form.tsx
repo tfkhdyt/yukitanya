@@ -1,13 +1,15 @@
 'use client';
 
+import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
+import { api } from '@/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
-import { z } from 'zod';
 
 import { Button } from '../../_components/ui/button';
 import {
@@ -20,41 +22,6 @@ import {
 } from '../../_components/ui/form';
 import { Input } from '../../_components/ui/input';
 
-const signupSchema = z
-  .object({
-    confirmPassword: z
-      .string({ required_error: 'Confirm password tidak boleh kosong' })
-      .min(8, 'Confirm password harus lebih dari 8 karakter'),
-    email: z
-      .string({ required_error: 'Email tidak boleh kosong' })
-      .email('Email tidak valid')
-      .trim(),
-    firstName: z
-      .string({ required_error: 'Nama depan tidak boleh kosong' })
-      .min(1)
-      .max(100, 'Nama depan tidak boleh lebih dari 100 karakter')
-      .trim(),
-    lastName: z
-      .string()
-      .max(100, 'Nama belakang tidak boleh lebih dari 100 karakter')
-      .trim()
-      .optional(),
-    password: z
-      .string({ required_error: 'Password tidak boleh kosong' })
-      .min(8, 'Password harus lebih dari 8 karakter'),
-    username: z
-      .string({ required_error: 'Username tidak boleh kosong' })
-      .min(4, 'Username tidak boleh kurang dari 4 karakter')
-      .max(25, 'Username tidak boleh lebih dari 25 karakter')
-      .trim(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Password tidak cocok',
-    path: ['confirmPassword'],
-  });
-
-type SignupSchema = z.infer<typeof signupSchema>;
-
 export function SignupForm() {
   const [isPasswordShowed, setIsPasswordShowed] = useState(false);
   const [isConfirmPasswordShowed, setIsConfirmPasswordShowed] = useState(false);
@@ -62,9 +29,30 @@ export function SignupForm() {
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
   });
+  const { error, isError, isLoading, isSuccess, mutate } =
+    api.user.register.useMutation();
+
+  if (isError) {
+    toast.error(error.message);
+  }
+
+  if (isSuccess) {
+    toast.success('Registrasi berhasil!');
+  }
 
   const onSubmit = (values: SignupSchema) => {
-    console.log(values);
+    const toastId = toast.loading('Loading...');
+
+    mutate({
+      confirmPassword: values.confirmPassword,
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      password: values.password,
+      username: values.username,
+    });
+
+    toast.dismiss(toastId);
   };
 
   return (
@@ -211,6 +199,7 @@ export function SignupForm() {
 
           <Button
             className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
+            disabled={isLoading}
             type='submit'
           >
             Buat akun
