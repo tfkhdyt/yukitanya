@@ -22,6 +22,13 @@
       "when": 1700470910671,
       "tag": "0002_chubby_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1700476171813,
+      "tag": "0003_great_roxanne_simpson",
+      "breakpoints": true
     }
   ]
 }
