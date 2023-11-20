@@ -8,6 +8,14 @@ import {
 } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+export type User = {
+  // ...other properties
+  // role: UserRole;
+  id: string;
+  initial: string;
+  username: string;
+} & DefaultSession['user'];
+
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -17,15 +25,20 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
-      id: string;
       // ...other properties
       // role: UserRole;
+      id: string;
+      initial: string;
+      username: string;
     } & DefaultSession['user'];
   }
 
   // interface User {
   //   // ...other properties
   //   // role: UserRole;
+  //   id: string;
+  //   initial: string;
+  //   username: string;
   // }
 }
 
@@ -42,6 +55,10 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        initial: user.name
+          ?.split(' ')
+          .map((name) => name.slice(0, 1))
+          .join(),
       },
     }),
   },
@@ -55,19 +72,6 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       async authorize(credentials, _) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        // const res = await fetch('/your/endpoint', {
-        //   body: JSON.stringify(credentials),
-        //   headers: { 'Content-Type': 'application/json' },
-        //   method: 'POST',
-        // });
-        // const user = await res.json();
-
         if (!credentials?.username || !credentials?.password) {
           return null;
         }
@@ -91,15 +95,11 @@ export const authOptions: NextAuthOptions = {
 
         return user;
       },
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
+
       credentials: {
         password: { label: 'Password', type: 'password' },
         username: { label: 'Username', placeholder: 'jsmith', type: 'text' },
       },
-      // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
     }),
     // DiscordProvider({
