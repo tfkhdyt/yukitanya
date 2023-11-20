@@ -9,12 +9,14 @@ import {
 import { type AdapterAccount } from 'next-auth/adapters';
 
 export const users = pgTable('users', {
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
   email: text('email').notNull(),
   emailVerified: timestamp('email_verified', { mode: 'date' }),
   id: text('id').notNull().primaryKey(),
   image: text('image'),
   name: text('name'),
   password: text('password').notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
   username: varchar('username', { length: 25 }).notNull(),
 });
 
