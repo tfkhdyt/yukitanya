@@ -1,4 +1,8 @@
+import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import { users } from '@/server/db/schema';
+import * as argon2 from 'argon2';
+import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 export const userRouter = createTRPCRouter({
@@ -18,16 +22,19 @@ export const userRouter = createTRPCRouter({
           ),
       });
     }),
-  // create: protectedProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
-  //     await ctx.db.insert(posts).values({
-  //       createdById: ctx.session.user.id,
-  //       name: input.name,
-  //     });
-  //   }),
+  register: publicProcedure
+    .input(signupSchema)
+    .mutation(async ({ ctx, input }) => {
+      const hashedPwd = await argon2.hash(input.password);
+
+      await ctx.db.insert(users).values({
+        email: input.email,
+        id: `user-${nanoid()}`,
+        name: `${input.firstName.trim()} ${input.lastName?.trim()}`.trim(),
+        password: hashedPwd,
+        username: input.username,
+      });
+    }),
   // getLatest: publicProcedure.query(({ ctx }) => {
   //   return ctx.db.query.posts.findFirst({
   //     orderBy: (posts, { desc }) => [desc(posts.createdAt)],
