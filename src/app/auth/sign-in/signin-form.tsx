@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -43,7 +42,6 @@ export function SigninForm() {
   const form = useForm<SigninSchema>({
     resolver: zodResolver(signinSchema),
   });
-  const router = useRouter();
 
   const onSubmit = async (values: SigninSchema) => {
     setIsLoading(true);
@@ -65,7 +63,7 @@ export function SigninForm() {
     setIsLoading(false);
     toast.dismiss(toastId);
 
-    router.push('/home');
+    window.location.replace('/home');
   };
 
   return (
