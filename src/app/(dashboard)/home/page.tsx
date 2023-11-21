@@ -1,17 +1,19 @@
+import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang';
+import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import { questions } from '@/constants/question';
-import { PencilIcon } from 'lucide-react';
+import { getServerAuthSession } from '@/server/auth';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 
-import { Button } from '../../_components/ui/button';
-import { QuestionModal } from './question/question-modal';
 import { QuestionPost } from './question/question-post';
 
 export const metadata: Metadata = {
   title: 'Beranda - Yukitanya',
 };
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerAuthSession();
+
   return (
     <>
       <div className='flex border-b-2 p-6 md:items-center lg:hidden'>
@@ -19,19 +21,7 @@ export default function Home() {
           <h2 className='text-xl font-extrabold'>
             JANGAN MALU UNTUK BERTANYA!
           </h2>
-          <QuestionModal
-            avatar={{
-              fallback: 'TH',
-              imageUrl: 'https://github.com/tfkhdyt.png',
-            }}
-            fullName='Taufik Hidayat'
-            username='tfkhdyt'
-          >
-            <Button className='flex items-center space-x-2 rounded-full font-semibold'>
-              <PencilIcon size={16} />
-              <p>Tanyakan Sekarang!</p>
-            </Button>
-          </QuestionModal>
+          <TanyakanSekarangBtn user={session?.user} />
         </div>
         <div className='w-1/3'>
           <Image
@@ -60,31 +50,7 @@ export default function Home() {
           />
         ))
       ) : (
-        <div className='p-6'>
-          <Image
-            alt='Pertanyaan Kosong'
-            className='mx-auto'
-            height={178}
-            src='/img/questions/jawaban-kosong.png'
-            width={213}
-          />
-          <p className='text-center text-sm font-medium text-gray-500'>
-            Belum ada pertanyaan yang tersedia
-          </p>
-          <QuestionModal
-            avatar={{
-              fallback: 'TH',
-              imageUrl: 'https://github.com/tfkhdyt.png',
-            }}
-            fullName='Taufik Hidayat'
-            username='tfkhdyt'
-          >
-            <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
-              <PencilIcon size={16} />
-              <p>Tanyakan Sekarang!</p>
-            </Button>
-          </QuestionModal>
-        </div>
+        <PertanyaanKosong user={session?.user} />
       )}
     </>
   );

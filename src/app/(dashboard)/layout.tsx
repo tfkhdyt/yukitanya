@@ -1,12 +1,12 @@
 import { getServerAuthSession } from '@/server/auth';
-import { PencilIcon } from 'lucide-react';
 import Image from 'next/image';
 import { type ReactNode } from 'react';
 
-import { Button } from '../_components/ui/button';
-import { QuestionModal } from './home/question/question-modal';
+import { TanyakanSekarangBtn } from '../_components/buttons/tanyakan-sekarang';
 import { Sidebar } from './home/sidebar/sidebar';
 import { MainContent } from './main-content';
+
+export const revalidate = 0;
 
 export default async function DashboardLayout({
   children,
@@ -14,7 +14,6 @@ export default async function DashboardLayout({
   children: ReactNode;
 }) {
   const session = await getServerAuthSession();
-  console.log({ session });
 
   return (
     <section className='flex lg:container'>
@@ -30,19 +29,7 @@ export default async function DashboardLayout({
           src='/img/home/mari-bertanya.png'
           width={168}
         />
-        <QuestionModal
-          avatar={{
-            fallback: session?.user.initial ?? '',
-            imageUrl: session?.user.image ?? '',
-          }}
-          fullName={session?.user.name ?? ''}
-          username={session?.user.username ?? ''}
-        >
-          <Button className='flex items-center space-x-2 rounded-full font-semibold'>
-            <PencilIcon size={16} />
-            <p>Tanyakan Sekarang!</p>
-          </Button>
-        </QuestionModal>
+        <TanyakanSekarangBtn user={session?.user} />
       </aside>
     </section>
   );
