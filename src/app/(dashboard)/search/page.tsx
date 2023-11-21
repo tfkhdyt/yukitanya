@@ -1,3 +1,4 @@
+import { getServerAuthSession } from '@/server/auth';
 import { type Metadata } from 'next';
 
 import { SearchForm } from './search-form';
@@ -6,10 +7,12 @@ export const metadata: Metadata = {
   title: 'Cari Pertanyaan - Yukitanya',
 };
 
-export default function SearchPage() {
+export default async function SearchPage() {
+  const session = await getServerAuthSession();
+
   return (
     <main>
-      <SearchForm />
+      <SearchForm user={session?.user} />
     </main>
   );
 }

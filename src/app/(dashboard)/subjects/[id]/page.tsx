@@ -1,10 +1,8 @@
-import { Button } from '@/app/_components/ui/button';
+import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import { mapel } from '@/constants/mapel';
 import { questions } from '@/constants/question';
-import { PencilIcon } from 'lucide-react';
-import Image from 'next/image';
+import { getServerAuthSession } from '@/server/auth';
 
-import { QuestionModal } from '../../home/question/question-modal';
 import { QuestionPost } from '../../home/question/question-post';
 
 export function generateMetadata({ params }: { params: { id: string } }) {
@@ -16,7 +14,12 @@ export function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default function SubjectDetail({ params }: { params: { id: string } }) {
+export default async function SubjectDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const session = await getServerAuthSession();
   const filteredPost = questions.filter(
     (question) => question.subject.id === params.id,
   );
@@ -40,32 +43,7 @@ export default function SubjectDetail({ params }: { params: { id: string } }) {
           />
         ))
       ) : (
-        <div className='p-6'>
-          <Image
-            alt='Pertanyaan Kosong'
-            className='mx-auto'
-            height={178}
-            src='/img/questions/jawaban-kosong.png'
-            width={213}
-          />
-          <p className='text-center text-sm font-medium text-gray-500'>
-            Belum ada pertanyaan yang tersedia
-          </p>
-          <QuestionModal
-            avatar={{
-              fallback: 'TH',
-              imageUrl: 'https://github.com/tfkhdyt.png',
-            }}
-            defaultSubject={params.id}
-            fullName='Taufik Hidayat'
-            username='tfkhdyt'
-          >
-            <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
-              <PencilIcon size={16} />
-              <p>Tanyakan Sekarang!</p>
-            </Button>
-          </QuestionModal>
-        </div>
+        <PertanyaanKosong user={session?.user} />
       )}
     </main>
   );

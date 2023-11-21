@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/app/_components/ui/button';
+import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import { Input } from '@/app/_components/ui/input';
 import {
   Select,
@@ -11,16 +11,14 @@ import {
 } from '@/app/_components/ui/select';
 import { mapel } from '@/constants/mapel';
 import { questions } from '@/constants/question';
+import { type User } from '@/server/auth';
 import { useDebounce } from '@uidotdev/usehooks';
-import { PencilIcon } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { QuestionModal } from '../home/question/question-modal';
 import { QuestionPost } from '../home/question/question-post';
 
-export function SearchForm() {
+export function SearchForm({ user }: { user: User | undefined }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -96,31 +94,10 @@ export function SearchForm() {
               />
             ))
           : debouncedQuery && (
-              <div className='p-6'>
-                <Image
-                  alt='Pertanyaan Kosong'
-                  className='mx-auto'
-                  height={178}
-                  src='/img/questions/jawaban-kosong.png'
-                  width={213}
-                />
-                <p className='text-center text-sm font-medium text-gray-500'>
-                  Pertanyaan yang kamu cari tidak ditemukan
-                </p>
-                <QuestionModal
-                  avatar={{
-                    fallback: 'TH',
-                    imageUrl: 'https://github.com/tfkhdyt.png',
-                  }}
-                  fullName='Taufik Hidayat'
-                  username='tfkhdyt'
-                >
-                  <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
-                    <PencilIcon size={16} />
-                    <p>Tanyakan Sekarang!</p>
-                  </Button>
-                </QuestionModal>
-              </div>
+              <PertanyaanKosong
+                title='Pertanyaan yang kamu cari tidak ditemukan'
+                user={user}
+              />
             )}
       </div>
     </>

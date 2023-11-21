@@ -1,3 +1,4 @@
+import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import {
   Avatar,
   AvatarFallback,
@@ -12,16 +13,17 @@ import {
 } from '@/app/_components/ui/tabs';
 import { answers } from '@/constants/answer';
 import { questions } from '@/constants/question';
+import { getServerAuthSession } from '@/server/auth';
 import dayjs from 'dayjs';
-import { MessageCircleIcon, PencilIcon } from 'lucide-react';
+import { MessageCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 
-import { QuestionModal } from '../../home/question/question-modal';
 import { QuestionPost } from '../../home/question/question-post';
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 import { AnswerPost } from '../../questions/[id]/answer/answer-post';
 
-export default function UserPage() {
+export default async function UserPage() {
+  const session = await getServerAuthSession();
   const filteredQuestion = questions.filter(
     (question) => question.user.username === 'tfkhdyt',
   );
@@ -87,31 +89,10 @@ export default function UserPage() {
                 />
               ))
             ) : (
-              <div className='p-6'>
-                <Image
-                  alt='Pertanyaan Kosong'
-                  className='mx-auto'
-                  height={178}
-                  src='/img/questions/jawaban-kosong.png'
-                  width={213}
-                />
-                <p className='text-center text-sm font-medium text-gray-500'>
-                  Kamu belum membuat pertanyaan
-                </p>
-                <QuestionModal
-                  avatar={{
-                    fallback: 'TH',
-                    imageUrl: 'https://github.com/tfkhdyt.png',
-                  }}
-                  fullName='Taufik Hidayat'
-                  username='tfkhdyt'
-                >
-                  <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
-                    <PencilIcon size={16} />
-                    <p>Tanyakan Sekarang!</p>
-                  </Button>
-                </QuestionModal>
-              </div>
+              <PertanyaanKosong
+                title='Kamu belum membuat pertanyaan'
+                user={session?.user}
+              />
             )}
           </TabsContent>
           <TabsContent className='-mt-0.5' value='Jawaban'>
@@ -179,31 +160,10 @@ export default function UserPage() {
                 />
               ))
             ) : (
-              <div className='p-6'>
-                <Image
-                  alt='Pertanyaan Kosong'
-                  className='mx-auto'
-                  height={178}
-                  src='/img/questions/jawaban-kosong.png'
-                  width={213}
-                />
-                <p className='text-center text-sm font-medium text-gray-500'>
-                  Kamu belum membuat pertanyaan
-                </p>
-                <QuestionModal
-                  avatar={{
-                    fallback: 'TH',
-                    imageUrl: 'https://github.com/tfkhdyt.png',
-                  }}
-                  fullName='Taufik Hidayat'
-                  username='tfkhdyt'
-                >
-                  <Button className='mx-auto mt-4 flex items-center space-x-2 rounded-full font-semibold'>
-                    <PencilIcon size={16} />
-                    <p>Tanyakan Sekarang!</p>
-                  </Button>
-                </QuestionModal>
-              </div>
+              <PertanyaanKosong
+                title='Kamu belum membuat pertanyaan'
+                user={session?.user}
+              />
             )}
           </TabsContent>
         </Tabs>
