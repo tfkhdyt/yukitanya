@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { getDiceBearUrl } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -40,7 +41,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
     <DropdownMenu>
       <DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-transparent transition lg:border-2 lg:px-4 lg:py-3 lg:hover:border-[#F48C06]'>
         <Avatar>
-          <AvatarImage src={user?.image ?? undefined} />
+          <AvatarImage src={user?.image ?? getDiceBearUrl(user.username)} />
           <AvatarFallback>{user?.initial}</AvatarFallback>
         </Avatar>
         <div className='hidden pr-2 text-left lg:inline lg:pr-4'>
