@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   integer,
   pgTable,
@@ -19,6 +20,12 @@ export const users = pgTable('user', {
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
   username: varchar('username', { length: 25 }).notNull().unique(),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  answers: many(answers),
+  questions: many(questions),
+  ratings: many(ratings),
+}));
 
 export const accounts = pgTable(
   'account',
@@ -61,3 +68,107 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey(vt.identifier, vt.token),
   }),
 );
+
+export const questions = pgTable('question', {
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  id: text('id').notNull().primaryKey(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+});
+
+export const questionsRelations = relations(questions, ({ many, one }) => ({
+  answers: many(answers),
+  owner: one(users, {
+    fields: [questions.userId],
+    references: [users.id],
+  }),
+  questionsToSubjects: many(questionsToSubjects),
+}));
+
+export const answers = pgTable('answer', {
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  id: text('id').notNull().primaryKey(),
+  questionId: text('question_id')
+    .notNull()
+    .references(() => questions.id, { onDelete: 'cascade' }),
+  updatedAt: timestamp('updated_at').defaultNow(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+});
+
+export const answersRelations = relations(answers, ({ many, one }) => ({
+  owner: one(users, {
+    fields: [answers.userId],
+    references: [users.id],
+  }),
+  question: one(questions, {
+    fields: [answers.questionId],
+    references: [questions.id],
+  }),
+  ratings: many(ratings),
+}));
+
+export const subjects = pgTable('subject', {
+  id: text('id').notNull().primaryKey(),
+  name: varchar('name', { length: 50 }).notNull(),
+});
+
+export const subjectsRelations = relations(subjects, ({ many }) => ({
+  questionsToSubjects: many(questionsToSubjects),
+}));
+
+export const questionsToSubjects = pgTable(
+  'question_to_subject',
+  {
+    questionId: text('question_id')
+      .notNull()
+      .references(() => questions.id),
+    subjectId: text('subject_id')
+      .notNull()
+      .references(() => subjects.id),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.questionId, t.subjectId] }),
+  }),
+);
+
+export const questionsToSubjectsRelations = relations(
+  questionsToSubjects,
+  ({ one }) => ({
+    question: one(questions, {
+      fields: [questionsToSubjects.questionId],
+      references: [questions.id],
+    }),
+    subject: one(subjects, {
+      fields: [questionsToSubjects.subjectId],
+      references: [subjects.id],
+    }),
+  }),
+);
+
+export const ratings = pgTable('rating', {
+  answerId: text('answer_id')
+    .notNull()
+    .references(() => answers.id, { onDelete: 'cascade' }),
+  id: text('id').notNull().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  value: integer('value').notNull(),
+});
+
+export const ratingsRelations = relations(ratings, ({ one }) => ({
+  answer: one(answers, {
+    fields: [ratings.answerId],
+    references: [answers.id],
+  }),
+  owner: one(users, {
+    fields: [ratings.userId],
+    references: [users.id],
+  }),
+}));
