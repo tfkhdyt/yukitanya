@@ -44,6 +44,13 @@ declare module 'next-auth' {
   // }
 }
 
+declare module 'next-auth/jwt' {
+  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+  interface JWT {
+    id: string;
+  }
+}
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -55,7 +62,7 @@ export const authOptions: NextAuthOptions = {
     jwt({ account, token, user }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (user) {
-        token = { ...token, ...user };
+        token = { ...token, id: user.id };
       }
 
       if (account) {
@@ -64,17 +71,31 @@ export const authOptions: NextAuthOptions = {
 
       return token;
     },
-    session: ({ session, token }) => {
+    async session({ session, token }) {
       if (token) {
+        const user = await db.query.users.findFirst({
+          where: (users, { eq }) => eq(users.id, token.id),
+        });
+
+        if (!user) {
+          throw new Error('User tidak ditemukan');
+        }
+
         session = {
           ...session,
-          user: token as User,
+          user: {
+            email: user.email,
+            id: user.id,
+            image: user.image,
+            initial:
+              user.name
+                ?.split(' ')
+                .map((name) => name.slice(0, 1))
+                .join('') ?? '',
+            name: user.name,
+            username: user.username,
+          },
         };
-        session.user.initial =
-          token.name
-            ?.split(' ')
-            .map((name) => name.slice(0, 1))
-            .join('') ?? '';
       }
 
       return session;
@@ -111,7 +132,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Password tidak valid');
         }
 
-        return user;
+        return { id: user.id };
       },
 
       credentials: {
