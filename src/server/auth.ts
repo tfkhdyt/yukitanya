@@ -25,11 +25,12 @@ export type User = {
  */
 declare module 'next-auth' {
   interface Session {
+    token: string;
     user: {
       // ...other properties
-      // role: UserRole;
       id: string;
       initial: string;
+      // role: UserRole;
       username: string;
     } & DefaultSession['user'];
   }
@@ -51,42 +52,30 @@ declare module 'next-auth' {
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db),
   callbacks: {
-    async jwt({ account, token, user }) {
+    jwt({ account, token, user }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
-      if (account) {
-        token.accessToken = account.access_token;
+      if (user) {
+        token = { ...token, ...user };
       }
 
-      if (!user) {
-        const _user = await db.query.users.findFirst({
-          where: (users, { eq }) => eq(users.id, token.sub!),
-        });
-
-        token = {
-          ...token,
-          createdAt: _user?.createdAt,
-          updatedAt: _user?.updatedAt,
-          username: _user?.username,
-        };
-      } else {
-        token = {
-          ...token,
-          ...user,
-        };
+      if (account) {
+        token.accessToken = account.access_token;
       }
 
       return token;
     },
     session: ({ session, token }) => {
-      session = {
-        ...session,
-        user: token as User,
-      };
-      session.user.initial =
-        token.name
-          ?.split(' ')
-          .map((name) => name.slice(0, 1))
-          .join('') ?? '';
+      if (token) {
+        session = {
+          ...session,
+          user: token as User,
+        };
+        session.user.initial =
+          token.name
+            ?.split(' ')
+            .map((name) => name.slice(0, 1))
+            .join('') ?? '';
+      }
 
       return session;
     },
