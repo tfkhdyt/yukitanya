@@ -29,6 +29,7 @@ import {
 } from '@/app/_components/ui/select';
 import { Textarea } from '@/app/_components/ui/textarea';
 import { mapel } from '@/constants/mapel';
+import { type User } from '@/server/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -48,24 +49,17 @@ const questionSchema = z.object({
 });
 
 export function QuestionModal({
-  avatar,
   children,
   defaultSubject,
   defaultValue,
-  fullName,
   title = 'Ajukan pertanyaan',
-  username,
+  user,
 }: {
-  avatar: {
-    fallback: string;
-    imageUrl: string;
-  };
   children: ReactNode;
   defaultSubject?: string;
   defaultValue?: string;
-  fullName: string;
   title?: string;
-  username: string;
+  user: User;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionSchema>>({
@@ -92,23 +86,23 @@ export function QuestionModal({
           <div className='-mx-4 p-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>
-                <AvatarImage src={avatar.imageUrl} />
-                <AvatarFallback>{avatar.fallback}</AvatarFallback>
+                <AvatarImage src={user.image ?? undefined} />
+                <AvatarFallback>{user.initial}</AvatarFallback>
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
-                  href={`/users/${username}`}
-                  title={fullName}
+                  href={`/users/${user.username}`}
+                  title={user.name ?? undefined}
                 >
-                  {fullName}
+                  {user.name}
                 </Link>
                 <Link
                   className='block max-w-full truncate font-normal'
-                  href={`/users/${username}`}
-                  title={`@${username}`}
+                  href={`/users/${user.username}`}
+                  title={`@${user.username}`}
                 >
-                  @{username}
+                  @{user.username}
                 </Link>
               </div>
             </div>
