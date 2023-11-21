@@ -85,14 +85,7 @@ export function Sidebar({
           </Link>
         ))}
         <div className='hidden lg:block'>
-          <ProfileButton
-            avatar={{
-              fallback: user?.initial ?? '',
-              imageUrl: user?.image ?? '',
-            }}
-            fullName={user?.name ?? ''}
-            username={user?.username ?? ''}
-          />
+          <ProfileButton user={user} />
         </div>
       </div>
     </nav>

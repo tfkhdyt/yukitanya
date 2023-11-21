@@ -5,8 +5,7 @@ import { type User } from '@/server/auth';
 import { useSidebarStore } from '@/stores/sidebar';
 import clsx from 'clsx';
 import { AlignJustifyIcon, ArrowLeft, CheckCheckIcon } from 'lucide-react';
-import { useParams, usePathname } from 'next/navigation';
-import router from 'next/router';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { P, match } from 'ts-pattern';
 
@@ -24,6 +23,8 @@ export function MainContent({
   const pathname = usePathname();
   const sidebarStore = useSidebarStore();
   const params = useParams();
+  const router = useRouter();
+
   let username = '';
   if (pathname.startsWith('/users/')) {
     username = params.id as string;
@@ -102,14 +103,7 @@ export function MainContent({
             pathname.startsWith('/questions/') && 'hidden',
           )}
         >
-          <ProfileButton
-            avatar={{
-              fallback: user?.initial ?? '',
-              imageUrl: user?.image ?? '',
-            }}
-            fullName={user?.name ?? ''}
-            username={user?.username ?? ''}
-          />
+          <ProfileButton user={user} />
         </div>
       </div>
       <div>{children}</div>

@@ -11,29 +11,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { type User } from '@/server/auth';
 import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
-export function ProfileButton(props: {
-  avatar: {
-    fallback: string;
-    imageUrl: string;
-  };
-  fullName: string;
-  username: string;
-}) {
+export function ProfileButton({ user }: { user: User | undefined }) {
+  if (!user) {
+    return (
+      <div className='mt-6 space-x-3'>
+        <Link
+          className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
+          href='/auth/sign-in'
+        >
+          Masuk
+        </Link>
+        <Link
+          className='rounded-lg bg-[#77425A] px-4 py-2 font-semibold text-white shadow-md'
+          href='/auth/sign-up'
+        >
+          Daftar
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-transparent transition lg:border-2 lg:px-4 lg:py-3 lg:hover:border-[#F48C06]'>
         <Avatar>
-          <AvatarImage src={props.avatar.imageUrl} />
-          <AvatarFallback>{props.avatar.fallback}</AvatarFallback>
+          <AvatarImage src={user?.image ?? undefined} />
+          <AvatarFallback>{user?.initial}</AvatarFallback>
         </Avatar>
         <div className='hidden pr-2 text-left lg:inline lg:pr-4'>
-          <h2 className='text-sm font-medium lg:text-base'>{props.fullName}</h2>
+          <h2 className='text-sm font-medium lg:text-base'>{user?.name}</h2>
           <p className='hidden text-sm lg:inline lg:text-base'>
-            @{props.username}
+            @{user?.username}
           </p>
         </div>
         <div className='hidden lg:inline'>
@@ -41,9 +54,9 @@ export function ProfileButton(props: {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='text-[#696984]'>
-        <DropdownMenuLabel>@{props.username}</DropdownMenuLabel>
+        <DropdownMenuLabel>@{user?.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href={`/users/${props.username}`}>
+        <Link href={`/users/${user?.username}`}>
           <DropdownMenuItem className='cursor-pointer'>
             <UserCircle className='mr-1' size={18} />
             My Profile
