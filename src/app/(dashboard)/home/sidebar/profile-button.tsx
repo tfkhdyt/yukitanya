@@ -19,15 +19,15 @@ import { signOut } from 'next-auth/react';
 export function ProfileButton({ user }: { user: User | undefined }) {
   if (!user) {
     return (
-      <div className='mt-6 space-x-3'>
+      <div className='space-x-3 lg:mt-6'>
         <Link
-          className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
+          className='rounded-lg bg-[#F48C06] px-3 py-1 font-semibold text-white shadow-md lg:px-4 lg:py-2'
           href='/auth/sign-in'
         >
           Masuk
         </Link>
         <Link
-          className='rounded-lg bg-[#77425A] px-4 py-2 font-semibold text-white shadow-md'
+          className='rounded-lg bg-[#77425A] px-3 py-1 font-semibold text-white shadow-md lg:px-4 lg:py-2'
           href='/auth/sign-up'
         >
           Daftar
