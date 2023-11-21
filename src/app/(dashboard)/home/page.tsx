@@ -2,6 +2,7 @@ import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang
 import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import { questions } from '@/constants/question';
 import { getServerAuthSession } from '@/server/auth';
+import clsx from 'clsx';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 
@@ -16,7 +17,12 @@ export default async function Home() {
 
   return (
     <>
-      <div className='flex border-b-2 p-6 md:items-center lg:hidden'>
+      <div
+        className={clsx(
+          'flex border-b-2 p-6 md:items-center lg:hidden',
+          session?.user ?? 'hidden',
+        )}
+      >
         <div className='w-2/3 space-y-4 pr-2'>
           <h2 className='text-xl font-extrabold'>
             JANGAN MALU UNTUK BERTANYA!
