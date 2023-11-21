@@ -1,3 +1,4 @@
+import { env } from '@/env.mjs';
 import { db } from '@/server/db';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import * as argon2 from 'argon2';
@@ -23,7 +24,7 @@ export type User = {
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module 'next-auth' {
-  interface Session extends DefaultSession {
+  interface Session {
     user: {
       // ...other properties
       // role: UserRole;
@@ -50,17 +51,45 @@ declare module 'next-auth' {
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db),
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-        initial: user.name
+    async jwt({ account, token, user }) {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+
+      if (!user) {
+        const _user = await db.query.users.findFirst({
+          where: (users, { eq }) => eq(users.id, token.sub!),
+        });
+
+        token = {
+          ...token,
+          createdAt: _user?.createdAt,
+          updatedAt: _user?.updatedAt,
+          username: _user?.username,
+        };
+      } else {
+        token = {
+          ...token,
+          ...user,
+        };
+      }
+
+      return token;
+    },
+    session: ({ session, token }) => {
+      session = {
+        ...session,
+        user: token as User,
+      };
+      session.user.initial =
+        token.name
           ?.split(' ')
           .map((name) => name.slice(0, 1))
-          .join(),
-      },
-    }),
+          .join('') ?? '';
+
+      return session;
+    },
   },
   pages: {
     error: undefined, // Error code passed in query string as ?error=
@@ -116,6 +145,10 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  secret: env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
 };
 
 /**
