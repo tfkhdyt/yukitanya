@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm';
 import {
+  boolean,
   integer,
   pgTable,
   primaryKey,
@@ -10,19 +11,20 @@ import {
 import { type AdapterAccount } from 'next-auth/adapters';
 
 export const users = pgTable('user', {
-  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   email: text('email').notNull().unique(),
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   id: text('id').notNull().primaryKey(),
   image: text('image'),
   name: text('name'),
   password: text('password').notNull(),
-  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
   username: varchar('username', { length: 25 }).notNull().unique(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
   answers: many(answers),
+  favorites: many(favorites),
   questions: many(questions),
   ratings: many(ratings),
 }));
@@ -71,9 +73,12 @@ export const verificationTokens = pgTable(
 
 export const questions = pgTable('question', {
   content: text('content').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   id: text('id').notNull().primaryKey(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  subjectId: text('id')
+    .notNull()
+    .references(() => subjects.id),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
@@ -81,21 +86,26 @@ export const questions = pgTable('question', {
 
 export const questionsRelations = relations(questions, ({ many, one }) => ({
   answers: many(answers),
+  favorites: many(favorites),
   owner: one(users, {
     fields: [questions.userId],
     references: [users.id],
   }),
-  questionsToSubjects: many(questionsToSubjects),
+  subject: one(subjects, {
+    fields: [questions.subjectId],
+    references: [subjects.id],
+  }),
 }));
 
 export const answers = pgTable('answer', {
   content: text('content').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
   id: text('id').notNull().primaryKey(),
+  isBestAnswer: boolean('is_best_answer').default(false),
   questionId: text('question_id')
     .notNull()
     .references(() => questions.id, { onDelete: 'cascade' }),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
@@ -119,37 +129,34 @@ export const subjects = pgTable('subject', {
 });
 
 export const subjectsRelations = relations(subjects, ({ many }) => ({
-  questionsToSubjects: many(questionsToSubjects),
+  questions: many(questions),
 }));
 
-export const questionsToSubjects = pgTable(
-  'question_to_subject',
+export const favorites = pgTable(
+  'favorite',
   {
     questionId: text('question_id')
       .notNull()
       .references(() => questions.id),
-    subjectId: text('subject_id')
+    userId: text('user_id')
       .notNull()
-      .references(() => subjects.id),
+      .references(() => users.id),
   },
   (t) => ({
-    pk: primaryKey({ columns: [t.questionId, t.subjectId] }),
+    pk: primaryKey({ columns: [t.questionId, t.userId] }),
   }),
 );
 
-export const questionsToSubjectsRelations = relations(
-  questionsToSubjects,
-  ({ one }) => ({
-    question: one(questions, {
-      fields: [questionsToSubjects.questionId],
-      references: [questions.id],
-    }),
-    subject: one(subjects, {
-      fields: [questionsToSubjects.subjectId],
-      references: [subjects.id],
-    }),
+export const favoritesRelations = relations(favorites, ({ one }) => ({
+  question: one(questions, {
+    fields: [favorites.questionId],
+    references: [questions.id],
   }),
-);
+  user: one(users, {
+    fields: [favorites.userId],
+    references: [users.id],
+  }),
+}));
 
 export const ratings = pgTable('rating', {
   answerId: text('answer_id')

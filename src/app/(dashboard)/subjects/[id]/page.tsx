@@ -32,7 +32,7 @@ export default async function SubjectDetail({
             key={question.id}
             question={{
               content: question.content,
-              date: question.date,
+              createdAt: question.date,
               id: question.id,
               numberOfAnswers: question.numberOfAnswers,
               numberOfFavorites: question.numberOfFavorites,

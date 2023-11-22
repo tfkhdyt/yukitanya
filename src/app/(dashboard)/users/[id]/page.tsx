@@ -78,7 +78,7 @@ export default async function UserPage() {
                   key={question.id}
                   question={{
                     content: question.content,
-                    date: question.date,
+                    createdAt: question.date,
                     id: question.id,
                     numberOfAnswers: question.numberOfAnswers,
                     numberOfFavorites: question.numberOfFavorites,
@@ -127,7 +127,7 @@ export default async function UserPage() {
                 <AnswerModal
                   question={{
                     content: filteredQuestion[0]!.content,
-                    date: filteredQuestion[0]!.date,
+                    createdAt: filteredQuestion[0]!.date,
                     id: filteredQuestion[0]!.id,
                     subject: filteredQuestion[0]!.subject,
                   }}
@@ -148,7 +148,7 @@ export default async function UserPage() {
                   key={question.id}
                   question={{
                     content: question.content,
-                    date: question.date,
+                    createdAt: question.date,
                     id: question.id,
                     isFavorited: true,
                     numberOfAnswers: question.numberOfAnswers,

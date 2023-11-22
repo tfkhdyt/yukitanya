@@ -15,7 +15,7 @@ export default function FavoritePage() {
           key={question.id}
           question={{
             content: question.content,
-            date: question.date,
+            createdAt: question.date,
             id: question.id,
             isFavorited: true,
             numberOfAnswers: question.numberOfAnswers,

@@ -69,7 +69,7 @@ export default function Question({ params }: { params: { id: string } }) {
             <AnswerModal
               question={{
                 content: question.content,
-                date: question.date,
+                createdAt: question.date,
                 id: question.id,
                 subject: question.subject,
               }}

@@ -17,6 +17,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { getDiceBearAvatar } from '@/lib/utils';
+import { type User } from '@/server/auth';
 import dayjs from 'dayjs';
 import {
   FacebookIcon,
@@ -30,6 +32,7 @@ import {
   TwitterIcon,
 } from 'lucide-react';
 import Link from 'next/link';
+import { type Session } from 'next-auth';
 
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 import { QuestionModal } from './question-modal';
@@ -37,45 +40,41 @@ import { QuestionModal } from './question-modal';
 export function QuestionPost({
   highlightedWords,
   question,
+  session,
   user,
 }: {
   highlightedWords?: string[];
   question: {
     content: string;
-    date: Date;
+    createdAt: Date;
     id: string;
     isFavorited?: boolean;
     numberOfAnswers: number;
     numberOfFavorites: number;
-    rating: number;
+    rating?: number;
     subject: {
       id: string;
       name: string;
     };
+    updatedAt: Date;
   };
-  user: {
-    avatar: {
-      fallback: string;
-      imageUrl: string;
-    };
-    fullName: string;
-    username: string;
-  };
+  session: Session | null;
+  user: User;
 }) {
   return (
     <div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
       <Avatar>
-        <AvatarImage src={user.avatar.imageUrl} />
-        <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+        <AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
+        <AvatarFallback>{user.initial}</AvatarFallback>
       </Avatar>
       <div className='grow space-y-1'>
         <div className='flex items-center space-x-2 text-[#696984]'>
           <Link
             className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
             href={`/users/${user.username}`}
-            title={user.fullName}
+            title={user.name ?? user.username}
           >
-            {user.fullName}
+            {user.name}
           </Link>
           <Link
             className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
@@ -87,14 +86,16 @@ export function QuestionPost({
           <Link
             className='font-light'
             href={`/questions/${question.id}`}
-            title={dayjs(question.date).format('dddd, D MMMM YYYY HH:mm:ss')}
+            title={dayjs(question.createdAt).format(
+              'dddd, D MMMM YYYY HH:mm:ss',
+            )}
           >
             <span className='mr-2 text-sm font-medium'>·</span>
             <span className='hover:underline md:hidden'>
-              {dayjs(question.date).locale('id').fromNow(true)}
+              {dayjs(question.createdAt).locale('id').fromNow(true)}
             </span>
             <span className='hidden hover:underline md:inline'>
-              {dayjs(question.date).locale('id').fromNow()}
+              {dayjs(question.createdAt).locale('id').fromNow()}
             </span>
           </Link>
         </div>
@@ -122,11 +123,12 @@ export function QuestionPost({
               </Badge>
             </Link>
           </div>
-          <StarRating rating={question.rating} />
+          {question.rating && <StarRating rating={question.rating} />}
         </div>
         <div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
           <Button
             className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+            disabled={!session}
             size='sm'
             title='Favorit'
             variant='outline'
@@ -138,17 +140,28 @@ export function QuestionPost({
             )}
             {question.numberOfFavorites}
           </Button>
-          <AnswerModal question={question} user={user}>
+          {session ? (
+            <AnswerModal question={question} session={session} user={user}>
+              <Button
+                className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                size='sm'
+                title='Beri jawaban mu'
+              >
+                <MessageCircle className='mr-1' size={18} />
+                {question.numberOfAnswers}
+              </Button>
+            </AnswerModal>
+          ) : (
             <Button
               className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+              disabled={true}
               size='sm'
               title='Beri jawaban mu'
-              variant='outline'
             >
               <MessageCircle className='mr-1' size={18} />
               {question.numberOfAnswers}
             </Button>
-          </AnswerModal>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -178,52 +191,49 @@ export function QuestionPost({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-                size='sm'
-                title='Lainnya'
-                variant='outline'
-              >
-                <MoreHorizontalIcon size={18} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className='text-[#696984]'>
-              <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <QuestionModal
-                avatar={{
-                  fallback: 'TH',
-                  imageUrl: 'https://github.com/tfkhdyt.png',
-                }}
-                defaultSubject={question.subject.id}
-                defaultValue={question.content}
-                fullName='Taufik Hidayat'
-                title='Edit pertanyaan'
-                username='tfkhdyt'
-              >
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <PencilIcon className='mr-1' size={18} />
-                  <span>Edit</span>
-                </DropdownMenuItem>
-              </QuestionModal>
-
-              <DeleteModal
-                description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
-                onClick={() => ''}
-                title='Hapus pertanyaan'
-              >
-                <DropdownMenuItem
-                  className='focus:bg-red-100 focus:text-red-900'
-                  onSelect={(e) => e.preventDefault()}
+          {session?.user.id === user.id && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                  size='sm'
+                  title='Lainnya'
+                  variant='outline'
                 >
-                  <TrashIcon className='mr-1' size={18} />
-                  <span>Hapus</span>
-                </DropdownMenuItem>
-              </DeleteModal>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <MoreHorizontalIcon size={18} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='text-[#696984]'>
+                <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <QuestionModal
+                  defaultSubject={question.subject.id}
+                  defaultValue={question.content}
+                  title='Edit pertanyaan'
+                  user={user}
+                >
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <PencilIcon className='mr-1' size={18} />
+                    <span>Edit</span>
+                  </DropdownMenuItem>
+                </QuestionModal>
+
+                <DeleteModal
+                  description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
+                  onClick={() => ''}
+                  title='Hapus pertanyaan'
+                >
+                  <DropdownMenuItem
+                    className='focus:bg-red-100 focus:text-red-900'
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <TrashIcon className='mr-1' size={18} />
+                    <span>Hapus</span>
+                  </DropdownMenuItem>
+                </DeleteModal>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </div>

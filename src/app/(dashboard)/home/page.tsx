@@ -1,7 +1,7 @@
 import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang';
 import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
-import { questions } from '@/constants/question';
 import { getServerAuthSession } from '@/server/auth';
+import { api } from '@/trpc/server';
 import clsx from 'clsx';
 import { type Metadata } from 'next';
 import Image from 'next/image';
@@ -14,6 +14,18 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const session = await getServerAuthSession();
+  const questions = await api.question.findAllQuestions.query();
+  const bestAnswerIds = questions
+    .map((question) => question.answers[0]?.id ?? '')
+    .filter((question) => question !== '');
+  let questionsBestAnswerRatings: {
+    averageRating: number;
+    questionId: string;
+  }[] = [];
+  if (bestAnswerIds.length > 0) {
+    questionsBestAnswerRatings =
+      await api.rating.getQuestionBestAnswerRating.query(bestAnswerIds);
+  }
 
   return (
     <>
@@ -45,14 +57,25 @@ export default async function Home() {
             key={question.id}
             question={{
               content: question.content,
-              date: question.date,
+              createdAt: question.createdAt,
               id: question.id,
-              numberOfAnswers: question.numberOfAnswers,
-              numberOfFavorites: question.numberOfFavorites,
-              rating: question.rating,
+              numberOfAnswers: question.answers.length,
+              numberOfFavorites: question.favorites.length,
+              rating: questionsBestAnswerRatings.find(
+                (it) => it.questionId === question.id,
+              )?.averageRating,
               subject: question.subject,
+              updatedAt: question.updatedAt,
             }}
-            user={question.user}
+            session={session}
+            user={{
+              ...question.owner,
+              initial:
+                question.owner.name
+                  ?.split(' ')
+                  .map((name) => name.slice(0, 1))
+                  .join('') ?? '',
+            }}
           />
         ))
       ) : (

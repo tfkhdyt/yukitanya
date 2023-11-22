@@ -22,12 +22,15 @@ import {
   FormMessage,
 } from '@/app/_components/ui/form';
 import { Textarea } from '@/app/_components/ui/textarea';
+import { getDiceBearAvatar } from '@/lib/utils';
+import { type User } from '@/server/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
+import { type Session } from 'next-auth';
 import { type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -44,26 +47,22 @@ const answerSchema = z.object({
 export function AnswerModal({
   children,
   question,
+  session,
   user,
 }: {
   children: ReactNode;
   question: {
     content: string;
-    date: Date;
+    createdAt: Date;
     id: string;
     subject: {
       id: string;
       name: string;
     };
+    updatedAt: Date;
   };
-  user: {
-    avatar: {
-      fallback: string;
-      imageUrl: string;
-    };
-    fullName: string;
-    username: string;
-  };
+  session: Session;
+  user: User;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof answerSchema>>({
@@ -85,17 +84,19 @@ export function AnswerModal({
           <DialogTitle>Tambah jawaban</DialogTitle>
           <div className='-mx-4 flex space-x-3 border-b-2 p-4'>
             <Avatar>
-              <AvatarImage src={user.avatar.imageUrl} />
-              <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+              <AvatarImage
+                src={user.image ?? getDiceBearAvatar(user.username)}
+              />
+              <AvatarFallback>{user.initial}</AvatarFallback>
             </Avatar>
             <div className='grow space-y-1'>
               <div className='flex items-center space-x-2 text-[#696984]'>
                 <Link
                   className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
                   href={`/users/${user.username}`}
-                  title={user.fullName}
+                  title={user.name ?? user.username}
                 >
-                  {user.fullName}
+                  {user.name}
                 </Link>
                 <Link
                   className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
@@ -106,16 +107,16 @@ export function AnswerModal({
                 </Link>
                 <div
                   className='font-light'
-                  title={dayjs(question.date).format(
+                  title={dayjs(question.createdAt).format(
                     'dddd, D MMMM YYYY HH:mm:ss',
                   )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
                   <span className='hover:underline md:hidden'>
-                    {dayjs(question.date).locale('id').fromNow(true)}
+                    {dayjs(question.createdAt).locale('id').fromNow(true)}
                   </span>
                   <span className='hidden hover:underline md:inline'>
-                    {dayjs(question.date).locale('id').fromNow()}
+                    {dayjs(question.createdAt).locale('id').fromNow()}
                   </span>
                 </div>
               </div>
@@ -137,16 +138,21 @@ export function AnswerModal({
           <div className='pt-2'>
             <div className='flex items-center space-x-3'>
               <Avatar>
-                <AvatarImage src={user.avatar.imageUrl} />
-                <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+                <AvatarImage
+                  src={
+                    session?.user.image ??
+                    getDiceBearAvatar(session?.user.username)
+                  }
+                />
+                <AvatarFallback>{session.user.initial}</AvatarFallback>
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
-                  href={`/users/${user.username}`}
-                  title={user.fullName}
+                  href={`/users/${session.user.username}`}
+                  title={session.user.name ?? session.user.username}
                 >
-                  {user.fullName}
+                  {user.name}
                 </Link>
                 <Link
                   className='block max-w-full truncate font-normal'
