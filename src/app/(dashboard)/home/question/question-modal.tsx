@@ -29,6 +29,7 @@ import {
 } from '@/app/_components/ui/select';
 import { Textarea } from '@/app/_components/ui/textarea';
 import { mapel } from '@/constants/mapel';
+import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
@@ -86,14 +87,16 @@ export function QuestionModal({
           <div className='-mx-4 p-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>
-                <AvatarImage src={user.image ?? undefined} />
+                <AvatarImage
+                  src={user.image ?? getDiceBearAvatar(user.username)}
+                />
                 <AvatarFallback>{user.initial}</AvatarFallback>
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
                   href={`/users/${user.username}`}
-                  title={user.name ?? undefined}
+                  title={user.name ?? user.username}
                 >
                   {user.name}
                 </Link>
