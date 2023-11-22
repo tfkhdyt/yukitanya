@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.7",
+    "@dicebear/collection": "^7.0.1",
+    "@dicebear/core": "^7.0.1",
     "@fontsource-variable/rubik": "^5.0.19",
     "@fontsource/poppins": "^5.0.8",
     "@hookform/resolvers": "^3.3.2",
