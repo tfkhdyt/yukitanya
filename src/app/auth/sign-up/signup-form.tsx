@@ -29,20 +29,15 @@ export function SignupForm() {
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
   });
-  const { error, isError, isLoading, isSuccess, mutate } =
-    api.user.register.useMutation();
-
-  // if (isError) {
-  //   toast.error(error.message);
-  // }
-
-  // if (isSuccess) {
-  //   toast.success('Registrasi berhasil!');
-  // }
+  const { isLoading, mutate } = api.user.register.useMutation({
+    onError: (error) => toast.error(error.message),
+    onSuccess: () => {
+      toast.success('Registrasi berhasil!');
+      form.reset();
+    },
+  });
 
   const onSubmit = (values: SignupSchema) => {
-    const toastId = toast.loading('Loading...');
-
     mutate({
       confirmPassword: values.confirmPassword,
       email: values.email,
@@ -51,8 +46,6 @@ export function SignupForm() {
       password: values.password,
       username: values.username,
     });
-
-    toast.dismiss(toastId);
   };
 
   return (
@@ -202,7 +195,7 @@ export function SignupForm() {
             disabled={isLoading}
             type='submit'
           >
-            Buat akun
+            {isLoading ? 'Loading...' : 'Buat akun'}
           </Button>
         </form>
       </Form>
