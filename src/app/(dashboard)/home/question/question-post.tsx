@@ -86,20 +86,35 @@ export function QuestionPost({
           >
             @{user.username}
           </Link>
-          <Link
-            className='font-light'
-            href={`/questions/${question.id}`}
-            title={dayjs(question.createdAt).format(
-              'dddd, D MMMM YYYY HH:mm:ss',
-            )}
-          >
+          <Link className='font-light' href={`/questions/${question.id}`}>
             <span className='mr-2 text-sm font-medium'>·</span>
-            <span className='hover:underline md:hidden'>
+            <span
+              className='hover:underline md:hidden'
+              title={dayjs(question.createdAt).format(
+                'dddd, D MMMM YYYY HH:mm:ss',
+              )}
+            >
               {dayjs(question.createdAt).locale('id').fromNow(true)}
             </span>
-            <span className='hidden hover:underline md:inline'>
+            <span
+              className='hidden hover:underline md:inline'
+              title={dayjs(question.createdAt).format(
+                'dddd, D MMMM YYYY HH:mm:ss',
+              )}
+            >
               {dayjs(question.createdAt).locale('id').fromNow()}
             </span>
+            {question.createdAt.toISOString() !==
+              question.updatedAt.toISOString() && (
+              <span
+                className='ml-2 hover:underline'
+                title={`Diedit pada ${dayjs(question.updatedAt).format(
+                  'dddd, D MMMM YYYY HH:mm:ss',
+                )}`}
+              >
+                *
+              </span>
+            )}
           </Link>
         </div>
         <Link href={`/questions/${question.id}`}>
