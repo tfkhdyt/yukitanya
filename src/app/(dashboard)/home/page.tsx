@@ -15,17 +15,8 @@ export const metadata: Metadata = {
 export default async function Home() {
   const session = await getServerAuthSession();
   const questions = await api.question.findAllQuestions.query();
-  const bestAnswerIds = questions
-    .map((question) => question.answers[0]?.id ?? '')
-    .filter((question) => question !== '');
-  let questionsBestAnswerRatings: {
-    averageRating: number;
-    questionId: string;
-  }[] = [];
-  if (bestAnswerIds.length > 0) {
-    questionsBestAnswerRatings =
-      await api.rating.getQuestionBestAnswerRating.query(bestAnswerIds);
-  }
+  const questionsBestAnswerRatings =
+    await api.rating.getQuestionBestAnswerRating.query();
 
   return (
     <>

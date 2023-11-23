@@ -1,4 +1,4 @@
-import { answers, insertQuestionSchema, questions } from '@/server/db/schema';
+import { insertQuestionSchema, questions } from '@/server/db/schema';
 import { desc, eq } from 'drizzle-orm';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
@@ -23,11 +23,14 @@ export const questionRouter = createTRPCRouter({
         answers: {
           columns: {
             id: true,
+            isBestAnswer: true,
           },
-          limit: 1,
-          where: eq(answers.isBestAnswer, true),
         },
-        favorites: true,
+        favorites: {
+          columns: {
+            userId: true,
+          },
+        },
         owner: true,
         subject: true,
       },
