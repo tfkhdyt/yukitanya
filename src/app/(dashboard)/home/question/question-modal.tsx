@@ -190,7 +190,7 @@ export function QuestionModal({
                       type='submit'
                     >
                       <SendIcon className='mr-1' size={16} />
-                      Kirim
+                      {isLoading ? 'Loading...' : 'Kirim'}
                     </Button>
                   </div>
                 </form>
