@@ -89,12 +89,11 @@ export function QuestionModal({
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
+    const id = nanoid(5);
     const input = {
       content: values.question,
-      id: `question-${nanoid()}`,
-      slug:
-        slugify(values.question.slice(0, 75), { strict: true }) +
-        `-${nanoid(5)}`,
+      id: `question-${id}`,
+      slug: slugify(values.question.slice(0, 25), { strict: true }) + `-${id}`,
       subjectId: values.subject,
       userId: user.id,
     };
