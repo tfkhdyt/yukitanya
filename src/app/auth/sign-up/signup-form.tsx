@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -29,11 +30,16 @@ export function SignupForm() {
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
   });
+  const router = useRouter();
   const { isLoading, mutate } = api.user.register.useMutation({
     onError: (error) => toast.error(error.message),
     onSuccess: () => {
-      toast.success('Registrasi berhasil!');
-      form.reset();
+      toast.success(
+        'Registrasi berhasil!\nAnda akan segera diarahkan ke halaman sign-in',
+      );
+      setTimeout(() => {
+        router.push('/auth/sign-in');
+      }, 4e3);
     },
   });
 
