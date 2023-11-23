@@ -152,14 +152,14 @@ export function AnswerModal({
                   href={`/users/${session.user.username}`}
                   title={session.user.name ?? session.user.username}
                 >
-                  {user.name}
+                  {session.user.name}
                 </Link>
                 <Link
                   className='block max-w-full truncate font-normal'
-                  href={`/users/${user.username}`}
-                  title={`@${user.username}`}
+                  href={`/users/${session.user.username}`}
+                  title={`@${session.user.username}`}
                 >
-                  @{user.username}
+                  @{session.user.username}
                 </Link>
               </div>
             </div>
