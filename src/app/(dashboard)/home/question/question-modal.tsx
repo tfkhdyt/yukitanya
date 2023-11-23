@@ -107,7 +107,7 @@ export function QuestionModal({
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <div className='-mx-4 p-4'>
+          <div className='-mx-4 px-4 pt-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>
                 <AvatarImage
