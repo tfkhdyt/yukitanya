@@ -45,7 +45,6 @@ export function SigninForm() {
 
   const onSubmit = async (values: SigninSchema) => {
     setIsLoading(true);
-    const toastId = toast.loading('Loading...');
 
     const result = await signIn('credentials', {
       password: values.password,
@@ -56,12 +55,9 @@ export function SigninForm() {
     if (!result?.ok && result?.error) {
       setIsLoading(false);
 
-      return toast.error(result.error, {
-        id: toastId,
-      });
+      return toast.error(result.error);
     }
     setIsLoading(false);
-    toast.dismiss(toastId);
 
     window.location.replace('/home');
   };
@@ -126,7 +122,7 @@ export function SigninForm() {
             disabled={isLoading}
             type='submit'
           >
-            Masuk
+            {isLoading ? 'Loading...' : 'Masuk'}
           </Button>
         </form>
       </Form>
