@@ -11,7 +11,7 @@ export const signupSchema = z
       .trim(),
     firstName: z
       .string({ required_error: 'Nama depan tidak boleh kosong' })
-      .min(1)
+      .min(1, 'Nama depan tidak boleh kosong')
       .max(100, 'Nama depan tidak boleh lebih dari 100 karakter')
       .trim(),
     lastName: z
