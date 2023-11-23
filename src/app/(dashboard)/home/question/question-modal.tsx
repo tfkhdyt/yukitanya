@@ -36,6 +36,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -75,12 +76,19 @@ export function QuestionModal({
     },
     resolver: zodResolver(questionSchema),
   });
-  const { error, isError, isLoading, isSuccess, mutate } =
-    api.question.createQuestion.useMutation();
+  const router = useRouter();
+  const { isLoading, mutate } = api.question.createQuestion.useMutation({
+    onError: (error) => toast.error(error.message),
+    onSuccess: () => {
+      toast.success('Pertanyaan mu telah berhasil dibuat');
+      setOpen(false);
+      form.reset();
+      router.refresh();
+    },
+  });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
-    const toastId = toast.loading('Loading...');
     const input = {
       content: values.question,
       id: `question-${nanoid()}`,
@@ -92,19 +100,7 @@ export function QuestionModal({
     };
 
     mutate(input);
-
-    toast.dismiss(toastId);
-    setOpen(false);
   }
-
-  // if (isError) {
-  //   toast.error(error.message);
-  // }
-
-  // if (isSuccess) {
-  //   toast.success('Pertanyaan mu telah berhasil dibuat');
-  //   setOpen(false);
-  // }
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
