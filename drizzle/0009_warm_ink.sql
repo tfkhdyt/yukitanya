@@ -1,1 +1,0 @@
-ALTER TABLE "answer" ADD COLUMN "is_best_answer" boolean DEFAULT false;

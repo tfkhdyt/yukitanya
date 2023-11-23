@@ -32,13 +32,13 @@ export function SignupForm() {
   const { error, isError, isLoading, isSuccess, mutate } =
     api.user.register.useMutation();
 
-  if (isError) {
-    toast.error(error.message);
-  }
+  // if (isError) {
+  //   toast.error(error.message);
+  // }
 
-  if (isSuccess) {
-    toast.success('Registrasi berhasil!');
-  }
+  // if (isSuccess) {
+  //   toast.success('Registrasi berhasil!');
+  // }
 
   const onSubmit = (values: SignupSchema) => {
     const toastId = toast.loading('Loading...');

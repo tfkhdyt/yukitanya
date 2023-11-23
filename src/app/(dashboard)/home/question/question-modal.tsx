@@ -31,11 +31,15 @@ import { Textarea } from '@/app/_components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
+import { nanoid } from 'nanoid';
 import Link from 'next/link';
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import slugify from 'slugify';
 import { z } from 'zod';
 
 const questionSchema = z.object({
@@ -63,6 +67,7 @@ export function QuestionModal({
   user: User;
 }) {
   // 1. Define your form.
+  const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof questionSchema>>({
     defaultValues: {
       question: defaultValue,
@@ -70,16 +75,39 @@ export function QuestionModal({
     },
     resolver: zodResolver(questionSchema),
   });
+  const { error, isError, isLoading, isSuccess, mutate } =
+    api.question.createQuestion.useMutation();
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const toastId = toast.loading('Loading...');
+    const input = {
+      content: values.question,
+      id: `question-${nanoid()}`,
+      slug:
+        slugify(values.question.slice(0, 75), { strict: true }) +
+        `-${nanoid(5)}`,
+      subjectId: values.subject,
+      userId: user.id,
+    };
+
+    mutate(input);
+
+    toast.dismiss(toastId);
+    setOpen(false);
   }
 
+  // if (isError) {
+  //   toast.error(error.message);
+  // }
+
+  // if (isSuccess) {
+  //   toast.success('Pertanyaan mu telah berhasil dibuat');
+  //   setOpen(false);
+  // }
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
@@ -163,6 +191,7 @@ export function QuestionModal({
                     />
                     <Button
                       className='rounded-full font-semibold'
+                      disabled={isLoading}
                       type='submit'
                     >
                       <SendIcon className='mr-1' size={16} />

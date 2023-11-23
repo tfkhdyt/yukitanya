@@ -8,17 +8,25 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { type AdapterAccount } from 'next-auth/adapters';
 
 export const users = pgTable('user', {
-  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
   email: text('email').notNull().unique(),
-  emailVerified: timestamp('emailVerified', { mode: 'date' }),
+  emailVerified: timestamp('emailVerified', {
+    mode: 'date',
+    withTimezone: true,
+  }),
   id: text('id').notNull().primaryKey(),
   image: text('image'),
   name: text('name'),
   password: text('password').notNull(),
-  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
   username: varchar('username', { length: 25 }).notNull().unique(),
 });
 
@@ -52,7 +60,7 @@ export const accounts = pgTable(
 );
 
 export const sessions = pgTable('session', {
-  expires: timestamp('expires', { mode: 'date' }).notNull(),
+  expires: timestamp('expires', { mode: 'date', withTimezone: true }).notNull(),
   sessionToken: text('sessionToken').notNull().primaryKey(),
   userId: text('userId')
     .notNull()
@@ -62,7 +70,10 @@ export const sessions = pgTable('session', {
 export const verificationTokens = pgTable(
   'verificationToken',
   {
-    expires: timestamp('expires', { mode: 'date' }).notNull(),
+    expires: timestamp('expires', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
     identifier: text('identifier').notNull(),
     token: text('token').notNull(),
   },
@@ -73,15 +84,27 @@ export const verificationTokens = pgTable(
 
 export const questions = pgTable('question', {
   content: text('content').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
   id: text('id').notNull().primaryKey(),
-  subjectId: text('id')
+  slug: varchar('slug', { length: 100 }).notNull().unique(),
+  subjectId: text('subject_id')
     .notNull()
-    .references(() => subjects.id),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    .references(() => subjects.id, { onDelete: 'cascade' }),
+  updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
+});
+
+export type InsertQuestion = typeof questions.$inferInsert;
+export type SelectQuestion = typeof questions.$inferSelect;
+
+export const insertQuestionSchema = createInsertSchema(questions, {
+  content: (schema) => schema.content.min(1).max(255),
 });
 
 export const questionsRelations = relations(questions, ({ many, one }) => ({
@@ -99,13 +122,17 @@ export const questionsRelations = relations(questions, ({ many, one }) => ({
 
 export const answers = pgTable('answer', {
   content: text('content').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
   id: text('id').notNull().primaryKey(),
   isBestAnswer: boolean('is_best_answer').default(false),
   questionId: text('question_id')
     .notNull()
     .references(() => questions.id, { onDelete: 'cascade' }),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),

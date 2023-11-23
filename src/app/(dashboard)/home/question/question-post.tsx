@@ -20,6 +20,7 @@ import {
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import dayjs from 'dayjs';
+import 'dayjs/locale/id';
 import {
   FacebookIcon,
   Heart,
@@ -36,6 +37,8 @@ import { type Session } from 'next-auth';
 
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 import { QuestionModal } from './question-modal';
+
+dayjs.locale('id');
 
 export function QuestionPost({
   highlightedWords,
@@ -146,6 +149,7 @@ export function QuestionPost({
                 className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
                 size='sm'
                 title='Beri jawaban mu'
+                variant='outline'
               >
                 <MessageCircle className='mr-1' size={18} />
                 {question.numberOfAnswers}
@@ -157,6 +161,7 @@ export function QuestionPost({
               disabled={true}
               size='sm'
               title='Beri jawaban mu'
+              variant='outline'
             >
               <MessageCircle className='mr-1' size={18} />
               {question.numberOfAnswers}

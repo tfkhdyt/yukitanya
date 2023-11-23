@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 export default async function Home() {
   const session = await getServerAuthSession();
   const questions = await api.question.findAllQuestions.query();
+
+  console.log({ questions });
+
   const bestAnswerIds = questions
     .map((question) => question.answers[0]?.id ?? '')
     .filter((question) => question !== '');
