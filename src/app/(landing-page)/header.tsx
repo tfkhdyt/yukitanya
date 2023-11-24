@@ -44,7 +44,7 @@ export function Header() {
     <header
       className={clsx(
         'fixed inset-x-0 top-0 z-10 transition-all',
-        y && y > 30 && 'border-b-2 bg-white/50 backdrop-blur',
+        y && y > 30 && 'border-b-2 bg-white/75 backdrop-blur-md',
       )}
     >
       <div className='container flex items-center justify-between py-6 md:px-12'>

@@ -32,7 +32,7 @@ export function MainContent({
 
   return (
     <main className='w-full md:w-2/3 lg:w-2/4'>
-      <div className='sticky top-0 z-50 flex items-center justify-between border-b-2 bg-white/25 p-3 backdrop-blur'>
+      <div className='sticky top-0 z-50 flex items-center justify-between border-b-2 bg-white/75 p-3 backdrop-blur-md'>
         <div className='flex items-center'>
           <div
             className={clsx(
