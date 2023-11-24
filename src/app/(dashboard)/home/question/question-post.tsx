@@ -2,9 +2,10 @@
 
 import 'dayjs/locale/id';
 
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import { throttle } from 'lodash';
+import { debounce } from 'lodash';
 import {
   FacebookIcon,
   Heart,
@@ -18,7 +19,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
-import { useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { DeleteModal } from '@/app/_components/delete-modal';
@@ -91,6 +92,38 @@ export function QuestionPost({
   const utils = api.useUtils();
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowDropdown, setIsShowDropDown] = useState(false);
+  const [clamped, setClamped] = useState(true);
+  const [showButton, setShowButton] = useState(true);
+  const containerRef = useRef<HTMLParagraphElement>(null);
+
+  const handleReadMore = () => setClamped((v) => !v);
+
+  useEffect(() => {
+    const hasClamping = (el: HTMLParagraphElement) => {
+      const { clientHeight, scrollHeight } = el;
+      return clientHeight !== scrollHeight;
+    };
+
+    const checkButtonAvailability = () => {
+      if (containerRef.current) {
+        const hadClampClass =
+          containerRef.current.classList.contains('line-clamp-4');
+        if (!hadClampClass) containerRef.current.classList.add('line-clamp-4');
+        setShowButton(hasClamping(containerRef.current));
+        if (!hadClampClass)
+          containerRef.current.classList.remove('line-clamp-4');
+      }
+    };
+
+    const debouncedCheck = debounce(checkButtonAvailability, 50);
+
+    checkButtonAvailability();
+    window.addEventListener('resize', debouncedCheck);
+
+    return () => {
+      window.removeEventListener('resize', debouncedCheck);
+    };
+  }, [containerRef, question]);
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
@@ -106,18 +139,14 @@ export function QuestionPost({
     },
   });
 
-  const handleFavorite = useMemo(
-    () =>
-      throttle(() => {
-        if (session?.user) {
-          favoriteMutation.mutate({
-            questionId: question.id,
-            userId: session.user.id,
-          });
-        }
-      }, 2e3),
-    [session, question, favoriteMutation],
-  );
+  const handleFavorite = () => {
+    if (session?.user) {
+      favoriteMutation.mutate({
+        questionId: question.id,
+        userId: session.user.id,
+      });
+    }
+  };
 
   const handleDeleteQuestion = (id: string) => {
     deleteQuestionMutation.mutate(id);
@@ -169,7 +198,13 @@ export function QuestionPost({
           </Link>
         </div>
         <Link href={`/questions/${question.id}`}>
-          <p className='line-clamp-3 whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'>
+          <p
+            className={clsx(
+              'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
+              clamped && 'line-clamp-4',
+            )}
+            ref={containerRef}
+          >
             {question.content.split(' ').map((word, idx) => {
               if (highlightedWords?.includes(word.toLowerCase())) {
                 return (
@@ -184,7 +219,14 @@ export function QuestionPost({
             })}
           </p>
         </Link>
-
+        {showButton && (
+          <button
+            className='text-sm font-medium text-[#696984] hover:underline'
+            onClick={handleReadMore}
+          >
+            Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
+          </button>
+        )}
         <div className='flex justify-between pt-2'>
           <div className='mr-2 space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
