@@ -29,7 +29,7 @@ export default async function DashboardLayout({
           src='/img/home/mari-bertanya.png'
           width={168}
         />
-        <TanyakanSekarangBtn user={session?.user} />
+        {session && <TanyakanSekarangBtn user={session?.user} />}
       </aside>
     </section>
   );
