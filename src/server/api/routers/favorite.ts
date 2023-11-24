@@ -13,7 +13,6 @@ export const favoriteRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log('Mutating...');
       const haveFavorited = await ctx.db
         .select()
         .from(favorites)

@@ -79,7 +79,6 @@ export function QuestionPost({
     () =>
       throttle(() => {
         if (session?.user) {
-          // console.log('Liking...');
           favoriteMutation.mutate({
             questionId: question.id,
             userId: session.user.id,
