@@ -1,5 +1,26 @@
 'use client';
 
+import 'dayjs/locale/id';
+
+import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import { throttle } from 'lodash';
+import {
+  FacebookIcon,
+  Heart,
+  LinkIcon,
+  MessageCircle,
+  MoreHorizontalIcon,
+  PencilIcon,
+  Share2Icon,
+  TrashIcon,
+  TwitterIcon,
+} from 'lucide-react';
+import Link from 'next/link';
+import { type Session } from 'next-auth';
+import { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
+
 import { DeleteModal } from '@/app/_components/delete-modal';
 import { StarRating } from '@/app/_components/star-rating';
 import {
@@ -20,25 +41,6 @@ import {
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import dayjs from 'dayjs';
-import 'dayjs/locale/id';
-import updateLocale from 'dayjs/plugin/updateLocale';
-import { throttle } from 'lodash';
-import {
-  FacebookIcon,
-  Heart,
-  LinkIcon,
-  MessageCircle,
-  MoreHorizontalIcon,
-  PencilIcon,
-  Share2Icon,
-  TrashIcon,
-  TwitterIcon,
-} from 'lucide-react';
-import Link from 'next/link';
-import { type Session } from 'next-auth';
-import { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
 
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 import { EditQuestionModal } from './edit-question-modal';
@@ -88,7 +90,7 @@ export function QuestionPost({
 }) {
   const utils = api.useUtils();
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
-  const [isShowMoreMenu, setIsShowMoreMenu] = useState(false);
+  const [isShowDropdown, setIsShowDropDown] = useState(false);
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
@@ -167,7 +169,7 @@ export function QuestionPost({
           </Link>
         </div>
         <Link href={`/questions/${question.id}`}>
-          <p className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'>
+          <p className='line-clamp-3 whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'>
             {question.content.split(' ').map((word, idx) => {
               if (highlightedWords?.includes(word.toLowerCase())) {
                 return (
@@ -182,6 +184,7 @@ export function QuestionPost({
             })}
           </p>
         </Link>
+
         <div className='flex justify-between pt-2'>
           <div className='mr-2 space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
@@ -265,8 +268,8 @@ export function QuestionPost({
           </DropdownMenu>
           {session?.user.id === user.id && (
             <DropdownMenu
-              onOpenChange={setIsShowMoreMenu}
-              open={isShowMoreMenu}
+              onOpenChange={setIsShowDropDown}
+              open={isShowDropdown}
             >
               <DropdownMenuTrigger asChild>
                 <Button
@@ -283,7 +286,7 @@ export function QuestionPost({
                 <DropdownMenuSeparator />
                 <EditQuestionModal
                   question={question}
-                  setShowDropdown={setIsShowMoreMenu}
+                  setShowDropdown={setIsShowDropDown}
                   user={user}
                 >
                   <DropdownMenuItem
