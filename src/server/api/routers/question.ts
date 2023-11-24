@@ -42,4 +42,17 @@ export const questionRouter = createTRPCRouter({
       },
     });
   }),
+  updateQuestionById: protectedProcedure
+    .input(insertQuestionSchema)
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db
+        .update(questions)
+        .set({
+          content: input.content,
+          slug: input.slug,
+          subjectId: input.subjectId,
+          updatedAt: new Date(),
+        })
+        .where(eq(questions.id, input.id));
+    }),
 });

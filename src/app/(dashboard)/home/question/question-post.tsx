@@ -22,6 +22,7 @@ import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import { throttle } from 'lodash';
 import {
   FacebookIcon,
@@ -40,9 +41,26 @@ import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
-import { QuestionModal } from './question-modal';
+import { EditQuestionModal } from './edit-question-modal';
 
 dayjs.locale('id');
+dayjs.extend(updateLocale);
+dayjs.updateLocale('id', {
+  relativeTime: {
+    ...dayjs.Ls.id?.relativeTime,
+    M: '1b',
+    MM: '%db',
+    d: '1h',
+    dd: '%dh',
+    h: '1j',
+    hh: '%dj',
+    m: '1m',
+    mm: '%dm',
+    s: 'Baru saja',
+    y: '1t',
+    yy: '%dt',
+  },
+});
 
 export function QuestionPost({
   highlightedWords,
@@ -70,6 +88,7 @@ export function QuestionPost({
 }) {
   const utils = api.useUtils();
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [isShowMoreMenu, setIsShowMoreMenu] = useState(false);
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
@@ -111,14 +130,14 @@ export function QuestionPost({
       <div className='grow space-y-1'>
         <div className='flex items-center space-x-2 text-[#696984]'>
           <Link
-            className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
+            className='max-w-[6.75rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
             href={`/users/${user.username}`}
             title={user.name ?? user.username}
           >
             {user.name}
           </Link>
           <Link
-            className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
+            className='max-w-[6.75rem] truncate font-normal md:max-w-[12rem]'
             href={`/users/${user.username}`}
             title={`@${user.username}`}
           >
@@ -127,25 +146,17 @@ export function QuestionPost({
           <Link className='font-light' href={`/questions/${question.id}`}>
             <span className='mr-2 text-sm font-medium'>·</span>
             <span
-              className='hover:underline md:hidden'
+              className='hover:underline'
               title={dayjs(question.createdAt).format(
                 'dddd, D MMMM YYYY HH:mm:ss',
               )}
             >
               {dayjs(question.createdAt).locale('id').fromNow(true)}
             </span>
-            <span
-              className='hidden hover:underline md:inline'
-              title={dayjs(question.createdAt).format(
-                'dddd, D MMMM YYYY HH:mm:ss',
-              )}
-            >
-              {dayjs(question.createdAt).locale('id').fromNow()}
-            </span>
             {question.createdAt.toISOString() !==
               question.updatedAt.toISOString() && (
               <span
-                className='ml-2 hover:underline'
+                className='ml-1 hover:underline'
                 title={`Diedit pada ${dayjs(question.updatedAt).format(
                   'dddd, D MMMM YYYY HH:mm:ss',
                 )}`}
@@ -253,7 +264,10 @@ export function QuestionPost({
             </DropdownMenuContent>
           </DropdownMenu>
           {session?.user.id === user.id && (
-            <DropdownMenu>
+            <DropdownMenu
+              onOpenChange={setIsShowMoreMenu}
+              open={isShowMoreMenu}
+            >
               <DropdownMenuTrigger asChild>
                 <Button
                   className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
@@ -267,17 +281,19 @@ export function QuestionPost({
               <DropdownMenuContent className='text-[#696984]'>
                 <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <QuestionModal
-                  defaultSubject={question.subject.id}
-                  defaultValue={question.content}
-                  title='Edit pertanyaan'
+                <EditQuestionModal
+                  question={question}
+                  setShowDropdown={setIsShowMoreMenu}
                   user={user}
                 >
-                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <DropdownMenuItem
+                    className='cursor-pointer'
+                    onSelect={(e) => e.preventDefault()}
+                  >
                     <PencilIcon className='mr-1' size={18} />
                     <span>Edit</span>
                   </DropdownMenuItem>
-                </QuestionModal>
+                </EditQuestionModal>
 
                 <DeleteModal
                   description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
@@ -287,7 +303,7 @@ export function QuestionPost({
                   title='Hapus pertanyaan'
                 >
                   <DropdownMenuItem
-                    className='focus:bg-red-100 focus:text-red-900'
+                    className='cursor-pointer focus:bg-red-100 focus:text-red-900'
                     onSelect={(e) => e.preventDefault()}
                   >
                     <TrashIcon className='mr-1' size={18} />

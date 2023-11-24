@@ -34,7 +34,6 @@ import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -53,43 +52,56 @@ const questionSchema = z.object({
     .max(25),
 });
 
-export function QuestionModal({
+export function EditQuestionModal({
   children,
-
+  question,
+  setShowDropdown,
   user,
 }: {
   children: ReactNode;
-
+  question: {
+    content: string;
+    createdAt: Date;
+    id: string;
+    subject: {
+      id: string;
+      name: string;
+    };
+  };
+  setShowDropdown: (open: boolean) => void;
+  title?: string;
   user: User;
 }) {
-  // 1. Define your form.
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof questionSchema>>({
+    defaultValues: {
+      question: question.content,
+      subject: question.subject.id,
+    },
     resolver: zodResolver(questionSchema),
   });
   const utils = api.useUtils();
-  const { isLoading, mutate } = api.question.createQuestion.useMutation({
+  const { isLoading, mutate } = api.question.updateQuestionById.useMutation({
     onError: (error) => toast.error(error.message),
     onSuccess: async () => {
-      toast.success('Pertanyaan mu telah berhasil dibuat');
+      toast.success('Pertanyaan mu telah berhasil diedit');
+      setShowDropdown(false);
       setOpen(false);
       form.reset();
       await utils.question.findAllQuestions.invalidate();
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
-    const id = nanoid(5);
-    const input = {
+    mutate({
       content: values.question,
-      id: `question-${id}`,
-      slug: slugify(values.question.slice(0, 25), { strict: true }) + `-${id}`,
+      id: question.id,
+      slug:
+        slugify(values.question.slice(0, 25), { strict: true }) +
+        `-${question.id.replace('user-', '')}`,
       subjectId: values.subject,
       userId: user.id,
-    };
-
-    mutate(input);
+    });
   }
 
   return (
@@ -97,7 +109,7 @@ export function QuestionModal({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
-          <DialogTitle>Ajukan pertanyaan</DialogTitle>
+          <DialogTitle>Edit pertanyaan</DialogTitle>
           <div className='-mx-4 px-4 pt-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>
