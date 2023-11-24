@@ -1,13 +1,14 @@
-import { env } from '@/env.mjs';
-import { db } from '@/server/db';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import * as argon2 from 'argon2';
 import {
   type DefaultSession,
-  type NextAuthOptions,
   getServerSession,
+  type NextAuthOptions,
 } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+
+import { env } from '@/env.mjs';
+import { db } from '@/server/db';
 
 export type User = {
   // ...other properties

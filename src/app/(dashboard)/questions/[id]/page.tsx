@@ -1,9 +1,10 @@
+import { MessageCircle } from 'lucide-react';
+import Image from 'next/image';
+import { match,P } from 'ts-pattern';
+
 import { Button } from '@/app/_components/ui/button';
 import { answers } from '@/constants/answer';
 import { questions } from '@/constants/question';
-import { MessageCircle } from 'lucide-react';
-import Image from 'next/image';
-import { P, match } from 'ts-pattern';
 
 import { AnswerModal } from './answer/answer-modal';
 import { AnswerPost } from './answer/answer-post';

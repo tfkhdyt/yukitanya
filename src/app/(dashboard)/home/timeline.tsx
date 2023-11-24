@@ -1,8 +1,9 @@
 'use client';
 
+import { type Session } from 'next-auth';
+
 import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import { api } from '@/trpc/react';
-import { type Session } from 'next-auth';
 
 import { QuestionPost } from './question/question-post';
 import { SkeletonQuestionPost } from './question/skeleton-question-post';

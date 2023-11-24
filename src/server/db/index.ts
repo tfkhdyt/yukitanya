@@ -1,7 +1,8 @@
+import { drizzle,type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+
 import { env } from '@/env.mjs';
 import * as schema from '@/server/db/schema';
-import { type PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
 
 declare global {
   // eslint-disable-next-line no-var -- only var works here

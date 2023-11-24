@@ -1,3 +1,7 @@
+import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
+import Link from 'next/link';
+import { signOut } from 'next-auth/react';
+
 import {
   Avatar,
   AvatarFallback,
@@ -13,9 +17,6 @@ import {
 } from '@/app/_components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
-import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
-import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 
 export function ProfileButton({ user }: { user: User | undefined }) {
   if (!user) {

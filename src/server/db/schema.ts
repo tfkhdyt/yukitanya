@@ -104,7 +104,7 @@ export type InsertQuestion = typeof questions.$inferInsert;
 export type SelectQuestion = typeof questions.$inferSelect;
 
 export const insertQuestionSchema = createInsertSchema(questions, {
-  content: (schema) => schema.content.min(1).max(255),
+  content: (schema) => schema.content.min(1).max(1000),
 });
 
 export const questionsRelations = relations(questions, ({ many, one }) => ({

@@ -1,7 +1,5 @@
 'use client';
 
-import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
-import { api } from '@/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import Image from 'next/image';
@@ -11,6 +9,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
+
+import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
+import { api } from '@/trpc/react';
 
 import { Button } from '../../_components/ui/button';
 import {

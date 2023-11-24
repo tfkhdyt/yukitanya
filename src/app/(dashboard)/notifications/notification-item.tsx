@@ -1,8 +1,3 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
 import clsx from 'clsx';
 import {
   CheckCircle,
@@ -13,6 +8,12 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { match } from 'ts-pattern';
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/app/_components/ui/avatar';
 
 type Props = {
   description: string;

@@ -1,8 +1,9 @@
-import { mapel } from '@/constants/mapel';
 import clsx from 'clsx';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { mapel } from '@/constants/mapel';
 
 export const metadata: Metadata = {
   title: 'Mata Pelajaran - Yukitanya',

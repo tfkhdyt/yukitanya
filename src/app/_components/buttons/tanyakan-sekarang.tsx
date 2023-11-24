@@ -1,7 +1,8 @@
-import { QuestionModal } from '@/app/(dashboard)/home/question/question-modal';
-import { type User } from '@/server/auth';
 import clsx from 'clsx';
 import { PencilIcon } from 'lucide-react';
+
+import { QuestionModal } from '@/app/(dashboard)/home/question/question-modal';
+import { type User } from '@/server/auth';
 
 import { Button } from '../ui/button';
 

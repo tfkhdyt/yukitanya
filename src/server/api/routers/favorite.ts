@@ -1,6 +1,7 @@
-import { favorites } from '@/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
+
+import { favorites } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure } from '../trpc';
 

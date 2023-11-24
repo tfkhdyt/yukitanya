@@ -1,5 +1,4 @@
 import '@/styles/globals.css';
-import { TRPCReactProvider } from '@/trpc/react';
 import '@fontsource/poppins/100.css';
 import '@fontsource/poppins/200.css';
 import '@fontsource/poppins/300.css';
@@ -10,11 +9,14 @@ import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/800.css';
 import '@fontsource/poppins/900.css';
 import '@fontsource-variable/rubik';
-import dayjs from 'dayjs';
 import 'dayjs/locale/id';
+
+import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { headers } from 'next/headers';
 import { Toaster } from 'react-hot-toast';
+
+import { TRPCReactProvider } from '@/trpc/react';
 
 dayjs.locale('id');
 dayjs.extend(relativeTime);

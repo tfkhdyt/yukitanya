@@ -1,5 +1,6 @@
-import { getServerAuthSession } from '@/server/auth';
 import { type Metadata } from 'next';
+
+import { getServerAuthSession } from '@/server/auth';
 
 import { SearchForm } from './search-form';
 

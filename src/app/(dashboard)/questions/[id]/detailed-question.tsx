@@ -1,5 +1,19 @@
 'use client';
 
+import dayjs from 'dayjs';
+import {
+  FacebookIcon,
+  Heart,
+  LinkIcon,
+  MessageCircle,
+  MoreHorizontalIcon,
+  PencilIcon,
+  Share2Icon,
+  TrashIcon,
+  TwitterIcon,
+} from 'lucide-react';
+import Link from 'next/link';
+
 import { DeleteModal } from '@/app/_components/delete-modal';
 import {
   Avatar,
@@ -16,19 +30,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
-import dayjs from 'dayjs';
-import {
-  FacebookIcon,
-  Heart,
-  LinkIcon,
-  MessageCircle,
-  MoreHorizontalIcon,
-  PencilIcon,
-  Share2Icon,
-  TrashIcon,
-  TwitterIcon,
-} from 'lucide-react';
-import Link from 'next/link';
 
 import { QuestionModal } from '../../home/question/question-modal';
 import { AnswerModal } from './answer/answer-modal';

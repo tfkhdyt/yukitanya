@@ -1,6 +1,7 @@
-import { getServerAuthSession } from '@/server/auth';
 import Image from 'next/image';
 import { type ReactNode } from 'react';
+
+import { getServerAuthSession } from '@/server/auth';
 
 import { TanyakanSekarangBtn } from '../_components/buttons/tanyakan-sekarang';
 import { Sidebar } from './home/sidebar/sidebar';

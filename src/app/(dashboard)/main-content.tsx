@@ -1,13 +1,14 @@
 'use client';
 
-import { mapel } from '@/constants/mapel';
-import { type User } from '@/server/auth';
-import { useSidebarStore } from '@/stores/sidebar';
 import clsx from 'clsx';
 import { AlignJustifyIcon, ArrowLeft, CheckCheckIcon } from 'lucide-react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
-import { P, match } from 'ts-pattern';
+import { match,P } from 'ts-pattern';
+
+import { mapel } from '@/constants/mapel';
+import { type User } from '@/server/auth';
+import { useSidebarStore } from '@/stores/sidebar';
 
 import { Sheet, SheetContent, SheetTrigger } from '../_components/ui/sheet';
 import { ProfileButton } from './home/sidebar/profile-button';

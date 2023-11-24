@@ -1,7 +1,8 @@
 'use client';
 
-import { mapel } from '@/constants/mapel';
 import Image from 'next/image';
+
+import { mapel } from '@/constants/mapel';
 
 export function MataPelajaran() {
   return (

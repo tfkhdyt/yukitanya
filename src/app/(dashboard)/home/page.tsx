@@ -1,8 +1,9 @@
-import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang';
-import { getServerAuthSession } from '@/server/auth';
 import clsx from 'clsx';
 import { type Metadata } from 'next';
 import Image from 'next/image';
+
+import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang';
+import { getServerAuthSession } from '@/server/auth';
 
 import { Timeline } from './timeline';
 

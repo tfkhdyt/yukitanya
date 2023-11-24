@@ -1,5 +1,6 @@
-import { questions } from '@/constants/question';
 import { type Metadata } from 'next';
+
+import { questions } from '@/constants/question';
 
 import { QuestionPost } from '../home/question/question-post';
 

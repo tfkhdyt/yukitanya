@@ -1,12 +1,13 @@
 'use client';
 
-import { type User } from '@/server/auth';
-import { useSidebarStore } from '@/stores/sidebar';
 import { Bell, Book, Heart, HomeIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { P, match } from 'ts-pattern';
+import { match,P } from 'ts-pattern';
+
+import { type User } from '@/server/auth';
+import { useSidebarStore } from '@/stores/sidebar';
 
 import { ProfileButton } from './profile-button';
 

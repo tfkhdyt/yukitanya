@@ -1,10 +1,11 @@
-import { signupSchema } from '@/schema/signup-schema';
-import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
-import { users } from '@/server/db/schema';
 import * as argon2 from 'argon2';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
+
+import { signupSchema } from '@/schema/signup-schema';
+import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import { users } from '@/server/db/schema';
 
 export const userRouter = createTRPCRouter({
   register: publicProcedure
