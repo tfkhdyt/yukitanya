@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { AlignJustifyIcon, ArrowLeft, CheckCheckIcon } from 'lucide-react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
-import { match,P } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { mapel } from '@/constants/mapel';
 import { type User } from '@/server/auth';

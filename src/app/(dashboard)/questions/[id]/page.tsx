@@ -1,6 +1,6 @@
 import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
-import { match,P } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Button } from '@/app/_components/ui/button';
 import { answers } from '@/constants/answer';
