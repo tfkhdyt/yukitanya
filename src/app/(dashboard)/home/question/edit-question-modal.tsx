@@ -1,5 +1,15 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
+import { SendIcon } from 'lucide-react';
+import Link from 'next/link';
+import { type ReactNode, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import slugify from 'slugify';
+import { z } from 'zod';
+
 import {
   Avatar,
   AvatarFallback,
@@ -32,20 +42,12 @@ import { mapel } from '@/constants/mapel';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SendIcon } from 'lucide-react';
-import Link from 'next/link';
-import { type ReactNode, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import slugify from 'slugify';
-import { z } from 'zod';
 
 const questionSchema = z.object({
   question: z
     .string({ required_error: 'Pertanyaan tidak boleh kosong' })
     .min(1, 'Pertanyaan tidak boleh kosong')
-    .max(500, 'Pertanyaan tidak boleh lebih dari 500 karakter'),
+    .max(1000, 'Pertanyaan tidak boleh lebih dari 1000 karakter'),
   subject: z
     .string({ required_error: 'Pilih salah satu mapel' })
     .min(1, 'Mapel tidak boleh kosong')
@@ -80,6 +82,8 @@ export function EditQuestionModal({
     },
     resolver: zodResolver(questionSchema),
   });
+  const questionLength = form.watch('question').length;
+
   const utils = api.useUtils();
   const { isLoading, mutate } = api.question.updateQuestionById.useMutation({
     onError: (error) => toast.error(error.message),
@@ -98,7 +102,7 @@ export function EditQuestionModal({
       id: question.id,
       slug:
         slugify(values.question.slice(0, 25), { strict: true }) +
-        `-${question.id.replace('user-', '')}`,
+        `-${question.id.replace('question-', '')}`,
       subjectId: values.subject,
       userId: user.id,
     });
@@ -159,6 +163,16 @@ export function EditQuestionModal({
                       </FormItem>
                     )}
                   />
+                  <p className='text-right text-[#696984]'>
+                    <span
+                      className={clsx(
+                        questionLength > 1000 && 'font-semibold text-red-700',
+                      )}
+                    >
+                      {questionLength}
+                    </span>
+                    /1000
+                  </p>
                   <div className='flex justify-between'>
                     <FormField
                       control={form.control}
