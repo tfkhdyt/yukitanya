@@ -36,7 +36,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SendIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -76,14 +75,14 @@ export function QuestionModal({
     },
     resolver: zodResolver(questionSchema),
   });
-  const router = useRouter();
+  const utils = api.useUtils();
   const { isLoading, mutate } = api.question.createQuestion.useMutation({
     onError: (error) => toast.error(error.message),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success('Pertanyaan mu telah berhasil dibuat');
       setOpen(false);
       form.reset();
-      router.refresh();
+      await utils.question.findAllQuestions.invalidate();
     },
   });
 

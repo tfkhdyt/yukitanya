@@ -72,7 +72,7 @@ export function QuestionPost({
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
-    onSuccess: () => utils.question.invalidate(),
+    onSuccess: () => utils.question.findAllQuestions.invalidate(),
   });
 
   const handleFavorite = useMemo(
