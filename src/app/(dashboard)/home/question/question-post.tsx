@@ -167,7 +167,7 @@ export function QuestionPost({
           </Link>
         </div>
         <Link href={`/questions/${question.id}`}>
-          <p className='py-1 text-sm leading-relaxed text-[#696984]'>
+          <p className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'>
             {question.content.split(' ').map((word, idx) => {
               if (highlightedWords?.includes(word.toLowerCase())) {
                 return (
