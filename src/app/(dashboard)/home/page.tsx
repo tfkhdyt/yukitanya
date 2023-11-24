@@ -1,12 +1,10 @@
 import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang';
-import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
 import { getServerAuthSession } from '@/server/auth';
-import { api } from '@/trpc/server';
 import clsx from 'clsx';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 
-import { QuestionPost } from './question/question-post';
+import { Timeline } from './timeline';
 
 export const metadata: Metadata = {
   title: 'Beranda - Yukitanya',
@@ -14,9 +12,6 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const session = await getServerAuthSession();
-  const questions = await api.question.findAllQuestions.query();
-  const questionsBestAnswerRatings =
-    await api.rating.getQuestionBestAnswerRating.query();
 
   return (
     <>
@@ -30,7 +25,7 @@ export default async function Home() {
           <h2 className='text-xl font-extrabold'>
             JANGAN MALU UNTUK BERTANYA!
           </h2>
-          <TanyakanSekarangBtn user={session?.user} />
+          {session?.user && <TanyakanSekarangBtn user={session?.user} />}
         </div>
         <div className='w-1/3'>
           <Image
@@ -42,36 +37,7 @@ export default async function Home() {
           />
         </div>
       </div>
-      {questions.length > 0 ? (
-        questions.map((question) => (
-          <QuestionPost
-            key={question.id}
-            question={{
-              content: question.content,
-              createdAt: question.createdAt,
-              id: question.id,
-              numberOfAnswers: question.answers.length,
-              numberOfFavorites: question.favorites.length,
-              rating: questionsBestAnswerRatings.find(
-                (it) => it.questionId === question.id,
-              )?.averageRating,
-              subject: question.subject,
-              updatedAt: question.updatedAt,
-            }}
-            session={session}
-            user={{
-              ...question.owner,
-              initial:
-                question.owner.name
-                  ?.split(' ')
-                  .map((name) => name.slice(0, 1))
-                  .join('') ?? '',
-            }}
-          />
-        ))
-      ) : (
-        <PertanyaanKosong user={session?.user} />
-      )}
+      <Timeline session={session} />
     </>
   );
 }

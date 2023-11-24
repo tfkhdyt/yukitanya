@@ -46,6 +46,7 @@
     "dayjs": "^1.11.10",
     "drizzle-orm": "^0.29.0",
     "drizzle-zod": "^0.5.1",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.292.0",
     "nanoid": "^5.0.3",
     "next": "^14.0.3",
@@ -66,6 +67,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.44.7",
+    "@types/lodash": "^4.14.202",
     "@types/node": "^18.18.12",
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.17",

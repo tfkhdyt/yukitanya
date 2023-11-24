@@ -10,20 +10,19 @@ export function TanyakanSekarangBtn({
   user,
 }: {
   center?: boolean;
-  user: User | undefined;
+  user: User;
 }) {
-  if (user)
-    return (
-      <QuestionModal user={user}>
-        <Button
-          className={clsx(
-            'flex items-center space-x-2 rounded-full font-semibold',
-            center && 'mx-auto',
-          )}
-        >
-          <PencilIcon size={16} />
-          <p>Tanyakan Sekarang!</p>
-        </Button>
-      </QuestionModal>
-    );
+  return (
+    <QuestionModal user={user}>
+      <Button
+        className={clsx(
+          'flex items-center space-x-2 rounded-full font-semibold',
+          center && 'mx-auto',
+        )}
+      >
+        <PencilIcon size={16} />
+        <p>Tanyakan Sekarang!</p>
+      </Button>
+    </QuestionModal>
+  );
 }

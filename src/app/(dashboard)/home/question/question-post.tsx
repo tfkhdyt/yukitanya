@@ -19,8 +19,10 @@ import {
 } from '@/app/_components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
+import { throttle } from 'lodash';
 import {
   FacebookIcon,
   Heart,
@@ -34,6 +36,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
+import { useMemo } from 'react';
+import toast from 'react-hot-toast';
 
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
 import { QuestionModal } from './question-modal';
@@ -64,6 +68,27 @@ export function QuestionPost({
   session: Session | null;
   user: User;
 }) {
+  const utils = api.useUtils();
+
+  const favoriteMutation = api.favorite.toggleFavorite.useMutation({
+    onError: () => toast.error('Gagal memberi favorit'),
+    onSuccess: () => utils.question.invalidate(),
+  });
+
+  const handleFavorite = useMemo(
+    () =>
+      throttle(() => {
+        if (session?.user) {
+          // console.log('Liking...');
+          favoriteMutation.mutate({
+            questionId: question.id,
+            userId: session.user.id,
+          });
+        }
+      }, 2e3),
+    [session, question, favoriteMutation],
+  );
+
   return (
     <div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
       <Avatar>
@@ -146,17 +171,20 @@ export function QuestionPost({
         <div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
           <Button
             className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-            disabled={!session}
+            disabled={!session || favoriteMutation.isLoading}
+            onClick={handleFavorite}
             size='sm'
             title='Favorit'
             variant='outline'
           >
-            {question.isFavorited ? (
-              <Heart className='mr-1' color='red' fill='red' size={18} />
-            ) : (
-              <Heart className='mr-1' size={18} />
-            )}
-            {question.numberOfFavorites}
+            <>
+              {question.isFavorited ? (
+                <Heart className='mr-1' color='red' fill='red' size={18} />
+              ) : (
+                <Heart className='mr-1' size={18} />
+              )}
+              {question.numberOfFavorites}
+            </>
           </Button>
           {session ? (
             <AnswerModal question={question} session={session} user={user}>

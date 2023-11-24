@@ -8,7 +8,7 @@ export function PertanyaanKosong({
   user,
 }: {
   title?: string;
-  user: User | undefined;
+  user?: User;
 }) {
   return (
     <div className='p-6'>
@@ -22,7 +22,7 @@ export function PertanyaanKosong({
       <p className='pb-4 text-center text-sm font-medium text-gray-500'>
         {title}
       </p>
-      <TanyakanSekarangBtn center user={user} />
+      {user && <TanyakanSekarangBtn center user={user} />}
     </div>
   );
 }

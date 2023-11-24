@@ -31,13 +31,13 @@ const config = {
       },
     ],
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-    'perfectionist/sort-objects': [
-      'error',
-      {
-        order: 'asc',
-        type: 'natural',
-      },
-    ],
+    // 'perfectionist/sort-objects': [
+    //   'error',
+    //   {
+    //     order: 'asc',
+    //     type: 'natural',
+    //   },
+    // ],
   },
 };
 
