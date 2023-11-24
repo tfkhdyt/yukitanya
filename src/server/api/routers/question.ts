@@ -1,5 +1,6 @@
 import { insertQuestionSchema, questions } from '@/server/db/schema';
 import { desc, eq } from 'drizzle-orm';
+import { z } from 'zod';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -16,6 +17,9 @@ export const questionRouter = createTRPCRouter({
 
       return ctx.db.insert(questions).values(input);
     }),
+  deleteQuestionById: protectedProcedure.input(z.string()).mutation(({ctx, input: questionId}) => {
+    return ctx.db.delete(questions).where(eq(questions.id, questionId))
+  }),
   findAllQuestions: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.questions.findMany({
       orderBy: [desc(questions.createdAt)],
@@ -35,5 +39,5 @@ export const questionRouter = createTRPCRouter({
         subject: true,
       },
     });
-  }),
+  })
 });

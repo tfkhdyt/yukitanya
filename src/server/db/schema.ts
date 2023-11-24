@@ -164,10 +164,10 @@ export const favorites = pgTable(
   {
     questionId: text('question_id')
       .notNull()
-      .references(() => questions.id),
+      .references(() => questions.id, { onDelete: 'cascade' }),
     userId: text('user_id')
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: 'cascade' }),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.questionId, t.userId] }),

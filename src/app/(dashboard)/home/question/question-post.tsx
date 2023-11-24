@@ -36,7 +36,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
@@ -69,10 +69,20 @@ export function QuestionPost({
   user: User;
 }) {
   const utils = api.useUtils();
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
     onSuccess: () => utils.question.findAllQuestions.invalidate(),
+  });
+
+  const deleteQuestionMutation = api.question.deleteQuestionById.useMutation({
+    onError: () => toast.error('Gagal menghapus pertanyaan'),
+    onSuccess: async () => {
+      toast.success('Pertanyaan telah dihapus!');
+      setIsShowDeleteModal(false);
+      await utils.question.findAllQuestions.invalidate();
+    },
   });
 
   const handleFavorite = useMemo(
@@ -87,6 +97,10 @@ export function QuestionPost({
       }, 2e3),
     [session, question, favoriteMutation],
   );
+
+  const handleDeleteQuestion = (id: string) => {
+    deleteQuestionMutation.mutate(id);
+  };
 
   return (
     <div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
@@ -267,7 +281,9 @@ export function QuestionPost({
 
                 <DeleteModal
                   description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
-                  onClick={() => ''}
+                  onClick={() => handleDeleteQuestion(question.id)}
+                  onOpenChange={setIsShowDeleteModal}
+                  open={isShowDeleteModal}
                   title='Hapus pertanyaan'
                 >
                   <DropdownMenuItem

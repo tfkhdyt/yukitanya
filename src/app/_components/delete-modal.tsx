@@ -16,15 +16,19 @@ export function DeleteModal({
   children,
   description,
   onClick,
+  onOpenChange,
+  open,
   title,
 }: {
   children: ReactNode;
   description: string;
   onClick: () => void;
+  onOpenChange: (open: boolean) => void;
+  open?: boolean;
   title: string;
 }) {
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={onOpenChange} open={open}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -33,7 +37,12 @@ export function DeleteModal({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batalkan</AlertDialogCancel>
-          <AlertDialogAction onClick={onClick}>Hapus</AlertDialogAction>
+          <AlertDialogAction
+            className='bg-red-500 hover:bg-red-600'
+            onClick={onClick}
+          >
+            Hapus
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
