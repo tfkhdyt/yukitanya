@@ -40,7 +40,7 @@ export function SignupForm() {
       );
       setTimeout(() => {
         router.push('/auth/sign-in');
-      }, 4e3);
+      }, 3e3);
     },
   });
 
