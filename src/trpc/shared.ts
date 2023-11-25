@@ -2,8 +2,6 @@ import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 
 import { type AppRouter } from '@/server/api/root';
 
-
-
 function getBaseUrl() {
   if (typeof window !== 'undefined') return '';
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
@@ -28,4 +26,4 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
-export {default as transformer} from 'superjson';
+export { default as transformer } from 'superjson';

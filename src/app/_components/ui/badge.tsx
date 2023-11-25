@@ -29,7 +29,10 @@ export interface BadgeProperties
 
 function Badge({ className, variant, ...properties }: BadgeProperties) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...properties} />
+    <div
+      className={cn(badgeVariants({ variant }), className)}
+      {...properties}
+    />
   );
 }
 
