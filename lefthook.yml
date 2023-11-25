@@ -7,7 +7,7 @@ pre-push:
   parallel: true
   commands:
     taze:
-      run: taze --failOnOutdated
+      run: pnpx taze --failOnOutdated
     # build:
     #   run: pnpm build
 
