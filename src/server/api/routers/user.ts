@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
+import { getDiceBearAvatar } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { users } from '@/server/db/schema';
@@ -34,6 +35,7 @@ export const userRouter = createTRPCRouter({
           input.lastName?.trim() ?? ''
         }`.trim(),
         password: hashedPwd,
+        image: getDiceBearAvatar(input.username),
         username: input.username,
       });
     }),
