@@ -66,6 +66,15 @@ export const questionRouter = createTRPCRouter({
         },
       });
     }),
+  findQuestionContentBySlug: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: slug }) => {
+      return ctx.db
+        .select({ content: questions.content })
+        .from(questions)
+        .where(eq(questions.slug, slug))
+        .limit(1);
+    }),
   updateQuestionById: protectedProcedure
     .input(insertQuestionSchema)
     .mutation(async ({ ctx, input }) => {

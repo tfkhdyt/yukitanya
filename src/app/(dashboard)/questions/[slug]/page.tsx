@@ -1,6 +1,7 @@
 import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
+import { match, P } from 'ts-pattern';
 
 import { Button } from '@/app/_components/ui/button';
 import { getServerAuthSession } from '@/server/auth';
@@ -10,16 +11,23 @@ import { AnswerModal } from './answer/answer-modal';
 import { AnswerPost } from './answer/answer-post';
 import { DetailedQuestion } from './detailed-question';
 
-// export function generateMetadata({ params }: { params: { id: string } }) {
-//   const id = params.id;
-//   const question = questions.find((question) => question.id === id);
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
+  const question = await api.question.findQuestionContentBySlug.query(slug);
 
-//   return {
-//     title: `${match(question?.content.length)
-//       .with(P.number.gte(25), () => question?.content.slice(0, 25) + '...')
-//       .otherwise(() => question?.content)} - Yukitanya`,
-//   };
-// }
+  if (question.length > 0) {
+    return {
+      title: `${match(question[0]?.content.length)
+        .with(P.number.gte(50), () => question[0]?.content.slice(0, 50) + '...')
+        .otherwise(() => question[0]?.content)} - Yukitanya`,
+      description: question[0]?.content,
+    };
+  }
+}
 
 export const revalidate = 0;
 
