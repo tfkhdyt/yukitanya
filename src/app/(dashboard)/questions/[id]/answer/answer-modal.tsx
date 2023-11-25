@@ -5,6 +5,7 @@ import 'dayjs/locale/id';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
@@ -38,6 +39,23 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 
 dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+dayjs.updateLocale('id', {
+  relativeTime: {
+    ...dayjs.Ls.id?.relativeTime,
+    M: '1b',
+    MM: '%db',
+    d: '1h',
+    dd: '%dh',
+    h: '1j',
+    hh: '%dj',
+    m: '1m',
+    mm: '%dm',
+    s: 'Baru saja',
+    y: '1t',
+    yy: '%dt',
+  },
+});
 
 const answerSchema = z.object({
   answer: z
@@ -114,11 +132,8 @@ export function AnswerModal({
                   )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
-                  <span className='hover:underline md:hidden'>
+                  <span className='hover:underline'>
                     {dayjs(question.createdAt).locale('id').fromNow(true)}
-                  </span>
-                  <span className='hidden hover:underline md:inline'>
-                    {dayjs(question.createdAt).locale('id').fromNow()}
                   </span>
                 </div>
               </div>
