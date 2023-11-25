@@ -3,14 +3,13 @@
 import 'dayjs/locale/id';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
-import { type ReactNode, type RefObject } from 'react';
+import { type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -70,10 +69,6 @@ export function AnswerModal({
   question,
   session,
   user,
-  clamped,
-  containerRef,
-  showButton,
-  handleReadMore,
 }: {
   children: ReactNode;
   question: {
@@ -88,10 +83,6 @@ export function AnswerModal({
   };
   session: Session;
   user: User;
-  clamped: boolean;
-  containerRef: RefObject<HTMLParagraphElement>;
-  showButton: boolean;
-  handleReadMore: () => void;
 }) {
   const form = useForm<z.infer<typeof answerSchema>>({
     resolver: zodResolver(answerSchema),
@@ -153,27 +144,9 @@ export function AnswerModal({
                   )}
                 </div>
               </div>
-              <p
-                className={clsx(
-                  'whitespace-pre-wrap py-1 text-left text-sm leading-relaxed text-[#696984]',
-                  clamped
-                    ? 'line-clamp-2 md:line-clamp-4'
-                    : 'line-clamp-6 md:line-clamp-none',
-                )}
-                ref={containerRef}
-              >
+              <p className='line-clamp-4 whitespace-pre-wrap py-1 text-left text-sm leading-relaxed text-[#696984]'>
                 {question.content}
               </p>
-              {showButton && (
-                <div className='flex justify-start'>
-                  <button
-                    className='mr-auto text-sm font-medium text-[#696984] hover:underline'
-                    onClick={handleReadMore}
-                  >
-                    Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
-                  </button>
-                </div>
-              )}
               <div className='flex justify-start'>
                 <Link href={`/subjects/${question.subject.id}`}>
                   <Badge

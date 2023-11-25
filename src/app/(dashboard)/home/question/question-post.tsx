@@ -256,15 +256,7 @@ export function QuestionPost({
             </>
           </Button>
           {session ? (
-            <AnswerModal
-              question={question}
-              session={session}
-              user={user}
-              clamped={clamped}
-              containerRef={containerRef}
-              handleReadMore={handleReadMore}
-              showButton={showButton}
-            >
+            <AnswerModal question={question} session={session} user={user}>
               <Button
                 className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
                 size='sm'
