@@ -1,4 +1,5 @@
-import { Footer } from '../_components/footer';
+import { Footer } from '@/components/footer';
+
 import { Berita } from './berita';
 import { Fitur } from './fitur';
 import { Header } from './header';

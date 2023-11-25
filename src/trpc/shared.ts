@@ -1,9 +1,8 @@
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
-import superjson from 'superjson';
 
 import { type AppRouter } from '@/server/api/root';
 
-export const transformer = superjson;
+
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') return '';
@@ -28,3 +27,5 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export {default as transformer} from 'superjson';

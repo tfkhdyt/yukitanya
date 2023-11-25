@@ -1,8 +1,7 @@
 import { type Metadata } from 'next';
 
+import { QuestionPost } from '@/components/question/question-post';
 import { questions } from '@/constants/question';
-
-import { QuestionPost } from '../home/question/question-post';
 
 export const metadata: Metadata = {
   title: 'Favorit - Yukitanya',

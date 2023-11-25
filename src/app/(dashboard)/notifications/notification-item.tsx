@@ -9,13 +9,9 @@ import {
 import Link from 'next/link';
 import { match } from 'ts-pattern';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-type Props = {
+type Properties = {
   description: string;
   hasBeenRead: boolean;
   questionId: string;
@@ -43,25 +39,27 @@ type Props = {
     }
 );
 
-export function NotificationItem(props: Props) {
+export function NotificationItem(properties: Properties) {
   return (
     <section
       className={clsx(
         'border-b-2 p-4 text-[#696984] transition',
-        props.hasBeenRead
+        properties.hasBeenRead
           ? 'hover:bg-slate-50'
           : 'bg-slate-50 hover:bg-slate-100',
       )}
     >
-      {match(props)
+      {match(properties)
         .with({ type: 'favorite' }, (notif) => (
           <>
             <div className='flex items-center space-x-4'>
               <HeartIcon color='red' fill='red' size={28} />
-              <Link href={`/users/${props.user.username}`}>
+              <Link href={`/users/${properties.user.username}`}>
                 <Avatar className='h-10 w-10'>
-                  <AvatarImage src={props.user.avatar.imageUrl} />
-                  <AvatarFallback>{props.user.avatar.fallback}</AvatarFallback>
+                  <AvatarImage src={properties.user.avatar.imageUrl} />
+                  <AvatarFallback>
+                    {properties.user.avatar.fallback}
+                  </AvatarFallback>
                 </Avatar>
               </Link>
             </div>
@@ -69,22 +67,22 @@ export function NotificationItem(props: Props) {
               <span className='text-sm font-medium'>
                 <Link
                   className='hover:underline'
-                  href={`/users/${props.user.username}`}
+                  href={`/users/${properties.user.username}`}
                 >
-                  {props.user.fullName}
+                  {properties.user.fullName}
                 </Link>{' '}
-                <Link href={`/questions/${props.questionId}`}>
+                <Link href={`/questions/${properties.questionId}`}>
                   menyukai pertanyaan Anda
                 </Link>
                 <Link
                   className='mt-2 block text-sm font-normal'
-                  href={`/questions/${props.questionId}`}
+                  href={`/questions/${properties.questionId}`}
                 >
                   {notif.description}
                 </Link>
               </span>
 
-              {props.hasBeenRead || (
+              {properties.hasBeenRead || (
                 <button title='Tandai sudah dibaca'>
                   <CheckIcon />
                 </button>
@@ -96,10 +94,12 @@ export function NotificationItem(props: Props) {
           <>
             <div className='flex items-center space-x-4'>
               <StarIcon color='#F48C06' fill='#F48C06' size={28} />
-              <Link href={`/users/${props.user.username}`}>
+              <Link href={`/users/${properties.user.username}`}>
                 <Avatar className='h-10 w-10'>
-                  <AvatarImage src={props.user.avatar.imageUrl} />
-                  <AvatarFallback>{props.user.avatar.fallback}</AvatarFallback>
+                  <AvatarImage src={properties.user.avatar.imageUrl} />
+                  <AvatarFallback>
+                    {properties.user.avatar.fallback}
+                  </AvatarFallback>
                 </Avatar>
               </Link>
             </div>
@@ -107,22 +107,24 @@ export function NotificationItem(props: Props) {
               <span className='text-sm font-medium'>
                 <Link
                   className='hover:underline'
-                  href={`/users/${props.user.username}`}
+                  href={`/users/${properties.user.username}`}
                 >
-                  {props.user.fullName}
+                  {properties.user.fullName}
                 </Link>{' '}
-                <Link href={`/questions/${props.questionId}#${notif.answerId}`}>
+                <Link
+                  href={`/questions/${properties.questionId}#${notif.answerId}`}
+                >
                   memberi nilai terhadap jawaban Anda ({notif.rating})
                 </Link>
                 <Link
                   className='mt-2 block text-sm font-normal'
-                  href={`/questions/${props.questionId}#${notif.answerId}`}
+                  href={`/questions/${properties.questionId}#${notif.answerId}`}
                 >
                   {notif.description}
                 </Link>
               </span>
 
-              {props.hasBeenRead || (
+              {properties.hasBeenRead || (
                 <button title='Tandai sudah dibaca'>
                   <CheckIcon />
                 </button>
@@ -134,10 +136,12 @@ export function NotificationItem(props: Props) {
           <>
             <div className='flex items-center space-x-4'>
               <MessageCircleIcon color='#6364FF' size={28} />
-              <Link href={`/users/${props.user.username}`}>
+              <Link href={`/users/${properties.user.username}`}>
                 <Avatar className='h-10 w-10'>
-                  <AvatarImage src={props.user.avatar.imageUrl} />
-                  <AvatarFallback>{props.user.avatar.fallback}</AvatarFallback>
+                  <AvatarImage src={properties.user.avatar.imageUrl} />
+                  <AvatarFallback>
+                    {properties.user.avatar.fallback}
+                  </AvatarFallback>
                 </Avatar>
               </Link>
             </div>
@@ -145,22 +149,24 @@ export function NotificationItem(props: Props) {
               <div className='text-sm font-medium'>
                 <Link
                   className='hover:underline'
-                  href={`/users/${props.user.username}`}
+                  href={`/users/${properties.user.username}`}
                 >
-                  {props.user.fullName}
+                  {properties.user.fullName}
                 </Link>{' '}
-                <Link href={`/questions/${props.questionId}#${notif.answerId}`}>
+                <Link
+                  href={`/questions/${properties.questionId}#${notif.answerId}`}
+                >
                   menjawab pertanyaan Anda
                 </Link>
                 <Link
                   className='mt-2 block text-sm font-normal'
-                  href={`/questions/${props.questionId}#${notif.answerId}`}
+                  href={`/questions/${properties.questionId}#${notif.answerId}`}
                 >
                   {notif.description}
                 </Link>
               </div>
 
-              {props.hasBeenRead || (
+              {properties.hasBeenRead || (
                 <button title='Tandai sudah dibaca'>
                   <CheckIcon />
                 </button>
@@ -172,10 +178,12 @@ export function NotificationItem(props: Props) {
           <>
             <div className='flex items-center space-x-4'>
               <CheckCircle color='green' size={28} />
-              <Link href={`/users/${props.user.username}`}>
+              <Link href={`/users/${properties.user.username}`}>
                 <Avatar className='h-10 w-10'>
-                  <AvatarImage src={props.user.avatar.imageUrl} />
-                  <AvatarFallback>{props.user.avatar.fallback}</AvatarFallback>
+                  <AvatarImage src={properties.user.avatar.imageUrl} />
+                  <AvatarFallback>
+                    {properties.user.avatar.fallback}
+                  </AvatarFallback>
                 </Avatar>
               </Link>
             </div>
@@ -183,22 +191,24 @@ export function NotificationItem(props: Props) {
               <div className='gap-4 text-sm font-medium'>
                 <Link
                   className='hover:underline'
-                  href={`/users/${props.user.username}`}
+                  href={`/users/${properties.user.username}`}
                 >
-                  {props.user.fullName}
+                  {properties.user.fullName}
                 </Link>{' '}
-                <Link href={`/questions/${props.questionId}#${notif.answerId}`}>
+                <Link
+                  href={`/questions/${properties.questionId}#${notif.answerId}`}
+                >
                   menjadikan jawaban Anda menjadi yang terbaik
                 </Link>
                 <Link
                   className='mt-2 block text-sm font-normal'
-                  href={`/questions/${props.questionId}#${notif.answerId}`}
+                  href={`/questions/${properties.questionId}#${notif.answerId}`}
                 >
                   {notif.description}
                 </Link>
               </div>
 
-              {props.hasBeenRead || (
+              {properties.hasBeenRead || (
                 <button title='Tandai sudah dibaca'>
                   <CheckIcon />
                 </button>

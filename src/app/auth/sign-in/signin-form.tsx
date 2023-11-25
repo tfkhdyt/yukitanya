@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
-import { Button } from '../../_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -19,8 +19,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../_components/ui/form';
-import { Input } from '../../_components/ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 const signinSchema = z.object({
   password: z

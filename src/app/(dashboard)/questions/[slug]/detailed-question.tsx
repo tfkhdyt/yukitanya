@@ -14,13 +14,10 @@ import { useRouter } from 'next/navigation';
 import { type Session } from 'next-auth';
 import toast from 'react-hot-toast';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Badge } from '@/app/_components/ui/badge';
-import { Button } from '@/app/_components/ui/button';
+import { AnswerModal } from '@/components/modals/answer-modal';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,33 +25,32 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
-import { AnswerModal } from './answer/answer-modal';
+type Question = {
+  content: string;
+  createdAt: Date;
+  id: string;
+  subject: {
+    id: string;
+    name: string;
+  };
+  updatedAt: Date;
+  favorites: {
+    userId: string;
+  }[];
+  numberOfAnswers: number;
+};
 
 export function DetailedQuestion({
   question,
   user,
   session,
 }: {
-  question: {
-    content: string;
-    createdAt: Date;
-    id: string;
-    subject: {
-      id: string;
-      name: string;
-    };
-    updatedAt: Date;
-    favorites: { userId: string }[];
-    answers: {
-      id: string;
-      isBestAnswer: boolean;
-    }[];
-  };
+  question: Question;
   user: User;
   session: Session | null;
 }) {
@@ -124,7 +120,7 @@ export function DetailedQuestion({
             <p>·</p>
             <p className='font-semibold'>{question.favorites.length} favorit</p>
             <p>·</p>
-            <p className='font-semibold'>{question.answers.length} jawaban</p>
+            <p className='font-semibold'>{question.numberOfAnswers} jawaban</p>
           </span>
           <div className='space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
@@ -160,7 +156,7 @@ export function DetailedQuestion({
             <Button
               className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
               size='sm'
-              title={`Jawab (${question.answers.length})`}
+              title={`Jawab (${question.numberOfAnswers})`}
               variant='ghost'
             >
               <MessageCircle size={18} />
@@ -171,7 +167,7 @@ export function DetailedQuestion({
           <Button
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
             size='sm'
-            title={`Jawab (${question.answers.length})`}
+            title={`Jawab (${question.numberOfAnswers})`}
             variant='ghost'
             disabled
           >

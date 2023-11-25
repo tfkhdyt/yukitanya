@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { PencilIcon } from 'lucide-react';
 
-import { QuestionModal } from '@/app/(dashboard)/home/question/question-modal';
+import { QuestionModal } from '@/components/modals/question-modal';
 import { type User } from '@/server/auth';
 
 import { Button } from '../ui/button';
 
-export function TanyakanSekarangBtn({
+export function TanyakanSekarangButton({
   center = false,
   user,
 }: {

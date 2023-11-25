@@ -41,7 +41,7 @@ export const answers: Answer[] = [
     isBestAnswer: false,
     numberOfVotes: 2,
     questionId: 'question-123',
-    rating: 2.0,
+    rating: 2,
     user: {
       avatar: {
         fallback: 'MIR',

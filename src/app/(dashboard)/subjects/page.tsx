@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default function SubjectsPage() {
   return (
     <main className='grid grid-cols-2'>
-      {mapel.map((mpl, idx) => (
+      {mapel.map((mpl, index) => (
         <Link
           className={clsx(
             `border-b-2 p-6 transition hover:bg-slate-50`,
-            (idx + 1) % 2 !== 0 && 'border-r-2',
+            (index + 1) % 2 !== 0 && 'border-r-2',
           )}
           href={`/subjects/${mpl.id}`}
           key={mpl.id}

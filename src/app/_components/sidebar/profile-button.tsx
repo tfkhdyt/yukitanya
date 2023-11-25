@@ -2,11 +2,7 @@ import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 

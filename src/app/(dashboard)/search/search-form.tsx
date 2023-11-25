@@ -4,27 +4,26 @@ import { useDebounce } from '@uidotdev/usehooks';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
-import { Input } from '@/app/_components/ui/input';
+import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
+import { QuestionPost } from '@/components/question/question-post';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/_components/ui/select';
+} from '@/components/ui/select';
 import { mapel } from '@/constants/mapel';
 import { questions } from '@/constants/question';
 import { type User } from '@/server/auth';
 
-import { QuestionPost } from '../home/question/question-post';
-
 export function SearchForm({ user }: { user: User | undefined }) {
-  const searchParams = useSearchParams();
+  const searchParameters = useSearchParams();
   const router = useRouter();
 
-  const q = searchParams.get('q');
-  const s = searchParams.get('s');
+  const q = searchParameters.get('q');
+  const s = searchParameters.get('s');
 
   const [query, setQuery] = useState(q ?? '');
   const [subject, setSubject] = useState(s ?? 'all');
@@ -34,11 +33,7 @@ export function SearchForm({ user }: { user: User | undefined }) {
 
   const filteredPost = questions
     .filter((question) => {
-      if (subject === 'all') {
-        return true;
-      } else {
-        return question.subject.id === subject;
-      }
+      return subject === 'all' ? true : question.subject.id === subject;
     })
     .filter((question) => {
       const searchKeywords = debouncedQuery.toLowerCase().split(' ');
@@ -57,7 +52,7 @@ export function SearchForm({ user }: { user: User | undefined }) {
       <form className='flex w-full items-center space-x-1 p-4'>
         <Input
           className='rounded-l-full'
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(event) => setQuery(event.target.value)}
           placeholder='Cari...'
           type='text'
           value={query}

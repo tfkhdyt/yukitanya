@@ -1,16 +1,16 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import { env } from '@/env.mjs';
+import { environment } from '@/environment.mjs';
 
 import { subjects } from './schema';
 
-const seedClient = postgres(env.DATABASE_URL, { max: 1 });
+const seedClient = postgres(environment.DATABASE_URL, { max: 1 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+// eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
 (async () => {
-  const db = drizzle(seedClient);
-  await db
+  const database = drizzle(seedClient);
+  await database
     .insert(subjects)
     .values([
       {

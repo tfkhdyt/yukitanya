@@ -10,10 +10,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 
-import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
-import { api } from '@/trpc/react';
-
-import { Button } from '../../_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -21,8 +18,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../_components/ui/form';
-import { Input } from '../../_components/ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
+import { api } from '@/trpc/react';
 
 export function SignupForm() {
   const [isPasswordShowed, setIsPasswordShowed] = useState(false);

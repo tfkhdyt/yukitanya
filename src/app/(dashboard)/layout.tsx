@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { type ReactNode } from 'react';
 
+import { TanyakanSekarangButton } from '@/components/buttons/tanyakan-sekarang';
+import { Sidebar } from '@/components/sidebar/sidebar';
 import { getServerAuthSession } from '@/server/auth';
 
-import { TanyakanSekarangBtn } from '../_components/buttons/tanyakan-sekarang';
-import { Sidebar } from './home/sidebar/sidebar';
 import { MainContent } from './main-content';
 
 export const revalidate = 0;
@@ -30,7 +30,7 @@ export default async function DashboardLayout({
           src='/img/home/mari-bertanya.png'
           width={168}
         />
-        {session && <TanyakanSekarangBtn user={session?.user} />}
+        {session && <TanyakanSekarangButton user={session?.user} />}
       </aside>
     </section>
   );

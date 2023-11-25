@@ -75,11 +75,11 @@ export function Fitur() {
           Fitur yang sangat luar biasa ini, dapat membuat kegiatan belajar
           menjadi lebih efisien
         </p>
-        {fitur.map((each, idx) => (
+        {fitur.map((each, index) => (
           <section
             className={clsx(
               'flex scroll-mt-20 flex-col items-center gap-8 pt-12 md:flex-row lg:pt-20',
-              idx % 2 === 1 && 'md:flex-row-reverse',
+              index % 2 === 1 && 'md:flex-row-reverse',
             )}
             id={each.image.alt.replaceAll(' ', '-').toLowerCase()}
             key={each.title[0]}
@@ -94,7 +94,7 @@ export function Fitur() {
               />
             </div>
             <div className='space-y-8 md:w-1/2 md:p-6 lg:p-32'>
-              {match(idx % 2)
+              {match(index % 2)
                 .with(0, () => (
                   <p className='text-center text-2xl font-extrabold text-[#77425A]'>
                     <span className='text-[#F48C06]'>{each.title[0]}</span>{' '}

@@ -2,26 +2,16 @@ import dayjs from 'dayjs';
 import { MessageCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 
-import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/app/_components/ui/tabs';
+import { AnswerPost } from '@/components/answer/answer-post';
+import { AnswerModal } from '@/components/modals/answer-modal';
+import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
+import { QuestionPost } from '@/components/question/question-post';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { answers } from '@/constants/answer';
 import { questions } from '@/constants/question';
 import { getServerAuthSession } from '@/server/auth';
-
-import { QuestionPost } from '../../home/question/question-post';
-import { AnswerModal } from '../../questions/[slug]/answer/answer-modal';
-import { AnswerPost } from '../../questions/[slug]/answer/answer-post';
 
 export default async function UserPage() {
   const session = await getServerAuthSession();

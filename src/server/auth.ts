@@ -7,7 +7,7 @@ import {
 } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { env } from '@/env.mjs';
+import { environment } from '@/environment.mjs';
 import { db } from '@/server/db';
 
 export type User = {
@@ -111,9 +111,9 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     CredentialsProvider({
-      async authorize(credentials, _) {
+      async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
-          return null;
+          throw new Error('Username atau Password tidak boleh kosong');
         }
 
         const user = await db.query.users.findFirst({
@@ -156,7 +156,7 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-  secret: env.NEXTAUTH_SECRET,
+  secret: environment.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
   },

@@ -2,11 +2,10 @@
 
 import { type Session } from 'next-auth';
 
-import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
+import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
+import { QuestionPost } from '@/components/question/question-post';
+import { SkeletonQuestionPost } from '@/components/question/skeleton-question-post';
 import { api } from '@/trpc/react';
-
-import { QuestionPost } from './question/question-post';
-import { SkeletonQuestionPost } from './question/skeleton-question-post';
 
 export function Timeline({ session }: { session: Session | null }) {
   const questions = api.question.findAllQuestions.useQuery();

@@ -14,6 +14,7 @@ import 'dayjs/locale/id';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { headers } from 'next/headers';
+import { type ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import { TRPCReactProvider } from '@/trpc/react';
@@ -27,11 +28,7 @@ export const metadata = {
   title: 'Yukitanya',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en'>
       <body className='font-poppins'>

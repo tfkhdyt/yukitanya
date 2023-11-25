@@ -37,12 +37,12 @@ interface CreateContextOptions {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-export const createInnerTRPCContext = async (opts: CreateContextOptions) => {
+export const createInnerTRPCContext = async (options: CreateContextOptions) => {
   const session = await getServerAuthSession();
 
   return {
     db,
-    headers: opts.headers,
+    headers: options.headers,
     session,
   };
 };
@@ -53,11 +53,11 @@ export const createInnerTRPCContext = async (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: { req: NextRequest }) => {
+export const createTRPCContext = async (options: { req: NextRequest }) => {
   // Fetch stuff that depends on the request
 
   return await createInnerTRPCContext({
-    headers: opts.req.headers,
+    headers: options.req.headers,
   });
 };
 
@@ -76,7 +76,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       data: {
         ...shape.data,
         zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+          error.cause instanceof ZodError ? error.cause.flatten() : undefined,
       },
     };
   },

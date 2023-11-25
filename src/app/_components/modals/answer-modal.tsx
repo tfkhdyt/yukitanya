@@ -13,28 +13,24 @@ import { type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Badge } from '@/app/_components/ui/badge';
-import { Button } from '@/app/_components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/_components/ui/dialog';
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/app/_components/ui/form';
-import { Textarea } from '@/app/_components/ui/textarea';
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 
@@ -64,6 +60,16 @@ const answerSchema = z.object({
     .max(500, 'Jawaban tidak boleh lebih dari 500 karakter'),
 });
 
+type Question = {
+  content: string;
+  createdAt: Date;
+  subject: {
+    id: string;
+    name: string;
+  };
+  updatedAt: Date;
+};
+
 export function AnswerModal({
   children,
   question,
@@ -71,16 +77,7 @@ export function AnswerModal({
   user,
 }: {
   children: ReactNode;
-  question: {
-    content: string;
-    createdAt: Date;
-    id: string;
-    subject: {
-      id: string;
-      name: string;
-    };
-    updatedAt: Date;
-  };
+  question: Question;
   session: Session;
   user: User;
 }) {

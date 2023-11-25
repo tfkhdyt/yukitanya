@@ -15,19 +15,12 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-import { DeleteModal } from '@/app/_components/delete-modal';
-import { StarRating } from '@/app/_components/star-rating';
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@/app/_components/ui/alert';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
+import { DeleteModal } from '@/components/modals/delete-modal';
+import { EditAnswerModal } from '@/components/modals/edit-answer-modal';
+import { StarRating } from '@/components/star-rating';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,37 +28,39 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 
-import { EditAnswerModal } from './edit-answer-modal';
+type Answer = {
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  id: string;
+  isBestAnswer: boolean;
+  numberOfVotes: number;
+  rating: number;
+};
+
+type Question = {
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  id: string;
+  subject: {
+    id: string;
+    name: string;
+  };
+  owner: User;
+};
 
 export function AnswerPost({
   answer,
   question,
   user,
 }: {
-  answer: {
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-    id: string;
-    isBestAnswer: boolean;
-    numberOfVotes: number;
-    rating: number;
-  };
-  question: {
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-    id: string;
-    subject: {
-      id: string;
-      name: string;
-    };
-    owner: User;
-  };
+  answer: Answer;
+  question: Question;
   user: User;
 }) {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
@@ -216,14 +211,15 @@ export function AnswerPost({
                     question={{
                       content: question.content,
                       createdAt: question.createdAt,
-                      id: question.id,
                       subject: question.subject,
                       updatedAt: question.updatedAt,
                       owner: question.owner,
                     }}
                     user={user}
                   >
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <DropdownMenuItem
+                      onSelect={(event) => event.preventDefault()}
+                    >
                       <PencilIcon className='mr-1' size={18} />
                       <span>Edit</span>
                     </DropdownMenuItem>
@@ -237,7 +233,7 @@ export function AnswerPost({
                   >
                     <DropdownMenuItem
                       className='focus:bg-red-100 focus:text-red-900'
-                      onSelect={(e) => e.preventDefault()}
+                      onSelect={(event) => event.preventDefault()}
                     >
                       <TrashIcon className='mr-1' size={18} />
                       <span>Hapus</span>

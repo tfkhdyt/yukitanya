@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { SendIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,34 +10,30 @@ import toast from 'react-hot-toast';
 import slugify from 'slugify';
 import { z } from 'zod';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/_components/ui/dialog';
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/app/_components/ui/form';
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/_components/ui/select';
-import { Textarea } from '@/app/_components/ui/textarea';
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
@@ -55,45 +50,59 @@ const questionSchema = z.object({
     .max(25),
 });
 
-export function QuestionModal({
-  children,
+type Question = {
+  content: string;
+  id: string;
+  subject: {
+    id: string;
+    name: string;
+  };
+};
 
+export function EditQuestionModal({
+  children,
+  question,
+  setShowDropdown,
   user,
 }: {
   children: ReactNode;
-
+  question: Question;
+  setShowDropdown: (open: boolean) => void;
+  title?: string;
   user: User;
 }) {
-  // 1. Define your form.
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof questionSchema>>({
+    defaultValues: {
+      question: question.content,
+      subject: question.subject.id,
+    },
     resolver: zodResolver(questionSchema),
   });
-  const questionLength = form.watch('question')?.length ?? 0;
+  const questionLength = form.watch('question').length;
 
   const utils = api.useUtils();
-  const { isLoading, mutate } = api.question.createQuestion.useMutation({
+  const { isLoading, mutate } = api.question.updateQuestionById.useMutation({
     onError: (error) => toast.error(error.message),
     onSuccess: async () => {
-      toast.success('Pertanyaan mu telah berhasil dibuat');
+      toast.success('Pertanyaan mu telah berhasil diedit');
+      setShowDropdown(false);
       setOpen(false);
       form.reset();
       await utils.question.findAllQuestions.invalidate();
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
-    const id = nanoid(5);
-    const input = {
+    mutate({
       content: values.question,
-      id: `question-${id}`,
-      slug: slugify(values.question.slice(0, 50), { strict: true }) + `-${id}`,
+      id: question.id,
+      slug:
+        slugify(values.question.slice(0, 50), { strict: true }) +
+        `-${question.id.replace('question-', '')}`,
       subjectId: values.subject,
       userId: user.id,
-    };
-
-    mutate(input);
+    });
   }
 
   return (
@@ -101,7 +110,7 @@ export function QuestionModal({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
-          <DialogTitle>Ajukan pertanyaan</DialogTitle>
+          <DialogTitle>Edit pertanyaan</DialogTitle>
           <div className='-mx-4 px-4 pt-4'>
             <div className='flex items-center space-x-3'>
               <Avatar>

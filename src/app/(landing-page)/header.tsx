@@ -12,7 +12,7 @@ import {
   SheetClose,
   SheetContent,
   SheetTrigger,
-} from '../_components/ui/sheet';
+} from '@/components/ui/sheet';
 
 type Navbar = {
   id: string;

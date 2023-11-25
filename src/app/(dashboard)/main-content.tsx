@@ -6,13 +6,12 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { match, P } from 'ts-pattern';
 
+import { ProfileButton } from '@/components/sidebar/profile-button';
+import { Sidebar } from '@/components/sidebar/sidebar';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { mapel } from '@/constants/mapel';
 import { type User } from '@/server/auth';
 import { useSidebarStore } from '@/stores/sidebar';
-
-import { Sheet, SheetContent, SheetTrigger } from '../_components/ui/sheet';
-import { ProfileButton } from './home/sidebar/profile-button';
-import { Sidebar } from './home/sidebar/sidebar';
 
 export function MainContent({
   children,
@@ -23,12 +22,12 @@ export function MainContent({
 }) {
   const pathname = usePathname();
   const sidebarStore = useSidebarStore();
-  const params = useParams();
+  const parameters = useParams();
   const router = useRouter();
 
   let username = '';
   if (pathname.startsWith('/users/')) {
-    username = params.id as string;
+    username = parameters.id as string;
   }
 
   return (
@@ -84,7 +83,8 @@ export function MainContent({
                 () => (
                   <button className='flex items-center'>
                     <p className='decoration-2'>
-                      {mapel.find((mpl) => mpl.id === params.id)?.name ?? '404'}
+                      {mapel.find((mpl) => mpl.id === parameters.id)?.name ??
+                        '404'}
                     </p>
                   </button>
                 ),

@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { match, P } from 'ts-pattern';
 
-import { Button } from '@/app/_components/ui/button';
+import { AnswerPost } from '@/components/answer/answer-post';
+import { AnswerModal } from '@/components/modals/answer-modal';
+import { Button } from '@/components/ui/button';
 import { getServerAuthSession } from '@/server/auth';
 import { api } from '@/trpc/server';
 
-import { AnswerModal } from './answer/answer-modal';
-import { AnswerPost } from './answer/answer-post';
 import { DetailedQuestion } from './detailed-question';
 
 export async function generateMetadata({

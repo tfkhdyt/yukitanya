@@ -1,9 +1,10 @@
-import { env } from '@/env.mjs';
 import { type Config } from 'drizzle-kit';
+
+import { environment } from '@/environment.mjs';
 
 export default {
   dbCredentials: {
-    connectionString: env.DATABASE_URL,
+    connectionString: environment.DATABASE_URL,
   },
   driver: 'pg',
   out: './drizzle',

@@ -22,29 +22,25 @@ import { type Session } from 'next-auth';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { DeleteModal } from '@/app/_components/delete-modal';
-import { StarRating } from '@/app/_components/star-rating';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Badge } from '@/app/_components/ui/badge';
-import { Button } from '@/app/_components/ui/button';
+import { AnswerModal } from '@/components/modals/answer-modal';
+import { DeleteModal } from '@/components/modals/delete-modal';
+import { EditQuestionModal } from '@/components/modals/edit-question-modal';
+import { StarRating } from '@/components/star-rating';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
+import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-
-import { AnswerModal } from '../../questions/[slug]/answer/answer-modal';
-import { EditQuestionModal } from './edit-question-modal';
 
 dayjs.locale('id');
 dayjs.extend(updateLocale);
@@ -65,6 +61,22 @@ dayjs.updateLocale('id', {
   },
 });
 
+type Question = {
+  content: string;
+  createdAt: Date;
+  id: string;
+  isFavorited?: boolean;
+  numberOfAnswers: number;
+  numberOfFavorites: number;
+  rating?: number;
+  subject: {
+    id: string;
+    name: string;
+  };
+  updatedAt: Date;
+  slug: string;
+};
+
 export function QuestionPost({
   highlightedWords,
   question,
@@ -72,21 +84,7 @@ export function QuestionPost({
   user,
 }: {
   highlightedWords?: string[];
-  question: {
-    content: string;
-    createdAt: Date;
-    id: string;
-    isFavorited?: boolean;
-    numberOfAnswers: number;
-    numberOfFavorites: number;
-    rating?: number;
-    subject: {
-      id: string;
-      name: string;
-    };
-    updatedAt: Date;
-    slug: string;
-  };
+  question: Question;
   session: Session | null;
   user: User;
 }) {
@@ -95,24 +93,25 @@ export function QuestionPost({
   const [isShowDropdown, setIsShowDropDown] = useState(false);
   const [clamped, setClamped] = useState(true);
   const [showButton, setShowButton] = useState(true);
-  const containerRef = useRef<HTMLParagraphElement>(null);
+  const containerReference = useRef<HTMLParagraphElement>(null);
 
   const handleReadMore = () => setClamped((v) => !v);
 
   useEffect(() => {
-    const hasClamping = (el: HTMLParagraphElement) => {
-      const { clientHeight, scrollHeight } = el;
+    const hasClamping = (element: HTMLParagraphElement) => {
+      const { clientHeight, scrollHeight } = element;
       return clientHeight !== scrollHeight;
     };
 
     const checkButtonAvailability = () => {
-      if (containerRef.current) {
+      if (containerReference.current) {
         const hadClampClass =
-          containerRef.current.classList.contains('line-clamp-4');
-        if (!hadClampClass) containerRef.current.classList.add('line-clamp-4');
-        setShowButton(hasClamping(containerRef.current));
+          containerReference.current.classList.contains('line-clamp-4');
         if (!hadClampClass)
-          containerRef.current.classList.remove('line-clamp-4');
+          containerReference.current.classList.add('line-clamp-4');
+        setShowButton(hasClamping(containerReference.current));
+        if (!hadClampClass)
+          containerReference.current.classList.remove('line-clamp-4');
       }
     };
 
@@ -124,7 +123,7 @@ export function QuestionPost({
     return () => {
       window.removeEventListener('resize', debouncedCheck);
     };
-  }, [containerRef, question]);
+  }, [containerReference, question]);
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
@@ -204,19 +203,19 @@ export function QuestionPost({
               'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
               clamped && 'line-clamp-4',
             )}
-            ref={containerRef}
+            ref={containerReference}
           >
-            {question.content.split(' ').map((word, idx) => {
+            {question.content.split(' ').map((word, index) => {
               if (highlightedWords?.includes(word.toLowerCase())) {
                 return (
-                  <span key={idx}>
+                  <span key={index}>
                     <span className='bg-[#F48C06] px-1 font-medium text-white'>
                       {word}
                     </span>{' '}
                   </span>
                 );
               }
-              return <span key={idx}>{word} </span>;
+              return <span key={index}>{word} </span>;
             })}
           </p>
         </Link>
@@ -334,7 +333,7 @@ export function QuestionPost({
                 >
                   <DropdownMenuItem
                     className='cursor-pointer'
-                    onSelect={(e) => e.preventDefault()}
+                    onSelect={(event) => event.preventDefault()}
                   >
                     <PencilIcon className='mr-1' size={18} />
                     <span>Edit</span>
@@ -350,7 +349,7 @@ export function QuestionPost({
                 >
                   <DropdownMenuItem
                     className='cursor-pointer focus:bg-red-100 focus:text-red-900'
-                    onSelect={(e) => e.preventDefault()}
+                    onSelect={(event) => event.preventDefault()}
                   >
                     <TrashIcon className='mr-1' size={18} />
                     <span>Hapus</span>

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 
-import { TanyakanSekarangBtn } from '@/app/_components/buttons/tanyakan-sekarang';
+import { TanyakanSekarangButton } from '@/components/buttons/tanyakan-sekarang';
 import { getServerAuthSession } from '@/server/auth';
 
 import { Timeline } from './timeline';
@@ -26,7 +26,7 @@ export default async function Home() {
           <h2 className='text-xl font-extrabold'>
             JANGAN MALU UNTUK BERTANYA!
           </h2>
-          {session?.user && <TanyakanSekarangBtn user={session?.user} />}
+          {session?.user && <TanyakanSekarangButton user={session?.user} />}
         </div>
         <div className='w-1/3'>
           <Image

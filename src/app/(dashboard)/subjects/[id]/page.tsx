@@ -1,9 +1,8 @@
-import { PertanyaanKosong } from '@/app/_components/pertanyaan-kosong';
+import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
+import { QuestionPost } from '@/components/question/question-post';
 import { mapel } from '@/constants/mapel';
 import { questions } from '@/constants/question';
 import { getServerAuthSession } from '@/server/auth';
-
-import { QuestionPost } from '../../home/question/question-post';
 
 export function generateMetadata({ params }: { params: { id: string } }) {
   const id = params.id;

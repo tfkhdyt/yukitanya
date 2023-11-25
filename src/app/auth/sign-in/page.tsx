@@ -1,10 +1,5 @@
-import { Footer } from '@/app/_components/footer';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/app/_components/ui/card';
+import { Footer } from '@/components/footer';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { SigninForm } from './signin-form';
 

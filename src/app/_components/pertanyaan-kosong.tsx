@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { type User } from '@/server/auth';
 
-import { TanyakanSekarangBtn } from './buttons/tanyakan-sekarang';
+import { TanyakanSekarangButton } from './buttons/tanyakan-sekarang';
 
 export function PertanyaanKosong({
   title = 'Belum ada pertanyaan yang tersedia',
@@ -23,7 +23,7 @@ export function PertanyaanKosong({
       <p className='pb-4 text-center text-sm font-medium text-gray-500'>
         {title}
       </p>
-      {user && <TanyakanSekarangBtn center user={user} />}
+      {user && <TanyakanSekarangButton center user={user} />}
     </div>
   );
 }
