@@ -43,7 +43,7 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
-import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
+import { AnswerModal } from '../../questions/[slug]/answer/answer-modal';
 import { EditQuestionModal } from './edit-question-modal';
 
 dayjs.locale('id');
@@ -85,6 +85,7 @@ export function QuestionPost({
       name: string;
     };
     updatedAt: Date;
+    slug: string;
   };
   session: Session | null;
   user: User;
@@ -174,7 +175,7 @@ export function QuestionPost({
           >
             @{user.username}
           </Link>
-          <Link className='font-light' href={`/questions/${question.id}`}>
+          <Link className='font-light' href={`/questions/${question.slug}`}>
             <span className='mr-2 text-sm font-medium'>·</span>
             <span
               className='hover:underline'
@@ -197,7 +198,7 @@ export function QuestionPost({
             )}
           </Link>
         </div>
-        <Link href={`/questions/${question.id}`}>
+        <Link href={`/questions/${question.slug}`}>
           <p
             className={clsx(
               'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
@@ -270,7 +271,7 @@ export function QuestionPost({
           ) : (
             <Button
               className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-              disabled={true}
+              disabled
               size='sm'
               title='Beri jawaban mu'
               variant='outline'

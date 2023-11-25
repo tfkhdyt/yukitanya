@@ -20,8 +20,8 @@ import { questions } from '@/constants/question';
 import { getServerAuthSession } from '@/server/auth';
 
 import { QuestionPost } from '../../home/question/question-post';
-import { AnswerModal } from '../../questions/[id]/answer/answer-modal';
-import { AnswerPost } from '../../questions/[id]/answer/answer-post';
+import { AnswerModal } from '../../questions/[slug]/answer/answer-modal';
+import { AnswerPost } from '../../questions/[slug]/answer/answer-post';
 
 export default async function UserPage() {
   const session = await getServerAuthSession();
@@ -123,7 +123,7 @@ export default async function UserPage() {
                   width={213}
                 />
                 <p className='text-center text-sm font-medium text-gray-500'>
-                  Taufik Hidayat yang ganteng menunggu bantuan jawabanmu
+                  Taufik Hidayat yang ganteng menunggu jawabanmu
                 </p>
                 <AnswerModal
                   question={{

@@ -33,6 +33,8 @@ import {
   FormMessage,
 } from '@/app/_components/ui/form';
 import { Textarea } from '@/app/_components/ui/textarea';
+import { getDiceBearAvatar } from '@/lib/utils';
+import { type User } from '@/server/auth';
 
 dayjs.extend(relativeTime);
 
@@ -53,29 +55,16 @@ export function EditAnswerModal({
   defaultValue?: string;
   question: {
     content: string;
-    date: Date;
+    createdAt: Date;
+    updatedAt: Date;
     id: string;
     subject: {
       id: string;
       name: string;
     };
-    user?: {
-      avatar: {
-        fallback: string;
-        imageUrl: string;
-      };
-      fullName: string;
-      username: string;
-    };
+    owner: User;
   };
-  user: {
-    avatar: {
-      fallback: string;
-      imageUrl: string;
-    };
-    fullName: string;
-    username: string;
-  };
+  user: User;
 }) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof answerSchema>>({
@@ -100,37 +89,42 @@ export function EditAnswerModal({
           <DialogTitle>Edit jawaban</DialogTitle>
           <div className='-mx-4 flex space-x-3 border-b-2 p-4'>
             <Avatar>
-              <AvatarImage src={question.user?.avatar.imageUrl} />
-              <AvatarFallback>{question.user?.avatar.fallback}</AvatarFallback>
+              <AvatarImage
+                src={
+                  question.owner.image ??
+                  getDiceBearAvatar(question.owner.username)
+                }
+              />
+              <AvatarFallback>{question.owner.initial}</AvatarFallback>
             </Avatar>
             <div className='grow space-y-1'>
               <div className='flex items-center space-x-2 text-[#696984]'>
                 <Link
                   className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
-                  href={`/users/${question.user?.username}`}
-                  title={question.user?.fullName}
+                  href={`/users/${question.owner.username}`}
+                  title={question.owner.name ?? question.owner.username}
                 >
-                  {question.user?.fullName}
+                  {question.owner.name}
                 </Link>
                 <Link
                   className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
-                  href={`/users/${question.user?.username}`}
-                  title={`@${question.user?.username}`}
+                  href={`/users/${question.owner.username}`}
+                  title={`@${question.owner.username}`}
                 >
-                  @{question.user?.username}
+                  @{question.owner.username}
                 </Link>
                 <div
                   className='font-light'
-                  title={dayjs(question.date).format(
+                  title={dayjs(question.createdAt).format(
                     'dddd, D MMMM YYYY HH:mm:ss',
                   )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
                   <span className='hover:underline md:hidden'>
-                    {dayjs(question.date).locale('id').fromNow(true)}
+                    {dayjs(question.createdAt).locale('id').fromNow(true)}
                   </span>
                   <span className='hidden hover:underline md:inline'>
-                    {dayjs(question.date).locale('id').fromNow()}
+                    {dayjs(question.createdAt).locale('id').fromNow()}
                   </span>
                 </div>
               </div>
@@ -152,16 +146,18 @@ export function EditAnswerModal({
           <div className='pt-2'>
             <div className='flex items-center space-x-3'>
               <Avatar>
-                <AvatarImage src={user.avatar.imageUrl} />
-                <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+                <AvatarImage
+                  src={user.image ?? getDiceBearAvatar(user.username)}
+                />
+                <AvatarFallback>{user.initial}</AvatarFallback>
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
                   href={`/users/${user.username}`}
-                  title={user.fullName}
+                  title={user.name ?? user.username}
                 >
-                  {user.fullName}
+                  {user.name}
                 </Link>
                 <Link
                   className='block max-w-full truncate font-normal'

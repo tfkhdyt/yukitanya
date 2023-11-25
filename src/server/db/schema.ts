@@ -126,7 +126,7 @@ export const answers = pgTable('answer', {
     .defaultNow()
     .notNull(),
   id: text('id').notNull().primaryKey(),
-  isBestAnswer: boolean('is_best_answer').default(false),
+  isBestAnswer: boolean('is_best_answer').notNull().default(false),
   questionId: text('question_id')
     .notNull()
     .references(() => questions.id, { onDelete: 'cascade' }),

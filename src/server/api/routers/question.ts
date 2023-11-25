@@ -1,7 +1,8 @@
-import { desc, eq } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-import { insertQuestionSchema, questions } from '@/server/db/schema';
+import { answers, insertQuestionSchema, questions } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -43,10 +44,32 @@ export const questionRouter = createTRPCRouter({
       },
     });
   }),
+  findQuestionBySlug: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: slug }) => {
+      return ctx.db.query.questions.findFirst({
+        where: eq(questions.slug, slug),
+        with: {
+          answers: {
+            orderBy: [asc(answers.isBestAnswer), asc(answers.createdAt)],
+            with: {
+              owner: true,
+            },
+          },
+          favorites: {
+            columns: {
+              userId: true,
+            },
+          },
+          owner: true,
+          subject: true,
+        },
+      });
+    }),
   updateQuestionById: protectedProcedure
     .input(insertQuestionSchema)
     .mutation(async ({ ctx, input }) => {
-      return ctx.db
+      await ctx.db
         .update(questions)
         .set({
           content: input.content,
@@ -55,5 +78,6 @@ export const questionRouter = createTRPCRouter({
           updatedAt: new Date(),
         })
         .where(eq(questions.id, input.id));
+      return revalidatePath('/');
     }),
 });

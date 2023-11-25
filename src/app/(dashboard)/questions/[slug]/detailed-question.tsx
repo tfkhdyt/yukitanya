@@ -6,15 +6,14 @@ import {
   Heart,
   LinkIcon,
   MessageCircle,
-  MoreHorizontalIcon,
-  PencilIcon,
   Share2Icon,
-  TrashIcon,
   TwitterIcon,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { type Session } from 'next-auth';
+import toast from 'react-hot-toast';
 
-import { DeleteModal } from '@/app/_components/delete-modal';
 import {
   Avatar,
   AvatarFallback,
@@ -30,50 +29,65 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { getDiceBearAvatar } from '@/lib/utils';
+import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 
-import { QuestionModal } from '../../home/question/question-modal';
 import { AnswerModal } from './answer/answer-modal';
 
 export function DetailedQuestion({
   question,
   user,
+  session,
 }: {
   question: {
     content: string;
-    date: Date;
+    createdAt: Date;
     id: string;
-    numberOfAnswers: number;
-    numberOfFavorites: number;
-    rating: number;
     subject: {
       id: string;
       name: string;
     };
+    updatedAt: Date;
+    favorites: { userId: string }[];
+    answers: {
+      id: string;
+      isBestAnswer: boolean;
+    }[];
   };
-  user: {
-    avatar: {
-      fallback: string;
-      imageUrl: string;
-    };
-    fullName: string;
-    username: string;
-  };
+  user: User;
+  session: Session | null;
 }) {
+  const router = useRouter();
+  const favoriteMutation = api.favorite.toggleFavorite.useMutation({
+    onError: () => toast.error('Gagal memberi favorit'),
+    onSuccess: () => router.refresh(),
+  });
+
+  const handleFavorite = () => {
+    if (session?.user) {
+      favoriteMutation.mutate({
+        questionId: question.id,
+        userId: session.user.id,
+      });
+    }
+  };
+
   return (
     <>
       <div className='border-b-2 p-4'>
         <div className='flex items-center space-x-3'>
           <Avatar className='h-12 w-12'>
-            <AvatarImage src={user.avatar.imageUrl} />
-            <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+            <AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
+            <AvatarFallback>{user.initial}</AvatarFallback>
           </Avatar>
           <div className='text-[#696984]'>
             <Link
               className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
               href={`/users/${user.username}`}
-              title={user.fullName}
+              title={user.name ?? user.username}
             >
-              {user.fullName}
+              {user.name}
             </Link>
             <Link
               className='block max-w-full truncate font-normal'
@@ -86,20 +100,31 @@ export function DetailedQuestion({
         </div>
 
         <div className='my-2'>
-          <p className='py-1 text-sm leading-relaxed text-[#696984]'>
+          <p className='whitespace-pre-line py-1 text-sm leading-relaxed text-[#696984]'>
             {question.content}
           </p>
         </div>
 
         <div className='mt-4 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
           <span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
-            <p>{dayjs(question.date).format('dddd, D MMMM YYYY, HH:mm')}</p>
-            <p>·</p>
-            <p className='font-semibold'>
-              {question.numberOfFavorites} favorit
+            <p>
+              {dayjs(question.createdAt).format('dddd, D MMMM YYYY, HH:mm')}
             </p>
+            {question.createdAt.toISOString() !==
+              question.updatedAt.toISOString() && (
+              <span
+                className='hover:underline'
+                title={`Diedit pada ${dayjs(question.updatedAt).format(
+                  'dddd, D MMMM YYYY HH:mm:ss',
+                )}`}
+              >
+                *
+              </span>
+            )}
             <p>·</p>
-            <p className='font-semibold'>{question.numberOfAnswers} jawaban</p>
+            <p className='font-semibold'>{question.favorites.length} favorit</p>
+            <p>·</p>
+            <p className='font-semibold'>{question.answers.length} jawaban</p>
           </span>
           <div className='space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
@@ -114,23 +139,46 @@ export function DetailedQuestion({
         <Button
           className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
           size='sm'
-          title={`Favorit (${question.numberOfFavorites})`}
+          title={`Favorit (${question.favorites.length})`}
           variant='ghost'
+          disabled={!session || favoriteMutation.isLoading}
+          onClick={handleFavorite}
         >
-          <Heart size={18} />
+          <>
+            {question.favorites.some(
+              (favorite) => favorite.userId === session?.user.id,
+            ) ? (
+              <Heart className='mr-1' color='red' fill='red' size={18} />
+            ) : (
+              <Heart className='mr-1' size={18} />
+            )}
+          </>
           <span className='hidden lg:inline'>Favorit</span>
         </Button>
-        <AnswerModal question={question} user={user}>
+        {session ? (
+          <AnswerModal question={question} user={user} session={session}>
+            <Button
+              className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+              size='sm'
+              title={`Jawab (${question.answers.length})`}
+              variant='ghost'
+            >
+              <MessageCircle size={18} />
+              <span className='hidden lg:inline'>Jawab</span>
+            </Button>
+          </AnswerModal>
+        ) : (
           <Button
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
             size='sm'
-            title={`Jawab (${question.numberOfAnswers})`}
+            title={`Jawab (${question.answers.length})`}
             variant='ghost'
+            disabled
           >
             <MessageCircle size={18} />
             <span className='hidden lg:inline'>Jawab</span>
           </Button>
-        </AnswerModal>
+        )}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -159,53 +207,6 @@ export function DetailedQuestion({
               <LinkIcon className='mr-1' size={18} />
               <span>Salin link</span>
             </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
-              size='sm'
-              title='Lainnya'
-              variant='ghost'
-            >
-              <MoreHorizontalIcon size={18} />
-              <span className='hidden lg:inline'>Lainnya</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className='text-[#696984]'>
-            <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-
-            <QuestionModal
-              avatar={{
-                fallback: 'TH',
-                imageUrl: 'https://github.com/tfkhdyt.png',
-              }}
-              defaultSubject={question.subject.id}
-              defaultValue={question.content}
-              fullName='Taufik Hidayat'
-              title='Edit pertanyaan'
-              username='tfkhdyt'
-            >
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                <PencilIcon className='mr-1' size={18} />
-                <span>Edit</span>
-              </DropdownMenuItem>
-            </QuestionModal>
-            <DeleteModal
-              description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
-              onClick={() => ''}
-              title='Hapus pertanyaan'
-            >
-              <DropdownMenuItem
-                className='focus:bg-red-100 focus:text-red-900'
-                onSelect={(e) => e.preventDefault()}
-              >
-                <TrashIcon className='mr-1' size={18} />
-                <span>Hapus</span>
-              </DropdownMenuItem>
-            </DeleteModal>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

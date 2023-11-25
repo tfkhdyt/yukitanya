@@ -53,6 +53,7 @@ export function Timeline({ session }: { session: Session | null }) {
             )?.averageRating,
             subject: question.subject,
             updatedAt: question.updatedAt,
+            slug: question.slug,
           }}
           session={session}
           user={{

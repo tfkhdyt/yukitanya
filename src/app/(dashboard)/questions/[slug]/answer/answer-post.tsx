@@ -13,6 +13,7 @@ import {
   TrashIcon,
   TwitterIcon,
 } from 'lucide-react';
+import { useState } from 'react';
 
 import { DeleteModal } from '@/app/_components/delete-modal';
 import { StarRating } from '@/app/_components/star-rating';
@@ -35,6 +36,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import { getDiceBearAvatar } from '@/lib/utils';
+import { type User } from '@/server/auth';
 
 import { EditAnswerModal } from './edit-answer-modal';
 
@@ -45,7 +48,8 @@ export function AnswerPost({
 }: {
   answer: {
     content: string;
-    date: Date;
+    createdAt: Date;
+    updatedAt: Date;
     id: string;
     isBestAnswer: boolean;
     numberOfVotes: number;
@@ -53,33 +57,19 @@ export function AnswerPost({
   };
   question: {
     content: string;
-    date: Date;
+    createdAt: Date;
+    updatedAt: Date;
     id: string;
-    numberOfAnswers: number;
-    numberOfFavorites: number;
-    rating: number;
     subject: {
       id: string;
       name: string;
     };
-    user: {
-      avatar: {
-        fallback: string;
-        imageUrl: string;
-      };
-      fullName: string;
-      username: string;
-    };
+    owner: User;
   };
-  user: {
-    avatar: {
-      fallback: string;
-      imageUrl: string;
-    };
-    fullName: string;
-    username: string;
-  };
+  user: User;
 }) {
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+
   return (
     <section id={answer.id}>
       {answer.isBestAnswer && (
@@ -95,16 +85,16 @@ export function AnswerPost({
       )}
       <div className='flex space-x-3 border-b-2 p-4'>
         <Avatar>
-          <AvatarImage src={user.avatar.imageUrl} />
-          <AvatarFallback>{user.avatar.fallback}</AvatarFallback>
+          <AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
+          <AvatarFallback>{user.initial}</AvatarFallback>
         </Avatar>
         <div className='grow space-y-1'>
           <div className='flex items-center space-x-2 text-[#696984]'>
             <span
               className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
-              title={user.fullName}
+              title={user.name ?? user.username}
             >
-              {user.fullName}
+              {user.name}
             </span>
             <span
               className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
@@ -114,14 +104,16 @@ export function AnswerPost({
             </span>
             <span
               className='font-light'
-              title={dayjs(answer.date).format('dddd, D MMMM YYYY HH:mm:ss')}
+              title={dayjs(answer.createdAt).format(
+                'dddd, D MMMM YYYY HH:mm:ss',
+              )}
             >
               <span className='mr-2 text-sm font-medium'>·</span>
               <span className='hover:underline md:hidden'>
-                {dayjs(answer.date).fromNow(true)}
+                {dayjs(answer.createdAt).fromNow(true)}
               </span>
               <span className='hidden hover:underline md:inline'>
-                {dayjs(answer.date).fromNow()}
+                {dayjs(answer.createdAt).fromNow()}
               </span>
             </span>
           </div>
@@ -221,7 +213,14 @@ export function AnswerPost({
                   <DropdownMenuSeparator />
                   <EditAnswerModal
                     defaultValue={answer.content}
-                    question={question}
+                    question={{
+                      content: question.content,
+                      createdAt: question.createdAt,
+                      id: question.id,
+                      subject: question.subject,
+                      updatedAt: question.updatedAt,
+                      owner: question.owner,
+                    }}
                     user={user}
                   >
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -232,6 +231,8 @@ export function AnswerPost({
                   <DeleteModal
                     description='Apakah Anda yakin ingin menghapus jawaban ini?'
                     onClick={() => ''}
+                    onOpenChange={setIsShowDeleteModal}
+                    open={isShowDeleteModal}
                     title='Hapus jawaban'
                   >
                     <DropdownMenuItem
