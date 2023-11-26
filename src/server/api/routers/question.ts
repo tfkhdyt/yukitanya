@@ -32,6 +32,13 @@ export const questionRouter = createTRPCRouter({
             id: true,
             isBestAnswer: true,
           },
+          with: {
+            ratings: {
+              columns: {
+                value: true,
+              },
+            },
+          },
         },
         favorites: {
           columns: {
