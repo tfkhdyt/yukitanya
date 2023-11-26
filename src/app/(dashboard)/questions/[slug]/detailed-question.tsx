@@ -10,9 +10,9 @@ import {
   TwitterIcon,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { type Session } from 'next-auth';
 import toast from 'react-hot-toast';
+import { match } from 'ts-pattern';
 
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -26,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
@@ -39,26 +40,24 @@ type Question = {
     name: string;
   };
   updatedAt: Date;
-  favorites: {
-    userId: string;
-  }[];
-  numberOfAnswers: number;
+  owner: User;
 };
 
 export function DetailedQuestion({
   question,
-  user,
   session,
 }: {
   question: Question;
-  user: User;
   session: Session | null;
 }) {
-  const router = useRouter();
+  const utils = api.useUtils();
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
-    onSuccess: () => router.refresh(),
+    onSuccess: () => utils.question.invalidate(),
   });
+  const questionMetadata = api.question.findQuestionMetadata.useQuery(
+    question.id,
+  );
 
   const handleFavorite = () => {
     if (session?.user) {
@@ -74,23 +73,28 @@ export function DetailedQuestion({
       <div className='border-b-2 p-4'>
         <div className='flex items-center space-x-3'>
           <Avatar className='h-12 w-12'>
-            <AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
-            <AvatarFallback>{user.initial}</AvatarFallback>
+            <AvatarImage
+              src={
+                question.owner.image ??
+                getDiceBearAvatar(question.owner.username)
+              }
+            />
+            <AvatarFallback>{question.owner.initial}</AvatarFallback>
           </Avatar>
           <div className='text-[#696984]'>
             <Link
               className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
-              href={`/users/${user.username}`}
-              title={user.name ?? user.username}
+              href={`/users/${question.owner.username}`}
+              title={question.owner.name ?? question.owner.username}
             >
-              {user.name}
+              {question.owner.name}
             </Link>
             <Link
               className='block max-w-full truncate font-normal'
-              href={`/users/${user.username}`}
-              title={`@${user.username}`}
+              href={`/users/${question.owner.username}`}
+              title={`@${question.owner.username}`}
             >
-              @{user.username}
+              @{question.owner.username}
             </Link>
           </div>
         </div>
@@ -118,9 +122,25 @@ export function DetailedQuestion({
               </span>
             )}
             <p>·</p>
-            <p className='font-semibold'>{question.favorites.length} favorit</p>
-            <p>·</p>
-            <p className='font-semibold'>{question.numberOfAnswers} jawaban</p>
+            {match(questionMetadata.isLoading)
+              .with(false, () => (
+                <>
+                  <p className='font-semibold'>
+                    {questionMetadata.data?.favorites.length} favorit
+                  </p>
+                  <p>·</p>
+                  <p className='font-semibold'>
+                    {questionMetadata.data?.answers.length} jawaban
+                  </p>
+                </>
+              ))
+              .otherwise(() => (
+                <>
+                  <Skeleton className='h-6 w-14 rounded' />
+                  <p>·</p>
+                  <Skeleton className='h-6 w-14 rounded' />
+                </>
+              ))}
           </span>
           <div className='space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
@@ -135,13 +155,13 @@ export function DetailedQuestion({
         <Button
           className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
           size='sm'
-          title={`Favorit (${question.favorites.length})`}
+          title='Favorit'
           variant='ghost'
           disabled={!session || favoriteMutation.isLoading}
           onClick={handleFavorite}
         >
           <>
-            {question.favorites.some(
+            {questionMetadata.data?.favorites.some(
               (favorite) => favorite.userId === session?.user.id,
             ) ? (
               <Heart className='mr-1' color='red' fill='red' size={18} />
@@ -152,11 +172,11 @@ export function DetailedQuestion({
           <span className='hidden lg:inline'>Favorit</span>
         </Button>
         {session ? (
-          <AnswerModal question={question} user={user} session={session}>
+          <AnswerModal question={question} session={session}>
             <Button
               className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
               size='sm'
-              title={`Jawab (${question.numberOfAnswers})`}
+              title='Jawab'
               variant='ghost'
             >
               <MessageCircle size={18} />
@@ -167,7 +187,7 @@ export function DetailedQuestion({
           <Button
             className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
             size='sm'
-            title={`Jawab (${question.numberOfAnswers})`}
+            title='Jawab'
             variant='ghost'
             disabled
           >

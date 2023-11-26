@@ -57,19 +57,18 @@ type Question = {
     id: string;
     name: string;
   };
+  owner: User;
 };
 
 export function EditQuestionModal({
   children,
   question,
   setShowDropdown,
-  user,
 }: {
   children: ReactNode;
   question: Question;
   setShowDropdown: (open: boolean) => void;
   title?: string;
-  user: User;
 }) {
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof questionSchema>>({
@@ -101,7 +100,7 @@ export function EditQuestionModal({
         slugify(values.question.slice(0, 50), { strict: true }) +
         `-${question.id.replace('question-', '')}`,
       subjectId: values.subject,
-      userId: user.id,
+      userId: question.owner.id,
     });
   }
 
@@ -115,24 +114,27 @@ export function EditQuestionModal({
             <div className='flex items-center space-x-3'>
               <Avatar>
                 <AvatarImage
-                  src={user.image ?? getDiceBearAvatar(user.username)}
+                  src={
+                    question.owner.image ??
+                    getDiceBearAvatar(question.owner.username)
+                  }
                 />
-                <AvatarFallback>{user.initial}</AvatarFallback>
+                <AvatarFallback>{question.owner.initial}</AvatarFallback>
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
-                  href={`/users/${user.username}`}
-                  title={user.name ?? user.username}
+                  href={`/users/${question.owner.username}`}
+                  title={question.owner.name ?? question.owner.username}
                 >
-                  {user.name}
+                  {question.owner.name}
                 </Link>
                 <Link
                   className='block max-w-full truncate font-normal'
-                  href={`/users/${user.username}`}
-                  title={`@${user.username}`}
+                  href={`/users/${question.owner.username}`}
+                  title={`@${question.owner.username}`}
                 >
-                  @{user.username}
+                  @{question.owner.username}
                 </Link>
               </div>
             </div>

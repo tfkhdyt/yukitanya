@@ -50,6 +50,20 @@ export const questionRouter = createTRPCRouter({
       return ctx.db.query.questions.findFirst({
         where: eq(questions.slug, slug),
         with: {
+          owner: true,
+          subject: true,
+        },
+      });
+    }),
+  findQuestionMetadata: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: questionId }) => {
+      return ctx.db.query.questions.findFirst({
+        where: eq(questions.id, questionId),
+        columns: {
+          id: true,
+        },
+        with: {
           answers: {
             orderBy: [asc(answers.isBestAnswer), asc(answers.createdAt)],
             with: {
@@ -61,8 +75,6 @@ export const questionRouter = createTRPCRouter({
               userId: true,
             },
           },
-          owner: true,
-          subject: true,
         },
       });
     }),

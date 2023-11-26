@@ -68,18 +68,17 @@ type Question = {
     name: string;
   };
   updatedAt: Date;
+  owner: User;
 };
 
 export function AnswerModal({
   children,
   question,
   session,
-  user,
 }: {
   children: ReactNode;
   question: Question;
   session: Session;
-  user: User;
 }) {
   const form = useForm<z.infer<typeof answerSchema>>({
     resolver: zodResolver(answerSchema),
@@ -98,25 +97,28 @@ export function AnswerModal({
           <div className='-mx-4 flex space-x-3 border-b-2 p-4'>
             <Avatar>
               <AvatarImage
-                src={user.image ?? getDiceBearAvatar(user.username)}
+                src={
+                  question.owner.image ??
+                  getDiceBearAvatar(question.owner.username)
+                }
               />
-              <AvatarFallback>{user.initial}</AvatarFallback>
+              <AvatarFallback>{question.owner.initial}</AvatarFallback>
             </Avatar>
             <div className='grow space-y-1'>
               <div className='flex items-center space-x-2 text-[#696984]'>
                 <Link
                   className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
-                  href={`/users/${user.username}`}
-                  title={user.name ?? user.username}
+                  href={`/users/${question.owner.username}`}
+                  title={question.owner.name ?? question.owner.username}
                 >
-                  {user.name}
+                  {question.owner.name}
                 </Link>
                 <Link
                   className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
-                  href={`/users/${user.username}`}
-                  title={`@${user.username}`}
+                  href={`/users/${question.owner.username}`}
+                  title={`@${question.owner.username}`}
                 >
-                  @{user.username}
+                  @{question.owner.username}
                 </Link>
                 <div
                   className='font-light'

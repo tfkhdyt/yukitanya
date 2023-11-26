@@ -53,16 +53,16 @@ export function Timeline({ session }: { session: Session | null }) {
             subject: question.subject,
             updatedAt: question.updatedAt,
             slug: question.slug,
+            owner: {
+              ...question.owner,
+              initial:
+                question.owner.name
+                  ?.split(' ')
+                  .map((name) => name.slice(0, 1))
+                  .join('') ?? '',
+            },
           }}
           session={session}
-          user={{
-            ...question.owner,
-            initial:
-              question.owner.name
-                ?.split(' ')
-                .map((name) => name.slice(0, 1))
-                .join('') ?? '',
-          }}
         />
       ))}
     </>

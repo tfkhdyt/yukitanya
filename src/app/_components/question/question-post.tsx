@@ -75,18 +75,17 @@ type Question = {
   };
   updatedAt: Date;
   slug: string;
+  owner: User;
 };
 
 export function QuestionPost({
   highlightedWords,
   question,
   session,
-  user,
 }: {
   highlightedWords?: string[];
   question: Question;
   session: Session | null;
-  user: User;
 }) {
   const utils = api.useUtils();
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
@@ -155,24 +154,28 @@ export function QuestionPost({
   return (
     <div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
       <Avatar>
-        <AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
-        <AvatarFallback>{user.initial}</AvatarFallback>
+        <AvatarImage
+          src={
+            question.owner.image ?? getDiceBearAvatar(question.owner.username)
+          }
+        />
+        <AvatarFallback>{question.owner.initial}</AvatarFallback>
       </Avatar>
       <div className='grow space-y-1'>
         <div className='flex items-center space-x-2 text-[#696984]'>
           <Link
             className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
-            href={`/users/${user.username}`}
-            title={user.name ?? user.username}
+            href={`/users/${question.owner.username}`}
+            title={question.owner.name ?? question.owner.username}
           >
-            {user.name}
+            {question.owner.name}
           </Link>
           <Link
             className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
-            href={`/users/${user.username}`}
-            title={`@${user.username}`}
+            href={`/users/${question.owner.username}`}
+            title={`@${question.owner.username}`}
           >
-            @{user.username}
+            @{question.owner.username}
           </Link>
           <Link className='font-light' href={`/questions/${question.slug}`}>
             <span className='mr-2 text-sm font-medium'>·</span>
@@ -256,7 +259,7 @@ export function QuestionPost({
             </>
           </Button>
           {session ? (
-            <AnswerModal question={question} session={session} user={user}>
+            <AnswerModal question={question} session={session}>
               <Button
                 className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
                 size='sm'
@@ -308,7 +311,7 @@ export function QuestionPost({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {session?.user.id === user.id && (
+          {session?.user.id === question.owner.id && (
             <DropdownMenu
               onOpenChange={setIsShowDropDown}
               open={isShowDropdown}
@@ -329,7 +332,6 @@ export function QuestionPost({
                 <EditQuestionModal
                   question={question}
                   setShowDropdown={setIsShowDropDown}
-                  user={user}
                 >
                   <DropdownMenuItem
                     className='cursor-pointer'
