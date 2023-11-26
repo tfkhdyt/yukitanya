@@ -2,9 +2,11 @@
 
 import 'dayjs/locale/id';
 
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import { debounce } from 'lodash';
 import {
   CheckCircle,
   FacebookIcon,
@@ -18,7 +20,7 @@ import {
   TwitterIcon,
 } from 'lucide-react';
 import { type Session } from 'next-auth';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { DeleteModal } from '@/components/modals/delete-modal';
 import { EditAnswerModal } from '@/components/modals/edit-answer-modal';
@@ -90,6 +92,39 @@ export function AnswerPost({
   session: Session | null;
 }) {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [clamped, setClamped] = useState(true);
+  const [showButton, setShowButton] = useState(true);
+  const containerReference = useRef<HTMLParagraphElement>(null);
+
+  const handleReadMore = () => setClamped((v) => !v);
+
+  useEffect(() => {
+    const hasClamping = (element: HTMLParagraphElement) => {
+      const { clientHeight, scrollHeight } = element;
+      return clientHeight !== scrollHeight;
+    };
+
+    const checkButtonAvailability = () => {
+      if (containerReference.current) {
+        const hadClampClass =
+          containerReference.current.classList.contains('line-clamp-4');
+        if (!hadClampClass)
+          containerReference.current.classList.add('line-clamp-4');
+        setShowButton(hasClamping(containerReference.current));
+        if (!hadClampClass)
+          containerReference.current.classList.remove('line-clamp-4');
+      }
+    };
+
+    const debouncedCheck = debounce(checkButtonAvailability, 50);
+
+    checkButtonAvailability();
+    window.addEventListener('resize', debouncedCheck);
+
+    return () => {
+      window.removeEventListener('resize', debouncedCheck);
+    };
+  }, [containerReference, question]);
 
   return (
     <section id={answer.id}>
@@ -137,9 +172,23 @@ export function AnswerPost({
               </span>
             </span>
           </div>
-          <p className='whitespace-pre-wrap text-sm leading-relaxed text-[#696984]'>
+          <p
+            className={clsx(
+              'whitespace-pre-wrap text-sm leading-relaxed text-[#696984]',
+              clamped && 'line-clamp-4',
+            )}
+            ref={containerReference}
+          >
             {answer.content}
           </p>
+          {showButton && (
+            <button
+              className='text-sm font-medium text-[#696984] hover:underline'
+              onClick={handleReadMore}
+            >
+              Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
+            </button>
+          )}
           <div className='flex flex-wrap-reverse items-center gap-4 pt-2 text-[#696984] md:flex-wrap md:justify-between'>
             <div className='flex flex-wrap gap-2'>
               <DropdownMenu>
