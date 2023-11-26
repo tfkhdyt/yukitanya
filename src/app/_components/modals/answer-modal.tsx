@@ -168,7 +168,7 @@ export function AnswerModal({
                   )}
                 </div>
               </div>
-              <p className='line-clamp-4 whitespace-pre-wrap py-1 text-left text-sm leading-relaxed text-[#696984]'>
+              <p className='line-clamp-4 whitespace-pre-wrap text-left text-sm leading-relaxed text-[#696984]'>
                 {question.content}
               </p>
               <div className='flex justify-start'>

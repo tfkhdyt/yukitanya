@@ -132,15 +132,12 @@ export function EditAnswerModal({
                   )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
-                  <span className='hover:underline md:hidden'>
+                  <span className='hover:underline'>
                     {dayjs(question.createdAt).locale('id').fromNow(true)}
-                  </span>
-                  <span className='hidden hover:underline md:inline'>
-                    {dayjs(question.createdAt).locale('id').fromNow()}
                   </span>
                 </div>
               </div>
-              <p className='py-1 text-left text-sm leading-relaxed text-[#696984]'>
+              <p className='text-left text-sm leading-relaxed text-[#696984]'>
                 {question.content}
               </p>
               <div className='flex justify-start'>

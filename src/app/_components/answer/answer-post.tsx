@@ -133,7 +133,7 @@ export function AnswerPost({
               </span>
             </span>
           </div>
-          <p className='py-1 text-sm leading-relaxed text-[#696984]'>
+          <p className='whitespace-pre-wrap text-sm leading-relaxed text-[#696984]'>
             {answer.content}
           </p>
           <div className='flex flex-wrap-reverse items-center gap-4 pt-2 text-[#696984] md:flex-wrap md:justify-between'>
