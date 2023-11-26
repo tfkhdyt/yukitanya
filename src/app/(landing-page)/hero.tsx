@@ -23,7 +23,7 @@ export function Hero() {
           <div className='flex items-center rounded-full bg-white font-light shadow-md'>
             <input
               className='w-full rounded-full px-6 text-[#77425A] placeholder:text-[#939090] focus:outline-none lg:px-8 lg:py-1 lg:text-xl'
-              placeholder='Mulai bertanya...!'
+              placeholder='Cari pertanyaan...!'
               type='text'
             />
             <button
