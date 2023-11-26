@@ -62,20 +62,24 @@ export function MainContent({
               .with('/favorite', () => 'Favorit')
               .with(P.string.startsWith('/questions/'), () => (
                 <button
-                  className='flex items-center space-x-3'
+                  className='flex items-center space-x-3 px-2 md:px-0'
                   onClick={() => router.back()}
                 >
                   <ArrowLeft />
-                  <p className='decoration-2 hover:underline'>Kembali</p>
+                  <p className='pl-3 decoration-2 hover:underline md:pl-0'>
+                    Kembali
+                  </p>
                 </button>
               ))
               .with(P.string.startsWith('/users/'), () => (
                 <button
-                  className='flex items-center space-x-3'
+                  className='flex items-center space-x-3 px-2 md:px-0'
                   onClick={() => router.back()}
                 >
                   <ArrowLeft />
-                  <p className='decoration-2 hover:underline'>{username}</p>
+                  <p className='pl-3 decoration-2 hover:underline md:pl-0'>
+                    {username}
+                  </p>
                 </button>
               ))
               .with(
@@ -101,7 +105,7 @@ export function MainContent({
         <div
           className={clsx(
             'ml-4 mr-1 lg:hidden',
-            pathname.startsWith('/questions/') && 'hidden',
+            // pathname.startsWith('/questions/') && 'hidden',
           )}
         >
           <ProfileButton user={user} />
