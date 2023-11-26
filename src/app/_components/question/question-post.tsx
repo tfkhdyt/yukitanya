@@ -184,7 +184,7 @@ export function QuestionPost({
             <span
               className='hover:underline'
               title={dayjs(question.createdAt).format(
-                'dddd, D MMMM YYYY HH:mm:ss',
+                'dddd, D MMM YYYY HH:mm:ss',
               )}
             >
               {dayjs(question.createdAt).locale('id').fromNow(true)}
@@ -194,7 +194,7 @@ export function QuestionPost({
               <span
                 className='ml-1 hover:underline'
                 title={`Diedit pada ${dayjs(question.updatedAt).format(
-                  'dddd, D MMMM YYYY HH:mm:ss',
+                  'dddd, D MMM YYYY HH:mm:ss',
                 )}`}
               >
                 *

@@ -148,7 +148,7 @@ export function AnswerModal({
                 <div
                   className='font-light'
                   title={dayjs(question.createdAt).format(
-                    'dddd, D MMMM YYYY HH:mm:ss',
+                    'dddd, D MMM YYYY HH:mm:ss',
                   )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
@@ -160,7 +160,7 @@ export function AnswerModal({
                     <span
                       className='ml-1 hover:underline'
                       title={`Diedit pada ${dayjs(question.updatedAt).format(
-                        'dddd, D MMMM YYYY HH:mm:ss',
+                        'dddd, D MMM YYYY HH:mm:ss',
                       )}`}
                     >
                       *
