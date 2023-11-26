@@ -8,6 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
+import { type Session } from 'next-auth';
 import { type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -75,12 +76,12 @@ export function EditAnswerModal({
   children,
   defaultValue,
   question,
-  user,
+  session,
 }: {
   children: ReactNode;
   defaultValue?: string;
   question: Question;
-  user: User;
+  session: Session;
 }) {
   const form = useForm<z.infer<typeof answerSchema>>({
     defaultValues: {
@@ -156,24 +157,27 @@ export function EditAnswerModal({
             <div className='flex items-center space-x-3'>
               <Avatar>
                 <AvatarImage
-                  src={user.image ?? getDiceBearAvatar(user.username)}
+                  src={
+                    session.user.image ??
+                    getDiceBearAvatar(session.user.username)
+                  }
                 />
-                <AvatarFallback>{user.initial}</AvatarFallback>
+                <AvatarFallback>{session.user.initial}</AvatarFallback>
               </Avatar>
               <div className='text-left text-[#696984]'>
                 <Link
                   className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
-                  href={`/users/${user.username}`}
-                  title={user.name ?? user.username}
+                  href={`/users/${session.user.username}`}
+                  title={session.user.name ?? session.user.username}
                 >
-                  {user.name}
+                  {session.user.name}
                 </Link>
                 <Link
                   className='block max-w-full truncate font-normal'
-                  href={`/users/${user.username}`}
-                  title={`@${user.username}`}
+                  href={`/users/${session.user.username}`}
+                  title={`@${session.user.username}`}
                 >
-                  @{user.username}
+                  @{session.user.username}
                 </Link>
               </div>
             </div>

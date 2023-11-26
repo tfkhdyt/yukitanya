@@ -71,6 +71,14 @@ export function AnswerList({
                     0,
                   ) / answer.ratings.length
                 : 0,
+            owner: {
+              ...answer.owner,
+              initial:
+                answer.owner.name
+                  ?.split(' ')
+                  .map((name) => name.slice(0, 1))
+                  .join('') ?? '',
+            },
           }}
           key={answer.id}
           question={{
@@ -88,14 +96,7 @@ export function AnswerList({
                   .join('') ?? '',
             },
           }}
-          user={{
-            ...answer.owner,
-            initial:
-              answer.owner.name
-                ?.split(' ')
-                .map((name) => name.slice(0, 1))
-                .join('') ?? '',
-          }}
+          session={session}
         />
       ))}
     </>
