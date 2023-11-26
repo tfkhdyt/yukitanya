@@ -110,7 +110,7 @@ export function DetailedQuestion({
             <p>
               {dayjs(question.createdAt)
                 .locale('id')
-                .format('dddd, D MMMM YYYY, HH:mm')}
+                .format('dddd, D MMM YYYY, HH:mm')}
             </p>
             {question.createdAt.toISOString() !==
               question.updatedAt.toISOString() && (
@@ -118,7 +118,7 @@ export function DetailedQuestion({
                 className='hover:underline'
                 title={`Diedit pada ${dayjs(question.updatedAt)
                   .locale('id')
-                  .format('dddd, D MMMM YYYY HH:mm:ss')}`}
+                  .format('dddd, D MMM YYYY HH:mm:ss')}`}
               >
                 *
               </span>
@@ -194,7 +194,7 @@ export function DetailedQuestion({
             disabled
           >
             <MessageCircle size={18} />
-            <span className='hidden lg:inline'>Jawab</span>
+            <span>Jawab</span>
           </Button>
         )}
 
