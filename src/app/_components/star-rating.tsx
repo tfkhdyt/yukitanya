@@ -23,7 +23,7 @@ export function StarRating({ rating }: { rating: number }) {
   }
 
   return (
-    <div className='flex items-center' title={rating.toString()}>
+    <div className='flex items-center' title={`${rating.toString()}/5`}>
       {stars}
     </div>
   );

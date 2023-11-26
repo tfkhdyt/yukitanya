@@ -138,6 +138,10 @@ export const answers = pgTable('answer', {
     .references(() => users.id, { onDelete: 'cascade' }),
 });
 
+export const insertAnswerSchema = createInsertSchema(answers, {
+  content: (schema) => schema.content.min(1).max(1000),
+});
+
 export const answersRelations = relations(answers, ({ many, one }) => ({
   owner: one(users, {
     fields: [answers.userId],

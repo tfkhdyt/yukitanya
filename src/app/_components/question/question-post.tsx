@@ -4,6 +4,7 @@ import 'dayjs/locale/id';
 
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { debounce } from 'lodash';
 import {
@@ -43,6 +44,7 @@ import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 dayjs.locale('id');
+dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('id', {
   relativeTime: {

@@ -2,22 +2,20 @@ import { asc, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-import { answers, insertQuestionSchema, questions } from '@/server/db/schema';
+import {
+  answers,
+  insertAnswerSchema,
+  insertQuestionSchema,
+  questions,
+} from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const answerRouter = createTRPCRouter({
   createAnswer: protectedProcedure
-    .input(insertQuestionSchema)
+    .input(insertAnswerSchema)
     .mutation(async ({ ctx, input }) => {
-      const question = await ctx.db.query.questions.findFirst({
-        where: eq(questions.slug, input.slug),
-      });
-      if (question) {
-        throw new Error('Pertanyaan yang sama telah ada!');
-      }
-
-      return ctx.db.insert(questions).values(input);
+      return ctx.db.insert(answers).values(input);
     }),
   deleteAnswerById: protectedProcedure
     .input(z.string())

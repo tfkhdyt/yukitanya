@@ -108,15 +108,17 @@ export function DetailedQuestion({
         <div className='mt-4 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
           <span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
             <p>
-              {dayjs(question.createdAt).format('dddd, D MMMM YYYY, HH:mm')}
+              {dayjs(question.createdAt)
+                .locale('id')
+                .format('dddd, D MMMM YYYY, HH:mm')}
             </p>
             {question.createdAt.toISOString() !==
               question.updatedAt.toISOString() && (
               <span
                 className='hover:underline'
-                title={`Diedit pada ${dayjs(question.updatedAt).format(
-                  'dddd, D MMMM YYYY HH:mm:ss',
-                )}`}
+                title={`Diedit pada ${dayjs(question.updatedAt)
+                  .locale('id')
+                  .format('dddd, D MMMM YYYY HH:mm:ss')}`}
               >
                 *
               </span>
@@ -136,9 +138,9 @@ export function DetailedQuestion({
               ))
               .otherwise(() => (
                 <>
-                  <Skeleton className='h-6 w-14 rounded' />
+                  <Skeleton className='h-6 w-14 rounded-md' />
                   <p>·</p>
-                  <Skeleton className='h-6 w-14 rounded' />
+                  <Skeleton className='h-6 w-14 rounded-md' />
                 </>
               ))}
           </span>

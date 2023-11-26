@@ -5,6 +5,7 @@ import 'dayjs/locale/id';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type ReactNode } from 'react';
@@ -32,7 +33,25 @@ import { Textarea } from '@/components/ui/textarea';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 
+dayjs.locale('id');
 dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+dayjs.updateLocale('id', {
+  relativeTime: {
+    ...dayjs.Ls.id?.relativeTime,
+    M: '1b',
+    MM: '%db',
+    d: '1h',
+    dd: '%dh',
+    h: '1j',
+    hh: '%dj',
+    m: '1m',
+    mm: '%dm',
+    s: 'Baru saja',
+    y: '1t',
+    yy: '%dt',
+  },
+});
 
 const answerSchema = z.object({
   answer: z

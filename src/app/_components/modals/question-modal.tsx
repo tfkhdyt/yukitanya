@@ -58,7 +58,6 @@ export function QuestionModal({
   children: ReactNode;
   user: User;
 }) {
-  // 1. Define your form.
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
@@ -76,7 +75,6 @@ export function QuestionModal({
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof questionSchema>) {
     const id = nanoid(5);
     const input = {

@@ -1,6 +1,10 @@
 'use client';
 
+import 'dayjs/locale/id';
+
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import {
   CheckCircle,
   FacebookIcon,
@@ -31,6 +35,26 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+
+dayjs.locale('id');
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+dayjs.updateLocale('id', {
+  relativeTime: {
+    ...dayjs.Ls.id?.relativeTime,
+    M: '1b',
+    MM: '%db',
+    d: '1h',
+    dd: '%dh',
+    h: '1j',
+    hh: '%dj',
+    m: '1m',
+    mm: '%dm',
+    s: 'Baru saja',
+    y: '1t',
+    yy: '%dt',
+  },
+});
 
 type Answer = {
   content: string;
@@ -104,11 +128,8 @@ export function AnswerPost({
               )}
             >
               <span className='mr-2 text-sm font-medium'>·</span>
-              <span className='hover:underline md:hidden'>
+              <span className='hover:underline'>
                 {dayjs(answer.createdAt).fromNow(true)}
-              </span>
-              <span className='hidden hover:underline md:inline'>
-                {dayjs(answer.createdAt).fromNow()}
               </span>
             </span>
           </div>

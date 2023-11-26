@@ -3,14 +3,17 @@
 import 'dayjs/locale/id';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
+import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -33,7 +36,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 
+dayjs.locale('id');
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('id', {
@@ -57,10 +62,11 @@ const answerSchema = z.object({
   answer: z
     .string({ required_error: 'Jawaban tidak boleh kosong' })
     .min(1, 'Jawaban tidak boleh kosong')
-    .max(500, 'Jawaban tidak boleh lebih dari 500 karakter'),
+    .max(1000, 'Jawaban tidak boleh lebih dari 1000 karakter'),
 });
 
 type Question = {
+  id: string;
   content: string;
   createdAt: Date;
   subject: {
@@ -83,13 +89,32 @@ export function AnswerModal({
   const form = useForm<z.infer<typeof answerSchema>>({
     resolver: zodResolver(answerSchema),
   });
+  const utils = api.useUtils();
+  const [open, setOpen] = useState(false);
+  const { mutate, isLoading } = api.answer.createAnswer.useMutation({
+    onError: (error) => toast.error(error.message),
+    onSuccess: async () => {
+      toast.success('Jawaban mu telah berhasil ditambahkan');
+      setOpen(false);
+      form.reset();
+      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.question.findAllQuestions.invalidate();
+    },
+  });
 
   function onSubmit(values: z.infer<typeof answerSchema>) {
-    console.log(values);
+    mutate({
+      content: values.answer,
+      id: `answer-${nanoid()}`,
+      questionId: question.id,
+      userId: session.user.id,
+    });
   }
 
+  const answerLength = form.watch('answer')?.length ?? 0;
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
@@ -210,13 +235,24 @@ export function AnswerModal({
                       </FormItem>
                     )}
                   />
+                  <p className='text-right text-[#696984]'>
+                    <span
+                      className={clsx(
+                        answerLength > 1000 && 'font-semibold text-red-700',
+                      )}
+                    >
+                      {answerLength}
+                    </span>
+                    /1000
+                  </p>
                   <div className='flex justify-end'>
                     <Button
                       className='rounded-full font-semibold'
                       type='submit'
+                      disabled={isLoading}
                     >
                       <SendIcon className='mr-1' size={16} />
-                      Kirim
+                      {isLoading ? 'Loading...' : 'Kirim'}
                     </Button>
                   </div>
                 </form>
