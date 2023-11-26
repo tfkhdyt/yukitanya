@@ -138,6 +138,7 @@ export function AnswerPost({
       await utils.question.findQuestionMetadata.invalidate();
     },
   });
+  const [isShowDropdown, setIsShowDropDown] = useState(false);
 
   const handleDelete = (id: string) => {
     deleteAnswerMutation.mutate(id);
@@ -180,13 +181,24 @@ export function AnswerPost({
             <span
               className='font-light'
               title={dayjs(answer.createdAt).format(
-                'dddd, D MMMM YYYY HH:mm:ss',
+                'dddd, D MMM YYYY HH:mm:ss',
               )}
             >
               <span className='mr-2 text-sm font-medium'>·</span>
               <span className='hover:underline'>
                 {dayjs(answer.createdAt).fromNow(true)}
               </span>
+              {question.createdAt.toISOString() !==
+                question.updatedAt.toISOString() && (
+                <span
+                  className='ml-1 hover:underline'
+                  title={`Diedit pada ${dayjs(question.updatedAt).format(
+                    'dddd, D MMM YYYY HH:mm:ss',
+                  )}`}
+                >
+                  *
+                </span>
+              )}
             </span>
           </div>
           <p
@@ -287,7 +299,10 @@ export function AnswerPost({
                 </DropdownMenuContent>
               </DropdownMenu>
               {answer.owner.id === session?.user.id && (
-                <DropdownMenu>
+                <DropdownMenu
+                  open={isShowDropdown}
+                  onOpenChange={setIsShowDropDown}
+                >
                   <DropdownMenuTrigger asChild>
                     <Button
                       className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
@@ -302,7 +317,6 @@ export function AnswerPost({
                     <DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <EditAnswerModal
-                      defaultValue={answer.content}
                       question={{
                         content: question.content,
                         createdAt: question.createdAt,
@@ -311,6 +325,11 @@ export function AnswerPost({
                         owner: question.owner,
                       }}
                       session={session}
+                      answer={{
+                        id: answer.id,
+                        content: answer.content,
+                      }}
+                      setShowDropdown={setIsShowDropDown}
                     >
                       <DropdownMenuItem
                         onSelect={(event) => event.preventDefault()}
