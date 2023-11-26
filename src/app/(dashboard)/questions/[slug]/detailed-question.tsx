@@ -138,9 +138,9 @@ export function DetailedQuestion({
               ))
               .otherwise(() => (
                 <>
-                  <Skeleton className='h-6 w-14 rounded-md' />
+                  <Skeleton className='h-5 w-14 rounded-md' />
                   <p>·</p>
-                  <Skeleton className='h-6 w-14 rounded-md' />
+                  <Skeleton className='h-5 w-14 rounded-md' />
                 </>
               ))}
           </span>
