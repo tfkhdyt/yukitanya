@@ -1,5 +1,4 @@
 import { asc, desc, eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import { answers, insertQuestionSchema, questions } from '@/server/db/schema';
@@ -99,6 +98,5 @@ export const questionRouter = createTRPCRouter({
           updatedAt: new Date(),
         })
         .where(eq(questions.id, input.id));
-      return revalidatePath('/');
     }),
 });

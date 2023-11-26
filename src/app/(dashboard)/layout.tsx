@@ -7,8 +7,6 @@ import { getServerAuthSession } from '@/server/auth';
 
 import { MainContent } from './main-content';
 
-export const revalidate = 0;
-
 export default async function DashboardLayout({
   children,
 }: {
