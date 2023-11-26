@@ -10,6 +10,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
 import { type AdapterAccount } from 'next-auth/adapters';
+import { z } from 'zod';
 
 export const users = pgTable('user', {
   createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
@@ -140,6 +141,10 @@ export const answers = pgTable('answer', {
 
 export const insertAnswerSchema = createInsertSchema(answers, {
   content: (schema) => schema.content.min(1).max(1000),
+});
+export const updateAnswerSchema = z.object({
+  id: z.string(),
+  content: z.string().min(1).max(1000),
 });
 
 export const answersRelations = relations(answers, ({ many, one }) => ({

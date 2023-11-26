@@ -1,12 +1,10 @@
 import { asc, eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import {
   answers,
   insertAnswerSchema,
-  insertQuestionSchema,
-  questions,
+  updateAnswerSchema,
 } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
@@ -35,17 +33,14 @@ export const answerRouter = createTRPCRouter({
       });
     }),
   updateAnswerById: protectedProcedure
-    .input(insertQuestionSchema)
+    .input(updateAnswerSchema)
     .mutation(async ({ ctx, input }) => {
       await ctx.db
-        .update(questions)
+        .update(answers)
         .set({
           content: input.content,
-          slug: input.slug,
-          subjectId: input.subjectId,
           updatedAt: new Date(),
         })
-        .where(eq(questions.id, input.id));
-      return revalidatePath('/');
+        .where(eq(answers.id, input.id));
     }),
 });

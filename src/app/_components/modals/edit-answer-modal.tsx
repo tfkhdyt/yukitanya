@@ -3,14 +3,16 @@
 import 'dayjs/locale/id';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -33,6 +35,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 
 dayjs.locale('id');
 dayjs.extend(relativeTime);
@@ -58,7 +61,7 @@ const answerSchema = z.object({
   answer: z
     .string({ required_error: 'Jawaban tidak boleh kosong' })
     .min(1, 'Jawaban tidak boleh kosong')
-    .max(500, 'Jawaban tidak boleh lebih dari 500 karakter'),
+    .max(1000, 'Jawaban tidak boleh lebih dari 1000 karakter'),
 });
 
 type Question = {
@@ -72,30 +75,55 @@ type Question = {
   owner: User;
 };
 
+type Answer = {
+  id: string;
+  content: string;
+};
+
 export function EditAnswerModal({
   children,
-  defaultValue,
   question,
   session,
+  answer,
+  setShowDropdown,
 }: {
   children: ReactNode;
-  defaultValue?: string;
   question: Question;
   session: Session;
+  answer: Answer;
+  setShowDropdown: (open: boolean) => void;
 }) {
   const form = useForm<z.infer<typeof answerSchema>>({
     defaultValues: {
-      answer: defaultValue,
+      answer: answer.content,
     },
     resolver: zodResolver(answerSchema),
   });
+  const answerLength = form.watch('answer').length;
+  const [open, setOpen] = useState(false);
+
+  const utils = api.useUtils();
+  const { mutate, isLoading } = api.answer.updateAnswerById.useMutation({
+    onError: (error) => toast.error(error.message),
+    onSuccess: async () => {
+      toast.success('Pertanyaan mu telah berhasil diedit');
+      setShowDropdown(false);
+      setOpen(false);
+      form.reset();
+      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.question.findQuestionMetadata.invalidate();
+    },
+  });
 
   function onSubmit(values: z.infer<typeof answerSchema>) {
-    console.log(values);
+    mutate({
+      content: values.answer,
+      id: answer.id,
+    });
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='md:max-w-2xl'>
         <DialogHeader>
@@ -129,13 +157,24 @@ export function EditAnswerModal({
                 <div
                   className='font-light'
                   title={dayjs(question.createdAt).format(
-                    'dddd, D MMMM YYYY HH:mm:ss',
+                    'dddd, D MMM YYYY HH:mm:ss',
                   )}
                 >
                   <span className='mr-2 text-sm font-medium'>·</span>
                   <span className='hover:underline'>
                     {dayjs(question.createdAt).locale('id').fromNow(true)}
                   </span>
+                  {question.createdAt.toISOString() !==
+                    question.updatedAt.toISOString() && (
+                    <span
+                      className='ml-1 hover:underline'
+                      title={`Diedit pada ${dayjs(question.updatedAt).format(
+                        'dddd, D MMM YYYY HH:mm:ss',
+                      )}`}
+                    >
+                      *
+                    </span>
+                  )}
                 </div>
               </div>
               <p className='text-left text-sm leading-relaxed text-[#696984]'>
@@ -205,13 +244,24 @@ export function EditAnswerModal({
                       </FormItem>
                     )}
                   />
+                  <p className='text-right text-[#696984]'>
+                    <span
+                      className={clsx(
+                        answerLength > 1000 && 'font-semibold text-red-700',
+                      )}
+                    >
+                      {answerLength}
+                    </span>
+                    /1000
+                  </p>
                   <div className='flex justify-end'>
                     <Button
                       className='rounded-full font-semibold'
                       type='submit'
+                      disabled={isLoading}
                     >
                       <SendIcon className='mr-1' size={16} />
-                      Kirim
+                      {isLoading ? 'Loading...' : 'Kirim'}
                     </Button>
                   </div>
                 </form>
