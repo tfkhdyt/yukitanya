@@ -17,7 +17,7 @@ import { type User } from '@/server/auth';
 export function ProfileButton({ user }: { user: User | undefined }) {
   if (!user) {
     return (
-      <div className='space-x-3 lg:mt-6'>
+      <div className='space-x-3 py-2 lg:mt-6'>
         <Link
           className='rounded-lg bg-[#F48C06] px-3 py-1 font-semibold text-white shadow-md lg:px-4 lg:py-2'
           href='/auth/sign-in'
