@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { type Session } from 'next-auth';
 import { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { DeleteModal } from '@/components/modals/delete-modal';
 import { EditAnswerModal } from '@/components/modals/edit-answer-modal';
@@ -38,6 +39,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 
 dayjs.locale('id');
 dayjs.extend(relativeTime);
@@ -125,6 +127,21 @@ export function AnswerPost({
       window.removeEventListener('resize', debouncedCheck);
     };
   }, [containerReference, question]);
+
+  const utils = api.useUtils();
+  const deleteAnswerMutation = api.answer.deleteAnswerById.useMutation({
+    onError: () => toast.error('Gagal menghapus jawaban'),
+    onSuccess: async () => {
+      toast.success('Jawaban telah dihapus!');
+      setIsShowDeleteModal(false);
+      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.question.findQuestionMetadata.invalidate();
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    deleteAnswerMutation.mutate(id);
+  };
 
   return (
     <section id={answer.id}>
@@ -304,7 +321,7 @@ export function AnswerPost({
                     </EditAnswerModal>
                     <DeleteModal
                       description='Apakah Anda yakin ingin menghapus jawaban ini?'
-                      onClick={() => ''}
+                      onClick={() => handleDelete(answer.id)}
                       onOpenChange={setIsShowDeleteModal}
                       open={isShowDeleteModal}
                       title='Hapus jawaban'

@@ -19,8 +19,8 @@ export const answerRouter = createTRPCRouter({
     }),
   deleteAnswerById: protectedProcedure
     .input(z.string())
-    .mutation(({ ctx, input: questionId }) => {
-      return ctx.db.delete(questions).where(eq(questions.id, questionId));
+    .mutation(({ ctx, input: answerId }) => {
+      return ctx.db.delete(answers).where(eq(answers.id, answerId));
     }),
   findAllAnswersByQuestionId: publicProcedure
     .input(z.string())
