@@ -100,7 +100,7 @@ export function DetailedQuestion({
         </div>
 
         <div className='my-2'>
-          <p className='whitespace-pre-line py-1 text-sm leading-relaxed text-[#696984]'>
+          <p className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'>
             {question.content}
           </p>
         </div>
@@ -155,7 +155,7 @@ export function DetailedQuestion({
       </div>
       <div className='flex flex-wrap items-center justify-around border-b-2 py-2 text-[#696984] md:gap-2'>
         <Button
-          className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+          className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
           size='sm'
           title='Favorit'
           variant='ghost'
@@ -171,23 +171,23 @@ export function DetailedQuestion({
               <Heart className='mr-1' size={18} />
             )}
           </>
-          <span className='hidden lg:inline'>Favorit</span>
+          <span>Favorit</span>
         </Button>
         {session ? (
           <AnswerModal question={question} session={session}>
             <Button
-              className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+              className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
               size='sm'
               title='Jawab'
               variant='ghost'
             >
               <MessageCircle size={18} />
-              <span className='hidden lg:inline'>Jawab</span>
+              <span>Jawab</span>
             </Button>
           </AnswerModal>
         ) : (
           <Button
-            className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+            className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
             size='sm'
             title='Jawab'
             variant='ghost'
@@ -201,16 +201,16 @@ export function DetailedQuestion({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className='space-x-2 rounded-full px-6 text-base hover:bg-slate-100 hover:text-[#696984]'
+              className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
               size='sm'
               title='Bagikan'
               variant='ghost'
             >
               <Share2Icon size={18} />
-              <span className='hidden lg:inline'>Bagikan</span>
+              <span>Bagikan</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='text-[#696984]'>
+          <DropdownMenuContent className='text-[#696984]' align='end'>
             <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
