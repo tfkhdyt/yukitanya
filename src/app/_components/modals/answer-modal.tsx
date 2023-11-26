@@ -94,7 +94,7 @@ export function AnswerModal({
   const { mutate, isLoading } = api.answer.createAnswer.useMutation({
     onError: (error) => toast.error(error.message),
     onSuccess: async () => {
-      toast.success('Jawaban mu telah berhasil ditambahkan');
+      toast.success('Jawabanmu telah berhasil ditambahkan');
       setOpen(false);
       form.reset();
       await utils.answer.findAllAnswersByQuestionId.invalidate();

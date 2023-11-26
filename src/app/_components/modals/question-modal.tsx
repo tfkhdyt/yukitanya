@@ -68,7 +68,7 @@ export function QuestionModal({
   const { isLoading, mutate } = api.question.createQuestion.useMutation({
     onError: (error) => toast.error(error.message),
     onSuccess: async () => {
-      toast.success('Pertanyaan mu telah berhasil dibuat');
+      toast.success('Pertanyaanmu telah berhasil dibuat');
       setOpen(false);
       form.reset();
       await utils.question.findAllQuestions.invalidate();
