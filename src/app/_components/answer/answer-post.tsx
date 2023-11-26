@@ -263,9 +263,11 @@ export function AnswerPost({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div>
-              <StarRating rating={answer.rating} />
-            </div>
+            {answer.rating > 0 && (
+              <div>
+                <StarRating rating={answer.rating} />
+              </div>
+            )}
           </div>
         </div>
       </div>
