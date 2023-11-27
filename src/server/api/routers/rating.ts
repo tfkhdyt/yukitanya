@@ -1,11 +1,62 @@
-import { eq, inArray, sql } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
+import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { answers, ratings } from '@/server/db/schema';
 
-import { createTRPCRouter, publicProcedure } from '../trpc';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const ratingRouter = createTRPCRouter({
+  addRating: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        answerId: z.string(),
+        value: z.number().min(1).max(5),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const haveRated = await ctx.db
+        .select()
+        .from(ratings)
+        .where(
+          and(
+            eq(ratings.answerId, input.answerId),
+            eq(ratings.userId, input.userId),
+          ),
+        )
+        .limit(1);
+
+      if (haveRated.length === 0) {
+        return ctx.db.insert(ratings).values({
+          answerId: input.answerId,
+          id: `rating-${nanoid()}`,
+          userId: input.userId,
+          value: input.value,
+        });
+      }
+
+      if (haveRated[0]?.value === input.value) {
+        return ctx.db
+          .delete(ratings)
+          .where(
+            and(
+              eq(ratings.answerId, input.answerId),
+              eq(ratings.userId, input.userId),
+            ),
+          );
+      }
+
+      return ctx.db
+        .update(ratings)
+        .set({ value: input.value })
+        .where(
+          and(
+            eq(ratings.answerId, input.answerId),
+            eq(ratings.userId, input.userId),
+          ),
+        );
+    }),
   getQuestionBestAnswerRating: publicProcedure.query(({ ctx }) => {
     return ctx.db
       .select({

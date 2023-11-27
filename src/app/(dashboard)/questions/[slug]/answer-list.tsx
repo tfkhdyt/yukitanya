@@ -64,13 +64,13 @@ export function AnswerList({
             id: answer.id,
             isBestAnswer: answer.isBestAnswer,
             numberOfVotes: answer.ratings.length,
-            rating:
-              answer.ratings.length > 0
-                ? answer.ratings.reduce(
-                    (accumulator, rating) => accumulator + rating.value,
-                    0,
-                  ) / answer.ratings.length
-                : 0,
+            ratings: answer.ratings,
+            // answer.ratings.length > 0
+            //   ? answer.ratings.reduce(
+            //       (accumulator, rating) => accumulator + rating.value,
+            //       0,
+            //     ) / answer.ratings.length
+            //   : 0,
             owner: {
               ...answer.owner,
               initial:

@@ -1,11 +1,6 @@
 'use client';
 
-import 'dayjs/locale/id';
-
 import clsx from 'clsx';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import updateLocale from 'dayjs/plugin/updateLocale';
 import { debounce } from 'lodash';
 import {
   CheckCircle,
@@ -37,29 +32,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-
-dayjs.locale('id');
-dayjs.extend(relativeTime);
-dayjs.extend(updateLocale);
-dayjs.updateLocale('id', {
-  relativeTime: {
-    ...dayjs.Ls.id?.relativeTime,
-    M: '1b',
-    MM: '%db',
-    d: '1h',
-    dd: '%dh',
-    h: '1j',
-    hh: '%dj',
-    m: '1m',
-    mm: '%dm',
-    s: 'Baru saja',
-    y: '1t',
-    yy: '%dt',
-  },
-});
 
 type Answer = {
   content: string;
@@ -68,7 +44,10 @@ type Answer = {
   id: string;
   isBestAnswer: boolean;
   numberOfVotes: number;
-  rating: number;
+  ratings: {
+    userId: string;
+    value: number;
+  }[];
   owner: User;
 };
 
@@ -144,6 +123,32 @@ export function AnswerPost({
     deleteAnswerMutation.mutate(id);
   };
 
+  const ratingMutation = api.rating.addRating.useMutation({
+    onError: () => toast.error('Gagal menambahkan nilai'),
+    onSuccess: async () => {
+      // toast.success('Berhasil memberi nilai!');
+      await utils.answer.findAllAnswersByQuestionId.invalidate();
+    },
+  });
+
+  const handleRating = (rating: number) => {
+    if (session?.user) {
+      ratingMutation.mutate({
+        answerId: answer.id,
+        userId: session.user.id,
+        value: rating,
+      });
+    }
+  };
+
+  const averageRating =
+    answer.ratings.length > 0
+      ? answer.ratings.reduce(
+          (accumulator, rating) => accumulator + rating.value,
+          0,
+        ) / answer.ratings.length
+      : 0;
+
   return (
     <section id={answer.id}>
       {answer.isBestAnswer && (
@@ -178,23 +183,18 @@ export function AnswerPost({
             >
               @{answer.owner.username}
             </span>
-            <span
-              className='font-light'
-              title={dayjs(answer.createdAt).format(
-                'dddd, D MMM YYYY HH:mm:ss',
-              )}
-            >
+            <span className='font-light'>
               <span className='mr-2 text-sm font-medium'>·</span>
-              <span className='hover:underline'>
-                {dayjs(answer.createdAt).fromNow(true)}
+              <span
+                className='hover:underline'
+                title={formatLongDateTime(answer.createdAt)}
+              >
+                {getFromNowTime(answer.createdAt)}
               </span>
-              {question.createdAt.toISOString() !==
-                question.updatedAt.toISOString() && (
+              {answer.createdAt.getTime() !== answer.updatedAt.getTime() && (
                 <span
                   className='ml-1 hover:underline'
-                  title={`Diedit pada ${dayjs(question.updatedAt).format(
-                    'dddd, D MMM YYYY HH:mm:ss',
-                  )}`}
+                  title={`Diedit pada ${formatLongDateTime(answer.updatedAt)}`}
                 >
                   *
                 </span>
@@ -229,7 +229,20 @@ export function AnswerPost({
                     variant='outline'
                     disabled={!session}
                   >
-                    <Star className='mr-2' size={18} />
+                    <>
+                      {answer.ratings.some(
+                        (rating) => rating.userId === session?.user.id,
+                      ) ? (
+                        <Star
+                          className='mr-2'
+                          color='#F48C06'
+                          fill='#F48C06'
+                          size={18}
+                        />
+                      ) : (
+                        <Star className='mr-2' size={18} />
+                      )}
+                    </>
                     <span>{answer.numberOfVotes}</span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -238,24 +251,29 @@ export function AnswerPost({
                   <DropdownMenuSeparator />
                   <div className='flex justify-center p-2' dir='rtl'>
                     <StarIcon
-                      className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
+                      onClick={() => handleRating(5)}
                     />
                     <StarIcon
-                      className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
+                      onClick={() => handleRating(4)}
                     />
                     <StarIcon
-                      className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
+                      onClick={() => handleRating(3)}
                     />
                     <StarIcon
-                      className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
+                      onClick={() => handleRating(2)}
                     />
                     <StarIcon
-                      className='peer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
+                      className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
+                      onClick={() => handleRating(1)}
                     />
                   </div>
                 </DropdownMenuContent>
@@ -357,9 +375,10 @@ export function AnswerPost({
                 </DropdownMenu>
               )}
             </div>
-            {answer.rating > 0 && (
-              <div>
-                <StarRating rating={answer.rating} />
+            {averageRating > 0 && (
+              <div className='flex items-center gap-1'>
+                <span>({averageRating})</span>
+                <StarRating rating={averageRating} />
               </div>
             )}
           </div>
