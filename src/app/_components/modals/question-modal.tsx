@@ -54,13 +54,18 @@ const questionSchema = z.object({
 export function QuestionModal({
   children,
   user,
+  defaultSubject,
 }: {
   children: ReactNode;
   user: User;
+  defaultSubject?: string;
 }) {
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
+    defaultValues: {
+      subject: defaultSubject,
+    },
   });
   const questionLength = form.watch('question')?.length ?? 0;
 
@@ -72,6 +77,7 @@ export function QuestionModal({
       setOpen(false);
       form.reset();
       await utils.question.findAllQuestions.invalidate();
+      await utils.question.findAllQuestionsBySubject.invalidate();
     },
   });
 

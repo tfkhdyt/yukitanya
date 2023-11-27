@@ -1,8 +1,7 @@
-import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
-import { QuestionPost } from '@/components/question/question-post';
 import { mapel } from '@/constants/mapel';
-import { questions } from '@/constants/question';
 import { getServerAuthSession } from '@/server/auth';
+
+import { QuestionList } from './question-list';
 
 export function generateMetadata({ params }: { params: { id: string } }) {
   const id = params.id;
@@ -19,31 +18,10 @@ export default async function SubjectDetail({
   params: { id: string };
 }) {
   const session = await getServerAuthSession();
-  const filteredPost = questions.filter(
-    (question) => question.subject.id === params.id,
-  );
 
   return (
     <main>
-      {filteredPost.length > 0 ? (
-        filteredPost.map((question) => (
-          <QuestionPost
-            key={question.id}
-            question={{
-              content: question.content,
-              createdAt: question.date,
-              id: question.id,
-              numberOfAnswers: question.numberOfAnswers,
-              numberOfFavorites: question.numberOfFavorites,
-              rating: question.rating,
-              subject: question.subject,
-            }}
-            user={question.user}
-          />
-        ))
-      ) : (
-        <PertanyaanKosong user={session?.user} />
-      )}
+      <QuestionList subjectId={params.id} session={session} />
     </main>
   );
 }

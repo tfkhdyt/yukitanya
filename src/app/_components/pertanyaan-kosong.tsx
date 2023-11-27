@@ -7,9 +7,11 @@ import { TanyakanSekarangButton } from './buttons/tanyakan-sekarang';
 export function PertanyaanKosong({
   title = 'Belum ada pertanyaan yang tersedia',
   user,
+  defaultSubject,
 }: {
   title?: string;
   user?: User;
+  defaultSubject?: string;
 }) {
   return (
     <div className='p-6'>
@@ -23,7 +25,13 @@ export function PertanyaanKosong({
       <p className='pb-4 text-center text-sm font-medium text-gray-500'>
         {title}
       </p>
-      {user && <TanyakanSekarangButton center user={user} />}
+      {user && (
+        <TanyakanSekarangButton
+          center
+          user={user}
+          defaultSubject={defaultSubject}
+        />
+      )}
     </div>
   );
 }

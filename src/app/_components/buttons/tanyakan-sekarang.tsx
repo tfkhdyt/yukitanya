@@ -9,12 +9,14 @@ import { Button } from '../ui/button';
 export function TanyakanSekarangButton({
   center = false,
   user,
+  defaultSubject,
 }: {
   center?: boolean;
   user: User;
+  defaultSubject?: string;
 }) {
   return (
-    <QuestionModal user={user}>
+    <QuestionModal user={user} defaultSubject={defaultSubject}>
       <Button
         className={clsx(
           'flex items-center space-x-2 rounded-full font-semibold',

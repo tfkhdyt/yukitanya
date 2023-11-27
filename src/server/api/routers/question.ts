@@ -1,7 +1,7 @@
-import { asc, desc, eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
-import { answers, insertQuestionSchema, questions } from '@/server/db/schema';
+import { insertQuestionSchema, questions } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -50,6 +50,36 @@ export const questionRouter = createTRPCRouter({
       },
     });
   }),
+  findAllQuestionsBySubject: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: subjectId }) => {
+      return ctx.db.query.questions.findMany({
+        orderBy: [desc(questions.createdAt)],
+        where: eq(questions.subjectId, subjectId),
+        with: {
+          answers: {
+            columns: {
+              id: true,
+              isBestAnswer: true,
+            },
+            with: {
+              ratings: {
+                columns: {
+                  value: true,
+                },
+              },
+            },
+          },
+          favorites: {
+            columns: {
+              userId: true,
+            },
+          },
+          owner: true,
+          subject: true,
+        },
+      });
+    }),
   findQuestionBySlug: publicProcedure
     .input(z.string())
     .query(({ ctx, input: slug }) => {
@@ -74,27 +104,10 @@ export const questionRouter = createTRPCRouter({
             columns: {
               id: true,
             },
-            orderBy: [desc(answers.isBestAnswer), asc(answers.createdAt)],
-            with: {
-              owner: {
-                columns: {
-                  username: true,
-                  name: true,
-                },
-              },
-            },
           },
           favorites: {
             columns: {
               userId: true,
-            },
-            with: {
-              user: {
-                columns: {
-                  username: true,
-                  name: true,
-                },
-              },
             },
           },
         },
