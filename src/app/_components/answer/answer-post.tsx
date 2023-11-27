@@ -4,15 +4,11 @@ import clsx from 'clsx';
 import { debounce } from 'lodash';
 import {
   CheckCircle,
-  FacebookIcon,
-  LinkIcon,
   MoreHorizontalIcon,
   PencilIcon,
-  Share2Icon,
   Star,
   StarIcon,
   TrashIcon,
-  TwitterIcon,
 } from 'lucide-react';
 import { type Session } from 'next-auth';
 import { useEffect, useRef, useState } from 'react';
@@ -348,34 +344,6 @@ export function AnswerPost({
                   </>
                 </Button>
               )}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-                    size='sm'
-                    title='Bagikan'
-                    variant='outline'
-                  >
-                    <Share2Icon size={18} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className='text-[#696984]'>
-                  <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <FacebookIcon className='mr-1' size={18} />
-                    <span>Facebook</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <TwitterIcon className='mr-1' size={18} />
-                    <span>Twitter</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <LinkIcon className='mr-1' size={18} />
-                    <span>Salin link</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
               {answer.owner.id === session?.user.id && (
                 <DropdownMenu
                   open={isShowDropdown}
@@ -437,7 +405,7 @@ export function AnswerPost({
             </div>
             {averageRating > 0 && (
               <div className='flex items-center gap-1'>
-                <span>({averageRating})</span>
+                <span className='text-[#696984]'>({averageRating})</span>
                 <StarRating rating={averageRating} />
               </div>
             )}

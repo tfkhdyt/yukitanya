@@ -57,6 +57,7 @@
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
     "react-scroll-into-view": "^2.0.2",
+    "react-share": "^5.0.2",
     "slugify": "^1.6.6",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.0.0",

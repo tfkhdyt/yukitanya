@@ -157,7 +157,7 @@ export function EditAnswerModal({
               <div className='flex justify-start'>
                 <Link href={`/subjects/${question.subject.id}`}>
                   <Badge
-                    className='mt-3 hover:bg-slate-200'
+                    className='mt-4 hover:bg-slate-200'
                     variant='secondary'
                   >
                     {question.subject.name}

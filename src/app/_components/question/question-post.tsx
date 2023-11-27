@@ -3,15 +3,12 @@
 import clsx from 'clsx';
 import { debounce } from 'lodash';
 import {
-  FacebookIcon,
   Heart,
-  LinkIcon,
   MessageCircle,
   MoreHorizontalIcon,
   PencilIcon,
   Share2Icon,
   TrashIcon,
-  TwitterIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
@@ -34,10 +31,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
+import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+
+import { ShareDropdown } from '../dropdown/share-dropdown';
 
 type Question = {
   content: string;
@@ -213,7 +213,7 @@ export function QuestionPost({
           </div>
           {question.rating && (
             <div className='flex items-center gap-1'>
-              <span>({question.rating})</span>
+              <span className='text-[#696984]'>({question.rating})</span>
               <StarRating rating={question.rating} />
             </div>
           )}
@@ -261,34 +261,23 @@ export function QuestionPost({
             </Button>
           )}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-                size='sm'
-                title='Bagikan'
-                variant='outline'
-              >
-                <Share2Icon size={18} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className='text-[#696984]'>
-              <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <FacebookIcon className='mr-1' size={18} />
-                <span>Facebook</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <TwitterIcon className='mr-1' size={18} />
-                <span>Twitter</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LinkIcon className='mr-1' size={18} />
-                <span>Salin link</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ShareDropdown
+            url={
+              new URL(
+                `/questions/${question.slug}`,
+                environment.NEXT_PUBLIC_BASE_PATH,
+              )
+            }
+          >
+            <Button
+              className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+              size='sm'
+              title='Bagikan'
+              variant='outline'
+            >
+              <Share2Icon size={18} />
+            </Button>
+          </ShareDropdown>
           {session?.user.id === question.owner.id && (
             <DropdownMenu
               onOpenChange={setIsShowDropDown}

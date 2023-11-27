@@ -45,6 +45,7 @@ export default async function Question({
           id: question.id,
           subject: question.subject,
           updatedAt: question.updatedAt,
+          slug: question.slug,
           owner: {
             ...question.owner,
             initial:

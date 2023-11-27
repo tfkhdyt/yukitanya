@@ -1,31 +1,18 @@
 'use client';
 
-import {
-  FacebookIcon,
-  Heart,
-  LinkIcon,
-  MessageCircle,
-  Share2Icon,
-  TwitterIcon,
-} from 'lucide-react';
+import { Heart, MessageCircle, Share2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { type Session } from 'next-auth';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 
+import { ShareDropdown } from '@/components/dropdown/share-dropdown';
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import { environment } from '@/environment.mjs';
 import { formatLongDateTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
@@ -41,6 +28,7 @@ type Question = {
   };
   updatedAt: Date;
   owner: User;
+  slug: string;
 };
 
 export function DetailedQuestion({
@@ -190,36 +178,24 @@ export function DetailedQuestion({
             <span>Jawab</span>
           </Button>
         )}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
-              size='sm'
-              title='Bagikan'
-              variant='ghost'
-            >
-              <Share2Icon size={18} />
-              <span>Bagikan</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className='text-[#696984]' align='end'>
-            <DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <FacebookIcon className='mr-1' size={18} />
-              <span>Facebook</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <TwitterIcon className='mr-1' size={18} />
-              <span>Twitter</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <LinkIcon className='mr-1' size={18} />
-              <span>Salin link</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ShareDropdown
+          url={
+            new URL(
+              `/questions/${question.slug}`,
+              environment.NEXT_PUBLIC_BASE_PATH,
+            )
+          }
+        >
+          <Button
+            className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
+            size='sm'
+            title='Bagikan'
+            variant='ghost'
+          >
+            <Share2Icon size={18} />
+            <span>Bagikan</span>
+          </Button>
+        </ShareDropdown>
       </div>
     </>
   );
