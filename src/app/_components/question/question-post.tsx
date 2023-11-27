@@ -203,7 +203,7 @@ export function QuestionPost({
             Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
           </button>
         )}
-        <div className='flex justify-between pt-2'>
+        <div className='flex justify-between pt-4'>
           <div className='mr-2 space-x-1'>
             <Link href={`/subjects/${question.subject.id}`}>
               <Badge className='hover:bg-slate-200' variant='secondary'>
@@ -211,7 +211,12 @@ export function QuestionPost({
               </Badge>
             </Link>
           </div>
-          {question.rating && <StarRating rating={question.rating} />}
+          {question.rating && (
+            <div className='flex items-center gap-1'>
+              <span>({question.rating})</span>
+              <StarRating rating={question.rating} />
+            </div>
+          )}
         </div>
         <div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
           <Button

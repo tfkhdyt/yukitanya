@@ -118,6 +118,7 @@ export function AnswerPost({
     },
   });
   const [isShowDropdown, setIsShowDropDown] = useState(false);
+  const [isShowRatingDropdown, setIsShowRatingDropdown] = useState(false);
 
   const handleDelete = (id: string) => {
     deleteAnswerMutation.mutate(id);
@@ -126,19 +127,24 @@ export function AnswerPost({
   const ratingMutation = api.rating.addRating.useMutation({
     onError: () => toast.error('Gagal menambahkan nilai'),
     onSuccess: async () => {
-      // toast.success('Berhasil memberi nilai!');
+      toast.success('Berhasil memberi nilai!');
       await utils.answer.findAllAnswersByQuestionId.invalidate();
     },
   });
 
+  const ratingFromMe = answer.ratings.find(
+    (rating) => rating.userId === session?.user.id,
+  )?.value;
+
   const handleRating = (rating: number) => {
-    if (session?.user) {
+    if (session?.user && ratingFromMe !== rating) {
       ratingMutation.mutate({
         answerId: answer.id,
         userId: session.user.id,
         value: rating,
       });
     }
+    setIsShowRatingDropdown(false);
   };
 
   const averageRating =
@@ -149,6 +155,38 @@ export function AnswerPost({
         ) / answer.ratings.length
       : 0;
 
+  const bestAnswerMutation = api.answer.toggleBestAnswer.useMutation({
+    onError: () => toast.error('Gagal menandai jawaban terbaik'),
+    onSuccess: async () => {
+      await utils.answer.findAllAnswersByQuestionId.invalidate();
+    },
+  });
+
+  const handleBestAnswer = (id: string) => {
+    bestAnswerMutation.mutate({
+      answerId: id,
+      questionId: question.id,
+    });
+  };
+
+  const deleteRatingMutation = api.rating.deleteRating.useMutation({
+    onError: () => toast.error('Gagal menghapus nilai'),
+    onSuccess: async () => {
+      toast.success('Berhasil menghapus nilai!');
+      await utils.answer.findAllAnswersByQuestionId.invalidate();
+    },
+  });
+
+  const handleDeleteRating = (answerId: string) => {
+    if (session?.user) {
+      deleteRatingMutation.mutate({
+        answerId,
+        userId: session.user.id,
+      });
+      setIsShowRatingDropdown(false);
+    }
+  };
+
   return (
     <section id={answer.id}>
       {answer.isBestAnswer && (
@@ -157,7 +195,7 @@ export function AnswerPost({
             <CheckCircle className='h-4 w-4' color='#16A34A' />
             <AlertTitle className='text-green-600'>Jawaban Terbaik!</AlertTitle>
             <AlertDescription className='text-green-800'>
-              Pemilik pertanyaan menerima ini sebagai jawaban terbaik.
+              Pemilik pertanyaan menandai jawaban ini sebagai jawaban terbaik.
             </AlertDescription>
           </Alert>
         </div>
@@ -218,21 +256,22 @@ export function AnswerPost({
               Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
             </button>
           )}
-          <div className='flex flex-wrap-reverse items-center gap-4 pt-2 text-[#696984] md:flex-wrap md:justify-between'>
+          <div className='flex flex-wrap-reverse items-center gap-4 pt-4 text-[#696984] md:flex-wrap md:justify-between'>
             <div className='flex flex-wrap gap-2'>
-              <DropdownMenu>
+              <DropdownMenu
+                open={isShowRatingDropdown}
+                onOpenChange={setIsShowRatingDropdown}
+              >
                 <DropdownMenuTrigger asChild>
                   <Button
                     className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
                     size='sm'
                     title='Beri nilai'
                     variant='outline'
-                    disabled={!session}
+                    disabled={!session || ratingMutation.isLoading}
                   >
                     <>
-                      {answer.ratings.some(
-                        (rating) => rating.userId === session?.user.id,
-                      ) ? (
+                      {ratingFromMe ? (
                         <Star
                           className='mr-2'
                           color='#F48C06'
@@ -276,16 +315,37 @@ export function AnswerPost({
                       onClick={() => handleRating(1)}
                     />
                   </div>
+                  {ratingFromMe && (
+                    <Button
+                      size='sm'
+                      className='mt-2 w-full'
+                      onClick={() => handleDeleteRating(answer.id)}
+                    >
+                      Batalkan nilai ({ratingFromMe})
+                    </Button>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
               {question.owner.id === session?.user.id && (
                 <Button
                   className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
                   size='sm'
-                  title='Tandai sebagai jawaban terbaik'
+                  title={
+                    answer.isBestAnswer
+                      ? 'Batalkan jawaban terbaik'
+                      : 'Tandai sebagai jawaban terbaik'
+                  }
                   variant='outline'
+                  disabled={bestAnswerMutation.isLoading}
+                  onClick={() => handleBestAnswer(answer.id)}
                 >
-                  <CheckCircle size={18} />
+                  <>
+                    {answer.isBestAnswer ? (
+                      <CheckCircle color='green' size={18} />
+                    ) : (
+                      <CheckCircle size={18} />
+                    )}
+                  </>
                 </Button>
               )}
               <DropdownMenu>

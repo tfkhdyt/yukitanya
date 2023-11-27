@@ -1,4 +1,4 @@
-import { asc, eq } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
 import {
@@ -25,7 +25,7 @@ export const answerRouter = createTRPCRouter({
     .query(({ ctx, input: questionId }) => {
       return ctx.db.query.answers.findMany({
         where: eq(answers.questionId, questionId),
-        orderBy: [asc(answers.isBestAnswer), asc(answers.createdAt)],
+        orderBy: [desc(answers.isBestAnswer), asc(answers.createdAt)],
         with: {
           owner: true,
           ratings: true,
@@ -42,5 +42,33 @@ export const answerRouter = createTRPCRouter({
           updatedAt: new Date(),
         })
         .where(eq(answers.id, input.id));
+    }),
+  toggleBestAnswer: protectedProcedure
+    .input(
+      z.object({
+        questionId: z.string(),
+        answerId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const answer = await ctx.db
+        .select()
+        .from(answers)
+        .where(eq(answers.id, input.answerId))
+        .limit(1);
+
+      await ctx.db
+        .update(answers)
+        .set({ isBestAnswer: false })
+        .where(eq(answers.questionId, input.questionId));
+
+      if (answer.length > 0 && answer[0]?.isBestAnswer === true) {
+        return;
+      }
+
+      return ctx.db
+        .update(answers)
+        .set({ isBestAnswer: true })
+        .where(eq(answers.id, input.answerId));
     }),
 });
