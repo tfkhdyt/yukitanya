@@ -36,20 +36,26 @@ export const ratingRouter = createTRPCRouter({
         });
       }
 
-      if (haveRated[0]?.value === input.value) {
-        return ctx.db
-          .delete(ratings)
-          .where(
-            and(
-              eq(ratings.answerId, input.answerId),
-              eq(ratings.userId, input.userId),
-            ),
-          );
-      }
-
       return ctx.db
         .update(ratings)
         .set({ value: input.value })
+        .where(
+          and(
+            eq(ratings.answerId, input.answerId),
+            eq(ratings.userId, input.userId),
+          ),
+        );
+    }),
+  deleteRating: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        answerId: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db
+        .delete(ratings)
         .where(
           and(
             eq(ratings.answerId, input.answerId),
