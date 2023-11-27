@@ -1,6 +1,5 @@
 'use client';
 
-import dayjs from 'dayjs';
 import {
   FacebookIcon,
   Heart,
@@ -27,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import { formatLongDateTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
@@ -107,18 +107,11 @@ export function DetailedQuestion({
 
         <div className='mt-4 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
           <span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
-            <p>
-              {dayjs(question.createdAt)
-                .locale('id')
-                .format('dddd, D MMM YYYY, HH:mm')}
-            </p>
-            {question.createdAt.toISOString() !==
-              question.updatedAt.toISOString() && (
+            <p>{formatLongDateTime(question.createdAt)}</p>
+            {question.createdAt.getTime() !== question.updatedAt.getTime() && (
               <span
                 className='hover:underline'
-                title={`Diedit pada ${dayjs(question.updatedAt)
-                  .locale('id')
-                  .format('dddd, D MMM YYYY HH:mm:ss')}`}
+                title={`Diedit pada ${formatLongDateTime(question.updatedAt)}`}
               >
                 *
               </span>

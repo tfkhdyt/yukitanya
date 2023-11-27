@@ -1,12 +1,7 @@
 'use client';
 
-import 'dayjs/locale/id';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import updateLocale from 'dayjs/plugin/updateLocale';
 import { SendIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
@@ -34,29 +29,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-
-dayjs.locale('id');
-dayjs.extend(relativeTime);
-dayjs.extend(updateLocale);
-dayjs.updateLocale('id', {
-  relativeTime: {
-    ...dayjs.Ls.id?.relativeTime,
-    M: '1b',
-    MM: '%db',
-    d: '1h',
-    dd: '%dh',
-    h: '1j',
-    hh: '%dj',
-    m: '1m',
-    mm: '%dm',
-    s: 'Baru saja',
-    y: '1t',
-    yy: '%dt',
-  },
-});
 
 const answerSchema = z.object({
   answer: z
@@ -145,22 +121,20 @@ export function AnswerModal({
                 >
                   @{question.owner.username}
                 </Link>
-                <div
-                  className='font-light'
-                  title={dayjs(question.createdAt).format(
-                    'dddd, D MMM YYYY HH:mm:ss',
-                  )}
-                >
+                <div className='font-light'>
                   <span className='mr-2 text-sm font-medium'>·</span>
-                  <span className='hover:underline'>
-                    {dayjs(question.createdAt).locale('id').fromNow(true)}
+                  <span
+                    className='hover:underline'
+                    title={formatLongDateTime(question.createdAt)}
+                  >
+                    {getFromNowTime(question.createdAt)}
                   </span>
                   {question.createdAt.toISOString() !==
                     question.updatedAt.toISOString() && (
                     <span
                       className='ml-1 hover:underline'
-                      title={`Diedit pada ${dayjs(question.updatedAt).format(
-                        'dddd, D MMM YYYY HH:mm:ss',
+                      title={`Diedit pada ${formatLongDateTime(
+                        question.updatedAt,
                       )}`}
                     >
                       *

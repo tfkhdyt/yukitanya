@@ -1,11 +1,6 @@
 'use client';
 
-import 'dayjs/locale/id';
-
 import clsx from 'clsx';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import updateLocale from 'dayjs/plugin/updateLocale';
 import { debounce } from 'lodash';
 import {
   FacebookIcon,
@@ -39,29 +34,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
+import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-
-dayjs.locale('id');
-dayjs.extend(relativeTime);
-dayjs.extend(updateLocale);
-dayjs.updateLocale('id', {
-  relativeTime: {
-    ...dayjs.Ls.id?.relativeTime,
-    M: '1b',
-    MM: '%db',
-    d: '1h',
-    dd: '%dh',
-    h: '1j',
-    hh: '%dj',
-    m: '1m',
-    mm: '%dm',
-    s: 'Baru saja',
-    y: '1t',
-    yy: '%dt',
-  },
-});
 
 type Question = {
   content: string;
@@ -183,19 +159,14 @@ export function QuestionPost({
             <span className='mr-2 text-sm font-medium'>·</span>
             <span
               className='hover:underline'
-              title={dayjs(question.createdAt).format(
-                'dddd, D MMM YYYY HH:mm:ss',
-              )}
+              title={formatLongDateTime(question.createdAt)}
             >
-              {dayjs(question.createdAt).locale('id').fromNow(true)}
+              {getFromNowTime(question.createdAt)}
             </span>
-            {question.createdAt.toISOString() !==
-              question.updatedAt.toISOString() && (
+            {question.createdAt.getTime() !== question.updatedAt.getTime() && (
               <span
                 className='ml-1 hover:underline'
-                title={`Diedit pada ${dayjs(question.updatedAt).format(
-                  'dddd, D MMM YYYY HH:mm:ss',
-                )}`}
+                title={`Diedit pada ${formatLongDateTime(question.updatedAt)}`}
               >
                 *
               </span>
