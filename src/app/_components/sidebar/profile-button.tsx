@@ -56,7 +56,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
         <DropdownMenuSeparator />
         <Link href={`/users/${user?.username}`}>
           <DropdownMenuItem className='cursor-pointer'>
-            <UserCircle className='mr-1' size={18} />
+            <UserCircle className='mr-2' size={18} />
             My Profile
           </DropdownMenuItem>
         </Link>
@@ -68,7 +68,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
             })
           }
         >
-          <LogOutIcon className='mr-1' size={18} />
+          <LogOutIcon className='mr-2' size={18} />
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -304,7 +304,7 @@ export function QuestionPost({
                     className='cursor-pointer'
                     onSelect={(event) => event.preventDefault()}
                   >
-                    <PencilIcon className='mr-1' size={18} />
+                    <PencilIcon className='mr-2' size={18} />
                     <span>Edit</span>
                   </DropdownMenuItem>
                 </EditQuestionModal>
@@ -320,7 +320,7 @@ export function QuestionPost({
                     className='cursor-pointer focus:bg-red-100 focus:text-red-900'
                     onSelect={(event) => event.preventDefault()}
                   >
-                    <TrashIcon className='mr-1' size={18} />
+                    <TrashIcon className='mr-2' size={18} />
                     <span>Hapus</span>
                   </DropdownMenuItem>
                 </DeleteModal>
