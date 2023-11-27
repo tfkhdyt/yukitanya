@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Book, Heart, HomeIcon, Search } from 'lucide-react';
+import { Bell, Book, HomeIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -39,11 +39,11 @@ export function Sidebar({
       title: 'Notifikasi',
       url: '/notifications',
     },
-    {
-      icon: Heart,
-      title: 'Favorit',
-      url: '/favorite',
-    },
+    // {
+    //   icon: Heart,
+    //   title: 'Favorit',
+    //   url: '/favorite',
+    // },
   ];
   const pathname = usePathname();
   const toggleSidebar = useSidebarStore((state) => state.toggle);

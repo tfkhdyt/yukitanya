@@ -59,7 +59,6 @@ export function MainContent({
               .with('/search', () => 'Cari Pertanyaan')
               .with('/subjects', () => 'Mata Pelajaran')
               .with('/notifications', () => 'Notifikasi')
-              .with('/favorite', () => 'Favorit')
               .with(P.string.startsWith('/questions/'), () => (
                 <button
                   className='flex items-center space-x-3 px-2 md:px-0'
