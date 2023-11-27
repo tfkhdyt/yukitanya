@@ -71,14 +71,30 @@ export const questionRouter = createTRPCRouter({
         },
         with: {
           answers: {
-            orderBy: [asc(answers.isBestAnswer), asc(answers.createdAt)],
+            columns: {
+              id: true,
+            },
+            orderBy: [desc(answers.isBestAnswer), asc(answers.createdAt)],
             with: {
-              owner: true,
+              owner: {
+                columns: {
+                  username: true,
+                  name: true,
+                },
+              },
             },
           },
           favorites: {
             columns: {
               userId: true,
+            },
+            with: {
+              user: {
+                columns: {
+                  username: true,
+                  name: true,
+                },
+              },
             },
           },
         },
