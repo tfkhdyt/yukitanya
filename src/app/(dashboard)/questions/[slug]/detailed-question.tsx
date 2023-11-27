@@ -108,33 +108,11 @@ export function DetailedQuestion({
             {match(questionMetadata.isLoading)
               .with(false, () => (
                 <>
-                  <p
-                    className='font-semibold hover:underline'
-                    title={questionMetadata.data?.favorites
-                      .slice(0, 10)
-                      .map(
-                        (it, index) =>
-                          `${index + 1}. ${it.user.name} (@${
-                            it.user.username
-                          })`,
-                      )
-                      .join('\n')}
-                  >
+                  <p className='font-semibold'>
                     {questionMetadata.data?.favorites.length} favorit
                   </p>
                   <p>·</p>
-                  <p
-                    className='font-semibold hover:underline'
-                    title={questionMetadata.data?.answers
-                      .slice(0, 10)
-                      .map(
-                        (it, index) =>
-                          `${index + 1}. ${it.owner.name} (@${
-                            it.owner.username
-                          })`,
-                      )
-                      .join('\n')}
-                  >
+                  <p className='font-semibold'>
                     {questionMetadata.data?.answers.length} jawaban
                   </p>
                 </>
