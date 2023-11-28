@@ -315,9 +315,12 @@ export function AnswerPost({
                     <Button
                       size='sm'
                       className='mt-2 w-full'
+                      disabled={deleteRatingMutation.isLoading}
                       onClick={() => handleDeleteRating(answer.id)}
                     >
-                      Batalkan nilai ({ratingFromMe})
+                      {deleteRatingMutation.isLoading
+                        ? 'Loading...'
+                        : `Batalkan nilai (${ratingFromMe})`}
                     </Button>
                   )}
                 </DropdownMenuContent>
