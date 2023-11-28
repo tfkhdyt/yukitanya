@@ -10,6 +10,21 @@ import { api } from '@/trpc/server';
 import { UserStat } from './user-stat';
 import { UserTabs } from './user-tabs';
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { username: string };
+}) {
+  const { username } = params;
+  const user = await api.user.findUserByUsername.query(username);
+
+  if (user) {
+    return {
+      title: `${user.name} (@${user.username}) - Yukitanya`,
+    };
+  }
+}
+
 export default async function UserPage({
   params,
   searchParams,
