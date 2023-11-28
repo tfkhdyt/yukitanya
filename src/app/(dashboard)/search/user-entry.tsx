@@ -12,7 +12,7 @@ export function UserEntry({
   };
 }) {
   return (
-    <Link key={user.id} href={`/users/${user.username}`}>
+    <Link href={`/users/${user.username}`}>
       <div className='flex items-center space-x-3 border-b-2 p-4 text-[#696984] transition hover:bg-slate-50'>
         <div>
           <Avatar>
@@ -20,7 +20,7 @@ export function UserEntry({
             <AvatarFallback>{createInitial(user.name)}</AvatarFallback>
           </Avatar>
         </div>
-        <div className='gap-2 text-[#696984]'>
+        <div className='text-[#696984]'>
           <p
             className='line-clamp-1 font-medium decoration-2 hover:underline'
             title={user.name ?? user.username}

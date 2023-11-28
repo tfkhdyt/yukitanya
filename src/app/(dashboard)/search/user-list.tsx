@@ -2,14 +2,14 @@ import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 
+import { SkeletonUserEntry } from './skeleton-user-entry';
 import { UserEntry } from './user-entry';
 
 export function UserList({ query }: { query: string }) {
   const users = api.user.findUsersByUsernameOrName.useQuery(query);
 
   if (users.isLoading || !users.data) {
-    // return <SkeletonQuestionPost />;
-    return <></>;
+    return <SkeletonUserEntry />;
   }
 
   if (users.isError) {
@@ -29,8 +29,6 @@ export function UserList({ query }: { query: string }) {
       />
     );
   }
-
-  console.log(users.data);
 
   return (
     <>
