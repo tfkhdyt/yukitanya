@@ -10,6 +10,7 @@ import {
   StarIcon,
   TrashIcon,
 } from 'lucide-react';
+import Link from 'next/link';
 import { type Session } from 'next-auth';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -57,6 +58,7 @@ type Question = {
     name: string;
   };
   owner: User;
+  slug: string;
 };
 
 export function AnswerPost({
@@ -109,8 +111,9 @@ export function AnswerPost({
     onSuccess: async () => {
       toast.success('Jawaban telah dihapus!');
       setIsShowDeleteModal(false);
-      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.answer.invalidate();
       await utils.question.findQuestionMetadata.invalidate();
+      await utils.user.findUserStatByUsername.invalidate();
     },
   });
   const [isShowDropdown, setIsShowDropDown] = useState(false);
@@ -124,7 +127,7 @@ export function AnswerPost({
     onError: () => toast.error('Gagal menambahkan nilai'),
     onSuccess: async () => {
       toast.success('Berhasil memberi nilai!');
-      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.answer.invalidate();
     },
   });
 
@@ -154,7 +157,7 @@ export function AnswerPost({
   const bestAnswerMutation = api.answer.toggleBestAnswer.useMutation({
     onError: () => toast.error('Gagal menandai jawaban terbaik'),
     onSuccess: async () => {
-      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.answer.invalidate();
     },
   });
 
@@ -169,7 +172,8 @@ export function AnswerPost({
     onError: () => toast.error('Gagal menghapus nilai'),
     onSuccess: async () => {
       toast.success('Berhasil menghapus nilai!');
-      await utils.answer.findAllAnswersByQuestionId.invalidate();
+      await utils.answer.invalidate();
+      await utils.user.findUserStatByUsername.invalidate();
     },
   });
 
@@ -184,7 +188,7 @@ export function AnswerPost({
   };
 
   return (
-    <section id={answer.id}>
+    <section id={answer.id} className='transition hover:bg-slate-50'>
       {answer.isBestAnswer && (
         <div className='px-4 pt-4'>
           <Alert className='border-green-600 bg-green-50'>
@@ -205,19 +209,21 @@ export function AnswerPost({
         </Avatar>
         <div className='grow space-y-1'>
           <div className='flex items-center space-x-2 text-[#696984]'>
-            <span
+            <Link
               className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
+              href={`/users/${answer.owner.username}`}
               title={answer.owner.name ?? answer.owner.username}
             >
               {answer.owner.name}
-            </span>
-            <span
+            </Link>
+            <Link
               className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
+              href={`/users/${answer.owner.username}`}
               title={`@${answer.owner.username}`}
             >
               @{answer.owner.username}
-            </span>
-            <span className='font-light'>
+            </Link>
+            <Link className='font-light' href={`/questions/${question.slug}`}>
               <span className='mr-2 text-sm font-medium'>·</span>
               <span
                 className='hover:underline'
@@ -233,7 +239,7 @@ export function AnswerPost({
                   *
                 </span>
               )}
-            </span>
+            </Link>
           </div>
           <p
             className={clsx(

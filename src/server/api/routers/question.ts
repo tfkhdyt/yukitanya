@@ -81,6 +81,36 @@ export const questionRouter = createTRPCRouter({
         },
       });
     }),
+  findAllQuestionsByUserId: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: userId }) => {
+      return ctx.db.query.questions.findMany({
+        orderBy: [desc(questions.createdAt)],
+        where: eq(questions.userId, userId),
+        with: {
+          answers: {
+            columns: {
+              id: true,
+              isBestAnswer: true,
+            },
+            with: {
+              ratings: {
+                columns: {
+                  value: true,
+                },
+              },
+            },
+          },
+          favorites: {
+            columns: {
+              userId: true,
+            },
+          },
+          owner: true,
+          subject: true,
+        },
+      });
+    }),
   findAllQuestionsByQueryAndSubject: publicProcedure
     .input(
       z.object({

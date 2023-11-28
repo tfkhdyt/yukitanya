@@ -32,6 +32,24 @@ export const answerRouter = createTRPCRouter({
         },
       });
     }),
+  findAllAnswersByUserId: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: userId }) => {
+      return ctx.db.query.answers.findMany({
+        where: eq(answers.userId, userId),
+        orderBy: [desc(answers.createdAt)],
+        with: {
+          owner: true,
+          ratings: true,
+          question: {
+            with: {
+              subject: true,
+              owner: true,
+            },
+          },
+        },
+      });
+    }),
   updateAnswerById: protectedProcedure
     .input(updateAnswerSchema)
     .mutation(async ({ ctx, input }) => {

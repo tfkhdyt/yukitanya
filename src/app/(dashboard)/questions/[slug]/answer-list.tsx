@@ -19,6 +19,7 @@ type Question = {
     name: string;
   };
   owner: User;
+  slug: string;
 };
 
 export function AnswerList({
@@ -66,12 +67,6 @@ export function AnswerList({
             isBestAnswer: answer.isBestAnswer,
             numberOfVotes: answer.ratings.length,
             ratings: answer.ratings,
-            // answer.ratings.length > 0
-            //   ? answer.ratings.reduce(
-            //       (accumulator, rating) => accumulator + rating.value,
-            //       0,
-            //     ) / answer.ratings.length
-            //   : 0,
             owner: {
               ...answer.owner,
               initial: createInitial(answer.owner.name),
@@ -88,6 +83,7 @@ export function AnswerList({
               ...question.owner,
               initial: createInitial(question.owner.name),
             },
+            slug: question.slug,
           }}
           session={session}
         />

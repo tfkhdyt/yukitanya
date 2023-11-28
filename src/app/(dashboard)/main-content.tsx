@@ -27,7 +27,7 @@ export function MainContent({
 
   let username = '';
   if (pathname.startsWith('/users/')) {
-    username = parameters.id as string;
+    username = parameters.username as string;
   }
 
   return (

@@ -75,6 +75,8 @@ export function AnswerModal({
       form.reset();
       await utils.answer.findAllAnswersByQuestionId.invalidate();
       await utils.question.invalidate();
+      await utils.favorite.findAllFavoritedQuestions.invalidate();
+      await utils.user.findUserStatByUsername.invalidate();
     },
   });
 

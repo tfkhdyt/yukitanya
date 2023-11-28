@@ -14,6 +14,7 @@ type Question = {
   };
   updatedAt: Date;
   owner: User;
+  id: string;
 };
 
 export function JawabanKosong({
@@ -23,7 +24,7 @@ export function JawabanKosong({
 }: {
   title?: string;
   session: Session | null;
-  question: Question;
+  question?: Question;
 }) {
   return (
     <div className='p-6'>
@@ -37,7 +38,7 @@ export function JawabanKosong({
       <p className='pb-4 text-center text-sm font-medium text-gray-500'>
         {title}
       </p>
-      {session && (
+      {session && question && (
         <JawabSekarangButton center session={session} question={question} />
       )}
     </div>

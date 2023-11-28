@@ -16,6 +16,7 @@ type Question = {
   };
   updatedAt: Date;
   owner: User;
+  id: string;
 };
 
 export function JawabSekarangButton({

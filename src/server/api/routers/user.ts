@@ -78,4 +78,38 @@ export const userRouter = createTRPCRouter({
           ),
         );
     }),
+  findUserByUsername: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: username }) => {
+      return ctx.db.query.users.findFirst({
+        where: eq(users.username, username),
+      });
+    }),
+  findUserStatByUsername: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input: username }) => {
+      return ctx.db.query.users.findFirst({
+        columns: {
+          id: true,
+        },
+        where: eq(users.username, username),
+        with: {
+          questions: {
+            columns: {
+              id: true,
+            },
+          },
+          answers: {
+            columns: {
+              id: true,
+            },
+          },
+          favorites: {
+            columns: {
+              questionId: true,
+            },
+          },
+        },
+      });
+    }),
 });

@@ -89,6 +89,7 @@ export function EditQuestionModal({
       setOpen(false);
       form.reset();
       await utils.question.invalidate();
+      await utils.favorite.findAllFavoritedQuestions.invalidate();
     },
   });
 

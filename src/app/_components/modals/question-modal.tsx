@@ -77,6 +77,7 @@ export function QuestionModal({
       setOpen(false);
       form.reset();
       await utils.question.invalidate();
+      await utils.user.findUserStatByUsername.invalidate();
     },
   });
 
