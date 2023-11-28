@@ -37,8 +37,6 @@ export function SearchForm({ session }: { session: Session | null }) {
   const debouncedType = useDebounce(searchType, 500);
 
   useEffect(() => {
-    console.log({ debouncedQuery });
-
     if (debouncedType === 'question') {
       router.push(
         `/search?type=${debouncedType}&subject=${debouncedSubject}&query=${debouncedQuery}`,
