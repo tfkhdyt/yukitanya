@@ -17,7 +17,7 @@
     "deps:bump": "taze -wi"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^0.3.8",
+    "@auth/drizzle-adapter": "^0.3.9",
     "@dicebear/collection": "^7.0.1",
     "@dicebear/core": "^7.0.1",
     "@fontsource-variable/rubik": "^5.0.19",
