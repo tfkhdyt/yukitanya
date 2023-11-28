@@ -1,4 +1,5 @@
-import { desc, eq } from 'drizzle-orm';
+import { and, desc, eq, ilike } from 'drizzle-orm';
+import { match } from 'ts-pattern';
 import { z } from 'zod';
 
 import { insertQuestionSchema, questions } from '@/server/db/schema';
@@ -56,6 +57,50 @@ export const questionRouter = createTRPCRouter({
       return ctx.db.query.questions.findMany({
         orderBy: [desc(questions.createdAt)],
         where: eq(questions.subjectId, subjectId),
+        with: {
+          answers: {
+            columns: {
+              id: true,
+              isBestAnswer: true,
+            },
+            with: {
+              ratings: {
+                columns: {
+                  value: true,
+                },
+              },
+            },
+          },
+          favorites: {
+            columns: {
+              userId: true,
+            },
+          },
+          owner: true,
+          subject: true,
+        },
+      });
+    }),
+  findAllQuestionsByQueryAndSubject: publicProcedure
+    .input(
+      z.object({
+        query: z.string(),
+        subjectId: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      const condition = match(input.subjectId)
+        .with('all', () => ilike(questions.content, `%${input.query}%`))
+        .otherwise((subjectId) =>
+          and(
+            ilike(questions.content, `%${input.query}%`),
+            eq(questions.subjectId, subjectId),
+          ),
+        );
+
+      return ctx.db.query.questions.findMany({
+        orderBy: [desc(questions.createdAt)],
+        where: condition,
         with: {
           answers: {
             columns: {

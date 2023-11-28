@@ -8,10 +8,12 @@ export function PertanyaanKosong({
   title = 'Belum ada pertanyaan yang tersedia',
   user,
   defaultSubject,
+  showTanyakanButton = true,
 }: {
   title?: string;
   user?: User;
   defaultSubject?: string;
+  showTanyakanButton?: boolean;
 }) {
   return (
     <div className='p-6'>
@@ -25,7 +27,7 @@ export function PertanyaanKosong({
       <p className='pb-4 text-center text-sm font-medium text-gray-500'>
         {title}
       </p>
-      {user && (
+      {user && showTanyakanButton && (
         <TanyakanSekarangButton
           center
           user={user}

@@ -26,7 +26,7 @@ export function Sidebar({
     },
     {
       icon: Search,
-      title: 'Cari Pertanyaan',
+      title: 'Cari',
       url: '/search',
     },
     {

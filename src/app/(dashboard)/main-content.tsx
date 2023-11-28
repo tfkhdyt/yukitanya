@@ -56,7 +56,7 @@ export function MainContent({
           <div className='text-center text-lg font-medium text-[#696984]'>
             {match(pathname)
               .with('/home', () => 'Beranda')
-              .with('/search', () => 'Cari Pertanyaan')
+              .with('/search', () => 'Cari')
               .with('/subjects', () => 'Mata Pelajaran')
               .with('/notifications', () => 'Notifikasi')
               .with(P.string.startsWith('/questions/'), () => (

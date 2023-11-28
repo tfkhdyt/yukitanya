@@ -1,11 +1,15 @@
 import * as argon2 from 'argon2';
-import { eq } from 'drizzle-orm';
+import { eq, ilike, or } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { getDiceBearAvatar } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
-import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
 import { users } from '@/server/db/schema';
 
 export const userRouter = createTRPCRouter({
@@ -55,19 +59,23 @@ export const userRouter = createTRPCRouter({
           ),
       });
     }),
-  // getLatest: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.query.posts.findFirst({
-  //     orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-  //   });
-  // }),
-  // getSecretMessage: protectedProcedure.query(() => {
-  //   return 'you can now see this secret message!';
-  // }),
-  // hello: publicProcedure
-  //   .input(z.object({ text: z.string() }))
-  //   .query(({ input }) => {
-  //     return {
-  //       greeting: `Hello ${input.text}`,
-  //     };
-  //   }),
+  findUsersByUsernameOrName: protectedProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.db
+        .select({
+          id: users.id,
+          name: users.name,
+          username: users.username,
+          image: users.image,
+          createdAt: users.createdAt,
+        })
+        .from(users)
+        .where(
+          or(
+            ilike(users.username, `%${input}%`),
+            ilike(users.name, `%${input}%`),
+          ),
+        );
+    }),
 });

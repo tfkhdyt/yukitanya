@@ -5,7 +5,7 @@ import { getServerAuthSession } from '@/server/auth';
 import { SearchForm } from './search-form';
 
 export const metadata: Metadata = {
-  title: 'Cari Pertanyaan - Yukitanya',
+  title: 'Cari - Yukitanya',
 };
 
 export default async function SearchPage() {
@@ -13,7 +13,7 @@ export default async function SearchPage() {
 
   return (
     <main>
-      <SearchForm user={session?.user} />
+      <SearchForm session={session} />
     </main>
   );
 }
