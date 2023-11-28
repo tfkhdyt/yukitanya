@@ -63,28 +63,34 @@ export function Sidebar({
         </span>
       </div>
       <div className='space-y-1 lg:space-y-2'>
-        {menu.map((each) => (
-          <Link
-            className='flex w-fit items-center space-x-6 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'
-            href={each.url}
-            key={each.title}
-            onClick={isMobile ? toggleSidebar : undefined}
-          >
-            {match(pathname)
-              .with(P.string.startsWith(each.url), () => (
-                <>
-                  <each.icon size={28} strokeWidth={2} />
-                  <p className='text-xl font-medium'>{each.title}</p>
-                </>
-              ))
-              .otherwise(() => (
-                <>
-                  <each.icon size={28} strokeWidth={1} />
-                  <p className='text-xl font-light'>{each.title}</p>
-                </>
-              ))}
-          </Link>
-        ))}
+        {menu.map((each) => {
+          if (each.title === 'Notifikasi' && !user) return;
+
+          return (
+            <Link
+              className='flex w-fit items-center space-x-6 rounded-full border-2 border-transparent px-4 py-3 transition hover:border-[#F48C06]'
+              href={each.url}
+              key={each.title}
+              onClick={isMobile ? toggleSidebar : undefined}
+            >
+              {match(pathname)
+                .with(P.string.startsWith(each.url), () => {
+                  return (
+                    <>
+                      <each.icon size={28} strokeWidth={2} />
+                      <p className='text-xl font-medium'>{each.title}</p>
+                    </>
+                  );
+                })
+                .otherwise(() => (
+                  <>
+                    <each.icon size={28} strokeWidth={1} />
+                    <p className='text-xl font-light'>{each.title}</p>
+                  </>
+                ))}
+            </Link>
+          );
+        })}
         <div className='hidden lg:block'>
           <ProfileButton user={user} />
         </div>
