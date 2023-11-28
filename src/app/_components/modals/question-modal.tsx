@@ -76,8 +76,7 @@ export function QuestionModal({
       toast.success('Pertanyaanmu telah berhasil dibuat');
       setOpen(false);
       form.reset();
-      await utils.question.findAllQuestions.invalidate();
-      await utils.question.findAllQuestionsBySubject.invalidate();
+      await utils.question.invalidate();
     },
   });
 

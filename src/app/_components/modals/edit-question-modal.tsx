@@ -88,8 +88,7 @@ export function EditQuestionModal({
       setShowDropdown(false);
       setOpen(false);
       form.reset();
-      await utils.question.findAllQuestions.invalidate();
-      await utils.question.findAllQuestionsBySubject.invalidate();
+      await utils.question.invalidate();
     },
   });
 

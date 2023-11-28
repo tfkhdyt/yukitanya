@@ -74,7 +74,7 @@ export function AnswerModal({
       setOpen(false);
       form.reset();
       await utils.answer.findAllAnswersByQuestionId.invalidate();
-      await utils.question.findAllQuestions.invalidate();
+      await utils.question.invalidate();
     },
   });
 
