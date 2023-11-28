@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { match, P } from 'ts-pattern';
 
+import { createInitial } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
 import { api } from '@/trpc/server';
 
@@ -48,11 +49,7 @@ export default async function Question({
           slug: question.slug,
           owner: {
             ...question.owner,
-            initial:
-              question.owner.name
-                ?.split(' ')
-                .map((name) => name.slice(0, 1))
-                .join('') ?? '',
+            initial: createInitial(question.owner.name),
           },
         }}
         session={session}
@@ -63,11 +60,7 @@ export default async function Question({
             ...question,
             owner: {
               ...question.owner,
-              initial:
-                question.owner.name
-                  ?.split(' ')
-                  .map((name) => name.slice(0, 1))
-                  .join('') ?? '',
+              initial: createInitial(question.owner.name),
             },
           }}
           session={session}

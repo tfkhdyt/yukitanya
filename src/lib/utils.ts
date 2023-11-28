@@ -14,3 +14,12 @@ export function getDiceBearAvatar(seed: string) {
 
   return avatar.toDataUriSync();
 }
+
+export function createInitial(name?: string | null) {
+  return (
+    name
+      ?.split(' ')
+      .map((name) => name.slice(0, 1))
+      .join('') ?? ''
+  );
+}

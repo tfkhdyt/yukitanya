@@ -5,6 +5,7 @@ import { type Session } from 'next-auth';
 import { AnswerPost } from '@/components/answer/answer-post';
 import { SkeletonAnswerPost } from '@/components/answer/skeleton-answer-post';
 import { JawabanKosong } from '@/components/jawaban-kosong';
+import { createInitial } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
@@ -73,11 +74,7 @@ export function AnswerList({
             //   : 0,
             owner: {
               ...answer.owner,
-              initial:
-                answer.owner.name
-                  ?.split(' ')
-                  .map((name) => name.slice(0, 1))
-                  .join('') ?? '',
+              initial: createInitial(answer.owner.name),
             },
           }}
           key={answer.id}
@@ -89,11 +86,7 @@ export function AnswerList({
             updatedAt: question.updatedAt,
             owner: {
               ...question.owner,
-              initial:
-                question.owner.name
-                  ?.split(' ')
-                  .map((name) => name.slice(0, 1))
-                  .join('') ?? '',
+              initial: createInitial(question.owner.name),
             },
           }}
           session={session}

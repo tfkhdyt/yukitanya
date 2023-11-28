@@ -8,15 +8,15 @@ pre-push:
   commands:
     taze:
       run: pnpx taze --failOnOutdated
+    eslint:
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: pnpm lint:fix
     # build:
     #   run: pnpm build
 
 pre-commit:
   parallel: true
   commands:
-    eslint:
-      glob: '**/*.{js,ts,jsx,tsx}'
-      run: pnpm lint:fix
     prettier:
       glob: '**/*.{js,ts,jsx,tsx}'
       run: pnpm format ./src

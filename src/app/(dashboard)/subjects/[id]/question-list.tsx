@@ -5,6 +5,7 @@ import { type Session } from 'next-auth';
 import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { QuestionPost } from '@/components/question/question-post';
 import { SkeletonQuestionPost } from '@/components/question/skeleton-question-post';
+import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 
 export function QuestionList({
@@ -65,11 +66,7 @@ export function QuestionList({
               slug: question.slug,
               owner: {
                 ...question.owner,
-                initial:
-                  question.owner.name
-                    ?.split(' ')
-                    .map((name) => name.slice(0, 1))
-                    .join('') ?? '',
+                initial: createInitial(question.owner.name),
               },
             }}
             session={session}

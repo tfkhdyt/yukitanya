@@ -8,6 +8,7 @@ import {
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { environment } from '@/environment.mjs';
+import { createInitial } from '@/lib/utils';
 import { db } from '@/server/db';
 
 export type User = {
@@ -88,11 +89,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             id: user.id,
             image: user.image,
-            initial:
-              user.name
-                ?.split(' ')
-                .map((name) => name.slice(0, 1))
-                .join('') ?? '',
+            initial: createInitial(user.name),
             name: user.name,
             username: user.username,
           },
