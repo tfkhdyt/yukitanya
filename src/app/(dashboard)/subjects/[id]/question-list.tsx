@@ -25,7 +25,13 @@ export function QuestionList({
   }
 
   if (questions.data.length === 0) {
-    return <PertanyaanKosong user={session?.user} defaultSubject={subjectId} />;
+    return (
+      <PertanyaanKosong
+        title='Pertanyaan dalam mata pelajaran ini belum tersedia'
+        user={session?.user}
+        defaultSubject={subjectId}
+      />
+    );
   }
 
   return (
