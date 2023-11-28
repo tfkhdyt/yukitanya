@@ -3,8 +3,8 @@
 import { type Session } from 'next-auth';
 
 import { AnswerPost } from '@/components/answer/answer-post';
+import { SkeletonAnswerPost } from '@/components/answer/skeleton-answer-post';
 import { JawabanKosong } from '@/components/jawaban-kosong';
-import { SkeletonQuestionPost } from '@/components/question/skeleton-question-post';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
@@ -30,7 +30,7 @@ export function AnswerList({
   const answers = api.answer.findAllAnswersByQuestionId.useQuery(question.id);
 
   if (answers.isLoading) {
-    return <SkeletonQuestionPost />;
+    return <SkeletonAnswerPost />;
   }
 
   if (answers.isError) {
