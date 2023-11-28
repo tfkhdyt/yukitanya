@@ -1,8 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import { AlignJustifyIcon, ArrowLeft, CheckCheckIcon } from 'lucide-react';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { AlignJustifyIcon, CheckCheckIcon } from 'lucide-react';
+import { useParams, usePathname } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { match, P } from 'ts-pattern';
 
@@ -23,7 +23,6 @@ export function MainContent({
   const pathname = usePathname();
   const sidebarStore = useSidebarStore();
   const parameters = useParams();
-  const router = useRouter();
 
   let username = '';
   if (pathname.startsWith('/users/')) {
@@ -34,12 +33,7 @@ export function MainContent({
     <main className='w-full md:w-2/3 lg:w-2/4'>
       <div className='sticky top-0 z-50 flex items-center justify-between border-b-2 bg-white/75 p-3 backdrop-blur-md'>
         <div className='flex items-center'>
-          <div
-            className={clsx(
-              'mr-4 md:hidden',
-              pathname.startsWith('/questions/') && 'hidden',
-            )}
-          >
+          <div className='mr-4 md:hidden'>
             <Sheet
               onOpenChange={sidebarStore.toggle}
               open={sidebarStore.isOpen}
@@ -55,32 +49,11 @@ export function MainContent({
 
           <div className='text-center text-lg font-medium text-[#696984]'>
             {match(pathname)
-              .with('/home', () => 'Beranda')
-              .with('/search', () => 'Cari')
-              .with('/subjects', () => 'Mata Pelajaran')
-              .with('/notifications', () => 'Notifikasi')
-              .with(P.string.startsWith('/questions/'), () => (
-                <button
-                  className='flex items-center space-x-3 px-2 md:px-0'
-                  onClick={() => router.back()}
-                >
-                  <ArrowLeft />
-                  <p className='pl-3 decoration-2 hover:underline md:pl-0'>
-                    Kembali
-                  </p>
-                </button>
-              ))
-              .with(P.string.startsWith('/users/'), () => (
-                <button
-                  className='flex items-center space-x-3 px-2 md:px-0'
-                  onClick={() => router.back()}
-                >
-                  <ArrowLeft />
-                  <p className='pl-3 decoration-2 hover:underline md:pl-0'>
-                    {username}
-                  </p>
-                </button>
-              ))
+              .with(P.string.startsWith('/home'), () => 'Beranda')
+              .with(P.string.startsWith('/search'), () => 'Cari')
+              .with(P.string.startsWith('/notifications'), () => 'Notifikasi')
+              .with(P.string.startsWith('/questions'), () => 'Pertanyaan')
+              .with(P.string.startsWith('/users'), () => `@${username}`)
               .with(
                 P.string.startsWith('/subjects/') && P.string.minLength(11),
                 () => (
@@ -92,6 +65,7 @@ export function MainContent({
                   </button>
                 ),
               )
+              .with(P.string.startsWith('/subjects'), () => 'Mata Pelajaran')
               .otherwise(() => pathname.slice(1))}
           </div>
         </div>
