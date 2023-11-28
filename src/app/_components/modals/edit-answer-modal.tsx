@@ -86,8 +86,8 @@ export function EditAnswerModal({
       setShowDropdown(false);
       setOpen(false);
       form.reset();
-      await utils.answer.findAllAnswersByQuestionId.invalidate();
-      await utils.question.findQuestionMetadata.invalidate();
+      await utils.answer.invalidate();
+      // await utils.question.findQuestionMetadata.invalidate();
       await utils.user.findUserStatByUsername.invalidate();
     },
   });
