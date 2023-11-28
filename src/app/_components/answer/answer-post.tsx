@@ -270,7 +270,11 @@ export function AnswerPost({
                     size='sm'
                     title='Beri nilai'
                     variant='outline'
-                    disabled={!session || ratingMutation.isLoading}
+                    disabled={
+                      !session ||
+                      ratingMutation.isLoading ||
+                      session.user.id === answer.owner.id
+                    }
                   >
                     <>
                       {ratingFromMe ? (
