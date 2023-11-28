@@ -90,6 +90,7 @@ export function EditQuestionModal({
       form.reset();
       await utils.question.invalidate();
       await utils.favorite.findAllFavoritedQuestions.invalidate();
+      await utils.user.findUserStatByUsername.invalidate();
     },
   });
 
