@@ -42,26 +42,33 @@ export default async function UserPage({
     : 'Pertanyaan';
 
   return (
-    <main className=''>
-      <div className='m-8 mb-8 flex space-x-8 text-[#696984]'>
-        <Avatar className='h-36 w-36'>
+    <main>
+      <div className='mx-4 mt-4 flex space-x-6 text-[#696984] md:m-8 md:space-x-8'>
+        <Avatar className='h-20 w-20 md:h-28 md:w-28'>
           <AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
           <AvatarFallback>{createInitial(user.name)}</AvatarFallback>
         </Avatar>
-        <div className='space-y-2'>
-          <div className='flex flex-wrap space-x-2 text-lg'>
-            <p className='font-semibold'>{user.name}</p>
-            <p>·</p>
-            <p className='font-light'>@{user.username}</p>
-          </div>
+        <div className='w-full space-y-2 text-[#696984]'>
+          <p className='line-clamp-1 hidden font-medium md:block md:text-lg'>
+            {user.name}
+          </p>
           <UserStat username={user.username} />
-          <p>
+          <p className='hidden text-sm md:block md:text-base'>
             Bergabung sejak{' '}
             <span title={formatLongDateTime(user.createdAt)}>
-              {dayjs(user.createdAt).format('D MMM YYYY')}
+              {dayjs(user.createdAt).format('D MMMM YYYY')}
             </span>
           </p>
         </div>
+      </div>
+      <div className='m-4 mb-6 space-y-1 text-[#696984] md:hidden'>
+        <p className='line-clamp-1 font-medium md:text-lg'>{user.name}</p>
+        <p className='text-sm'>
+          Bergabung sejak{' '}
+          <span title={formatLongDateTime(user.createdAt)}>
+            {dayjs(user.createdAt).format('D MMMM YYYY')}
+          </span>
+        </p>
       </div>
       <div className='w-full'>
         <UserTabs

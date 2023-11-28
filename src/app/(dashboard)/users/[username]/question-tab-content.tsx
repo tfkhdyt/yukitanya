@@ -38,7 +38,7 @@ export function QuestionTabContent({
       <PertanyaanKosong
         user={session?.user}
         title={`${user.name} belum membuat pertanyaan`}
-        showTanyakanButton={false}
+        showTanyakanButton={session?.user.id === user.id}
       />
     );
   }

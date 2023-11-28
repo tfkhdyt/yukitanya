@@ -7,32 +7,47 @@ export function UserStat({ username }: { username: string }) {
   const stat = api.user.findUserStatByUsername.useQuery(username);
 
   return (
-    <ol className='flex space-x-8'>
+    <ol className='flex w-full justify-around gap-4 text-sm md:justify-normal md:gap-8 md:text-base'>
       {stat.isLoading || !stat.data ? (
         <>
-          <li className='flex items-center space-x-1'>
-            <Skeleton className='h-6 w-4' /> <span>pertanyaan</span>
+          <li className='md:flex md:items-center md:space-x-2'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+              <Skeleton className='h-7 w-4' />
+            </span>
+            <span>pertanyaan</span>
           </li>
-          <li className='flex items-center space-x-1'>
-            <Skeleton className='h-6 w-4' /> <span>jawaban</span>
+          <li className='md:flex md:items-center md:space-x-2'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+              <Skeleton className='h-7 w-4' />
+            </span>
+            <span>jawaban</span>
           </li>
-          <li className='flex items-center space-x-1'>
-            <Skeleton className='h-6 w-4' /> <span>favorit</span>
+          <li className='md:flex md:items-center md:space-x-2'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+              <Skeleton className='h-7 w-4' />
+            </span>
+            <span>favorit</span>
           </li>
         </>
       ) : (
         <>
-          <li>
-            <span className='font-semibold'>{stat.data.questions.length}</span>{' '}
-            pertanyaan
+          <li className='md:flex md:items-center md:space-x-2'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+              {stat.data.questions.length}
+            </span>
+            <span>pertanyaan</span>
           </li>
-          <li>
-            <span className='font-semibold'>{stat.data.answers.length}</span>{' '}
-            jawaban
+          <li className='md:flex md:items-center md:space-x-2'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+              {stat.data.answers.length}
+            </span>
+            <span>jawaban</span>
           </li>
-          <li>
-            <span className='font-semibold'>{stat.data.favorites.length}</span>{' '}
-            favorit
+          <li className='md:flex md:items-center md:space-x-2'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+              {stat.data.favorites.length}
+            </span>
+            <span>favorit</span>
           </li>
         </>
       )}
