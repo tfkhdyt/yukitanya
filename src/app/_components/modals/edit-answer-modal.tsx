@@ -89,6 +89,7 @@ export function EditAnswerModal({
       await utils.answer.invalidate();
       // await utils.question.findQuestionMetadata.invalidate();
       await utils.user.findUserStatByUsername.invalidate();
+      await utils.favorite.findAllFavoritedQuestions.invalidate();
     },
   });
 
