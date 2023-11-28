@@ -25,7 +25,7 @@ export function UserTabs({
   const router = useRouter();
 
   const handleTabChange = (value: string) => {
-    router.push(`/users/${user.username}?tab=${value}`);
+    router.replace(`/users/${user.username}?tab=${value}`);
   };
 
   return (
