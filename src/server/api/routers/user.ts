@@ -5,11 +5,7 @@ import { z } from 'zod';
 
 import { getDiceBearAvatar } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from '@/server/api/trpc';
+import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { users } from '@/server/db/schema';
 
 export const userRouter = createTRPCRouter({
@@ -59,7 +55,7 @@ export const userRouter = createTRPCRouter({
           ),
       });
     }),
-  findUsersByUsernameOrName: protectedProcedure
+  findUsersByUsernameOrName: publicProcedure
     .input(z.string())
     .query(({ ctx, input }) => {
       return ctx.db
