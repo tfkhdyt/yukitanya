@@ -45,7 +45,13 @@ const SelectContent = React.forwardRef<
         className,
       )}
       position={position}
-      ref={reference}
+      ref={
+        reference ??
+        ((reference) =>
+          reference?.addEventListener('touchend', (event) =>
+            event.preventDefault(),
+          ))
+      }
       {...properties}
     >
       <SelectPrimitive.Viewport
