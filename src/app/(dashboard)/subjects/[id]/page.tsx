@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 import { mapel } from '@/constants/mapel';
 import { getServerAuthSession } from '@/server/auth';
 
@@ -18,6 +20,9 @@ export default async function SubjectDetail({
   params: { id: string };
 }) {
   const session = await getServerAuthSession();
+  if (!mapel.some((mpl) => mpl.id === params.id)) {
+    return redirect('/subjects');
+  }
 
   return (
     <main>
