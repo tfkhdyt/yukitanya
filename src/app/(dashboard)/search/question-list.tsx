@@ -54,7 +54,7 @@ export function QuestionList({
 
         return (
           <QuestionPost
-            highlightedWords={query.split(' ')}
+            highlightedWords={query.toLowerCase().split(' ')}
             key={question.id}
             question={{
               content: question.content,
