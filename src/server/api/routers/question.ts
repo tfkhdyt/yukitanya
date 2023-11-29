@@ -1,8 +1,9 @@
 import { and, desc, eq, ilike } from 'drizzle-orm';
+import { nanoid } from 'nanoid';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
-import { insertQuestionSchema, questions } from '@/server/db/schema';
+import { insertQuestionSchema, oldSlug, questions } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -157,14 +158,34 @@ export const questionRouter = createTRPCRouter({
     }),
   findQuestionBySlug: publicProcedure
     .input(z.string())
-    .query(({ ctx, input: slug }) => {
-      return ctx.db.query.questions.findFirst({
+    .query(async ({ ctx, input: slug }) => {
+      const question = await ctx.db.query.questions.findFirst({
         where: eq(questions.slug, slug),
         with: {
           owner: true,
           subject: true,
         },
       });
+
+      if (!question) {
+        const questionId = await ctx.db
+          .select({ questionId: oldSlug.questionId })
+          .from(oldSlug)
+          .where(eq(oldSlug.slug, slug))
+          .limit(1);
+
+        if (!questionId[0]) return;
+
+        return ctx.db.query.questions.findFirst({
+          where: eq(questions.id, questionId[0].questionId),
+          with: {
+            owner: true,
+            subject: true,
+          },
+        });
+      }
+
+      return question;
     }),
   findQuestionMetadata: publicProcedure
     .input(z.string())
@@ -200,6 +221,21 @@ export const questionRouter = createTRPCRouter({
   updateQuestionById: protectedProcedure
     .input(insertQuestionSchema)
     .mutation(async ({ ctx, input }) => {
+      const question = await ctx.db
+        .select({ slug: questions.slug })
+        .from(questions)
+        .where(eq(questions.id, input.id))
+        .limit(1);
+
+      if (question.length === 0 || !question[0])
+        throw new Error('Pertanyaan tidak ditemukan');
+
+      await ctx.db.insert(oldSlug).values({
+        id: `old-slug-${nanoid()}`,
+        questionId: input.id,
+        slug: question[0].slug,
+      });
+
       await ctx.db
         .update(questions)
         .set({

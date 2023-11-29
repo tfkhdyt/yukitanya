@@ -119,6 +119,22 @@ export const questionsRelations = relations(questions, ({ many, one }) => ({
     fields: [questions.subjectId],
     references: [subjects.id],
   }),
+  oldSlugs: many(oldSlug),
+}));
+
+export const oldSlug = pgTable('old_slug', {
+  id: text('id').notNull().primaryKey(),
+  questionId: text('question_id')
+    .notNull()
+    .references(() => questions.id, { onDelete: 'cascade' }),
+  slug: varchar('slug', { length: 100 }).notNull().unique(),
+});
+
+export const oldSlugsRelations = relations(oldSlug, ({ one }) => ({
+  question: one(questions, {
+    fields: [oldSlug.questionId],
+    references: [questions.id],
+  }),
 }));
 
 export const answers = pgTable('answer', {
