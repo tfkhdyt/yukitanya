@@ -15,7 +15,7 @@ export default function SubjectsPage() {
 			{mapel.map((mpl, index) => (
 				<Link
 					className={clsx(
-						`border-b-2 p-6 transition hover:bg-slate-50`,
+						'border-b-2 p-6 transition hover:bg-slate-50',
 						(index + 1) % 2 !== 0 && 'border-r-2',
 					)}
 					href={`/subjects/${mpl.id}`}

@@ -100,7 +100,7 @@ export function QuestionPost({
 		return () => {
 			window.removeEventListener('resize', debouncedCheck);
 		};
-	}, [containerReference, question]);
+	});
 
 	const favoriteMutation = api.favorite.toggleFavorite.useMutation({
 		onError: () => toast.error('Gagal memberi favorit'),
@@ -190,14 +190,14 @@ export function QuestionPost({
 						{question.content.split(' ').map((word, index) => {
 							if (highlightedWords?.includes(word.toLowerCase())) {
 								return (
-									<span key={index}>
+									<span key={`${word}-${index}`}>
 										<span className='bg-[#F48C06] px-1 font-medium text-white'>
 											{word}
 										</span>{' '}
 									</span>
 								);
 							}
-							return <span key={index}>{word} </span>;
+							return <span key={`${word}-${index}`}>{word} </span>;
 						})}
 					</p>
 				</Link>
@@ -205,6 +205,7 @@ export function QuestionPost({
 					<button
 						className='text-sm font-medium text-[#696984] hover:underline'
 						onClick={handleReadMore}
+						type='button'
 					>
 						Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
 					</button>
@@ -213,7 +214,7 @@ export function QuestionPost({
 					<div className='mr-2 space-x-1'>
 						<Link href={`/subjects/${question.subject.id}`}>
 							<Badge className='hover:bg-slate-200' variant='secondary'>
-								<button>{question.subject.name}</button>
+								<button type='button'>{question.subject.name}</button>
 							</Badge>
 						</Link>
 					</div>

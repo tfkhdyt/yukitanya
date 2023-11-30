@@ -34,13 +34,25 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
 						Innovators{' '}
 					</p>
 					<div className='space-x-4 md:mt-6 lg:mt-auto lg:justify-self-end'>
-						<button aria-label='Facebook' className='rounded-lg bg-white p-2'>
+						<button
+							aria-label='Facebook'
+							className='rounded-lg bg-white p-2'
+							type='button'
+						>
 							<Facebook />
 						</button>
-						<button aria-label='Instagram' className='rounded-lg bg-white p-2'>
+						<button
+							aria-label='Instagram'
+							className='rounded-lg bg-white p-2'
+							type='button'
+						>
 							<Instagram />
 						</button>
-						<button aria-label='Twitter' className='rounded-lg bg-white p-2'>
+						<button
+							aria-label='Twitter'
+							className='rounded-lg bg-white p-2'
+							type='button'
+						>
 							<Twitter />
 						</button>
 					</div>
@@ -74,19 +86,19 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
 					</div>
 					<div className='space-y-2 text-center text-white'>
 						<h3 className='font-semibold md:text-sm'>Help</h3>
-						<a className='block text-sm md:text-xs' href='#'>
+						<a className='block text-sm md:text-xs' href='/'>
 							Customer Service
 						</a>
-						<a className='block text-sm md:text-xs' href='#'>
+						<a className='block text-sm md:text-xs' href='/'>
 							Contact
 						</a>
 					</div>
 					<div className='space-y-2 text-center text-white'>
 						<h3 className='font-semibold md:text-sm'>Legal</h3>
-						<a className='block text-sm md:text-xs' href='#'>
+						<a className='block text-sm md:text-xs' href='/'>
 							Privacy Policy
 						</a>
-						<a className='block text-sm md:text-xs' href='#'>
+						<a className='block text-sm md:text-xs' href='/'>
 							Terms of Use
 						</a>
 					</div>

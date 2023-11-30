@@ -62,7 +62,7 @@ export function Berita() {
 							sejak kelas 3 SD......
 						</p>
 					</div>
-					<a className='text-[#696984] underline' href='#'>
+					<a className='text-[#696984] underline' href='/'>
 						Baca lebih banyak
 					</a>
 				</div>

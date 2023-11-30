@@ -19,7 +19,7 @@ export async function generateMetadata({
 	if (question.length > 0) {
 		return {
 			title: `${match(question[0]?.content.length)
-				.with(P.number.gte(50), () => question[0]?.content.slice(0, 50) + '...')
+				.with(P.number.gte(50), () => `${question[0]?.content.slice(0, 50)}...`)
 				.otherwise(() => question[0]?.content)} - Yukitanya`,
 			description: question[0]?.content,
 		};

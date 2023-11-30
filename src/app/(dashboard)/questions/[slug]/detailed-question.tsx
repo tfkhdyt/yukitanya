@@ -128,7 +128,7 @@ export function DetailedQuestion({
 					<div className='space-x-1'>
 						<Link href={`/subjects/${question.subject.id}`}>
 							<Badge className='hover:bg-slate-200' variant='secondary'>
-								<button>{question.subject.name}</button>
+								<button type='button'>{question.subject.name}</button>
 							</Badge>
 						</Link>
 					</div>

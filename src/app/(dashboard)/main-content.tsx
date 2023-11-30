@@ -75,14 +75,8 @@ export function MainContent({
 							.with(P.string.startsWith('/users'), () => `@${username}`)
 							.with(
 								P.string.startsWith('/subjects/') && P.string.minLength(11),
-								() => (
-									<button className='flex items-center'>
-										<p className='decoration-2'>
-											{mapel.find((mpl) => mpl.id === parameters.id)?.name ??
-												'404'}
-										</p>
-									</button>
-								),
+								() =>
+									mapel.find((mpl) => mpl.id === parameters.id)?.name ?? '404',
 							)
 							.with(P.string.startsWith('/subjects'), () => 'Mata Pelajaran')
 							.otherwise(() => pathname.slice(1))}
@@ -94,6 +88,7 @@ export function MainContent({
 							className='ml-auto'
 							title='Tandai semua sudah dibaca'
 							onClick={handleAllRead}
+							type='button'
 						>
 							<CheckCheckIcon color='#696984' />
 						</button>

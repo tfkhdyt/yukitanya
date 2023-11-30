@@ -29,6 +29,7 @@ export function Hero() {
 						<button
 							aria-label='Search'
 							className='m-2 rounded-full border-2 border-black bg-[#EADBC8] p-2'
+							type='button'
 						>
 							<Search />
 						</button>

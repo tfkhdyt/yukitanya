@@ -13,7 +13,7 @@ export function Testimoni() {
 				<div className='mx-auto w-fit space-y-16 rounded-3xl bg-white px-4 py-8 shadow-lg md:p-16'>
 					<h2 className='text-center text-2xl tracking-widest'>Testimoni</h2>
 					<div className='flex items-center space-x-2 md:space-x-8'>
-						<button className='md:mr-16' title='Previous'>
+						<button className='md:mr-16' title='Previous' type='button'>
 							<ArrowLeftCircle color='#696984' size={32} />
 						</button>
 						<div className='relative rounded-3xl border-2 border-[#77425A] md:border-[3px]'>
@@ -41,7 +41,7 @@ export function Testimoni() {
 								</p>
 							</div>
 						</div>
-						<button title='Next'>
+						<button title='Next' type='button'>
 							<ArrowRightCircle color='#696984' size={32} />
 						</button>
 					</div>

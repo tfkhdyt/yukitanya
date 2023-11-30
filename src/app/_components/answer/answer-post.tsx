@@ -103,7 +103,7 @@ export function AnswerPost({
 		return () => {
 			window.removeEventListener('resize', debouncedCheck);
 		};
-	}, [containerReference, question]);
+	});
 
 	const utils = api.useUtils();
 	const deleteAnswerMutation = api.answer.deleteAnswerById.useMutation({
@@ -257,6 +257,7 @@ export function AnswerPost({
 						<button
 							className='text-sm font-medium text-[#696984] hover:underline'
 							onClick={handleReadMore}
+							type='button'
 						>
 							Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
 						</button>

@@ -134,7 +134,11 @@ export function NotificationItem({
 				</span>
 
 				{hasBeenRead || (
-					<button title='Tandai sudah dibaca' onClick={handleRead}>
+					<button
+						title='Tandai sudah dibaca'
+						onClick={handleRead}
+						type='button'
+					>
 						<CheckIcon />
 					</button>
 				)}
