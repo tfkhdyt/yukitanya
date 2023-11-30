@@ -8,15 +8,15 @@ pre-push:
   commands:
     taze:
       run: pnpx taze --failOnOutdated
-    eslint:
+    check:
       glob: '**/*.{js,ts,jsx,tsx}'
-      run: pnpm lint:fix
+      run: pnpm biome check --apply {push_files}
     # build:
     #   run: pnpm build
 
 pre-commit:
   parallel: true
   commands:
-    prettier:
+    format:
       glob: '**/*.{js,ts,jsx,tsx}'
-      run: pnpm format ./src
+      run: pnpm biome format --write {staged_files}

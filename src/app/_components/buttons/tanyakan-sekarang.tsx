@@ -7,25 +7,25 @@ import { type User } from '@/server/auth';
 import { Button } from '../ui/button';
 
 export function TanyakanSekarangButton({
-  center = false,
-  user,
-  defaultSubject,
+	center = false,
+	user,
+	defaultSubject,
 }: {
-  center?: boolean;
-  user: User;
-  defaultSubject?: string;
+	center?: boolean;
+	user: User;
+	defaultSubject?: string;
 }) {
-  return (
-    <QuestionModal user={user} defaultSubject={defaultSubject}>
-      <Button
-        className={clsx(
-          'flex items-center space-x-2 rounded-full font-semibold',
-          center && 'mx-auto',
-        )}
-      >
-        <PencilIcon size={16} />
-        <p>Tanyakan Sekarang!</p>
-      </Button>
-    </QuestionModal>
-  );
+	return (
+		<QuestionModal user={user} defaultSubject={defaultSubject}>
+			<Button
+				className={clsx(
+					'flex items-center space-x-2 rounded-full font-semibold',
+					center && 'mx-auto',
+				)}
+			>
+				<PencilIcon size={16} />
+				<p>Tanyakan Sekarang!</p>
+			</Button>
+		</QuestionModal>
+	);
 }

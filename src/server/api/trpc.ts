@@ -7,7 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC, TRPCError } from '@trpc/server';
+import { TRPCError, initTRPC } from '@trpc/server';
 import { type NextRequest } from 'next/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
@@ -24,7 +24,7 @@ import { db } from '@/server/db';
  */
 
 interface CreateContextOptions {
-  headers: Headers;
+	headers: Headers;
 }
 
 /**
@@ -38,13 +38,13 @@ interface CreateContextOptions {
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 export const createInnerTRPCContext = async (options: CreateContextOptions) => {
-  const session = await getServerAuthSession();
+	const session = await getServerAuthSession();
 
-  return {
-    db,
-    headers: options.headers,
-    session,
-  };
+	return {
+		db,
+		headers: options.headers,
+		session,
+	};
 };
 
 /**
@@ -54,11 +54,11 @@ export const createInnerTRPCContext = async (options: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (options: { req: NextRequest }) => {
-  // Fetch stuff that depends on the request
+	// Fetch stuff that depends on the request
 
-  return await createInnerTRPCContext({
-    headers: options.req.headers,
-  });
+	return await createInnerTRPCContext({
+		headers: options.req.headers,
+	});
 };
 
 /**
@@ -70,17 +70,17 @@ export const createTRPCContext = async (options: { req: NextRequest }) => {
  */
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
-  errorFormatter({ error, shape }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : undefined,
-      },
-    };
-  },
-  transformer: superjson,
+	errorFormatter({ error, shape }) {
+		return {
+			...shape,
+			data: {
+				...shape.data,
+				zodError:
+					error.cause instanceof ZodError ? error.cause.flatten() : undefined,
+			},
+		};
+	},
+	transformer: superjson,
 });
 
 /**
@@ -108,15 +108,15 @@ export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
-  }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
+	if (!ctx.session || !ctx.session.user) {
+		throw new TRPCError({ code: 'UNAUTHORIZED' });
+	}
+	return next({
+		ctx: {
+			// infers the `session` as non-nullable
+			session: { ...ctx.session, user: ctx.session.user },
+		},
+	});
 });
 
 /**

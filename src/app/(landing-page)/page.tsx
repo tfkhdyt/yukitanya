@@ -10,17 +10,17 @@ import { TentangKami } from './tentang-kami';
 import { Testimoni } from './testimoni';
 
 export default function Landing() {
-  return (
-    <main className='relative'>
-      <Header />
-      <Hero />
-      <MataPelajaran />
-      <TentangKami />
-      <Keunggulan />
-      <Fitur />
-      <Testimoni />
-      <Berita />
-      <Footer scroll />
-    </main>
-  );
+	return (
+		<main className='relative'>
+			<Header />
+			<Hero />
+			<MataPelajaran />
+			<TentangKami />
+			<Keunggulan />
+			<Fitur />
+			<Testimoni />
+			<Berita />
+			<Footer scroll />
+		</main>
+	);
 }

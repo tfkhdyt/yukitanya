@@ -8,46 +8,46 @@ import { NotificationItem } from './notification-item';
 import { SkeletonNotificationItem } from './skeleton-notification-item';
 
 export function NotificationList({
-  receiverUserId,
+	receiverUserId,
 }: {
-  receiverUserId: string;
+	receiverUserId: string;
 }) {
-  const notifications =
-    api.notification.findAllNotificationByReceiverUserId.useQuery(
-      receiverUserId,
-    );
+	const notifications =
+		api.notification.findAllNotificationByReceiverUserId.useQuery(
+			receiverUserId,
+		);
 
-  if (notifications.isLoading) {
-    return <SkeletonNotificationItem />;
-  }
+	if (notifications.isLoading) {
+		return <SkeletonNotificationItem />;
+	}
 
-  if (notifications.data?.length === 0 || !notifications.data) {
-    return (
-      <PertanyaanKosong
-        title='Notifikasi masih kosong'
-        showTanyakanButton={false}
-      />
-    );
-  }
+	if (notifications.data?.length === 0 || !notifications.data) {
+		return (
+			<PertanyaanKosong
+				title='Notifikasi masih kosong'
+				showTanyakanButton={false}
+			/>
+		);
+	}
 
-  return (
-    <>
-      {notifications.data.map((notif) => (
-        <NotificationItem
-          key={notif.id}
-          id={notif.id}
-          createdAt={notif.createdAt}
-          hasBeenRead={Boolean(notif.readAt)}
-          question={notif.question}
-          transmitterUser={{
-            ...notif.transmitterUser,
-            initial: createInitial(notif.transmitterUser.name),
-          }}
-          type={notif.type}
-          rating={notif.rating}
-          description={notif.description}
-        />
-      ))}
-    </>
-  );
+	return (
+		<>
+			{notifications.data.map((notif) => (
+				<NotificationItem
+					key={notif.id}
+					id={notif.id}
+					createdAt={notif.createdAt}
+					hasBeenRead={Boolean(notif.readAt)}
+					question={notif.question}
+					transmitterUser={{
+						...notif.transmitterUser,
+						initial: createInitial(notif.transmitterUser.name),
+					}}
+					type={notif.type}
+					rating={notif.rating}
+					description={notif.description}
+				/>
+			))}
+		</>
+	);
 }

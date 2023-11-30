@@ -6,16 +6,16 @@ import { getServerAuthSession } from '@/server/auth';
 import { NotificationList } from './notification-list';
 
 export const metadata: Metadata = {
-  title: 'Notifikasi - Yukitanya',
+	title: 'Notifikasi - Yukitanya',
 };
 
 export default async function NotifPage() {
-  const session = await getServerAuthSession();
-  if (!session) return redirect('/home');
+	const session = await getServerAuthSession();
+	if (!session) return redirect('/home');
 
-  return (
-    <main>
-      {session?.user && <NotificationList receiverUserId={session.user.id} />}
-    </main>
-  );
+	return (
+		<main>
+			{session?.user && <NotificationList receiverUserId={session.user.id} />}
+		</main>
+	);
 }

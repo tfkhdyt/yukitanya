@@ -4,22 +4,22 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+	return twMerge(clsx(inputs));
 }
 
 export function getDiceBearAvatar(seed: string) {
-  const avatar = createAvatar(botttsNeutral, {
-    seed,
-  });
+	const avatar = createAvatar(botttsNeutral, {
+		seed,
+	});
 
-  return avatar.toDataUriSync();
+	return avatar.toDataUriSync();
 }
 
 export function createInitial(name?: string | null) {
-  return (
-    name
-      ?.split(' ')
-      .map((name) => name.slice(0, 1))
-      .join('') ?? ''
-  );
+	return (
+		name
+			?.split(' ')
+			.map((name) => name.slice(0, 1))
+			.join('') ?? ''
+	);
 }
