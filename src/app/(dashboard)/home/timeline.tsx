@@ -11,7 +11,7 @@ import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 
 export function Timeline({ session }: { session: Session | null }) {
-  const { isLoading, data, fetchNextPage } =
+  const { isLoading, data, fetchNextPage, isFetchingNextPage } =
     api.question.findAllQuestions.useInfiniteQuery(
       {
         limit: 10,
@@ -107,7 +107,7 @@ export function Timeline({ session }: { session: Session | null }) {
           />
         );
       })}
-      <button onClick={() => fetchNextPage()}>Fetch next page</button>
+      {isFetchingNextPage && <SkeletonQuestionPost />}
     </>
   );
 }
