@@ -1,9 +1,11 @@
 'use client';
 
+import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 
 import { NotificationItem } from './notification-item';
+import { SkeletonNotificationItem } from './skeleton-notification-item';
 
 export function NotificationList({
   receiverUserId,
@@ -16,18 +18,17 @@ export function NotificationList({
     );
 
   if (notifications.isLoading) {
-    return 'Loading...';
+    return <SkeletonNotificationItem />;
   }
 
-  if (notifications.isError) {
-    return 'Error';
+  if (notifications.data?.length === 0 || !notifications.data) {
+    return (
+      <PertanyaanKosong
+        title='Notifikasi masih kosong'
+        showTanyakanButton={false}
+      />
+    );
   }
-
-  if (notifications.data.length === 0) {
-    return 'Kosong';
-  }
-
-  console.log(notifications.data);
 
   return (
     <>
