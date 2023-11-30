@@ -31,20 +31,20 @@ export function UserStat({ username }: { username: string }) {
         </>
       ) : (
         <>
-          <li className='md:flex md:items-center md:space-x-2'>
-            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+          <li className='md:flex md:items-center md:space-x-1'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal md:text-base'>
               {stat.data.questions.length}
             </span>
             <span>pertanyaan</span>
           </li>
-          <li className='md:flex md:items-center md:space-x-2'>
-            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+          <li className='md:flex md:items-center md:space-x-1'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal md:text-base'>
               {stat.data.answers.length}
             </span>
             <span>jawaban</span>
           </li>
-          <li className='md:flex md:items-center md:space-x-2'>
-            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal'>
+          <li className='md:flex md:items-center md:space-x-1'>
+            <span className='flex justify-center text-lg font-semibold md:inline md:justify-normal md:text-base'>
               {stat.data.favorites.length}
             </span>
             <span>favorit</span>
