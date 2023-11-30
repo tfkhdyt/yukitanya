@@ -162,10 +162,13 @@ export function AnswerPost({
   });
 
   const handleBestAnswer = (id: string) => {
-    bestAnswerMutation.mutate({
-      answerId: id,
-      questionId: question.id,
-    });
+    if (session?.user.id) {
+      bestAnswerMutation.mutate({
+        answerId: id,
+        questionId: question.id,
+        userId: session.user.id,
+      });
+    }
   };
 
   const deleteRatingMutation = api.rating.deleteRating.useMutation({

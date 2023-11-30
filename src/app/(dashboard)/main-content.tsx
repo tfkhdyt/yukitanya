@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { AlignJustifyIcon, CheckCheckIcon } from 'lucide-react';
 import { useParams, usePathname } from 'next/navigation';
 import { type ReactNode } from 'react';
+import toast from 'react-hot-toast';
 import { match, P } from 'ts-pattern';
 
 import { ProfileButton } from '@/components/sidebar/profile-button';
@@ -12,6 +13,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { mapel } from '@/constants/mapel';
 import { type User } from '@/server/auth';
 import { useSidebarStore } from '@/stores/sidebar';
+import { api } from '@/trpc/react';
 
 export function MainContent({
   children,
@@ -27,6 +29,23 @@ export function MainContent({
   let username = '';
   if (pathname.startsWith('/users/')) {
     username = parameters.username as string;
+  }
+
+  const utils = api.useUtils();
+  const markAllHasBeenReadMutation =
+    api.notification.markAllHasBeenRead.useMutation({
+      onError: () => toast.error('Gagal menandai semua notifikasi'),
+      onSuccess: () => utils.notification.invalidate(),
+    });
+
+  const handleAllRead = () => {
+    if (user?.id) markAllHasBeenReadMutation.mutate(user.id);
+  };
+
+  let isAllHasBeenRead;
+
+  if (user?.id) {
+    isAllHasBeenRead = api.notification.isAllNotifHasBeenRead.useQuery(user.id);
   }
 
   return (
@@ -69,11 +88,16 @@ export function MainContent({
               .otherwise(() => pathname.slice(1))}
           </div>
         </div>
-        {pathname.startsWith('/notifications') && (
-          <button className='ml-auto' title='Tandai semua sudah dibaca'>
-            <CheckCheckIcon color='#696984' />
-          </button>
-        )}
+        {pathname.startsWith('/notifications') &&
+          isAllHasBeenRead?.data === false && (
+            <button
+              className='ml-auto'
+              title='Tandai semua sudah dibaca'
+              onClick={handleAllRead}
+            >
+              <CheckCheckIcon color='#696984' />
+            </button>
+          )}
 
         <div
           className={clsx(

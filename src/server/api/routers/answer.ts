@@ -1,9 +1,12 @@
 import { asc, desc, eq } from 'drizzle-orm';
+import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import {
   answers,
   insertAnswerSchema,
+  notifications,
+  questions,
   updateAnswerSchema,
 } from '@/server/db/schema';
 
@@ -13,7 +16,21 @@ export const answerRouter = createTRPCRouter({
   createAnswer: protectedProcedure
     .input(insertAnswerSchema)
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.insert(answers).values(input);
+      const question = await ctx.db.query.questions.findFirst({
+        where: eq(questions.id, input.questionId),
+      });
+
+      const answer = await ctx.db.insert(answers).values(input).returning();
+
+      if (input.userId !== question?.userId && answer[0] && question)
+        await ctx.db.insert(notifications).values({
+          id: `notification-${nanoid()}`,
+          questionId: input.questionId,
+          description: answer[0].content.slice(0, 100),
+          receiverUserId: question.userId,
+          transmitterUserId: input.userId,
+          type: 'new-answer',
+        });
     }),
   deleteAnswerById: protectedProcedure
     .input(z.string())
@@ -66,6 +83,7 @@ export const answerRouter = createTRPCRouter({
       z.object({
         questionId: z.string(),
         answerId: z.string(),
+        userId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -82,6 +100,17 @@ export const answerRouter = createTRPCRouter({
 
       if (answer.length > 0 && answer[0]?.isBestAnswer === true) {
         return;
+      }
+
+      if (input.userId !== answer[0]?.userId && answer[0]) {
+        await ctx.db.insert(notifications).values({
+          id: `notification-${nanoid()}`,
+          questionId: input.questionId,
+          description: answer[0].content.slice(0, 100),
+          receiverUserId: answer[0].userId,
+          transmitterUserId: input.userId,
+          type: 'best-answer',
+        });
       }
 
       return ctx.db

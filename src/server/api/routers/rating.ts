@@ -2,7 +2,7 @@ import { and, eq, inArray, sql } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
-import { answers, ratings } from '@/server/db/schema';
+import { answers, notifications, ratings } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -26,6 +26,21 @@ export const ratingRouter = createTRPCRouter({
           ),
         )
         .limit(1);
+
+      const answer = await ctx.db.query.answers.findFirst({
+        where: eq(answers.id, input.answerId),
+      });
+
+      if (input.userId !== answer?.userId && answer)
+        await ctx.db.insert(notifications).values({
+          id: `notification-${nanoid()}`,
+          questionId: answer.questionId,
+          description: answer.content.slice(0, 100),
+          receiverUserId: answer?.userId,
+          transmitterUserId: input.userId,
+          type: 'rating',
+          rating: input.value,
+        });
 
       if (haveRated.length === 0) {
         return ctx.db.insert(ratings).values({

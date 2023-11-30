@@ -36,6 +36,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   favorites: many(favorites),
   questions: many(questions),
   ratings: many(ratings),
+  notifications: many(notifications),
 }));
 
 export const accounts = pgTable(
@@ -120,6 +121,7 @@ export const questionsRelations = relations(questions, ({ many, one }) => ({
     references: [subjects.id],
   }),
   oldSlugs: many(oldSlug),
+  notifications: many(notifications),
 }));
 
 export const oldSlug = pgTable('old_slug', {
@@ -229,5 +231,42 @@ export const ratingsRelations = relations(ratings, ({ one }) => ({
   owner: one(users, {
     fields: [ratings.userId],
     references: [users.id],
+  }),
+}));
+
+export const notifications = pgTable('notification', {
+  id: text('id').notNull().primaryKey(),
+  type: text('type', {
+    enum: ['rating', 'best-answer', 'new-answer', 'favorite'],
+  }).notNull(),
+  receiverUserId: text('receiver_user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  transmitterUserId: text('transmitter_user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  rating: integer('rating'),
+  questionId: text('question_id')
+    .notNull()
+    .references(() => questions.id, { onDelete: 'cascade' }),
+  description: varchar('description', { length: 100 }).notNull(),
+  createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  readAt: timestamp('read_at', { mode: 'date', withTimezone: true }),
+});
+
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+  receiverUser: one(users, {
+    fields: [notifications.receiverUserId],
+    references: [users.id],
+  }),
+  transmitterUser: one(users, {
+    fields: [notifications.transmitterUserId],
+    references: [users.id],
+  }),
+  question: one(questions, {
+    fields: [notifications.questionId],
+    references: [questions.id],
   }),
 }));

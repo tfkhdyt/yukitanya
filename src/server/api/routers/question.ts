@@ -211,12 +211,30 @@ export const questionRouter = createTRPCRouter({
     }),
   findQuestionContentBySlug: publicProcedure
     .input(z.string())
-    .query(({ ctx, input: slug }) => {
-      return ctx.db
+    .query(async ({ ctx, input: slug }) => {
+      const question = await ctx.db
         .select({ content: questions.content })
         .from(questions)
         .where(eq(questions.slug, slug))
         .limit(1);
+
+      if (!question[0]) {
+        const questionId = await ctx.db
+          .select({ questionId: oldSlug.questionId })
+          .from(oldSlug)
+          .where(eq(oldSlug.slug, slug))
+          .limit(1);
+
+        if (!questionId[0]) return;
+
+        return ctx.db
+          .select({ content: questions.content })
+          .from(questions)
+          .where(eq(questions.id, questionId[0].questionId))
+          .limit(1);
+      }
+
+      return question;
     }),
   updateQuestionById: protectedProcedure
     .input(insertQuestionSchema)
