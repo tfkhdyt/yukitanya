@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,7 +15,7 @@ export async function generateMetadata({
   params,
 }: {
   params: { username: string };
-}) {
+}): Promise<Metadata> {
   const { username } = params;
   const user = await api.user.findUserByUsername.query(username);
 
@@ -27,7 +28,7 @@ export async function generateMetadata({
         description: `Bergabung sejak ${formatLongDateTime(user.createdAt)}`,
         images: [
           {
-            url: user.image,
+            url: user.image ?? getDiceBearAvatar(user.username),
             width: 600,
             height: 600,
           },
@@ -35,6 +36,8 @@ export async function generateMetadata({
       },
     };
   }
+
+  return {};
 }
 
 export default async function UserPage({
