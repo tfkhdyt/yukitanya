@@ -225,13 +225,12 @@ export const questionRouter = createTRPCRouter({
           .where(eq(oldSlug.slug, slug))
           .limit(1);
 
-        if (!questionId[0]) return;
-
-        return ctx.db
-          .select({ content: questions.content })
-          .from(questions)
-          .where(eq(questions.id, questionId[0].questionId))
-          .limit(1);
+        if (questionId[0])
+          return ctx.db
+            .select({ content: questions.content })
+            .from(questions)
+            .where(eq(questions.id, questionId[0].questionId))
+            .limit(1);
       }
 
       return question;
