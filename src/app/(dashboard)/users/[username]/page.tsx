@@ -21,6 +21,18 @@ export async function generateMetadata({
   if (user) {
     return {
       title: `${user.name} (@${user.username}) - Yukitanya`,
+      description: `Bergabung sejak ${formatLongDateTime(user.createdAt)}`,
+      openGraph: {
+        title: `${user.name} (@${user.username}) - Yukitanya`,
+        description: `Bergabung sejak ${formatLongDateTime(user.createdAt)}`,
+        images: [
+          {
+            url: user.image,
+            width: 600,
+            height: 600,
+          },
+        ],
+      },
     };
   }
 }

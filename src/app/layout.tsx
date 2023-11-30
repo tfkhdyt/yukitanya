@@ -17,9 +17,13 @@ import { Toaster } from 'react-hot-toast';
 import { TRPCReactProvider } from '@/trpc/react';
 
 export const metadata = {
+  title: 'Yukitanya',
   description:
     'Yukitanya adalah sebuah website yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
-  title: 'Yukitanya',
+  applicationName: 'Yukitanya',
+  keywords: ['Forum', 'QnA', 'Student', 'Question', 'Answer', 'seKODlah'],
+  creator: 'Taufik Hidayat',
+  publisher: 'seKODlah Kelompok 5 MSIB 5',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
