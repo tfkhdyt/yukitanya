@@ -14,9 +14,11 @@ import { headers } from 'next/headers';
 import { type ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
+import { environment } from '@/environment.mjs';
 import { TRPCReactProvider } from '@/trpc/react';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: 'Yukitanya',
 	description:
 		'Yukitanya adalah sebuah website yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
@@ -24,6 +26,7 @@ export const metadata = {
 	keywords: ['Forum', 'QnA', 'Student', 'Question', 'Answer', 'seKODlah'],
 	creator: 'Taufik Hidayat',
 	publisher: 'seKODlah Kelompok 5 MSIB 5',
+	metadataBase: new URL(environment.NEXT_PUBLIC_BASE_PATH),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
