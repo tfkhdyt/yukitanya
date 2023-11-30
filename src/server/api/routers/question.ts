@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike } from 'drizzle-orm';
+import { and, desc, eq, ilike, lt } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
@@ -25,33 +25,52 @@ export const questionRouter = createTRPCRouter({
     .mutation(({ ctx, input: questionId }) => {
       return ctx.db.delete(questions).where(eq(questions.id, questionId));
     }),
-  findAllQuestions: publicProcedure.query(({ ctx }) => {
-    return ctx.db.query.questions.findMany({
-      orderBy: [desc(questions.createdAt)],
-      with: {
-        answers: {
-          columns: {
-            id: true,
-            isBestAnswer: true,
-          },
-          with: {
-            ratings: {
-              columns: {
-                value: true,
+  findAllQuestions: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(50).default(10),
+        cursor: z.date().nullish(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.db.query.questions.findMany({
+        where: input.cursor ? lt(questions.createdAt, input.cursor) : undefined,
+        orderBy: [desc(questions.createdAt)],
+        limit: input.limit,
+        with: {
+          answers: {
+            columns: {
+              id: true,
+              isBestAnswer: true,
+            },
+            with: {
+              ratings: {
+                columns: {
+                  value: true,
+                },
               },
             },
           },
-        },
-        favorites: {
-          columns: {
-            userId: true,
+          favorites: {
+            columns: {
+              userId: true,
+            },
           },
+          owner: true,
+          subject: true,
         },
-        owner: true,
-        subject: true,
-      },
-    });
-  }),
+      });
+
+      let nextCursor: Date | undefined;
+      if (data.length === input.limit) {
+        nextCursor = data[input.limit - 1]?.createdAt;
+      }
+
+      return {
+        data,
+        nextCursor,
+      };
+    }),
   findAllQuestionsBySubject: publicProcedure
     .input(z.string())
     .query(({ ctx, input: subjectId }) => {
