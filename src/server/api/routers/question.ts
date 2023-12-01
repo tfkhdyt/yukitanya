@@ -139,21 +139,40 @@ export const questionRouter = createTRPCRouter({
 			z.object({
 				query: z.string(),
 				subjectId: z.string(),
+				limit: z.number().min(1).max(50).default(10),
+				cursor: z.string().datetime().nullish(),
 			}),
 		)
-		.query(({ ctx, input }) => {
+		.query(async ({ ctx, input }) => {
 			const condition = match(input.subjectId)
-				.with('all', () => ilike(questions.content, `%${input.query}%`))
-				.otherwise((subjectId) =>
-					and(
+				.with('all', () => {
+					if (input.cursor) {
+						return and(
+							ilike(questions.content, `%${input.query}%`),
+							lte(questions.createdAt, new Date(input.cursor)),
+						);
+					}
+
+					return ilike(questions.content, `%${input.query}%`);
+				})
+				.otherwise((subjectId) => {
+					if (input.cursor) {
+						return and(
+							ilike(questions.content, `%${input.query}%`),
+							eq(questions.subjectId, subjectId),
+							lte(questions.createdAt, new Date(input.cursor)),
+						);
+					}
+					return and(
 						ilike(questions.content, `%${input.query}%`),
 						eq(questions.subjectId, subjectId),
-					),
-				);
+					);
+				});
 
-			return ctx.db.query.questions.findMany({
+			const data = await ctx.db.query.questions.findMany({
 				orderBy: [desc(questions.createdAt)],
 				where: condition,
+				limit: input.limit + 1,
 				with: {
 					answers: {
 						columns: {
@@ -177,6 +196,17 @@ export const questionRouter = createTRPCRouter({
 					subject: true,
 				},
 			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.createdAt.toISOString();
+			}
+
+			return {
+				data,
+				nextCursor,
+			};
 		}),
 	findQuestionBySlug: publicProcedure
 		.input(z.string())

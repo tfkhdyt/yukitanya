@@ -1,5 +1,5 @@
 import * as argon2 from 'argon2';
-import { eq, ilike, or } from 'drizzle-orm';
+import { and, asc, eq, gte, ilike, or } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
@@ -56,9 +56,27 @@ export const userRouter = createTRPCRouter({
 			});
 		}),
 	findUsersByUsernameOrName: publicProcedure
-		.input(z.string())
-		.query(({ ctx, input }) => {
-			return ctx.db
+		.input(
+			z.object({
+				query: z.string(),
+				limit: z.number().min(1).max(50).default(10),
+				cursor: z.string().datetime().nullish(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const where = input.cursor
+				? and(
+						or(
+							ilike(users.username, `%${input.query}%`),
+							ilike(users.name, `%${input.query}%`),
+						),
+						gte(users.createdAt, new Date(input.cursor)),
+				  )
+				: or(
+						ilike(users.username, `%${input.query}%`),
+						ilike(users.name, `%${input.query}%`),
+				  );
+			const data = await ctx.db
 				.select({
 					id: users.id,
 					name: users.name,
@@ -67,12 +85,20 @@ export const userRouter = createTRPCRouter({
 					createdAt: users.createdAt,
 				})
 				.from(users)
-				.where(
-					or(
-						ilike(users.username, `%${input}%`),
-						ilike(users.name, `%${input}%`),
-					),
-				);
+				.where(where)
+				.orderBy(asc(users.createdAt))
+				.limit(input.limit + 1);
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.createdAt.toISOString();
+			}
+
+			return {
+				data,
+				nextCursor,
+			};
 		}),
 	findUserByUsername: publicProcedure
 		.input(z.string())
