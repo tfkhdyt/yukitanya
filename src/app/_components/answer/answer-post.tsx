@@ -262,7 +262,7 @@ export function AnswerPost({
 							Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
 						</button>
 					)}
-					<div className='flex flex-wrap-reverse items-center gap-4 pt-4 text-[#696984] md:flex-wrap md:justify-between'>
+					<div className='flex flex-wrap-reverse items-center gap-4 pt-4 text-[#696984] justify-between'>
 						<div className='flex flex-wrap gap-2'>
 							<DropdownMenu
 								open={isShowRatingDropdown}
