@@ -69,6 +69,16 @@ export function AnswerList({
 		);
 	}
 
+	if (answers?.length === 0 && !bestAnswer.data) {
+		return (
+			<JawabanKosong
+				title={`${question.owner.name} menunggu jawaban mu`}
+				question={question}
+				session={session}
+			/>
+		);
+	}
+
 	return (
 		<>
 			{bestAnswer.data && (
@@ -102,7 +112,8 @@ export function AnswerList({
 					session={session}
 				/>
 			)}
-			{answers && answers.length > 0 ? (
+			{answers &&
+				answers.length > 0 &&
 				answers.map((answer, index) => {
 					if (index === answers.length - 1) {
 						return (
@@ -170,14 +181,7 @@ export function AnswerList({
 							session={session}
 						/>
 					);
-				})
-			) : (
-				<JawabanKosong
-					title={`${question.owner.name} menunggu jawaban mu`}
-					question={question}
-					session={session}
-				/>
-			)}
+				})}
 			{isFetchingNextPage && <SkeletonAnswerPost />}
 		</>
 	);

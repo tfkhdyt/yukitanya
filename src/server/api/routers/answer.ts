@@ -40,7 +40,7 @@ export const answerRouter = createTRPCRouter({
 	findBestAnswerByQuestionId: publicProcedure
 		.input(z.string())
 		.query(async ({ ctx, input: questionId }) => {
-			return ctx.db.query.answers.findFirst({
+			const bestAnswer = await ctx.db.query.answers.findFirst({
 				where: and(
 					eq(answers.isBestAnswer, true),
 					eq(answers.questionId, questionId),
@@ -50,6 +50,12 @@ export const answerRouter = createTRPCRouter({
 					ratings: true,
 				},
 			});
+
+			if (!bestAnswer) {
+				return null;
+			}
+
+			return bestAnswer;
 		}),
 	findAllAnswersByQuestionId: publicProcedure
 		.input(
