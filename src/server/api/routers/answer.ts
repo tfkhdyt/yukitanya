@@ -1,4 +1,5 @@
-import { asc, desc, eq } from 'drizzle-orm';
+import { and, asc, desc, eq, gt, gte, lt } from 'drizzle-orm';
+import { withCursorPagination } from 'drizzle-pagination';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
@@ -10,6 +11,7 @@ import {
 	updateAnswerSchema,
 } from '@/server/db/schema';
 
+import { P, match } from 'ts-pattern';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const answerRouter = createTRPCRouter({
@@ -37,17 +39,60 @@ export const answerRouter = createTRPCRouter({
 		.mutation(({ ctx, input: answerId }) => {
 			return ctx.db.delete(answers).where(eq(answers.id, answerId));
 		}),
-	findAllAnswersByQuestionId: publicProcedure
+	findBestAnswerByQuestionId: publicProcedure
 		.input(z.string())
-		.query(({ ctx, input: questionId }) => {
-			return ctx.db.query.answers.findMany({
-				where: eq(answers.questionId, questionId),
-				orderBy: [desc(answers.isBestAnswer), asc(answers.createdAt)],
+		.query(async ({ ctx, input: questionId }) => {
+			return ctx.db.query.answers.findFirst({
+				where: and(
+					eq(answers.isBestAnswer, true),
+					eq(answers.questionId, questionId),
+				),
 				with: {
 					owner: true,
 					ratings: true,
 				},
 			});
+		}),
+	findAllAnswersByQuestionId: publicProcedure
+		.input(
+			z.object({
+				limit: z.number().min(1).max(50).default(4),
+				cursor: z.string().datetime().nullish(),
+				questionId: z.string(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const where = input.cursor
+				? and(
+						eq(answers.questionId, input.questionId),
+						eq(answers.isBestAnswer, false),
+						gte(answers.createdAt, new Date(input.cursor)),
+				  )
+				: and(
+						eq(answers.questionId, input.questionId),
+						eq(answers.isBestAnswer, false),
+				  );
+
+			const data = await ctx.db.query.answers.findMany({
+				where,
+				orderBy: [asc(answers.createdAt)],
+				limit: input.limit + 1,
+				with: {
+					owner: true,
+					ratings: true,
+				},
+			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.createdAt.toISOString();
+			}
+
+			return {
+				data,
+				nextCursor,
+			};
 		}),
 	findAllAnswersByUserId: publicProcedure
 		.input(z.string())
