@@ -1,5 +1,4 @@
-import { and, asc, desc, eq, gt, gte, lt } from 'drizzle-orm';
-import { withCursorPagination } from 'drizzle-pagination';
+import { and, asc, desc, eq, gte } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
@@ -11,7 +10,6 @@ import {
 	updateAnswerSchema,
 } from '@/server/db/schema';
 
-import { P, match } from 'ts-pattern';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const answerRouter = createTRPCRouter({

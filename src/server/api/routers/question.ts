@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, lt, lte } from 'drizzle-orm';
+import { and, desc, eq, ilike, lte } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { match } from 'ts-pattern';
 import { z } from 'zod';

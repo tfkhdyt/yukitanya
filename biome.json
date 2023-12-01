@@ -6,7 +6,16 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"nursery": {
+				"noUnusedImports": "warn"
+			},
+			"correctness": {
+				"noUnusedVariables": "warn"
+			},
+			"suspicious": {
+				"noConsoleLog": "warn"
+			}
 		}
 	},
 	"javascript": {
