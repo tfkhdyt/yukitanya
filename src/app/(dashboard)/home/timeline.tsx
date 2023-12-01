@@ -52,59 +52,33 @@ export function Timeline({ session }: { session: Session | null }) {
 					) ?? 0;
 				const averageRating = totalRating / bestAnswerRatings?.length;
 
-				if (index === questions.length - 1) {
-					return (
-						<div key={question.id} ref={reference}>
-							<QuestionPost
-								question={{
-									content: question.content,
-									createdAt: question.createdAt,
-									id: question.id,
-									isFavorited: question.favorites.some(
-										(favorite) => favorite.userId === session?.user.id,
-									),
-									numberOfAnswers: question.answers.length,
-									numberOfFavorites: question.favorites.length,
-									rating: Number.isNaN(averageRating)
-										? undefined
-										: averageRating,
-									subject: question.subject,
-									updatedAt: question.updatedAt,
-									slug: question.slug,
-									owner: {
-										...question.owner,
-										initial: createInitial(question.owner.name),
-									},
-								}}
-								session={session}
-							/>
-						</div>
-					);
-				}
-
 				return (
-					<QuestionPost
+					<div
+						ref={index === questions.length - 1 ? reference : undefined}
 						key={question.id}
-						question={{
-							content: question.content,
-							createdAt: question.createdAt,
-							id: question.id,
-							isFavorited: question.favorites.some(
-								(favorite) => favorite.userId === session?.user.id,
-							),
-							numberOfAnswers: question.answers.length,
-							numberOfFavorites: question.favorites.length,
-							rating: Number.isNaN(averageRating) ? undefined : averageRating,
-							subject: question.subject,
-							updatedAt: question.updatedAt,
-							slug: question.slug,
-							owner: {
-								...question.owner,
-								initial: createInitial(question.owner.name),
-							},
-						}}
-						session={session}
-					/>
+					>
+						<QuestionPost
+							question={{
+								content: question.content,
+								createdAt: question.createdAt,
+								id: question.id,
+								isFavorited: question.favorites.some(
+									(favorite) => favorite.userId === session?.user.id,
+								),
+								numberOfAnswers: question.answers.length,
+								numberOfFavorites: question.favorites.length,
+								rating: Number.isNaN(averageRating) ? undefined : averageRating,
+								subject: question.subject,
+								updatedAt: question.updatedAt,
+								slug: question.slug,
+								owner: {
+									...question.owner,
+									initial: createInitial(question.owner.name),
+								},
+							}}
+							session={session}
+						/>
+					</div>
 				);
 			})}
 			{isFetchingNextPage && <SkeletonQuestionPost />}
