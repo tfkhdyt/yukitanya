@@ -21,7 +21,7 @@ export function Timeline({ session }: { session: Session | null }) {
 			},
 		);
 
-	const [reference, entry] = useIntersectionObserver();
+	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
 
 	useEffect(() => {
 		if (entry?.isIntersecting) {
