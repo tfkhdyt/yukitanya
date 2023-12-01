@@ -69,115 +69,115 @@ export function AnswerList({
 		);
 	}
 
-	if (answers?.length === 0 || !answers || !bestAnswer.data) {
-		return (
-			<JawabanKosong
-				title={`${question.owner.name} menunggu jawaban mu`}
-				question={question}
-				session={session}
-			/>
-		);
-	}
-
 	return (
 		<>
-			<AnswerPost
-				answer={{
-					content: bestAnswer.data.content,
-					createdAt: bestAnswer.data.createdAt,
-					updatedAt: bestAnswer.data.updatedAt,
-					id: bestAnswer.data.id,
-					isBestAnswer: bestAnswer.data.isBestAnswer,
-					numberOfVotes: bestAnswer.data.ratings.length,
-					ratings: bestAnswer.data.ratings,
-					owner: {
-						...bestAnswer.data.owner,
-						initial: createInitial(bestAnswer.data.owner.name),
-					},
-				}}
-				key={bestAnswer.data.id}
-				question={{
-					content: question.content,
-					createdAt: question.createdAt,
-					id: question.id,
-					subject: question.subject,
-					updatedAt: question.updatedAt,
-					owner: {
-						...question.owner,
-						initial: createInitial(question.owner.name),
-					},
-					slug: question.slug,
-				}}
-				session={session}
-			/>
-			{answers.map((answer, index) => {
-				if (index === answers.length - 1) {
-					return (
-						<div key={answer.id} ref={reference}>
-							<AnswerPost
-								answer={{
-									content: answer.content,
-									createdAt: answer.createdAt,
-									updatedAt: answer.updatedAt,
-									id: answer.id,
-									isBestAnswer: answer.isBestAnswer,
-									numberOfVotes: answer.ratings.length,
-									ratings: answer.ratings,
-									owner: {
-										...answer.owner,
-										initial: createInitial(answer.owner.name),
-									},
-								}}
-								question={{
-									content: question.content,
-									createdAt: question.createdAt,
-									id: question.id,
-									subject: question.subject,
-									updatedAt: question.updatedAt,
-									owner: {
-										...question.owner,
-										initial: createInitial(question.owner.name),
-									},
-									slug: question.slug,
-								}}
-								session={session}
-							/>
-						</div>
-					);
-				}
+			{bestAnswer.data && (
+				<AnswerPost
+					answer={{
+						content: bestAnswer.data.content,
+						createdAt: bestAnswer.data.createdAt,
+						updatedAt: bestAnswer.data.updatedAt,
+						id: bestAnswer.data.id,
+						isBestAnswer: bestAnswer.data.isBestAnswer,
+						numberOfVotes: bestAnswer.data.ratings.length,
+						ratings: bestAnswer.data.ratings,
+						owner: {
+							...bestAnswer.data.owner,
+							initial: createInitial(bestAnswer.data.owner.name),
+						},
+					}}
+					key={bestAnswer.data.id}
+					question={{
+						content: question.content,
+						createdAt: question.createdAt,
+						id: question.id,
+						subject: question.subject,
+						updatedAt: question.updatedAt,
+						owner: {
+							...question.owner,
+							initial: createInitial(question.owner.name),
+						},
+						slug: question.slug,
+					}}
+					session={session}
+				/>
+			)}
+			{answers && answers.length > 0 ? (
+				answers.map((answer, index) => {
+					if (index === answers.length - 1) {
+						return (
+							<div key={answer.id} ref={reference}>
+								<AnswerPost
+									answer={{
+										content: answer.content,
+										createdAt: answer.createdAt,
+										updatedAt: answer.updatedAt,
+										id: answer.id,
+										isBestAnswer: answer.isBestAnswer,
+										numberOfVotes: answer.ratings.length,
+										ratings: answer.ratings,
+										owner: {
+											...answer.owner,
+											initial: createInitial(answer.owner.name),
+										},
+									}}
+									question={{
+										content: question.content,
+										createdAt: question.createdAt,
+										id: question.id,
+										subject: question.subject,
+										updatedAt: question.updatedAt,
+										owner: {
+											...question.owner,
+											initial: createInitial(question.owner.name),
+										},
+										slug: question.slug,
+									}}
+									session={session}
+								/>
+							</div>
+						);
+					}
 
-				return (
-					<AnswerPost
-						answer={{
-							content: answer.content,
-							createdAt: answer.createdAt,
-							updatedAt: answer.updatedAt,
-							id: answer.id,
-							isBestAnswer: answer.isBestAnswer,
-							numberOfVotes: answer.ratings.length,
-							ratings: answer.ratings,
-							owner: {
-								...answer.owner,
-								initial: createInitial(answer.owner.name),
-							},
-						}}
-						key={answer.id}
-						question={{
-							content: question.content,
-							createdAt: question.createdAt,
-							id: question.id,
-							subject: question.subject,
-							updatedAt: question.updatedAt,
-							owner: {
-								...question.owner,
-								initial: createInitial(question.owner.name),
-							},
-							slug: question.slug,
-						}}
-						session={session}
-					/>
-				);
-			})}
+					return (
+						<AnswerPost
+							answer={{
+								content: answer.content,
+								createdAt: answer.createdAt,
+								updatedAt: answer.updatedAt,
+								id: answer.id,
+								isBestAnswer: answer.isBestAnswer,
+								numberOfVotes: answer.ratings.length,
+								ratings: answer.ratings,
+								owner: {
+									...answer.owner,
+									initial: createInitial(answer.owner.name),
+								},
+							}}
+							key={answer.id}
+							question={{
+								content: question.content,
+								createdAt: question.createdAt,
+								id: question.id,
+								subject: question.subject,
+								updatedAt: question.updatedAt,
+								owner: {
+									...question.owner,
+									initial: createInitial(question.owner.name),
+								},
+								slug: question.slug,
+							}}
+							session={session}
+						/>
+					);
+				})
+			) : (
+				<JawabanKosong
+					title={`${question.owner.name} menunggu jawaban mu`}
+					question={question}
+					session={session}
+				/>
+			)}
 			{isFetchingNextPage && <SkeletonAnswerPost />}
 		</>
 	);
