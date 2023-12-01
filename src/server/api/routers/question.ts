@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, lt } from 'drizzle-orm';
+import { and, desc, eq, ilike, lt, lte } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
@@ -29,14 +29,16 @@ export const questionRouter = createTRPCRouter({
 		.input(
 			z.object({
 				limit: z.number().min(1).max(50).default(10),
-				cursor: z.date().nullish(),
+				cursor: z.string().datetime().nullish(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
 			const data = await ctx.db.query.questions.findMany({
-				where: input.cursor ? lt(questions.createdAt, input.cursor) : undefined,
+				where: input.cursor
+					? lte(questions.createdAt, new Date(input.cursor))
+					: undefined,
 				orderBy: [desc(questions.createdAt)],
-				limit: input.limit,
+				limit: input.limit + 1,
 				with: {
 					answers: {
 						columns: {
@@ -61,9 +63,10 @@ export const questionRouter = createTRPCRouter({
 				},
 			});
 
-			let nextCursor: Date | undefined;
-			if (data.length === input.limit) {
-				nextCursor = data[input.limit - 1]?.createdAt;
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.createdAt.toISOString();
 			}
 
 			return {
