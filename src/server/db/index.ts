@@ -15,7 +15,7 @@ let db: PostgresJsDatabase<typeof schema>;
 // for query purposes
 const queryClient = postgres(environment.DATABASE_URL);
 if (environment.NODE_ENV === 'production') {
-	database = drizzle(queryClient, { schema });
+	db = drizzle(queryClient, { schema });
 } else {
 	if (!global.database) global.database = drizzle(queryClient, { schema });
 
