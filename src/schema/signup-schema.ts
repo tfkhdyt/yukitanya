@@ -26,7 +26,10 @@ export const signupSchema = z
 			.string({ required_error: 'Username tidak boleh kosong' })
 			.min(4, 'Username tidak boleh kurang dari 4 karakter')
 			.max(25, 'Username tidak boleh lebih dari 25 karakter')
-			.trim(),
+			.trim()
+			.regex(/^[a-zA-Z0-9_-]+$/, {
+				message: 'Username tidak boleh mengandung karakter spesial',
+			}),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: 'Password tidak cocok',
