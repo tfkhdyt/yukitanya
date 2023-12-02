@@ -1,6 +1,5 @@
 'use client';
 
-import { Bell, Book, HomeIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,6 +8,7 @@ import { P, match } from 'ts-pattern';
 import { type User } from '@/server/auth';
 import { useSidebarStore } from '@/stores/sidebar';
 
+import { menu } from '@/constants/menu';
 import { api } from '@/trpc/react';
 import { ProfileButton } from './profile-button';
 
@@ -19,33 +19,6 @@ export function Sidebar({
 	isMobile?: boolean;
 	user: User | undefined;
 }) {
-	const menu = [
-		{
-			icon: HomeIcon,
-			title: 'Beranda',
-			url: '/home',
-		},
-		{
-			icon: Search,
-			title: 'Cari',
-			url: '/search',
-		},
-		{
-			icon: Book,
-			title: 'Mata Pelajaran',
-			url: '/subjects',
-		},
-		{
-			icon: Bell,
-			title: 'Notifikasi',
-			url: '/notifications',
-		},
-		// {
-		//   icon: Heart,
-		//   title: 'Favorit',
-		//   url: '/favorite',
-		// },
-	];
 	const pathname = usePathname();
 	const toggleSidebar = useSidebarStore((state) => state.toggle);
 	const notifCount = api.notification.getNotificationCount.useQuery(user?.id);
@@ -83,7 +56,7 @@ export function Sidebar({
 											{each.url === '/notifications' &&
 												notifCount.data &&
 												notifCount.data > 0 && (
-													<div className='absolute top-0 left-1.5 flex items-center justify-center px-2 py-1 text-xs font-semibold leading-none text-white bg-blue-500 rounded-full'>
+													<div className='absolute top-0 left-1.5 inline-flex items-center justify-center px-2 py-1 text-xs font-semibold leading-none text-white bg-[#F48C06] rounded-full'>
 														{notifCount.data}
 													</div>
 												)}
@@ -97,7 +70,7 @@ export function Sidebar({
 										{each.url === '/notifications' &&
 											notifCount.data &&
 											notifCount.data > 0 && (
-												<div className='absolute top-0 left-1.5 flex items-center justify-center px-2 py-1 text-xs font-semibold leading-none text-white bg-blue-500 rounded-full'>
+												<div className='absolute top-0 left-1.5 inline-flex items-center justify-center px-2 py-1 text-xs font-semibold leading-none text-white bg-[#F48C06] rounded-full'>
 													{notifCount.data}
 												</div>
 											)}

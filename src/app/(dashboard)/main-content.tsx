@@ -1,19 +1,17 @@
 'use client';
 
 import clsx from 'clsx';
-import { AlignJustifyIcon, CheckCheckIcon } from 'lucide-react';
+import { CheckCheckIcon } from 'lucide-react';
 import { useParams, usePathname } from 'next/navigation';
 import { type ReactNode } from 'react';
 import toast from 'react-hot-toast';
 import { P, match } from 'ts-pattern';
 
 import { ProfileButton } from '@/components/sidebar/profile-button';
-import { Sidebar } from '@/components/sidebar/sidebar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { mapel } from '@/constants/mapel';
 import { type User } from '@/server/auth';
-import { useSidebarStore } from '@/stores/sidebar';
 import { api } from '@/trpc/react';
+import { MobileNav } from './mobile-nav';
 
 export function MainContent({
 	children,
@@ -23,7 +21,6 @@ export function MainContent({
 	user: User | undefined;
 }) {
 	const pathname = usePathname();
-	const sidebarStore = useSidebarStore();
 	const parameters = useParams();
 
 	let username = '';
@@ -50,9 +47,9 @@ export function MainContent({
 
 	return (
 		<main className='w-full md:w-2/3 lg:w-2/4'>
-			<div className='sticky top-0 z-50 flex items-center justify-between border-b-2 bg-white/75 p-3 backdrop-blur-md'>
+			<div className='sticky top-0 z-50 flex items-center justify-between border-b-2 bg-white/75 py-3 px-4 backdrop-blur-md'>
 				<div className='flex items-center'>
-					<div className='mr-4 md:hidden'>
+					{/* <div className='mr-4 md:hidden'>
 						<Sheet
 							onOpenChange={sidebarStore.toggle}
 							open={sidebarStore.isOpen}
@@ -64,7 +61,7 @@ export function MainContent({
 								<Sidebar isMobile user={user} />
 							</SheetContent>
 						</Sheet>
-					</div>
+					</div> */}
 
 					<div className='text-center text-lg font-medium text-[#696984]'>
 						{match(pathname)
@@ -103,7 +100,8 @@ export function MainContent({
 					<ProfileButton user={user} />
 				</div>
 			</div>
-			<div>{children}</div>
+			<div className='mb-20'>{children}</div>
+			<MobileNav user={user} />
 		</main>
 	);
 }
