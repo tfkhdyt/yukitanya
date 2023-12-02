@@ -7,6 +7,8 @@ import { QuestionPost } from '@/components/question/question-post';
 import { SkeletonQuestionPost } from '@/components/question/skeleton-question-post';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
+import { useIntersectionObserver } from '@uidotdev/usehooks';
+import { useEffect } from 'react';
 
 export function FavoriteTabContent({
 	session,
@@ -18,22 +20,37 @@ export function FavoriteTabContent({
 		name: string;
 	};
 }) {
-	const favorites = api.favorite.findAllFavoritedQuestions.useQuery(user.id);
+	const { fetchNextPage, data, isLoading, isError, error } =
+		api.favorite.findAllFavoritedQuestions.useInfiniteQuery(
+			{
+				userId: user.id,
+				limit: 10,
+			},
+			{
+				getNextPageParam: (lastPage) => lastPage.nextCursor,
+			},
+		);
 
-	if (favorites.isLoading && !favorites.data) {
+	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
+	useEffect(() => {
+		if (entry?.isIntersecting) {
+			void fetchNextPage();
+		}
+	}, [entry, fetchNextPage]);
+
+	const questions = data?.pages.flatMap((page) => page.data);
+
+	if (isLoading) {
 		return <SkeletonQuestionPost />;
 	}
 
-	if (favorites.isError) {
+	if (isError) {
 		return (
-			<PertanyaanKosong
-				title={favorites.error?.message}
-				showTanyakanButton={false}
-			/>
+			<PertanyaanKosong title={error?.message} showTanyakanButton={false} />
 		);
 	}
 
-	if (favorites.data.length === 0) {
+	if (questions?.length === 0 || !questions) {
 		return (
 			<PertanyaanKosong
 				user={session?.user}
@@ -45,9 +62,9 @@ export function FavoriteTabContent({
 
 	return (
 		<>
-			{favorites.data.map((favorite) => {
+			{questions.map((question, index) => {
 				const bestAnswerRatings =
-					favorite.question.answers.find(
+					question.question.answers.find(
 						(answer) => answer.isBestAnswer === true,
 					)?.ratings ?? [];
 				const totalRating =
@@ -58,28 +75,32 @@ export function FavoriteTabContent({
 				const averageRating = totalRating / bestAnswerRatings?.length;
 
 				return (
-					<QuestionPost
-						key={favorite.question.id}
-						question={{
-							content: favorite.question.content,
-							createdAt: favorite.question.createdAt,
-							id: favorite.question.id,
-							numberOfAnswers: favorite.question.answers.length,
-							numberOfFavorites: favorite.question.favorites.length,
-							owner: {
-								...favorite.question.owner,
-								initial: createInitial(favorite.question.owner.name),
-							},
-							slug: favorite.question.slug,
-							subject: favorite.question.subject,
-							updatedAt: favorite.question.updatedAt,
-							isFavorited: favorite.question.favorites.some(
-								(favorite) => favorite.userId === session?.user.id,
-							),
-							rating: Number.isNaN(averageRating) ? undefined : averageRating,
-						}}
-						session={session}
-					/>
+					<div
+						key={question.questionId}
+						ref={index === questions.length - 1 ? reference : undefined}
+					>
+						<QuestionPost
+							question={{
+								content: question.question.content,
+								createdAt: question.question.createdAt,
+								id: question.question.id,
+								numberOfAnswers: question.question.answers.length,
+								numberOfFavorites: question.question.favorites.length,
+								owner: {
+									...question.question.owner,
+									initial: createInitial(question.question.owner.name),
+								},
+								slug: question.question.slug,
+								subject: question.question.subject,
+								updatedAt: question.question.updatedAt,
+								isFavorited: question.question.favorites.some(
+									(favorite) => favorite.userId === session?.user.id,
+								),
+								rating: Number.isNaN(averageRating) ? undefined : averageRating,
+							}}
+							session={session}
+						/>
+					</div>
 				);
 			})}
 		</>

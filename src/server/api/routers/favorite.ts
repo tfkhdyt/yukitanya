@@ -1,4 +1,4 @@
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, lte } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { favorites, notifications, questions } from '@/server/db/schema';
@@ -67,11 +67,23 @@ export const favoriteRouter = createTRPCRouter({
 			return ctx.db.insert(favorites).values(input);
 		}),
 	findAllFavoritedQuestions: publicProcedure
-		.input(z.string())
-		.query(({ ctx, input: userId }) => {
-			return ctx.db.query.favorites.findMany({
+		.input(
+			z.object({
+				userId: z.string(),
+				limit: z.number().min(1).max(50).default(10),
+				cursor: z.string().nullish(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const data = await ctx.db.query.favorites.findMany({
 				orderBy: [desc(favorites.questionId)],
-				where: eq(favorites.userId, userId),
+				where: input.cursor
+					? and(
+							eq(favorites.userId, input.userId),
+							lte(favorites.questionId, input.cursor),
+					  )
+					: eq(favorites.userId, input.userId),
+				limit: input.limit + 1,
 				with: {
 					question: {
 						with: {
@@ -99,5 +111,13 @@ export const favoriteRouter = createTRPCRouter({
 					},
 				},
 			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.questionId;
+			}
+
+			return { data, nextCursor };
 		}),
 });

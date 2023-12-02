@@ -8,6 +8,8 @@ import { JawabanKosong } from '@/components/jawaban-kosong';
 import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
+import { useIntersectionObserver } from '@uidotdev/usehooks';
+import { useEffect } from 'react';
 
 export function AnswerTabContent({
 	session,
@@ -19,17 +21,35 @@ export function AnswerTabContent({
 		name: string;
 	};
 }) {
-	const answers = api.answer.findAllAnswersByUserId.useQuery(user.id);
+	const { fetchNextPage, data, isLoading, isError, error, isFetchingNextPage } =
+		api.answer.findAllAnswersByUserId.useInfiniteQuery(
+			{
+				userId: user.id,
+				limit: 10,
+			},
+			{
+				getNextPageParam: (lastPage) => lastPage.nextCursor,
+			},
+		);
 
-	if (answers.isLoading && !answers.data) {
+	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
+	useEffect(() => {
+		if (entry?.isIntersecting) {
+			void fetchNextPage();
+		}
+	}, [entry, fetchNextPage]);
+
+	const answers = data?.pages.flatMap((page) => page.data);
+
+	if (isLoading) {
 		return <SkeletonAnswerPost />;
 	}
 
-	if (answers.isError) {
-		return <JawabanKosong title={answers.error?.message} session={session} />;
+	if (isError) {
+		return <JawabanKosong title={error?.message} session={session} />;
 	}
 
-	if (answers.data.length === 0) {
+	if (answers?.length === 0 || !answers) {
 		return (
 			<PertanyaanKosong
 				user={session?.user}
@@ -41,39 +61,45 @@ export function AnswerTabContent({
 
 	return (
 		<>
-			{answers.data.map((answer) => {
+			{answers.map((answer, index) => {
 				return (
-					<AnswerPost
-						answer={{
-							content: answer.content,
-							createdAt: answer.createdAt,
-							updatedAt: answer.updatedAt,
-							id: answer.id,
-							isBestAnswer: answer.isBestAnswer,
-							numberOfVotes: answer.ratings.length,
-							ratings: answer.ratings,
-							owner: {
-								...answer.owner,
-								initial: createInitial(answer.owner.name),
-							},
-						}}
+					<div
 						key={answer.id}
-						question={{
-							content: answer.question.content,
-							createdAt: answer.question.createdAt,
-							id: answer.question.id,
-							subject: answer.question.subject,
-							updatedAt: answer.question.updatedAt,
-							owner: {
-								...answer.question.owner,
-								initial: createInitial(answer.question.owner.name),
-							},
-							slug: answer.question.slug,
-						}}
-						session={session}
-					/>
+						ref={index === answers.length - 1 ? reference : undefined}
+					>
+						<AnswerPost
+							answer={{
+								content: answer.content,
+								createdAt: answer.createdAt,
+								updatedAt: answer.updatedAt,
+								id: answer.id,
+								isBestAnswer: answer.isBestAnswer,
+								numberOfVotes: answer.ratings.length,
+								ratings: answer.ratings,
+								owner: {
+									...answer.owner,
+									initial: createInitial(answer.owner.name),
+								},
+							}}
+							key={answer.id}
+							question={{
+								content: answer.question.content,
+								createdAt: answer.question.createdAt,
+								id: answer.question.id,
+								subject: answer.question.subject,
+								updatedAt: answer.question.updatedAt,
+								owner: {
+									...answer.question.owner,
+									initial: createInitial(answer.question.owner.name),
+								},
+								slug: answer.question.slug,
+							}}
+							session={session}
+						/>
+					</div>
 				);
 			})}
+			{isFetchingNextPage && <SkeletonAnswerPost />}
 		</>
 	);
 }

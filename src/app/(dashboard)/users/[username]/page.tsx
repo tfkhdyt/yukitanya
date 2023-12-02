@@ -8,6 +8,7 @@ import { createInitial, getDiceBearAvatar } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
 import { api } from '@/trpc/server';
 
+import { z } from 'zod';
 import { UserStat } from './user-stat';
 import { UserTabs } from './user-tabs';
 
@@ -40,6 +41,10 @@ export async function generateMetadata({
 	return {};
 }
 
+const tabScheme = z
+	.enum(['Pertanyaan', 'Jawaban', 'Favorit'])
+	.default('Pertanyaan');
+
 export default async function UserPage({
 	params,
 	searchParams,
@@ -51,10 +56,7 @@ export default async function UserPage({
 	const user = await api.user.findUserByUsername.query(params.username);
 	if (!user) return redirect('/home');
 
-	let activeTab = searchParams?.tab ?? 'Pertanyaan';
-	activeTab = ['Pertanyaan', 'Jawaban', 'Favorit'].includes(activeTab)
-		? activeTab
-		: 'Pertanyaan';
+	const activeTab = tabScheme.safeParse(searchParams?.tab);
 
 	return (
 		<main>
@@ -93,7 +95,7 @@ export default async function UserPage({
 						name: user.name ?? user.username,
 						username: user.username,
 					}}
-					activeTab={activeTab}
+					activeTab={activeTab.success ? activeTab.data : 'Pertanyaan'}
 				/>
 			</div>
 		</main>

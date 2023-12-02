@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import { match } from 'ts-pattern';
 import { AnswerTabContent } from './answer-tab-content';
 import { FavoriteTabContent } from './favorite-tab-content';
 import { QuestionTabContent } from './question-tab-content';
@@ -20,7 +21,7 @@ export function UserTabs({
 		name: string;
 		username: string;
 	};
-	activeTab: string;
+	activeTab: 'Pertanyaan' | 'Jawaban' | 'Favorit';
 }) {
 	const router = useRouter();
 
@@ -46,32 +47,36 @@ export function UserTabs({
 					</TabsTrigger>
 				))}
 			</TabsList>
-			<TabsContent className='-mt-0.5' value='Pertanyaan'>
-				<QuestionTabContent
-					session={session}
-					user={{
-						id: user.id,
-						name: user.name ?? user.username,
-					}}
-				/>
-			</TabsContent>
-			<TabsContent className='-mt-0.5' value='Jawaban'>
-				<AnswerTabContent
-					session={session}
-					user={{
-						id: user.id,
-						name: user.name ?? user.username,
-					}}
-				/>
-			</TabsContent>
-			<TabsContent className='-mt-0.5' value='Favorit'>
-				<FavoriteTabContent
-					session={session}
-					user={{
-						id: user.id,
-						name: user.name ?? user.username,
-					}}
-				/>
+			<TabsContent className='-mt-0.5' value={activeTab}>
+				{match(activeTab)
+					.with('Pertanyaan', () => (
+						<QuestionTabContent
+							session={session}
+							user={{
+								id: user.id,
+								name: user.name ?? user.username,
+							}}
+						/>
+					))
+					.with('Jawaban', () => (
+						<AnswerTabContent
+							session={session}
+							user={{
+								id: user.id,
+								name: user.name ?? user.username,
+							}}
+						/>
+					))
+					.with('Favorit', () => (
+						<FavoriteTabContent
+							session={session}
+							user={{
+								id: user.id,
+								name: user.name ?? user.username,
+							}}
+						/>
+					))
+					.exhaustive()}
 			</TabsContent>
 		</Tabs>
 	);

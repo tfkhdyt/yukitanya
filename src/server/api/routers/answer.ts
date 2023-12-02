@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gte } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, lte } from 'drizzle-orm';
 import { z } from 'zod';
 
 import {
@@ -99,11 +99,20 @@ export const answerRouter = createTRPCRouter({
 			};
 		}),
 	findAllAnswersByUserId: publicProcedure
-		.input(z.string())
-		.query(({ ctx, input: userId }) => {
-			return ctx.db.query.answers.findMany({
-				where: eq(answers.userId, userId),
+		.input(
+			z.object({
+				limit: z.number().min(1).max(50).default(4),
+				cursor: z.string().nullish(),
+				userId: z.string(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const data = await ctx.db.query.answers.findMany({
+				where: input.cursor
+					? and(eq(answers.userId, input.userId), lte(answers.id, input.cursor))
+					: eq(answers.userId, input.userId),
 				orderBy: [desc(answers.createdAt)],
+				limit: input.limit + 1,
 				with: {
 					owner: true,
 					ratings: true,
@@ -115,6 +124,14 @@ export const answerRouter = createTRPCRouter({
 					},
 				},
 			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.id;
+			}
+
+			return { data, nextCursor };
 		}),
 	updateAnswerById: protectedProcedure
 		.input(updateAnswerSchema)
