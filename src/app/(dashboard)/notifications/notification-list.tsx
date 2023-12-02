@@ -4,6 +4,8 @@ import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 
+import { useIntersectionObserver } from '@uidotdev/usehooks';
+import { useEffect } from 'react';
 import { NotificationItem } from './notification-item';
 import { SkeletonNotificationItem } from './skeleton-notification-item';
 
@@ -12,16 +14,31 @@ export function NotificationList({
 }: {
 	receiverUserId: string;
 }) {
-	const notifications =
-		api.notification.findAllNotificationByReceiverUserId.useQuery(
-			receiverUserId,
+	const { isLoading, fetchNextPage, data, isFetchingNextPage } =
+		api.notification.findAllNotificationByReceiverUserId.useInfiniteQuery(
+			{
+				receiverUserId,
+				limit: 10,
+			},
+			{
+				getNextPageParam: (lastPage) => lastPage.nextCursor,
+			},
 		);
 
-	if (notifications.isLoading) {
+	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
+	useEffect(() => {
+		if (entry?.isIntersecting) {
+			void fetchNextPage();
+		}
+	}, [entry, fetchNextPage]);
+
+	const notifications = data?.pages.flatMap((page) => page.data);
+
+	if (isLoading) {
 		return <SkeletonNotificationItem />;
 	}
 
-	if (notifications.data?.length === 0 || !notifications.data) {
+	if (notifications?.length === 0 || !notifications) {
 		return (
 			<PertanyaanKosong
 				title='Notifikasi masih kosong'
@@ -32,22 +49,27 @@ export function NotificationList({
 
 	return (
 		<>
-			{notifications.data.map((notif) => (
-				<NotificationItem
+			{notifications.map((notif, index) => (
+				<div
 					key={notif.id}
-					id={notif.id}
-					createdAt={notif.createdAt}
-					hasBeenRead={Boolean(notif.readAt)}
-					question={notif.question}
-					transmitterUser={{
-						...notif.transmitterUser,
-						initial: createInitial(notif.transmitterUser.name),
-					}}
-					type={notif.type}
-					rating={notif.rating}
-					description={notif.description}
-				/>
+					ref={index === notifications.length - 1 ? reference : undefined}
+				>
+					<NotificationItem
+						id={notif.id}
+						createdAt={notif.createdAt}
+						hasBeenRead={Boolean(notif.readAt)}
+						question={notif.question}
+						transmitterUser={{
+							...notif.transmitterUser,
+							initial: createInitial(notif.transmitterUser.name),
+						}}
+						type={notif.type}
+						rating={notif.rating}
+						description={notif.description}
+					/>
+				</div>
 			))}
+			{isFetchingNextPage && <SkeletonNotificationItem />}
 		</>
 	);
 }

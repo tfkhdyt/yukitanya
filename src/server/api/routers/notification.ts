@@ -1,4 +1,4 @@
-import { desc, eq } from 'drizzle-orm';
+import { and, desc, eq, lte } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { notifications } from '@/server/db/schema';
@@ -7,16 +7,39 @@ import { createTRPCRouter, protectedProcedure } from '../trpc';
 
 export const notificationRouter = createTRPCRouter({
 	findAllNotificationByReceiverUserId: protectedProcedure
-		.input(z.string())
-		.query(({ ctx, input: receiverUserId }) => {
-			return ctx.db.query.notifications.findMany({
-				where: eq(notifications.receiverUserId, receiverUserId),
+		.input(
+			z.object({
+				receiverUserId: z.string(),
+				limit: z.number().min(1).max(50).default(10),
+				cursor: z.string().nullish(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const data = await ctx.db.query.notifications.findMany({
+				where: input.cursor
+					? and(
+							eq(notifications.receiverUserId, input.receiverUserId),
+							lte(notifications.id, input.cursor),
+					  )
+					: eq(notifications.receiverUserId, input.receiverUserId),
+				limit: input.limit + 1,
 				with: {
 					question: true,
 					transmitterUser: true,
 				},
 				orderBy: desc(notifications.createdAt),
 			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.id;
+			}
+
+			return {
+				data,
+				nextCursor,
+			};
 		}),
 	markHasBeenRead: protectedProcedure
 		.input(z.string())
