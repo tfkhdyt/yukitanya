@@ -1,10 +1,10 @@
 import { and, desc, eq, ilike, lte } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
 import { insertQuestionSchema, oldSlug, questions } from '@/server/db/schema';
 
+import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const questionRouter = createTRPCRouter({
@@ -29,14 +29,12 @@ export const questionRouter = createTRPCRouter({
 		.input(
 			z.object({
 				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().datetime().nullish(),
+				cursor: z.string().nullish(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
 			const data = await ctx.db.query.questions.findMany({
-				where: input.cursor
-					? lte(questions.createdAt, new Date(input.cursor))
-					: undefined,
+				where: input.cursor ? lte(questions.id, input.cursor) : undefined,
 				orderBy: [desc(questions.createdAt)],
 				limit: input.limit + 1,
 				with: {
@@ -66,7 +64,7 @@ export const questionRouter = createTRPCRouter({
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (data.length > input.limit) {
 				const nextItem = data.pop();
-				nextCursor = nextItem?.createdAt.toISOString();
+				nextCursor = nextItem?.id;
 			}
 
 			return {
@@ -75,11 +73,23 @@ export const questionRouter = createTRPCRouter({
 			};
 		}),
 	findAllQuestionsBySubject: publicProcedure
-		.input(z.string())
-		.query(({ ctx, input: subjectId }) => {
-			return ctx.db.query.questions.findMany({
+		.input(
+			z.object({
+				subjectId: z.string(),
+				limit: z.number().min(1).max(50).default(10),
+				cursor: z.string().nullish(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const data = await ctx.db.query.questions.findMany({
 				orderBy: [desc(questions.createdAt)],
-				where: eq(questions.subjectId, subjectId),
+				where: input.cursor
+					? and(
+							eq(questions.subjectId, input.subjectId),
+							lte(questions.id, input.cursor),
+					  )
+					: eq(questions.subjectId, input.subjectId),
+				limit: input.limit + 1,
 				with: {
 					answers: {
 						columns: {
@@ -103,6 +113,14 @@ export const questionRouter = createTRPCRouter({
 					subject: true,
 				},
 			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.id;
+			}
+
+			return { data, nextCursor };
 		}),
 	findAllQuestionsByUserId: publicProcedure
 		.input(z.string())
@@ -140,7 +158,7 @@ export const questionRouter = createTRPCRouter({
 				query: z.string(),
 				subjectId: z.string(),
 				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().datetime().nullish(),
+				cursor: z.string().nullish(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
@@ -149,7 +167,7 @@ export const questionRouter = createTRPCRouter({
 					if (input.cursor) {
 						return and(
 							ilike(questions.content, `%${input.query}%`),
-							lte(questions.createdAt, new Date(input.cursor)),
+							lte(questions.id, input.cursor),
 						);
 					}
 
@@ -160,7 +178,7 @@ export const questionRouter = createTRPCRouter({
 						return and(
 							ilike(questions.content, `%${input.query}%`),
 							eq(questions.subjectId, subjectId),
-							lte(questions.createdAt, new Date(input.cursor)),
+							lte(questions.id, input.cursor),
 						);
 					}
 					return and(
@@ -200,7 +218,7 @@ export const questionRouter = createTRPCRouter({
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (data.length > input.limit) {
 				const nextItem = data.pop();
-				nextCursor = nextItem?.createdAt.toISOString();
+				nextCursor = nextItem?.id;
 			}
 
 			return {
@@ -300,7 +318,7 @@ export const questionRouter = createTRPCRouter({
 				throw new Error('Pertanyaan tidak ditemukan');
 
 			await ctx.db.insert(oldSlug).values({
-				id: `old-slug-${nanoid()}`,
+				id: `old-slug-${cuid()}`,
 				questionId: input.id,
 				slug: question[0].slug,
 			});

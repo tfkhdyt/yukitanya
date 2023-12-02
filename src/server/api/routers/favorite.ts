@@ -1,9 +1,9 @@
 import { and, desc, eq } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { favorites, notifications, questions } from '@/server/db/schema';
 
+import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const favoriteRouter = createTRPCRouter({
@@ -56,7 +56,7 @@ export const favoriteRouter = createTRPCRouter({
 
 			if (input.userId !== question.owner.id)
 				await ctx.db.insert(notifications).values({
-					id: `notification-${nanoid()}`,
+					id: `notification-${cuid()}`,
 					questionId: input.questionId,
 					description: question.content.slice(0, 100),
 					receiverUserId: question.owner.id,

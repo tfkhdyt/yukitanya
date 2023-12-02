@@ -1,12 +1,12 @@
 import * as argon2 from 'argon2';
 import { and, asc, eq, gte, ilike, or } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { getDiceBearAvatar } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { users } from '@/server/db/schema';
+import cuid from 'cuid';
 
 export const userRouter = createTRPCRouter({
 	register: publicProcedure
@@ -30,7 +30,7 @@ export const userRouter = createTRPCRouter({
 
 			await ctx.db.insert(users).values({
 				email: input.email,
-				id: `user-${nanoid()}`,
+				id: `user-${cuid()}`,
 				name: `${input.firstName.trim()} ${
 					input.lastName?.trim() ?? ''
 				}`.trim(),
@@ -60,7 +60,7 @@ export const userRouter = createTRPCRouter({
 			z.object({
 				query: z.string(),
 				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().datetime().nullish(),
+				cursor: z.string().nullish(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
@@ -70,7 +70,7 @@ export const userRouter = createTRPCRouter({
 							ilike(users.username, `%${input.query}%`),
 							ilike(users.name, `%${input.query}%`),
 						),
-						gte(users.createdAt, new Date(input.cursor)),
+						gte(users.id, input.cursor),
 				  )
 				: or(
 						ilike(users.username, `%${input.query}%`),
@@ -92,7 +92,7 @@ export const userRouter = createTRPCRouter({
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (data.length > input.limit) {
 				const nextItem = data.pop();
-				nextCursor = nextItem?.createdAt.toISOString();
+				nextCursor = nextItem?.id;
 			}
 
 			return {

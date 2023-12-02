@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { SendIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,6 +38,7 @@ import { mapel } from '@/constants/mapel';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import cuid from 'cuid';
 
 const questionSchema = z.object({
 	question: z
@@ -82,7 +82,7 @@ export function QuestionModal({
 	});
 
 	function onSubmit(values: z.infer<typeof questionSchema>) {
-		const id = nanoid(5);
+		const id = cuid();
 		const input = {
 			content: values.question,
 			id: `question-${id}`,

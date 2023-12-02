@@ -2,8 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import cuid from 'cuid';
 import { SendIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
 import { type Session } from 'next-auth';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
@@ -83,7 +83,7 @@ export function AnswerModal({
 	function onSubmit(values: z.infer<typeof answerSchema>) {
 		mutate({
 			content: values.answer,
-			id: `answer-${nanoid()}`,
+			id: `answer-${cuid()}`,
 			questionId: question.id,
 			userId: session.user.id,
 		});

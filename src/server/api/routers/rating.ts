@@ -1,9 +1,9 @@
 import { and, eq, inArray, sql } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { answers, notifications, ratings } from '@/server/db/schema';
 
+import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const ratingRouter = createTRPCRouter({
@@ -33,7 +33,7 @@ export const ratingRouter = createTRPCRouter({
 
 			if (input.userId !== answer?.userId && answer)
 				await ctx.db.insert(notifications).values({
-					id: `notification-${nanoid()}`,
+					id: `notification-${cuid()}`,
 					questionId: answer.questionId,
 					description: answer.content.slice(0, 100),
 					receiverUserId: answer?.userId,
@@ -45,7 +45,7 @@ export const ratingRouter = createTRPCRouter({
 			if (haveRated.length === 0) {
 				return ctx.db.insert(ratings).values({
 					answerId: input.answerId,
-					id: `rating-${nanoid()}`,
+					id: `rating-${cuid()}`,
 					userId: input.userId,
 					value: input.value,
 				});

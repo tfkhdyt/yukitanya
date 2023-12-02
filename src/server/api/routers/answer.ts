@@ -1,5 +1,4 @@
 import { and, asc, desc, eq, gte } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import {
@@ -10,6 +9,7 @@ import {
 	updateAnswerSchema,
 } from '@/server/db/schema';
 
+import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const answerRouter = createTRPCRouter({
@@ -24,7 +24,7 @@ export const answerRouter = createTRPCRouter({
 
 			if (input.userId !== question?.userId && answer[0] && question)
 				await ctx.db.insert(notifications).values({
-					id: `notification-${nanoid()}`,
+					id: `notification-${cuid()}`,
 					questionId: input.questionId,
 					description: answer[0].content.slice(0, 100),
 					receiverUserId: question.userId,
@@ -61,7 +61,7 @@ export const answerRouter = createTRPCRouter({
 		.input(
 			z.object({
 				limit: z.number().min(1).max(50).default(4),
-				cursor: z.string().datetime().nullish(),
+				cursor: z.string().nullish(),
 				questionId: z.string(),
 			}),
 		)
@@ -70,7 +70,7 @@ export const answerRouter = createTRPCRouter({
 				? and(
 						eq(answers.questionId, input.questionId),
 						eq(answers.isBestAnswer, false),
-						gte(answers.createdAt, new Date(input.cursor)),
+						gte(answers.id, input.cursor),
 				  )
 				: and(
 						eq(answers.questionId, input.questionId),
@@ -90,7 +90,7 @@ export const answerRouter = createTRPCRouter({
 			let nextCursor: typeof input.cursor | undefined = undefined;
 			if (data.length > input.limit) {
 				const nextItem = data.pop();
-				nextCursor = nextItem?.createdAt.toISOString();
+				nextCursor = nextItem?.id;
 			}
 
 			return {
@@ -153,7 +153,7 @@ export const answerRouter = createTRPCRouter({
 
 			if (input.userId !== answer[0]?.userId && answer[0]) {
 				await ctx.db.insert(notifications).values({
-					id: `notification-${nanoid()}`,
+					id: `notification-${cuid()}`,
 					questionId: input.questionId,
 					description: answer[0].content.slice(0, 100),
 					receiverUserId: answer[0].userId,
