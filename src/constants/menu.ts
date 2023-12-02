@@ -12,14 +12,14 @@ export const menu = [
 		url: '/search',
 	},
 	{
-		icon: Book,
-		title: 'Mata Pelajaran',
-		url: '/subjects',
-	},
-	{
 		icon: Bell,
 		title: 'Notifikasi',
 		url: '/notifications',
+	},
+	{
+		icon: Book,
+		title: 'Mata Pelajaran',
+		url: '/subjects',
 	},
 	// {
 	//   icon: Heart,
