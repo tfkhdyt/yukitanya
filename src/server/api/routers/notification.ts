@@ -1,4 +1,4 @@
-import { and, desc, eq, lte } from 'drizzle-orm';
+import { and, desc, eq, isNull, lte, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { notifications } from '@/server/db/schema';
@@ -65,5 +65,31 @@ export const notificationRouter = createTRPCRouter({
 			});
 
 			return notifs.every((notif) => notif.readAt !== null);
+		}),
+	getNotificationCount: protectedProcedure
+		.input(z.string().optional())
+		.query(async ({ ctx, input: receiverUserId }) => {
+			if (!receiverUserId) {
+				return null;
+			}
+
+			const count = await ctx.db
+				.select({
+					count: sql<number>`CAST(COUNT(*) as int)`,
+				})
+				.from(notifications)
+				.where(
+					and(
+						eq(notifications.receiverUserId, receiverUserId),
+						isNull(notifications.readAt),
+					),
+				)
+				.limit(1);
+
+			if (count.length === 0 || !count[0]?.count) {
+				return null;
+			}
+
+			return count[0].count;
 		}),
 });
