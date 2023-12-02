@@ -22,7 +22,6 @@ export function Timeline({ session }: { session: Session | null }) {
 		);
 
 	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
-
 	useEffect(() => {
 		if (entry?.isIntersecting) {
 			void fetchNextPage();

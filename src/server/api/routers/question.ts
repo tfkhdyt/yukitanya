@@ -123,11 +123,23 @@ export const questionRouter = createTRPCRouter({
 			return { data, nextCursor };
 		}),
 	findAllQuestionsByUserId: publicProcedure
-		.input(z.string())
-		.query(({ ctx, input: userId }) => {
-			return ctx.db.query.questions.findMany({
+		.input(
+			z.object({
+				userId: z.string(),
+				limit: z.number().min(1).max(50).default(10),
+				cursor: z.string().nullish(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const data = await ctx.db.query.questions.findMany({
 				orderBy: [desc(questions.createdAt)],
-				where: eq(questions.userId, userId),
+				where: input.cursor
+					? and(
+							eq(questions.userId, input.userId),
+							lte(questions.id, input.cursor),
+					  )
+					: eq(questions.userId, input.userId),
+				limit: input.limit + 1,
 				with: {
 					answers: {
 						columns: {
@@ -151,6 +163,14 @@ export const questionRouter = createTRPCRouter({
 					subject: true,
 				},
 			});
+
+			let nextCursor: typeof input.cursor | undefined = undefined;
+			if (data.length > input.limit) {
+				const nextItem = data.pop();
+				nextCursor = nextItem?.id;
+			}
+
+			return { data, nextCursor };
 		}),
 	findAllQuestionsByQueryAndSubject: publicProcedure
 		.input(
