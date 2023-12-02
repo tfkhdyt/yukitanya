@@ -30,6 +30,7 @@ export function ShareDropdown({
 	url: URL;
 }) {
 	const [copied, setCopied] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	const handleCopyLinkClick = async () => {
 		// Logic to copy the link goes here (if needed)
@@ -45,8 +46,13 @@ export function ShareDropdown({
 	};
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+		<DropdownMenu open={open} onOpenChange={setOpen}>
+			<DropdownMenuTrigger
+				onPointerDown={(e) => e.preventDefault()}
+				onClick={() => setOpen((v) => !v)}
+			>
+				{children}
+			</DropdownMenuTrigger>
 			<DropdownMenuContent className='text-[#696984]'>
 				<DropdownMenuLabel>Bagikan ke...</DropdownMenuLabel>
 				<DropdownMenuSeparator />

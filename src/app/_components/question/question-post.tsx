@@ -290,7 +290,11 @@ export function QuestionPost({
 							onOpenChange={setIsShowDropDown}
 							open={isShowDropdown}
 						>
-							<DropdownMenuTrigger asChild>
+							<DropdownMenuTrigger
+								asChild
+								onPointerDown={(e) => e.preventDefault()}
+								onClick={() => setIsShowDropDown((v) => !v)}
+							>
 								<Button
 									className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 									size='sm'

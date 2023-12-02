@@ -268,7 +268,11 @@ export function AnswerPost({
 								open={isShowRatingDropdown}
 								onOpenChange={setIsShowRatingDropdown}
 							>
-								<DropdownMenuTrigger asChild>
+								<DropdownMenuTrigger
+									asChild
+									onPointerDown={(e) => e.preventDefault()}
+									onClick={() => setIsShowRatingDropdown((v) => !v)}
+								>
 									<Button
 										className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 										size='sm'
@@ -366,7 +370,11 @@ export function AnswerPost({
 									open={isShowDropdown}
 									onOpenChange={setIsShowDropDown}
 								>
-									<DropdownMenuTrigger asChild>
+									<DropdownMenuTrigger
+										asChild
+										onPointerDown={(e) => e.preventDefault()}
+										onClick={() => setIsShowDropDown((v) => !v)}
+									>
 										<Button
 											className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 											size='sm'
