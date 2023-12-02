@@ -1,7 +1,6 @@
 'use client';
 
 import { useDebounce } from '@uidotdev/usehooks';
-import clsx from 'clsx';
 import { type Session } from 'next-auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -56,23 +55,9 @@ export function SearchForm({ session }: { session: Session | null }) {
 					type='text'
 					value={query}
 				/>
-				<Select onValueChange={setSearchType} value={searchType}>
-					<SelectTrigger
-						className={clsx(
-							'max-w-2/4 w-max',
-							searchType === 'user' ? 'rounded-r-full' : 'rounded-none',
-						)}
-					>
-						<SelectValue placeholder='Jenis' />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value='question'>Pertanyaan</SelectItem>
-						<SelectItem value='user'>Pengguna</SelectItem>
-					</SelectContent>
-				</Select>
 				{searchType === 'question' && (
 					<Select onValueChange={setSubject} value={subject}>
-						<SelectTrigger className='max-w-2/4 w-fit rounded-r-full'>
+						<SelectTrigger className='max-w-2/4 w-fit rounded-none'>
 							<SelectValue placeholder='Mata Pelajaran' />
 						</SelectTrigger>
 						<SelectContent>
@@ -85,6 +70,15 @@ export function SearchForm({ session }: { session: Session | null }) {
 						</SelectContent>
 					</Select>
 				)}
+				<Select onValueChange={setSearchType} value={searchType}>
+					<SelectTrigger className='max-w-2/4 w-max rounded-r-full'>
+						<SelectValue placeholder='Jenis' />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value='question'>Pertanyaan</SelectItem>
+						<SelectItem value='user'>Pengguna</SelectItem>
+					</SelectContent>
+				</Select>
 			</form>
 			<div>
 				{match(Boolean(debouncedQuery))
