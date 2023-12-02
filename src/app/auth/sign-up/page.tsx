@@ -1,13 +1,18 @@
 import { Footer } from '@/components/footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { redirect } from 'next/navigation';
 
+import { getServerAuthSession } from '@/server/auth';
 import { SignupForm } from './signup-form';
 
 export const metadata = {
 	title: 'Sign Up - Yukitanya',
 };
 
-export default function SignUp() {
+export default async function SignUp() {
+	const session = await getServerAuthSession();
+	if (session) return redirect('/home');
+
 	return (
 		<>
 			<section className='mb-64 h-screen bg-[url(/img/hero_bg.svg)] bg-cover lg:bg-bottom'>
