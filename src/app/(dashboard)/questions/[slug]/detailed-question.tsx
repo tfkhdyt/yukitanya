@@ -9,7 +9,7 @@ import { match } from 'ts-pattern';
 import { ShareDropdown } from '@/components/dropdown/share-dropdown';
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { environment } from '@/environment.mjs';
@@ -66,6 +66,7 @@ export function DetailedQuestion({
 								question.owner.image ??
 								getDiceBearAvatar(question.owner.username)
 							}
+							alt={`${question.owner.name} avatar`}
 						/>
 						<AvatarFallback>{question.owner.initial}</AvatarFallback>
 					</Avatar>
@@ -126,10 +127,11 @@ export function DetailedQuestion({
 							))}
 					</span>
 					<div className='space-x-1'>
-						<Link href={`/subjects/${question.subject.id}`}>
-							<Badge className='hover:bg-slate-200' variant='secondary'>
-								<button type='button'>{question.subject.name}</button>
-							</Badge>
+						<Link
+							href={`/subjects/${question.subject.id}`}
+							className={badgeVariants({ variant: 'secondary' })}
+						>
+							{question.subject.name}
 						</Link>
 					</div>
 				</div>

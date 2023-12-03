@@ -21,7 +21,7 @@ import { EditQuestionModal } from '@/components/modals/edit-question-modal';
 import { StarRating } from '@/components/star-rating';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -142,6 +142,7 @@ export function QuestionPost({
 					src={
 						question.owner.image ?? getDiceBearAvatar(question.owner.username)
 					}
+					alt={`${question.owner.name} avatar`}
 				/>
 				<AvatarFallback>{question.owner.initial}</AvatarFallback>
 			</Avatar>
@@ -212,10 +213,11 @@ export function QuestionPost({
 				)}
 				<div className='flex justify-between pt-4'>
 					<div className='mr-2 space-x-1'>
-						<Link href={`/subjects/${question.subject.id}`}>
-							<Badge className='hover:bg-slate-200' variant='secondary'>
-								<button type='button'>{question.subject.name}</button>
-							</Badge>
+						<Link
+							href={`/subjects/${question.subject.id}`}
+							className={badgeVariants({ variant: 'secondary' })}
+						>
+							{question.subject.name}
 						</Link>
 					</div>
 					{question.rating && (
