@@ -1,4 +1,3 @@
-import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import * as argon2 from 'argon2';
 import {
 	type DefaultSession,
@@ -6,10 +5,14 @@ import {
 	getServerSession,
 } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 
 import { environment } from '@/environment.mjs';
 import { createInitial } from '@/lib/utils';
 import { db } from '@/server/db';
+import { ilike } from 'drizzle-orm';
+import { CustomDrizzleAdapter } from './custom-drizzle-adapter';
+import { users } from './db/schema';
 
 export type User = {
 	// ...other properties
@@ -59,7 +62,8 @@ declare module 'next-auth/jwt' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-	adapter: DrizzleAdapter(db),
+	// @ts-ignore
+	adapter: CustomDrizzleAdapter(db),
 	callbacks: {
 		jwt({ account, token, user }) {
 			// Persist the OAuth access_token and or the user id to the token right after signin
@@ -139,10 +143,39 @@ export const authOptions: NextAuthOptions = {
 			},
 			name: 'Credentials',
 		}),
-		// DiscordProvider({
-		//   clientId: env.DISCORD_CLIENT_ID,
-		//   clientSecret: env.DISCORD_CLIENT_SECRET,
-		// }),
+		GoogleProvider({
+			clientId: environment.GOOGLE_CLIENT_ID,
+			clientSecret: environment.GOOGLE_CLIENT_SECRET,
+			profile: async (profile: GoogleProfile) => {
+				// const isEmailUsed = await db.query.users.findFirst({
+				// 	where: eq(users.email, profile.email),
+				// 	columns: { id: true },
+				// });
+				// if (isEmailUsed) {
+				// 	throw new Error('Email telah digunakan');
+				// }
+
+				let username = profile.email
+					.split('@')[0]
+					?.replace(/[^a-zA-Z0-9-_]/g, '');
+				const isUsernameUsed = await db.query.users.findMany({
+					where: ilike(users.username, `%${username}%`),
+					columns: { id: true },
+				});
+				if (isUsernameUsed.length > 0) {
+					username = `${username}-${isUsernameUsed.length + 1}`;
+				}
+
+				return {
+					id: profile.sub,
+					name: profile.name,
+					username: username,
+					email: profile.email,
+					image: profile.picture,
+					password: 'google',
+				};
+			},
+		}),
 		/**
 		 * ...add more providers here.
 		 *

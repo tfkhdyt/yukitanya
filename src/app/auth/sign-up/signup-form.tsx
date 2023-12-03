@@ -22,6 +22,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
 import { api } from '@/trpc/react';
+import { signIn } from 'next-auth/react';
 
 export function SignupForm() {
 	const [isPasswordShowed, setIsPasswordShowed] = useState(false);
@@ -211,6 +212,11 @@ export function SignupForm() {
 					className='rounded-full'
 					title='Daftar dengan Google'
 					variant='outline'
+					onClick={() =>
+						signIn('google', {
+							callbackUrl: '/home',
+						})
+					}
 				>
 					<Image
 						alt='Google'

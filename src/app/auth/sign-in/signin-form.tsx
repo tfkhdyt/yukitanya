@@ -132,6 +132,11 @@ export function SigninForm() {
 					className='rounded-full'
 					title='Masuk dengan Google'
 					variant='outline'
+					onClick={() =>
+						signIn('google', {
+							callbackUrl: '/home',
+						})
+					}
 				>
 					<Image
 						alt='Google'

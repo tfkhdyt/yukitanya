@@ -13,22 +13,22 @@ import { type AdapterAccount } from 'next-auth/adapters';
 import { z } from 'zod';
 
 export const users = pgTable('user', {
-	createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
-		.defaultNow()
-		.notNull(),
+	id: text('id').notNull().primaryKey(),
+	name: text('name'),
+	username: varchar('username', { length: 25 }).notNull().unique(),
 	email: text('email').notNull().unique(),
 	emailVerified: timestamp('emailVerified', {
 		mode: 'date',
 		withTimezone: true,
 	}),
-	id: text('id').notNull().primaryKey(),
 	image: text('image'),
-	name: text('name'),
 	password: text('password').notNull(),
+	createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
+		.defaultNow()
+		.notNull(),
 	updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true })
 		.defaultNow()
 		.notNull(),
-	username: varchar('username', { length: 25 }).notNull().unique(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
