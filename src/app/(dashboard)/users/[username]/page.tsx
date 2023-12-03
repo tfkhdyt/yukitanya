@@ -62,7 +62,10 @@ export default async function UserPage({
 		<main>
 			<div className='mx-4 mt-4 flex space-x-6 text-[#696984] md:m-8 md:space-x-8'>
 				<Avatar className='h-20 w-20 md:h-28 md:w-28'>
-					<AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
+					<AvatarImage
+						src={user.image ?? getDiceBearAvatar(user.username)}
+						alt={`${user.name} avatar`}
+					/>
 					<AvatarFallback>{createInitial(user.name)}</AvatarFallback>
 				</Avatar>
 				<div className='w-full space-y-2 text-[#696984]'>

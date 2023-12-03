@@ -119,6 +119,7 @@ export function EditQuestionModal({
 										question.owner.image ??
 										getDiceBearAvatar(question.owner.username)
 									}
+									alt={`${question.owner.name} avatar`}
 								/>
 								<AvatarFallback>{question.owner.initial}</AvatarFallback>
 							</Avatar>

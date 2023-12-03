@@ -112,6 +112,7 @@ export function EditAnswerModal({
 									question.owner.image ??
 									getDiceBearAvatar(question.owner.username)
 								}
+								alt={`${question.owner.name} avatar`}
 							/>
 							<AvatarFallback>{question.owner.initial}</AvatarFallback>
 						</Avatar>
@@ -175,6 +176,7 @@ export function EditAnswerModal({
 										session.user.image ??
 										getDiceBearAvatar(session.user.username)
 									}
+									alt={`${session.user.name} avatar`}
 								/>
 								<AvatarFallback>{session.user.initial}</AvatarFallback>
 							</Avatar>

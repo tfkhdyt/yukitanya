@@ -16,7 +16,10 @@ export function UserEntry({
 			<div className='flex items-center space-x-3 border-b-2 p-4 text-[#696984] transition hover:bg-slate-50'>
 				<div>
 					<Avatar>
-						<AvatarImage src={user.image ?? getDiceBearAvatar(user.username)} />
+						<AvatarImage
+							src={user.image ?? getDiceBearAvatar(user.username)}
+							alt={`${user.name} avatar`}
+						/>
 						<AvatarFallback>{createInitial(user.name)}</AvatarFallback>
 					</Avatar>
 				</div>

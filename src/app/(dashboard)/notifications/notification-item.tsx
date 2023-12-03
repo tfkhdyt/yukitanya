@@ -82,6 +82,7 @@ export function NotificationItem({
 								transmitterUser.image ??
 								getDiceBearAvatar(transmitterUser.username)
 							}
+							alt={`${transmitterUser.name} avatar`}
 						/>
 						<AvatarFallback>
 							{createInitial(transmitterUser.name)}

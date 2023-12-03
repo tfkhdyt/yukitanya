@@ -105,6 +105,7 @@ export function QuestionModal({
 							<Avatar>
 								<AvatarImage
 									src={user.image ?? getDiceBearAvatar(user.username)}
+									alt={`${user.name} avatar`}
 								/>
 								<AvatarFallback>{user.initial}</AvatarFallback>
 							</Avatar>

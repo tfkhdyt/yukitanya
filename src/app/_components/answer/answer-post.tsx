@@ -207,6 +207,7 @@ export function AnswerPost({
 				<Avatar>
 					<AvatarImage
 						src={answer.owner.image ?? getDiceBearAvatar(answer.owner.username)}
+						alt={`${answer.owner.name} avatar`}
 					/>
 					<AvatarFallback>{answer.owner.initial}</AvatarFallback>
 				</Avatar>
