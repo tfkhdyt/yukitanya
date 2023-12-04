@@ -89,17 +89,17 @@ export function MostPopularQuestionSection({
 							</Link>
 						</div>
 					</div>
-					<div className='mt-2'>
+					<Link href={`/questions/${data.question.slug}`}>
 						<p
 							className={clsx(
-								'whitespace-pre-wrap pt-1 text-sm leading-relaxed text-[#696984] font-normal',
+								'whitespace-pre-wrap pt-2 text-sm leading-relaxed text-[#696984] font-normal',
 								clamped ? 'line-clamp-4' : 'line-clamp-[8]',
 							)}
 							ref={containerReference}
 						>
 							{data.question.content}
 						</p>
-					</div>
+					</Link>
 					{showButton && (
 						<button
 							className='text-sm font-medium text-[#696984] hover:underline mt-2'
