@@ -75,7 +75,10 @@ export function NotificationItem({
 					))
 					.exhaustive()}
 
-				<Link href={`/users/${transmitterUser.username}`}>
+				<Link
+					href={`/users/${transmitterUser.username}`}
+					aria-label={transmitterUser.username}
+				>
 					<Avatar className='h-10 w-10'>
 						<AvatarImage
 							src={

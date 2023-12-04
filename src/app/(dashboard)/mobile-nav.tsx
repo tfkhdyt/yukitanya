@@ -25,6 +25,7 @@ export function MobileNav({ user }: { user?: User }) {
 						href={each.url}
 						key={each.title}
 						// onClick={isMobile ? toggleSidebar : undefined}
+						aria-label={each.title}
 					>
 						{match(pathname)
 							.with(P.string.startsWith(each.url), () => {
