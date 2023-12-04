@@ -15,7 +15,7 @@ export default async function DashboardLayout({
 
 	return (
 		<section className='flex lg:container'>
-			<aside className='sticky top-0 hidden h-screen border-r-2 md:inline md:w-1/3 lg:w-1/4'>
+			<aside className='sticky top-0 hidden h-screen border-r-2 md:inline md:w-1/3 lg:w-1/4 overflow-y-auto'>
 				<LeftSidebar session={session} />
 			</aside>
 			<MainContent user={session?.user}>{children}</MainContent>
