@@ -86,7 +86,9 @@ export function QuestionModal({
 		const input = {
 			content: values.question,
 			id: `question-${id}`,
-			slug: slugify(values.question.slice(0, 50), { strict: true }) + `-${id}`,
+			slug:
+				slugify(values.question.slice(0, 50), { strict: true }) +
+				`-${id.slice(-5)}`,
 			subjectId: values.subject,
 			userId: user.id,
 		};
