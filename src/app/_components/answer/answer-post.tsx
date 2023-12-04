@@ -431,7 +431,9 @@ export function AnswerPost({
 						</div>
 						{averageRating > 0 && (
 							<div className='flex items-center gap-1'>
-								<span className='text-[#696984]'>({averageRating})</span>
+								<span className='text-[#696984]'>
+									({averageRating.toFixed(2)})
+								</span>
 								<StarRating rating={averageRating} />
 							</div>
 						)}
