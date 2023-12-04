@@ -2,6 +2,7 @@
 import { and, eq } from 'drizzle-orm';
 import { PgDatabase } from 'drizzle-orm/pg-core';
 
+import { getDiceBearAvatar } from '@/lib/utils';
 import cuid from 'cuid';
 import { accounts, sessions, users, verificationTokens } from './db/schema';
 
@@ -10,7 +11,14 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
 		async createUser(data) {
 			return await client
 				.insert(users)
-				.values({ ...data, id: `user-${cuid()}` })
+				.values({
+					...data,
+					id: `user-${cuid()}`,
+					image:
+						data.password === 'facebook'
+							? getDiceBearAvatar(data.username)
+							: data.image,
+				})
 				.returning()
 				.then((res) => res[0] ?? null);
 		},

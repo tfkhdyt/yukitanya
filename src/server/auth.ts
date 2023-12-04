@@ -5,6 +5,9 @@ import {
 	getServerSession,
 } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import FacebookProvider, {
+	FacebookProfile,
+} from 'next-auth/providers/facebook';
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 
 import { environment } from '@/environment.mjs';
@@ -169,10 +172,35 @@ export const authOptions: NextAuthOptions = {
 				return {
 					id: profile.sub,
 					name: profile.name,
-					username: username,
+					username,
 					email: profile.email,
 					image: profile.picture,
 					password: 'google',
+				};
+			},
+		}),
+		FacebookProvider({
+			clientId: environment.FB_CLIENT_ID,
+			clientSecret: environment.FB_CLIENT_SECRET,
+			profile: async (profile: FacebookProfile) => {
+				let username = profile.email
+					.split('@')[0]
+					?.replace(/[^a-zA-Z0-9-_]/g, '');
+				const isUsernameUsed = await db.query.users.findMany({
+					where: ilike(users.username, `%${username}%`),
+					columns: { id: true },
+				});
+				if (isUsernameUsed.length > 0) {
+					username = `${username}-${isUsernameUsed.length + 1}`;
+				}
+
+				return {
+					id: profile.id,
+					name: profile.name,
+					username,
+					email: profile.email,
+					image: profile.picture.data.url,
+					password: 'facebook',
 				};
 			},
 		}),

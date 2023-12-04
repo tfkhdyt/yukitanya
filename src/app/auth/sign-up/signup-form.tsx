@@ -230,6 +230,11 @@ export function SignupForm() {
 					className='rounded-full'
 					title='Daftar dengan Facebook'
 					variant='outline'
+					onClick={() =>
+						signIn('facebook', {
+							callbackUrl: '/home',
+						})
+					}
 				>
 					<Facebook color='black' />
 				</Button>
