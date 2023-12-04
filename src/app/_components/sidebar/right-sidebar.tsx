@@ -13,7 +13,7 @@ export function RightSidebar({ session }: { session: Session | null }) {
 	const params = useParams();
 
 	return (
-		<aside className='sticky top-0 hidden h-screen w-1/4 space-y-4 border-l-2 p-6 text-2xl font-extrabold text-[#F48C06] lg:inline'>
+		<div className='space-y-4'>
 			{match(pathname)
 				.with(P.string.startsWith('/home'), () => (
 					<div className='space-y-12'>
@@ -55,14 +55,16 @@ export function RightSidebar({ session }: { session: Session | null }) {
 				)
 				.with(P.string.startsWith('/subjects'), () => '')
 				.otherwise(() => '')}
-		</aside>
+		</div>
 	);
 }
 
 function TanyakanSekarangSection({ session }: { session: Session | null }) {
 	return (
 		<div className='space-y-4'>
-			<h2 className='text-xl font-extrabold'>JANGAN MALU UNTUK BERTANYA!</h2>
+			<h2 className='font-extrabold text-xl text-[#F48C06]'>
+				JANGAN MALU UNTUK BERTANYA!
+			</h2>
 			<Image
 				alt='Mari bertanya'
 				height={129}

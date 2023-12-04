@@ -69,7 +69,9 @@ export function MainContent({
 							.with(P.string.startsWith('/search'), () => 'Cari')
 							.with(P.string.startsWith('/notifications'), () => 'Notifikasi')
 							.with(P.string.startsWith('/questions'), () => 'Pertanyaan')
-							.with(P.string.startsWith('/users'), () => `@${username}`)
+							.with(P.string.startsWith('/users'), () => (
+								<span className='max-w-[9rem] truncate'>@{username}</span>
+							))
 							.with(
 								P.string.startsWith('/subjects/') && P.string.minLength(11),
 								() =>
@@ -93,7 +95,7 @@ export function MainContent({
 
 				<div
 					className={clsx(
-						'ml-4 mr-1 lg:hidden',
+						'ml-4 mr-1 md:hidden',
 						// pathname.startsWith('/questions/') && 'hidden',
 					)}
 				>

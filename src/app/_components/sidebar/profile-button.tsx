@@ -17,15 +17,15 @@ import { type User } from '@/server/auth';
 export function ProfileButton({ user }: { user: User | undefined }) {
 	if (!user) {
 		return (
-			<div className='space-x-3 py-2 lg:mt-6'>
+			<div className='space-x-3 py-2 md:py-0 md:mt-6 md:px-4'>
 				<Link
-					className='rounded-lg bg-[#F48C06] px-3 py-1 font-semibold text-white shadow-md lg:px-4 lg:py-2'
+					className='rounded-lg bg-[#F48C06] px-3 py-1 font-semibold text-white shadow-md md:px-4 md:py-2'
 					href='/auth/sign-in'
 				>
 					Masuk
 				</Link>
 				<Link
-					className='rounded-lg bg-[#77425A] px-3 py-1 font-semibold text-white shadow-md lg:px-4 lg:py-2'
+					className='rounded-lg bg-[#77425A] px-3 py-1 font-semibold text-white shadow-md md:px-4 md:py-2'
 					href='/auth/sign-up'
 				>
 					Daftar
@@ -36,7 +36,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-transparent transition lg:border-2 lg:px-4 lg:py-3 lg:hover:border-[#F48C06]'>
+			<DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-transparent transition md:border-2 md:px-4 md:py-3 md:hover:border-[#F48C06]'>
 				<Avatar>
 					<AvatarImage
 						src={user?.image ?? getDiceBearAvatar(user.username)}
@@ -44,25 +44,27 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 					/>
 					<AvatarFallback>{user?.initial}</AvatarFallback>
 				</Avatar>
-				<div className='hidden pr-2 text-left lg:inline lg:pr-4'>
-					<h2 className='text-sm font-medium lg:text-base truncate'>
+				<div className='hidden pr-2 text-left md:inline md:pr-4'>
+					<h2 className='text-sm font-medium md:text-base truncate max-w-[9rem]'>
 						{user?.name}
 					</h2>
-					<p className='hidden text-sm lg:inline lg:text-base truncate'>
+					<p className='hidden text-sm md:inline md:text-base truncate max-w-[9rem]'>
 						@{user?.username}
 					</p>
 				</div>
-				<div className='hidden lg:inline'>
+				<div className='hidden md:inline'>
 					<MoreHorizontal />
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end' className='text-[#696984]'>
-				<DropdownMenuLabel>@{user?.username}</DropdownMenuLabel>
+				<DropdownMenuLabel className='max-w-[9rem] truncate'>
+					@{user?.username}
+				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<Link href={`/users/${user?.username}`}>
 					<DropdownMenuItem className='cursor-pointer'>
 						<UserCircle className='mr-2' size={18} />
-						My Profile
+						Profil
 					</DropdownMenuItem>
 				</Link>
 				<DropdownMenuItem
