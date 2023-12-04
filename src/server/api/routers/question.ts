@@ -1,4 +1,4 @@
-import { and, count, desc, eq, ilike, lte, sql } from 'drizzle-orm';
+import { and, countDistinct, desc, eq, ilike, lte, sql } from 'drizzle-orm';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
@@ -365,7 +365,9 @@ export const questionRouter = createTRPCRouter({
 		.input(z.string().optional())
 		.query(async ({ ctx, input: subjectId }) => {
 			const popularity =
-				sql`COUNT(${favorites.userId}) + COUNT(${answers.id})`.mapWith(Number);
+				sql`COUNT(DISTINCT ${favorites.userId}) + COUNT(DISTINCT ${answers.id})`.mapWith(
+					Number,
+				);
 
 			const [data] = await ctx.db
 				.select({
@@ -373,8 +375,8 @@ export const questionRouter = createTRPCRouter({
 					question: questions,
 					owner: users,
 					subject: subjects,
-					numberOfFavorites: count(favorites.userId),
-					numberOfAnswers: count(answers.id),
+					numberOfFavorites: countDistinct(favorites.userId),
+					numberOfAnswers: countDistinct(answers.id),
 				})
 				.from(questions)
 				.leftJoin(favorites, eq(favorites.questionId, questions.id))
