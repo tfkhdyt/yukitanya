@@ -160,7 +160,8 @@ export const authOptions: NextAuthOptions = {
 
 				let username = profile.email
 					.split('@')[0]
-					?.replace(/[^a-zA-Z0-9-_]/g, '');
+					?.replace(/[^a-zA-Z0-9-_]/g, '')
+					.slice(0, 23);
 				const isUsernameUsed = await db.query.users.findMany({
 					where: ilike(users.username, `%${username}%`),
 					columns: { id: true },
@@ -183,9 +184,10 @@ export const authOptions: NextAuthOptions = {
 			clientId: environment.FB_CLIENT_ID,
 			clientSecret: environment.FB_CLIENT_SECRET,
 			profile: async (profile: FacebookProfile) => {
-				let username = profile.email
+				let username = (profile.email as string)
 					.split('@')[0]
-					?.replace(/[^a-zA-Z0-9-_]/g, '');
+					?.replace(/[^a-zA-Z0-9-_]/g, '')
+					.slice(0, 23);
 				const isUsernameUsed = await db.query.users.findMany({
 					where: ilike(users.username, `%${username}%`),
 					columns: { id: true },

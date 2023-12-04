@@ -1,13 +1,1 @@
-{
-  "version": "5",
-  "dialect": "pg",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "5",
-      "when": 1701679596960,
-      "tag": "0000_dashing_prima",
-      "breakpoints": true
-    }
-  ]
-}
+{"version":"5","dialect":"pg","entries":[{"idx":0,"version":"5","when":1701679596960,"tag":"0000_dashing_prima","breakpoints":true}]}
