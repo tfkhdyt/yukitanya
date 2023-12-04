@@ -226,7 +226,7 @@ export function QuestionPost({
 					{question.rating && (
 						<div className='flex items-center gap-1'>
 							<span className='text-[#696984]'>
-								({question.rating.toFixed(2)})
+								({question.rating.toFixed(1)})
 							</span>
 							<StarRating rating={question.rating} />
 						</div>
