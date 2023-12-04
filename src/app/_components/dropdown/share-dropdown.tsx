@@ -48,6 +48,7 @@ export function ShareDropdown({
 	return (
 		<DropdownMenu open={open} onOpenChange={setOpen}>
 			<DropdownMenuTrigger
+				asChild
 				onPointerDown={(e) => e.preventDefault()}
 				onClick={() => setOpen((v) => !v)}
 			>
