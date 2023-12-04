@@ -44,7 +44,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 					/>
 					<AvatarFallback>{user?.initial}</AvatarFallback>
 				</Avatar>
-				<div className='hidden pr-2 text-left md:inline md:pr-4'>
+				<div className='hidden text-left md:inline'>
 					<h2 className='text-sm font-medium md:text-base truncate max-w-[6rem]'>
 						{user?.name}
 					</h2>
@@ -52,12 +52,12 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 						@{user?.username}
 					</p>
 				</div>
-				<div className='hidden md:inline'>
+				<div className='hidden md:inline-block pl-4'>
 					<MoreHorizontal />
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end' className='text-[#696984]'>
-				<DropdownMenuLabel className='max-w-[6rem] truncate'>
+				<DropdownMenuLabel className='max-w-[12rem] truncate'>
 					@{user?.username}
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
