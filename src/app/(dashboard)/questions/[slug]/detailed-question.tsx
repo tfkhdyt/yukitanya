@@ -17,6 +17,7 @@ import { formatLongDateTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import clsx from 'clsx';
 
 type Question = {
 	content: string;
@@ -129,7 +130,10 @@ export function DetailedQuestion({
 					<div className='space-x-1'>
 						<Link
 							href={`/subjects/${question.subject.id}`}
-							className={badgeVariants({ variant: 'secondary' })}
+							className={clsx(
+								badgeVariants({ variant: 'secondary' }),
+								'hover:bg-gray-200',
+							)}
 						>
 							{question.subject.name}
 						</Link>

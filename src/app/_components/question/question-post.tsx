@@ -215,7 +215,10 @@ export function QuestionPost({
 					<div className='mr-2 space-x-1'>
 						<Link
 							href={`/subjects/${question.subject.id}`}
-							className={badgeVariants({ variant: 'secondary' })}
+							className={clsx(
+								badgeVariants({ variant: 'secondary' }),
+								'hover:bg-gray-200',
+							)}
 						>
 							{question.subject.name}
 						</Link>

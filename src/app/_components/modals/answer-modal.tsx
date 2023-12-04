@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -149,13 +149,14 @@ export function AnswerModal({
 								{question.content}
 							</p>
 							<div className='flex justify-start'>
-								<Link href={`/subjects/${question.subject.id}`}>
-									<Badge
-										className='mt-4 hover:bg-slate-200'
-										variant='secondary'
-									>
-										{question.subject.name}
-									</Badge>
+								<Link
+									href={`/subjects/${question.subject.id}`}
+									className={clsx(
+										badgeVariants({ variant: 'secondary' }),
+										'mt-4 hover:bg-gray-200',
+									)}
+								>
+									{question.subject.name}
 								</Link>
 							</div>
 						</div>

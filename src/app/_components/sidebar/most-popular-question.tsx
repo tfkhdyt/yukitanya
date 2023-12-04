@@ -59,7 +59,7 @@ export function MostPopularQuestionSection({
 	if (data && data.popularity > 0) {
 		return (
 			<div className='space-y-4'>
-				<h2 className='text-xl font-extrabold uppercase'>
+				<h2 className='text-xl font-extrabold uppercase text-[#F48C06]'>
 					PERTANYAAN {subject?.name} TERPOPULER
 				</h2>
 
@@ -130,7 +130,10 @@ export function MostPopularQuestionSection({
 						</div>
 						<Link
 							href={`/subjects/${data.subject.id}`}
-							className={badgeVariants({ variant: 'secondary' })}
+							className={clsx(
+								badgeVariants({ variant: 'secondary' }),
+								'hover:bg-gray-200',
+							)}
 						>
 							{data.subject.name}
 						</Link>
