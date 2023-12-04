@@ -1,8 +1,16 @@
-import { and, desc, eq, ilike, lte } from 'drizzle-orm';
+import { and, count, desc, eq, ilike, lte, sql } from 'drizzle-orm';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
 
-import { insertQuestionSchema, oldSlug, questions } from '@/server/db/schema';
+import {
+	answers,
+	favorites,
+	insertQuestionSchema,
+	oldSlug,
+	questions,
+	subjects,
+	users,
+} from '@/server/db/schema';
 
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
@@ -352,5 +360,40 @@ export const questionRouter = createTRPCRouter({
 					updatedAt: new Date(),
 				})
 				.where(eq(questions.id, input.id));
+		}),
+	findMostPopularQuestion: publicProcedure
+		.input(z.string().optional())
+		.query(async ({ ctx, input: subjectId }) => {
+			const popularity =
+				sql`COUNT(${favorites.userId}) + COUNT(${answers.id})`.mapWith(Number);
+
+			const [data] = await ctx.db
+				.select({
+					popularity,
+					question: questions,
+					owner: users,
+					subject: subjects,
+					numberOfFavorites: count(favorites.userId),
+					numberOfAnswers: count(answers.id),
+				})
+				.from(questions)
+				.leftJoin(favorites, eq(favorites.questionId, questions.id))
+				.leftJoin(answers, eq(answers.questionId, questions.id))
+				.innerJoin(users, eq(users.id, questions.userId))
+				.innerJoin(subjects, eq(subjects.id, questions.subjectId))
+				.where(subjectId ? eq(questions.subjectId, subjectId) : undefined)
+				.orderBy(desc(popularity))
+				.groupBy(
+					questions.content,
+					questions.id,
+					questions.createdAt,
+					users.id,
+					subjects.id,
+				)
+				.limit(1);
+
+			if (!data) return null;
+
+			return data;
 		}),
 });
