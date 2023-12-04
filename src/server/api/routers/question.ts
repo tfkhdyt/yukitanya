@@ -365,7 +365,7 @@ export const questionRouter = createTRPCRouter({
 		.input(z.string().optional())
 		.query(async ({ ctx, input: subjectId }) => {
 			const popularity =
-				sql`COUNT(DISTINCT ${favorites.userId}) + COUNT(DISTINCT ${answers.id})`.mapWith(
+				sql`COUNT(DISTINCT ${favorites.userId}) + COUNT(DISTINCT ${answers.id}) * 2`.mapWith(
 					Number,
 				);
 
