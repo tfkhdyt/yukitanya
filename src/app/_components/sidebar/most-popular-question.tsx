@@ -93,7 +93,7 @@ export function MostPopularQuestionSection({
 						<p
 							className={clsx(
 								'whitespace-pre-wrap pt-1 text-sm leading-relaxed text-[#696984] font-normal',
-								clamped && 'line-clamp-4',
+								clamped ? 'line-clamp-4' : 'line-clamp-[8]',
 							)}
 							ref={containerReference}
 						>
@@ -102,7 +102,7 @@ export function MostPopularQuestionSection({
 					</div>
 					{showButton && (
 						<button
-							className='text-sm font-medium text-[#696984] hover:underline'
+							className='text-sm font-medium text-[#696984] hover:underline mt-2'
 							onClick={handleReadMore}
 							type='button'
 						>
