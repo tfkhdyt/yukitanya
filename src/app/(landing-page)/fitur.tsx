@@ -11,6 +11,7 @@ type TFitur = {
 		url: string;
 	};
 	title: string[];
+	isComingSoon: boolean;
 };
 
 export function Fitur() {
@@ -23,6 +24,7 @@ export function Fitur() {
 				url: '/img/fitur/forum_tanya_jawab.png',
 			},
 			title: ['Forum', 'tanya jawab'],
+			isComingSoon: false,
 		},
 		{
 			description:
@@ -32,6 +34,7 @@ export function Fitur() {
 				url: '/img/fitur/tts.png',
 			},
 			title: ['Speech', 'to text'],
+			isComingSoon: true,
 		},
 		{
 			description:
@@ -41,6 +44,7 @@ export function Fitur() {
 				url: '/img/fitur/chatroom.png',
 			},
 			title: ["Course's", 'chat room'],
+			isComingSoon: true,
 		},
 		{
 			description:
@@ -50,6 +54,7 @@ export function Fitur() {
 				url: '/img/fitur/private_chat.png',
 			},
 			title: ['Private chat', 'antar siswa'],
+			isComingSoon: true,
 		},
 		{
 			description:
@@ -59,6 +64,7 @@ export function Fitur() {
 				url: '/img/fitur/music.png',
 			},
 			title: ['Background music', 'instrumental'],
+			isComingSoon: true,
 		},
 	];
 
@@ -99,12 +105,18 @@ export function Fitur() {
 									<p className='text-center text-2xl font-extrabold text-[#77425A]'>
 										<span className='text-[#F48C06]'>{each.title[0]}</span>{' '}
 										{each.title[1]}
+										{each.isComingSoon && (
+											<span className='text-xs'> (Coming soon)</span>
+										)}
 									</p>
 								))
 								.otherwise(() => (
 									<p className='text-center text-2xl font-extrabold text-[#F48C06]'>
 										<span className='text-[#77425A]'>{each.title[0]}</span>{' '}
 										{each.title[1]}
+										{each.isComingSoon && (
+											<span className='text-xs'> (Coming soon)</span>
+										)}
 									</p>
 								))}
 
