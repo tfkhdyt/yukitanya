@@ -45,10 +45,10 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 					<AvatarFallback>{user?.initial}</AvatarFallback>
 				</Avatar>
 				<div className='hidden pr-2 text-left md:inline md:pr-4'>
-					<h2 className='text-sm font-medium md:text-base truncate max-w-[9rem]'>
+					<h2 className='text-sm font-medium md:text-base truncate max-w-[6rem]'>
 						{user?.name}
 					</h2>
-					<p className='hidden text-sm md:inline md:text-base truncate max-w-[9rem]'>
+					<p className='hidden text-sm md:inline md:text-base truncate max-w-[6rem]'>
 						@{user?.username}
 					</p>
 				</div>
@@ -57,7 +57,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end' className='text-[#696984]'>
-				<DropdownMenuLabel className='max-w-[9rem] truncate'>
+				<DropdownMenuLabel className='max-w-[6rem] truncate'>
 					@{user?.username}
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
