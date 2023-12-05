@@ -12,21 +12,29 @@ import {
 	users,
 } from '@/server/db/schema';
 
+import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const questionRouter = createTRPCRouter({
 	createQuestion: protectedProcedure
-		.input(insertQuestionSchema)
+		.input(
+			z.object({
+				schema: insertQuestionSchema,
+				token: z.string().optional(),
+			}),
+		)
 		.mutation(async ({ ctx, input }) => {
+			await verifyCaptchaToken(input.token);
+
 			const question = await ctx.db.query.questions.findFirst({
-				where: eq(questions.slug, input.slug),
+				where: eq(questions.slug, input.schema.slug),
 			});
 			if (question) {
 				throw new Error('Pertanyaan yang sama telah ada!');
 			}
 
-			return ctx.db.insert(questions).values(input);
+			return ctx.db.insert(questions).values(input.schema);
 		}),
 	deleteQuestionById: protectedProcedure
 		.input(z.string())
