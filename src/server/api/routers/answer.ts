@@ -9,28 +9,40 @@ import {
 	updateAnswerSchema,
 } from '@/server/db/schema';
 
+import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const answerRouter = createTRPCRouter({
 	createAnswer: protectedProcedure
-		.input(insertAnswerSchema)
+		.input(
+			z.object({
+				schema: insertAnswerSchema,
+				token: z.string().optional(),
+			}),
+		)
 		.mutation(async ({ ctx, input }) => {
+			await verifyCaptchaToken(input.token);
+
 			const question = await ctx.db.query.questions.findFirst({
-				where: eq(questions.id, input.questionId),
+				where: eq(questions.id, input.schema.questionId),
 			});
 
-			const answer = await ctx.db.insert(answers).values(input).returning();
+			const answer = await ctx.db
+				.insert(answers)
+				.values(input.schema)
+				.returning();
 
-			if (input.userId !== question?.userId && answer[0] && question)
+			if (input.schema.userId !== question?.userId && answer[0] && question) {
 				await ctx.db.insert(notifications).values({
 					id: `notification-${cuid()}`,
-					questionId: input.questionId,
+					questionId: input.schema.questionId,
 					description: answer[0].content.slice(0, 100),
 					receiverUserId: question.userId,
-					transmitterUserId: input.userId,
+					transmitterUserId: input.schema.userId,
 					type: 'new-answer',
 				});
+			}
 		}),
 	deleteAnswerById: protectedProcedure
 		.input(z.string())

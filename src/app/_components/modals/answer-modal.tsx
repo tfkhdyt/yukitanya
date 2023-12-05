@@ -6,7 +6,7 @@ import cuid from 'cuid';
 import { SendIcon } from 'lucide-react';
 import { type Session } from 'next-auth';
 import Link from 'next/link';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -29,10 +29,12 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 const answerSchema = z.object({
 	answer: z
@@ -67,6 +69,10 @@ export function AnswerModal({
 	});
 	const utils = api.useUtils();
 	const [open, setOpen] = useState(false);
+
+	const [token, setToken] = useState('');
+	const captcha = useRef<TurnstileInstance>();
+
 	const { mutate, isLoading } = api.answer.createAnswer.useMutation({
 		onError: (error) => toast.error(error.message),
 		onSuccess: async () => {
@@ -78,14 +84,18 @@ export function AnswerModal({
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
 		},
+		onSettled: () => captcha.current?.reset(),
 	});
 
 	function onSubmit(values: z.infer<typeof answerSchema>) {
 		mutate({
-			content: values.answer,
-			id: `answer-${cuid()}`,
-			questionId: question.id,
-			userId: session.user.id,
+			schema: {
+				content: values.answer,
+				id: `answer-${cuid()}`,
+				questionId: question.id,
+				userId: session.user.id,
+			},
+			token,
 		});
 	}
 
@@ -235,9 +245,17 @@ export function AnswerModal({
 										</span>
 										/1000
 									</p>
-									<div className='flex justify-end'>
+									<div className='flex justify-between flex-wrap-reverse gap-4 items-center'>
+										<Turnstile
+											siteKey={environment.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+											onSuccess={setToken}
+											ref={captcha}
+											options={{
+												theme: 'light',
+											}}
+										/>
 										<Button
-											className='rounded-full font-semibold'
+											className='rounded-full font-semibold ml-auto'
 											type='submit'
 											disabled={isLoading}
 										>

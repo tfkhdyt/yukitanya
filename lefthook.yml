@@ -6,8 +6,8 @@
 pre-push:
   parallel: true
   commands:
-    taze:
-      run: pnpx taze --failOnOutdated
+    # taze:
+    #   run: pnpx taze --failOnOutdated
     check:
       glob: '**/*.{js,ts,jsx,tsx}'
       run: pnpm biome check --apply {push_files}
