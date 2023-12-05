@@ -30,6 +30,7 @@ export const signupSchema = z
 			.regex(/^[a-zA-Z0-9_-]+$/, {
 				message: 'Username tidak boleh mengandung karakter spesial',
 			}),
+		token: z.string().optional(),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: 'Password tidak cocok',

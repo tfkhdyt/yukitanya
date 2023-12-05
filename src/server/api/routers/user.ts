@@ -2,7 +2,7 @@ import * as argon2 from 'argon2';
 import { and, asc, desc, eq, gte, ilike, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
-import { getDiceBearAvatar } from '@/lib/utils';
+import { getDiceBearAvatar, verifyCaptchaToken } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { answers, favorites, questions, users } from '@/server/db/schema';
@@ -12,6 +12,8 @@ export const userRouter = createTRPCRouter({
 	register: publicProcedure
 		.input(signupSchema)
 		.mutation(async ({ ctx, input }) => {
+			await verifyCaptchaToken(input.token);
+
 			let user = await ctx.db.query.users.findFirst({
 				where: eq(users.email, input.email),
 			});

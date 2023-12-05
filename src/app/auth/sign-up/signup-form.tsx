@@ -1,11 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
@@ -20,9 +22,9 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { environment } from '@/environment.mjs';
 import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
 import { api } from '@/trpc/react';
-import { signIn } from 'next-auth/react';
 
 export function SignupForm() {
 	const [isPasswordShowed, setIsPasswordShowed] = useState(false);
@@ -44,6 +46,9 @@ export function SignupForm() {
 		},
 	});
 
+	const [token, setToken] = useState('');
+	const captcha = useRef<TurnstileInstance>();
+
 	const onSubmit = (values: SignupSchema) => {
 		mutate({
 			confirmPassword: values.confirmPassword,
@@ -52,7 +57,10 @@ export function SignupForm() {
 			lastName: values.lastName,
 			password: values.password,
 			username: values.username,
+			token,
 		});
+
+		captcha.current?.reset();
 	};
 
 	return (
@@ -197,6 +205,14 @@ export function SignupForm() {
 						)}
 					/>
 
+					<Turnstile
+						siteKey={environment.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+						onSuccess={setToken}
+						ref={captcha}
+						options={{
+							theme: 'light',
+						}}
+					/>
 					<Button
 						className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
 						disabled={isLoading}
