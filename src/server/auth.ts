@@ -128,6 +128,10 @@ export const authOptions: NextAuthOptions = {
 					throw new Error('User tidak ditemukan');
 				}
 
+				if (['google', 'facebook'].includes(user.password)) {
+					throw new Error(`User login menggunakan ${user.password}`);
+				}
+
 				const isPasswordMatch = await argon2.verify(
 					user.password,
 					credentials.password,
