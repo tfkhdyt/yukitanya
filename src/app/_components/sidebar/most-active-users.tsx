@@ -2,9 +2,14 @@ import { createInitial, getDiceBearAvatar } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { SkeletonMostActiveUsers } from './skeleton-most-active-users';
 
 export function MostActiveUsers() {
-	const { data } = api.user.findMostActiveUsers.useQuery();
+	const { data, isLoading } = api.user.findMostActiveUsers.useQuery();
+
+	if (isLoading) {
+		return <SkeletonMostActiveUsers />;
+	}
 
 	if (data && data.length > 0)
 		return (
