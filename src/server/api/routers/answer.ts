@@ -169,6 +169,17 @@ export const answerRouter = createTRPCRouter({
 			}
 
 			if (input.userId !== answer[0]?.userId && answer[0]) {
+				await ctx.db
+					.delete(notifications)
+					.where(
+						and(
+							eq(notifications.questionId, input.questionId),
+							eq(notifications.receiverUserId, answer[0].userId),
+							eq(notifications.transmitterUserId, input.userId),
+							eq(notifications.type, 'best-answer'),
+						),
+					);
+
 				await ctx.db.insert(notifications).values({
 					id: `notification-${cuid()}`,
 					questionId: input.questionId,

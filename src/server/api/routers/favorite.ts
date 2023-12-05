@@ -54,7 +54,18 @@ export const favoriteRouter = createTRPCRouter({
 					);
 			}
 
-			if (input.userId !== question.owner.id)
+			if (input.userId !== question.owner.id) {
+				await ctx.db
+					.delete(notifications)
+					.where(
+						and(
+							eq(notifications.questionId, input.questionId),
+							eq(notifications.receiverUserId, question.owner.id),
+							eq(notifications.transmitterUserId, input.userId),
+							eq(notifications.type, 'favorite'),
+						),
+					);
+
 				await ctx.db.insert(notifications).values({
 					id: `notification-${cuid()}`,
 					questionId: input.questionId,
@@ -63,6 +74,7 @@ export const favoriteRouter = createTRPCRouter({
 					transmitterUserId: input.userId,
 					type: 'favorite',
 				});
+			}
 
 			return ctx.db.insert(favorites).values(input);
 		}),

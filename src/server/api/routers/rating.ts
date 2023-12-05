@@ -31,7 +31,18 @@ export const ratingRouter = createTRPCRouter({
 				where: eq(answers.id, input.answerId),
 			});
 
-			if (input.userId !== answer?.userId && answer)
+			if (input.userId !== answer?.userId && answer) {
+				await ctx.db
+					.delete(notifications)
+					.where(
+						and(
+							eq(notifications.questionId, answer.questionId),
+							eq(notifications.receiverUserId, answer.userId),
+							eq(notifications.transmitterUserId, input.userId),
+							eq(notifications.type, 'rating'),
+						),
+					);
+
 				await ctx.db.insert(notifications).values({
 					id: `notification-${cuid()}`,
 					questionId: answer.questionId,
@@ -41,6 +52,7 @@ export const ratingRouter = createTRPCRouter({
 					type: 'rating',
 					rating: input.value,
 				});
+			}
 
 			if (haveRated.length === 0) {
 				return ctx.db.insert(ratings).values({
