@@ -61,16 +61,21 @@ export function DetailedQuestion({
 		<>
 			<div className='border-b-2 p-4'>
 				<div className='flex items-center space-x-3'>
-					<Avatar className='h-12 w-12'>
-						<AvatarImage
-							src={
-								question.owner.image ??
-								getDiceBearAvatar(question.owner.username)
-							}
-							alt={`${question.owner.name} avatar`}
-						/>
-						<AvatarFallback>{question.owner.initial}</AvatarFallback>
-					</Avatar>
+					<Link
+						href={`/users/${question.owner.username}`}
+						aria-label={question.owner.username}
+					>
+						<Avatar className='h-12 w-12'>
+							<AvatarImage
+								src={
+									question.owner.image ??
+									getDiceBearAvatar(question.owner.username)
+								}
+								alt={`${question.owner.name} avatar`}
+							/>
+							<AvatarFallback>{question.owner.initial}</AvatarFallback>
+						</Avatar>
+					</Link>
 					<div className='text-[#696984]'>
 						<Link
 							className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'

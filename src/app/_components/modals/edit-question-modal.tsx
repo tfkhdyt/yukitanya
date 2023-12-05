@@ -113,16 +113,21 @@ export function EditQuestionModal({
 					<DialogTitle>Edit pertanyaan</DialogTitle>
 					<div className='-mx-4 px-4 pt-4'>
 						<div className='flex items-center space-x-3'>
-							<Avatar>
-								<AvatarImage
-									src={
-										question.owner.image ??
-										getDiceBearAvatar(question.owner.username)
-									}
-									alt={`${question.owner.name} avatar`}
-								/>
-								<AvatarFallback>{question.owner.initial}</AvatarFallback>
-							</Avatar>
+							<Link
+								href={`/users/${question.owner.username}`}
+								aria-label={question.owner.username}
+							>
+								<Avatar>
+									<AvatarImage
+										src={
+											question.owner.image ??
+											getDiceBearAvatar(question.owner.username)
+										}
+										alt={`${question.owner.name} avatar`}
+									/>
+									<AvatarFallback>{question.owner.initial}</AvatarFallback>
+								</Avatar>
+							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link
 									className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'

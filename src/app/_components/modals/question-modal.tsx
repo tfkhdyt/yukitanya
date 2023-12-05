@@ -104,13 +104,15 @@ export function QuestionModal({
 					<DialogTitle>Ajukan pertanyaan</DialogTitle>
 					<div className='-mx-4 px-4 pt-4'>
 						<div className='flex items-center space-x-3'>
-							<Avatar>
-								<AvatarImage
-									src={user.image ?? getDiceBearAvatar(user.username)}
-									alt={`${user.name} avatar`}
-								/>
-								<AvatarFallback>{user.initial}</AvatarFallback>
-							</Avatar>
+							<Link href={`/users/${user.username}`} aria-label={user.username}>
+								<Avatar>
+									<AvatarImage
+										src={user.image ?? getDiceBearAvatar(user.username)}
+										alt={`${user.name} avatar`}
+									/>
+									<AvatarFallback>{user.initial}</AvatarFallback>
+								</Avatar>
+							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link
 									className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'

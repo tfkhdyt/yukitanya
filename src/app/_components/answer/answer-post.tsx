@@ -204,13 +204,21 @@ export function AnswerPost({
 				</div>
 			)}
 			<div className='flex space-x-3 border-b-2 p-4'>
-				<Avatar>
-					<AvatarImage
-						src={answer.owner.image ?? getDiceBearAvatar(answer.owner.username)}
-						alt={`${answer.owner.name} avatar`}
-					/>
-					<AvatarFallback>{answer.owner.initial}</AvatarFallback>
-				</Avatar>
+				<Link
+					href={`/users/${answer.owner.username}`}
+					aria-label={answer.owner.username}
+					className='h-fit'
+				>
+					<Avatar>
+						<AvatarImage
+							src={
+								answer.owner.image ?? getDiceBearAvatar(answer.owner.username)
+							}
+							alt={`${answer.owner.name} avatar`}
+						/>
+						<AvatarFallback>{answer.owner.initial}</AvatarFallback>
+					</Avatar>
+				</Link>
 				<div className='grow space-y-1'>
 					<div className='flex items-center space-x-2 text-[#696984]'>
 						<Link

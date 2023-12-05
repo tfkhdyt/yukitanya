@@ -72,13 +72,22 @@ export function MostPopularQuestionSection({
 
 				<div>
 					<div className='flex items-center space-x-2'>
-						<Avatar>
-							<AvatarImage
-								src={data.owner.image ?? getDiceBearAvatar(data.owner.username)}
-								alt={`${data.owner.name} avatar`}
-							/>
-							<AvatarFallback>{createInitial(data.owner.name)}</AvatarFallback>
-						</Avatar>
+						<Link
+							href={`/users/${data.owner.username}`}
+							aria-label={data.owner.username}
+						>
+							<Avatar>
+								<AvatarImage
+									src={
+										data.owner.image ?? getDiceBearAvatar(data.owner.username)
+									}
+									alt={`${data.owner.name} avatar`}
+								/>
+								<AvatarFallback>
+									{createInitial(data.owner.name)}
+								</AvatarFallback>
+							</Avatar>
+						</Link>
 						<div className='text-[#696984]'>
 							<Link
 								className='max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'

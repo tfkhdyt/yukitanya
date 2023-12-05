@@ -137,15 +137,21 @@ export function QuestionPost({
 
 	return (
 		<div className='flex space-x-3 border-b-2 p-4 transition hover:bg-slate-50'>
-			<Avatar>
-				<AvatarImage
-					src={
-						question.owner.image ?? getDiceBearAvatar(question.owner.username)
-					}
-					alt={`${question.owner.name} avatar`}
-				/>
-				<AvatarFallback>{question.owner.initial}</AvatarFallback>
-			</Avatar>
+			<Link
+				href={`/users/${question.owner.username}`}
+				aria-label={question.owner.username}
+				className='h-fit'
+			>
+				<Avatar>
+					<AvatarImage
+						src={
+							question.owner.image ?? getDiceBearAvatar(question.owner.username)
+						}
+						alt={`${question.owner.name} avatar`}
+					/>
+					<AvatarFallback>{question.owner.initial}</AvatarFallback>
+				</Avatar>
+			</Link>
 			<div className='grow space-y-1'>
 				<div className='flex items-center space-x-2 text-[#696984]'>
 					<Link

@@ -24,7 +24,7 @@ export function MostActiveUsers() {
 							<span className='mr-1 text-[#696984] font-medium w-4 text-lg'>
 								{index + 1}.
 							</span>
-							<Link href={`/users/${user.username}`}>
+							<Link href={`/users/${user.username}`} aria-label={user.username}>
 								<Avatar>
 									<AvatarImage
 										src={user.image ?? getDiceBearAvatar(user.username)}

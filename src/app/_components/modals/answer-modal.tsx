@@ -98,16 +98,22 @@ export function AnswerModal({
 				<DialogHeader>
 					<DialogTitle>Tambah jawaban</DialogTitle>
 					<div className='-mx-4 flex space-x-3 border-b-2 p-4'>
-						<Avatar>
-							<AvatarImage
-								src={
-									question.owner.image ??
-									getDiceBearAvatar(question.owner.username)
-								}
-								alt={`${question.owner.name} avatar`}
-							/>
-							<AvatarFallback>{question.owner.initial}</AvatarFallback>
-						</Avatar>
+						<Link
+							href={`/users/${question.owner.username}`}
+							aria-label={question.owner.username}
+							className='h-fit'
+						>
+							<Avatar>
+								<AvatarImage
+									src={
+										question.owner.image ??
+										getDiceBearAvatar(question.owner.username)
+									}
+									alt={`${question.owner.name} avatar`}
+								/>
+								<AvatarFallback>{question.owner.initial}</AvatarFallback>
+							</Avatar>
+						</Link>
 						<div className='grow space-y-1'>
 							<div className='flex items-center space-x-2 text-[#696984]'>
 								<Link
@@ -163,16 +169,21 @@ export function AnswerModal({
 					</div>
 					<div className='pt-2'>
 						<div className='flex items-center space-x-3'>
-							<Avatar>
-								<AvatarImage
-									src={
-										session?.user.image ??
-										getDiceBearAvatar(session?.user.username)
-									}
-									alt={`${session?.user.name} avatar`}
-								/>
-								<AvatarFallback>{session.user.initial}</AvatarFallback>
-							</Avatar>
+							<Link
+								href={`/users/${session.user.username}`}
+								aria-label={session.user.username}
+							>
+								<Avatar>
+									<AvatarImage
+										src={
+											session?.user.image ??
+											getDiceBearAvatar(session?.user.username)
+										}
+										alt={`${session?.user.name} avatar`}
+									/>
+									<AvatarFallback>{session.user.initial}</AvatarFallback>
+								</Avatar>
+							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link
 									className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
