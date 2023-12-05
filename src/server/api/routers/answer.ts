@@ -148,6 +148,8 @@ export const answerRouter = createTRPCRouter({
 	updateAnswerById: protectedProcedure
 		.input(updateAnswerSchema)
 		.mutation(async ({ ctx, input }) => {
+			await verifyCaptchaToken(input.token);
+
 			await ctx.db
 				.update(answers)
 				.set({

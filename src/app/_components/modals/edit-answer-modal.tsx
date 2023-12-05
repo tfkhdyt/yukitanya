@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { SendIcon } from 'lucide-react';
 import { type Session } from 'next-auth';
 import Link from 'next/link';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -28,10 +28,12 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 const answerSchema = z.object({
 	answer: z
@@ -78,6 +80,9 @@ export function EditAnswerModal({
 	const answerLength = form.watch('answer').length;
 	const [open, setOpen] = useState(false);
 
+	const [token, setToken] = useState('');
+	const captcha = useRef<TurnstileInstance>();
+
 	const utils = api.useUtils();
 	const { mutate, isLoading } = api.answer.updateAnswerById.useMutation({
 		onError: (error) => toast.error(error.message),
@@ -90,12 +95,14 @@ export function EditAnswerModal({
 			// await utils.question.findQuestionMetadata.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
 		},
+		onSettled: () => captcha.current?.reset(),
 	});
 
 	function onSubmit(values: z.infer<typeof answerSchema>) {
 		mutate({
 			content: values.answer,
 			id: answer.id,
+			token,
 		});
 	}
 
@@ -243,9 +250,17 @@ export function EditAnswerModal({
 										</span>
 										/1000
 									</p>
-									<div className='flex justify-end'>
+									<div className='flex justify-between flex-wrap-reverse gap-4 items-center'>
+										<Turnstile
+											siteKey={environment.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+											onSuccess={setToken}
+											ref={captcha}
+											options={{
+												theme: 'light',
+											}}
+										/>
 										<Button
-											className='rounded-full font-semibold'
+											className='rounded-full font-semibold ml-auto'
 											type='submit'
 											disabled={isLoading}
 										>

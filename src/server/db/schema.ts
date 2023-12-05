@@ -163,6 +163,7 @@ export const insertAnswerSchema = createInsertSchema(answers, {
 export const updateAnswerSchema = z.object({
 	id: z.string(),
 	content: z.string().min(1).max(1000),
+	token: z.string().optional(),
 });
 
 export const answersRelations = relations(answers, ({ many, one }) => ({
