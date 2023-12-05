@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import slugify from 'slugify';
@@ -35,9 +35,11 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
+import { environment } from '@/environment.mjs';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 const questionSchema = z.object({
 	question: z
@@ -80,6 +82,9 @@ export function EditQuestionModal({
 	});
 	const questionLength = form.watch('question').length;
 
+	const [token, setToken] = useState('');
+	const captcha = useRef<TurnstileInstance>();
+
 	const utils = api.useUtils();
 	const { isLoading, mutate } = api.question.updateQuestionById.useMutation({
 		onError: (error) => toast.error(error.message),
@@ -91,17 +96,21 @@ export function EditQuestionModal({
 			await utils.question.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
 		},
+		onSettled: () => captcha.current?.reset(),
 	});
 
 	function onSubmit(values: z.infer<typeof questionSchema>) {
 		mutate({
-			content: values.question,
-			id: question.id,
-			slug:
-				slugify(values.question.slice(0, 50), { strict: true }) +
-				`-${question.id.replace('question-', '')}`,
-			subjectId: values.subject,
-			userId: question.owner.id,
+			schema: {
+				content: values.question,
+				id: question.id,
+				slug:
+					slugify(values.question.slice(0, 50), { strict: true }) +
+					`-${question.id.replace('question-', '')}`,
+				subjectId: values.subject,
+				userId: question.owner.id,
+			},
+			token,
 		});
 	}
 
@@ -216,6 +225,14 @@ export function EditQuestionModal({
 											{isLoading ? 'Loading...' : 'Kirim'}
 										</Button>
 									</div>
+									<Turnstile
+										siteKey={environment.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+										onSuccess={setToken}
+										ref={captcha}
+										options={{
+											theme: 'light',
+										}}
+									/>
 								</form>
 							</Form>
 						</div>

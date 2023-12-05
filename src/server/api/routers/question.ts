@@ -342,12 +342,19 @@ export const questionRouter = createTRPCRouter({
 			return question;
 		}),
 	updateQuestionById: protectedProcedure
-		.input(insertQuestionSchema)
+		.input(
+			z.object({
+				schema: insertQuestionSchema,
+				token: z.string().optional(),
+			}),
+		)
 		.mutation(async ({ ctx, input }) => {
+			await verifyCaptchaToken(input.token);
+
 			const question = await ctx.db
 				.select({ slug: questions.slug })
 				.from(questions)
-				.where(eq(questions.id, input.id))
+				.where(eq(questions.id, input.schema.id))
 				.limit(1);
 
 			if (question.length === 0 || !question[0])
@@ -355,19 +362,19 @@ export const questionRouter = createTRPCRouter({
 
 			await ctx.db.insert(oldSlug).values({
 				id: `old-slug-${cuid()}`,
-				questionId: input.id,
+				questionId: input.schema.id,
 				slug: question[0].slug,
 			});
 
 			await ctx.db
 				.update(questions)
 				.set({
-					content: input.content,
-					slug: input.slug,
-					subjectId: input.subjectId,
+					content: input.schema.content,
+					slug: input.schema.slug,
+					subjectId: input.schema.subjectId,
 					updatedAt: new Date(),
 				})
-				.where(eq(questions.id, input.id));
+				.where(eq(questions.id, input.schema.id));
 		}),
 	findMostPopularQuestion: publicProcedure
 		.input(z.string().optional())

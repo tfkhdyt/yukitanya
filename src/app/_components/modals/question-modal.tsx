@@ -1,7 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import clsx from 'clsx';
+import cuid from 'cuid';
 import { SendIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type ReactNode, useRef, useState } from 'react';
@@ -39,8 +41,6 @@ import { environment } from '@/environment.mjs';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import cuid from 'cuid';
 
 const questionSchema = z.object({
 	question: z
