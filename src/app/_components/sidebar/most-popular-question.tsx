@@ -1,16 +1,17 @@
 'use client';
 
-import clsx from 'clsx';
 import { debounce } from 'lodash';
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+
+import { api } from '@/trpc/react';
 
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial, getDiceBearAvatar } from '@/lib/utils';
-import { api } from '@/trpc/react';
-
+import clsx from 'clsx';
+import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { badgeVariants } from '../ui/badge';
+import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
 
 export function MostPopularQuestionSection({
 	subject,
@@ -20,7 +21,9 @@ export function MostPopularQuestionSection({
 		name?: string;
 	};
 }) {
-	const { data } = api.question.findMostPopularQuestion.useQuery(subject?.id);
+	const { data, isLoading } = api.question.findMostPopularQuestion.useQuery(
+		subject?.id,
+	);
 
 	const [clamped, setClamped] = useState(true);
 	const [showButton, setShowButton] = useState(true);
@@ -55,6 +58,10 @@ export function MostPopularQuestionSection({
 			window.removeEventListener('resize', debouncedCheck);
 		};
 	});
+
+	if (isLoading) {
+		return <SkeletonMostPopularQuestionSection subject={subject} />;
+	}
 
 	if (data && data.popularity > 0) {
 		return (
