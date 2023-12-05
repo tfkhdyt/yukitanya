@@ -93,7 +93,7 @@ export function MostPopularQuestionSection({
 						<p
 							className={clsx(
 								'whitespace-pre-wrap pt-2 text-sm leading-relaxed text-[#696984] font-normal',
-								clamped ? 'line-clamp-4' : 'line-clamp-[8]',
+								clamped && 'line-clamp-4',
 							)}
 							ref={containerReference}
 						>
@@ -109,7 +109,7 @@ export function MostPopularQuestionSection({
 							Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
 						</button>
 					)}
-					<div className='flex items-center gap-2 py-4 flex-wrap-reverse justify-between'>
+					<div className='flex items-center gap-2 pt-4 flex-wrap-reverse justify-between'>
 						<div className='text-sm font-medium text-[#696984] flex flex-wrap gap-1'>
 							{formatLongDateTime(data.question.createdAt)}
 							{data.question.createdAt.getTime() !==

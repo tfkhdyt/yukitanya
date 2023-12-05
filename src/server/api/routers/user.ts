@@ -1,11 +1,11 @@
 import * as argon2 from 'argon2';
-import { and, asc, eq, gte, ilike, or } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, ilike, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 import { getDiceBearAvatar } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
-import { users } from '@/server/db/schema';
+import { answers, favorites, questions, users } from '@/server/db/schema';
 import cuid from 'cuid';
 
 export const userRouter = createTRPCRouter({
@@ -134,4 +134,24 @@ export const userRouter = createTRPCRouter({
 				},
 			});
 		}),
+	findMostActiveUsers: publicProcedure.query(async ({ ctx }) => {
+		const score =
+			sql`COUNT(DISTINCT ${questions.id}) * 2 + COUNT(DISTINCT ${answers.id}) * 3 + COUNT(DISTINCT ${favorites.questionId})`.mapWith(
+				Number,
+			);
+
+		const data = await ctx.db
+			.select({
+				user: users,
+			})
+			.from(users)
+			.leftJoin(questions, eq(questions.userId, users.id))
+			.leftJoin(answers, eq(answers.userId, users.id))
+			.leftJoin(favorites, eq(favorites.userId, users.id))
+			.groupBy(users.id)
+			.orderBy(desc(score))
+			.limit(3);
+
+		return data;
+	}),
 });
