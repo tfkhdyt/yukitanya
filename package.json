@@ -74,7 +74,7 @@
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
     "@types/react-scroll": "^1.8.10",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "autoprefixer": "^10.4.16",
     "dotenv-cli": "^7.3.0",
