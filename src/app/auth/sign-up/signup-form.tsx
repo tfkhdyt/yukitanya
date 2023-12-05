@@ -34,6 +34,10 @@ export function SignupForm() {
 		resolver: zodResolver(signupSchema),
 	});
 	const router = useRouter();
+
+	const [token, setToken] = useState('');
+	const captcha = useRef<TurnstileInstance>();
+
 	const { isLoading, mutate } = api.user.register.useMutation({
 		onError: (error) => toast.error(error.message),
 		onSuccess: () => {
@@ -44,10 +48,8 @@ export function SignupForm() {
 				router.push('/auth/sign-in');
 			}, 3e3);
 		},
+		onSettled: () => captcha.current?.reset(),
 	});
-
-	const [token, setToken] = useState('');
-	const captcha = useRef<TurnstileInstance>();
 
 	const onSubmit = (values: SignupSchema) => {
 		mutate({
@@ -59,8 +61,6 @@ export function SignupForm() {
 			username: values.username,
 			token,
 		});
-
-		captcha.current?.reset();
 	};
 
 	return (

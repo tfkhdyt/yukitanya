@@ -71,6 +71,9 @@ export function QuestionModal({
 	});
 	const questionLength = form.watch('question')?.length ?? 0;
 
+	const [token, setToken] = useState('');
+	const captcha = useRef<TurnstileInstance>();
+
 	const utils = api.useUtils();
 	const { isLoading, mutate } = api.question.createQuestion.useMutation({
 		onError: (error) => toast.error(error.message),
@@ -81,10 +84,8 @@ export function QuestionModal({
 			await utils.question.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
 		},
+		onSettled: () => captcha.current?.reset(),
 	});
-
-	const [token, setToken] = useState('');
-	const captcha = useRef<TurnstileInstance>();
 
 	function onSubmit(values: z.infer<typeof questionSchema>) {
 		const id = cuid();
@@ -100,8 +101,6 @@ export function QuestionModal({
 		};
 
 		mutate({ schema: input, token });
-
-		captcha.current?.reset();
 	}
 
 	return (
