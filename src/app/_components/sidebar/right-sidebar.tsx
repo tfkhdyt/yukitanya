@@ -8,6 +8,7 @@ import { P, match } from 'ts-pattern';
 import { TanyakanSekarangButton } from '../buttons/tanyakan-sekarang';
 import { MostActiveUsers } from './most-active-users';
 import { MostPopularQuestionSection } from './most-popular-question';
+import { MostPopularSubject } from './most-popular-subject';
 
 export function RightSidebar({ session }: { session: Session | null }) {
 	const pathname = usePathname();
@@ -57,7 +58,12 @@ export function RightSidebar({ session }: { session: Session | null }) {
 						</div>
 					),
 				)
-				.with(P.string.startsWith('/subjects'), () => '')
+				.with(P.string.startsWith('/subjects'), () => (
+					<div className='space-y-8'>
+						<MostPopularSubject />
+						<MostPopularQuestionSection />
+					</div>
+				))
 				.otherwise(() => '')}
 		</div>
 	);
