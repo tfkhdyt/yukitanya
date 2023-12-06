@@ -122,14 +122,14 @@ export function QuestionModal({
 							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link
-									className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+									className='block max-w-[16rem] md:max-w-md cursor-pointer truncate font-medium decoration-2 hover:underline'
 									href={`/users/${user.username}`}
 									title={user.name ?? user.username}
 								>
 									{user.name}
 								</Link>
 								<Link
-									className='block max-w-full truncate font-normal'
+									className='block max-w-[16rem] md:max-w-md truncate font-normal'
 									href={`/users/${user.username}`}
 									title={`@${user.username}`}
 								>

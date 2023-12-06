@@ -132,14 +132,14 @@ export function EditAnswerModal({
 						<div className='grow space-y-1'>
 							<div className='flex items-center space-x-2 text-[#696984]'>
 								<Link
-									className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
+									className='max-w-[5.5rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
 									href={`/users/${question.owner.username}`}
 									title={question.owner.name ?? question.owner.username}
 								>
 									{question.owner.name}
 								</Link>
 								<Link
-									className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
+									className='max-w-[5.5rem] truncate font-normal md:max-w-[12rem]'
 									href={`/users/${question.owner.username}`}
 									title={`@${question.owner.username}`}
 								>
@@ -201,14 +201,14 @@ export function EditAnswerModal({
 							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link
-									className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+									className='block max-w-[16rem] md:max-w-md cursor-pointer truncate font-medium decoration-2 hover:underline'
 									href={`/users/${session.user.username}`}
 									title={session.user.name ?? session.user.username}
 								>
 									{session.user.name}
 								</Link>
 								<Link
-									className='block max-w-full truncate font-normal'
+									className='block max-w-[16rem] md:max-w-md truncate font-normal'
 									href={`/users/${session.user.username}`}
 									title={`@${session.user.username}`}
 								>

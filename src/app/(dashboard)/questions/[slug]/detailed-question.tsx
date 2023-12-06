@@ -78,14 +78,14 @@ export function DetailedQuestion({
 					</Link>
 					<div className='text-[#696984]'>
 						<Link
-							className='block max-w-[16rem] cursor-pointer truncate font-medium decoration-2 hover:underline'
+							className='block max-w-[16rem] md:max-w-md cursor-pointer truncate font-medium decoration-2 hover:underline'
 							href={`/users/${question.owner.username}`}
 							title={question.owner.name ?? question.owner.username}
 						>
 							{question.owner.name}
 						</Link>
 						<Link
-							className='block max-w-full truncate font-normal'
+							className='block max-w-[16rem] md:max-w-md truncate font-normal'
 							href={`/users/${question.owner.username}`}
 							title={`@${question.owner.username}`}
 						>

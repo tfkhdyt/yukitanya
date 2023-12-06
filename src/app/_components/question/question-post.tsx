@@ -155,14 +155,14 @@ export function QuestionPost({
 			<div className='grow space-y-1'>
 				<div className='flex items-center space-x-2 text-[#696984]'>
 					<Link
-						className='max-w-[6.25rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
+						className='max-w-[5.5rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
 						href={`/users/${question.owner.username}`}
 						title={question.owner.name ?? question.owner.username}
 					>
 						{question.owner.name}
 					</Link>
 					<Link
-						className='max-w-[6.25rem] truncate font-normal md:max-w-[12rem]'
+						className='max-w-[5.5rem] truncate font-normal md:max-w-[12rem]'
 						href={`/users/${question.owner.username}`}
 						title={`@${question.owner.username}`}
 					>
