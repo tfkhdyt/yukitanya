@@ -128,6 +128,7 @@ export function MostPopularQuestionSection({
 							className='text-sm font-medium text-[#696984] hover:underline mt-2'
 							onClick={handleReadMore}
 							type='button'
+							tabIndex={-1}
 						>
 							Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
 						</button>
