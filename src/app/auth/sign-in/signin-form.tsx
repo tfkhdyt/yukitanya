@@ -116,7 +116,20 @@ export function SigninForm() {
 							</FormItem>
 						)}
 					/>
-					<p className='text-right text-xs font-medium'>Lupa password?</p>
+					<div className='flex justify-end'>
+						<button
+							className='text-xs font-medium hover:underline cursor-pointer'
+							type='button'
+							onClick={() =>
+								toast('Rileks... Dan coba ingat-ingat lagi', {
+									icon: '😅',
+								})
+							}
+						>
+							Lupa password?
+						</button>
+					</div>
+
 					<Button
 						className='hover:bg-slate-80 w-full rounded-full bg-[#77425A] focus-visible:ring-[#77425A]'
 						disabled={isLoading}
