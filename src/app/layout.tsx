@@ -19,7 +19,7 @@ import { TRPCReactProvider } from '@/trpc/react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-	title: 'Yukitanya',
+	title: 'Yukitanya - Jangan malu untuk bertanya!',
 	description:
 		'Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
 	applicationName: 'Yukitanya',
