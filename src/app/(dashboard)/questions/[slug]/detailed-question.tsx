@@ -78,7 +78,7 @@ export function DetailedQuestion({
 					</Link>
 					<div className='text-[#696984]'>
 						<Link
-							className='block max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline'
+							className='block max-w-[16rem] cursor-pointer truncate font-medium decoration-2 hover:underline'
 							href={`/users/${question.owner.username}`}
 							title={question.owner.name ?? question.owner.username}
 						>
