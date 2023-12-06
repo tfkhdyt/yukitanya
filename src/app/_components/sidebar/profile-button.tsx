@@ -45,10 +45,10 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 					<AvatarFallback>{user?.initial}</AvatarFallback>
 				</Avatar>
 				<div className='hidden text-left md:inline'>
-					<h2 className='text-sm font-medium md:text-base truncate max-w-[6rem]'>
+					<h2 className='text-sm font-medium md:text-base truncate max-w-[5.5rem]'>
 						{user?.name}
 					</h2>
-					<p className='hidden text-sm md:inline md:text-base truncate max-w-[6rem]'>
+					<p className='hidden text-sm md:inline md:text-base truncate max-w-[5.5rem]'>
 						@{user?.username}
 					</p>
 				</div>

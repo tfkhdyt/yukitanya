@@ -4,7 +4,11 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { SkeletonMostActiveUsers } from './skeleton-most-active-users';
 
-export function MostActiveUsers() {
+export function MostActiveUsers({
+	setSheetOpen,
+}: {
+	setSheetOpen?: () => void;
+}) {
 	const { data, isLoading } = api.user.findMostActiveUsers.useQuery();
 
 	if (isLoading) {
@@ -24,7 +28,11 @@ export function MostActiveUsers() {
 							<span className='mr-1 text-[#696984] font-medium w-4 text-lg'>
 								{index + 1}.
 							</span>
-							<Link href={`/users/${user.username}`} aria-label={user.username}>
+							<Link
+								href={`/users/${user.username}`}
+								aria-label={user.username}
+								onClick={setSheetOpen}
+							>
 								<Avatar>
 									<AvatarImage
 										src={user.image ?? getDiceBearAvatar(user.username)}
@@ -35,15 +43,17 @@ export function MostActiveUsers() {
 							</Link>
 							<div className='text-[#696984]'>
 								<Link
-									className='max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
+									className='max-w-[10rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
 									href={`/users/${user.username}`}
+									onClick={setSheetOpen}
 									title={user.name ?? user.username}
 								>
 									{user.name}
 								</Link>
 								<Link
-									className='max-w-full truncate font-normal md:max-w-[12rem] block text-base'
+									className='max-w-[10rem] truncate font-normal md:max-w-[12rem] block text-base'
 									href={`/users/${user.username}`}
+									onClick={setSheetOpen}
 									title={`@${user.username}`}
 								>
 									@{user.username}

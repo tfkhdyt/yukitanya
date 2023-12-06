@@ -1,25 +1,26 @@
 'use client';
 
+import clsx from 'clsx';
 import { debounce } from 'lodash';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-
-import { api } from '@/trpc/react';
 
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial, getDiceBearAvatar } from '@/lib/utils';
-import clsx from 'clsx';
-import Link from 'next/link';
+import { api } from '@/trpc/react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
 
 export function MostPopularQuestionSection({
 	subject,
+	setSheetOpen,
 }: {
 	subject?: {
 		id?: string;
 		name?: string;
 	};
+	setSheetOpen?: () => void;
 }) {
 	const { data, isLoading } = api.question.findMostPopularQuestion.useQuery(
 		subject?.id,
@@ -75,6 +76,7 @@ export function MostPopularQuestionSection({
 						<Link
 							href={`/users/${data.owner.username}`}
 							aria-label={data.owner.username}
+							onClick={setSheetOpen}
 						>
 							<Avatar>
 								<AvatarImage
@@ -90,22 +92,27 @@ export function MostPopularQuestionSection({
 						</Link>
 						<div className='text-[#696984]'>
 							<Link
-								className='max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
+								className='max-w-[10rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
 								href={`/users/${data.owner.username}`}
+								onClick={setSheetOpen}
 								title={data.owner.name ?? data.owner.username}
 							>
 								{data.owner.name}
 							</Link>
 							<Link
-								className='max-w-full truncate font-normal md:max-w-[12rem] block text-base'
+								className='max-w-[10rem] truncate font-normal md:max-w-[12rem] block text-base'
 								href={`/users/${data.owner.username}`}
+								onClick={setSheetOpen}
 								title={`@${data.owner.username}`}
 							>
 								@{data.owner.username}
 							</Link>
 						</div>
 					</div>
-					<Link href={`/questions/${data.question.slug}`}>
+					<Link
+						href={`/questions/${data.question.slug}`}
+						onClick={setSheetOpen}
+					>
 						<p
 							className={clsx(
 								'whitespace-pre-wrap pt-2 text-sm leading-relaxed text-[#696984] font-normal',
@@ -146,6 +153,7 @@ export function MostPopularQuestionSection({
 						</div>
 						<Link
 							href={`/subjects/${data.subject.id}`}
+							onClick={setSheetOpen}
 							className={clsx(
 								badgeVariants({ variant: 'secondary' }),
 								'hover:bg-gray-200',

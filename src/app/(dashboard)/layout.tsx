@@ -18,7 +18,7 @@ export default async function DashboardLayout({
 			<aside className='sticky top-0 hidden h-screen border-r-2 md:inline md:w-1/3 lg:w-1/4 overflow-y-auto'>
 				<LeftSidebar session={session} />
 			</aside>
-			<MainContent user={session?.user}>{children}</MainContent>
+			<MainContent session={session}>{children}</MainContent>
 			<aside className='sticky top-0 hidden h-screen w-1/4 border-l-2 p-6 lg:inline overflow-y-auto'>
 				<RightSidebar session={session} />
 			</aside>

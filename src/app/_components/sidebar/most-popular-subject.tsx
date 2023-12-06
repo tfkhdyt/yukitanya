@@ -4,7 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SkeletonMostPopularSubjects } from './skeleton-most-popular-subject';
 
-export function MostPopularSubject() {
+export function MostPopularSubject({
+	setSheetOpen,
+}: {
+	isMobile?: boolean;
+	setSheetOpen?: () => void;
+}) {
 	const { data, isLoading } = api.subject.findMostPopularSubjects.useQuery();
 
 	if (isLoading) {
@@ -24,7 +29,7 @@ export function MostPopularSubject() {
 							<span className='mr-2 text-[#696984] font-medium w-4 text-lg'>
 								{index + 1}.
 							</span>
-							<Link href={`/subjects/${subject.id}`}>
+							<Link href={`/subjects/${subject.id}`} onClick={setSheetOpen}>
 								<Image
 									src={
 										mapel.find((mpl) => mpl.id === subject.id)?.imageUrl ?? ''
@@ -36,8 +41,9 @@ export function MostPopularSubject() {
 							</Link>
 							<div className='text-[#696984]'>
 								<Link
-									className='max-w-full cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
+									className='max-w-[10rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
 									href={`/subjects/${subject.id}`}
+									onClick={setSheetOpen}
 								>
 									{subject.name}
 								</Link>
