@@ -286,7 +286,7 @@ export function AnswerPost({
 										className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 										size='sm'
 										title='Beri nilai'
-										variant='outline'
+										variant='ghost'
 										disabled={
 											!session ||
 											ratingMutation.isLoading ||
@@ -361,7 +361,7 @@ export function AnswerPost({
 											? 'Batalkan jawaban terbaik'
 											: 'Tandai sebagai jawaban terbaik'
 									}
-									variant='outline'
+									variant='ghost'
 									disabled={bestAnswerMutation.isLoading}
 									onClick={() => handleBestAnswer(answer.id)}
 								>
@@ -388,7 +388,7 @@ export function AnswerPost({
 											className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 											size='sm'
 											title='Lainnya'
-											variant='outline'
+											variant='ghost'
 										>
 											<MoreHorizontalIcon size={18} />
 										</Button>

@@ -245,7 +245,7 @@ export function QuestionPost({
 						onClick={handleFavorite}
 						size='sm'
 						title='Favorit'
-						variant='outline'
+						variant='ghost'
 					>
 						<>
 							{question.isFavorited ? (
@@ -262,7 +262,7 @@ export function QuestionPost({
 								className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 								size='sm'
 								title='Beri jawaban mu'
-								variant='outline'
+								variant='ghost'
 							>
 								<MessageCircle className='mr-1' size={18} />
 								{question.numberOfAnswers}
@@ -274,7 +274,7 @@ export function QuestionPost({
 							disabled
 							size='sm'
 							title='Beri jawaban mu'
-							variant='outline'
+							variant='ghost'
 						>
 							<MessageCircle className='mr-1' size={18} />
 							{question.numberOfAnswers}
@@ -293,7 +293,7 @@ export function QuestionPost({
 							className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 							size='sm'
 							title='Bagikan'
-							variant='outline'
+							variant='ghost'
 						>
 							<Share2Icon size={18} />
 						</Button>
@@ -312,7 +312,7 @@ export function QuestionPost({
 									className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 									size='sm'
 									title='Lainnya'
-									variant='outline'
+									variant='ghost'
 								>
 									<MoreHorizontalIcon size={18} />
 								</Button>
