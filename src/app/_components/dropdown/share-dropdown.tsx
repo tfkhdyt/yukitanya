@@ -1,16 +1,13 @@
 'use client';
 
-import { LinkIcon } from 'lucide-react';
+import { CheckIcon, LinkIcon } from 'lucide-react';
+import Image from 'next/image';
 import { type ReactNode, useState } from 'react';
 import {
-	FacebookIcon,
 	FacebookShareButton,
-	TelegramIcon,
 	TelegramShareButton,
 	TwitterShareButton,
-	WhatsappIcon,
 	WhatsappShareButton,
-	XIcon,
 } from 'react-share';
 
 import {
@@ -59,25 +56,49 @@ export function ShareDropdown({
 				<DropdownMenuSeparator />
 				<FacebookShareButton url={url.href} className='block w-full'>
 					<DropdownMenuItem className='flex cursor-pointer items-center'>
-						<FacebookIcon className='mr-2' size={18} round />
+						<Image
+							src='/img/icon/facebook.svg'
+							height={20}
+							width={20}
+							className='mr-2'
+							alt='Facebook'
+						/>
 						<span>Facebook</span>
 					</DropdownMenuItem>
 				</FacebookShareButton>
 				<TwitterShareButton url={url.href} className='block w-full'>
 					<DropdownMenuItem className='flex cursor-pointer items-center'>
-						<XIcon className='mr-2' size={18} round />
+						<Image
+							src='/img/icon/twitter.svg'
+							height={20}
+							width={20}
+							className='mr-2'
+							alt='X'
+						/>
 						<span>X</span>
 					</DropdownMenuItem>
 				</TwitterShareButton>
 				<TelegramShareButton url={url.href} className='block w-full'>
 					<DropdownMenuItem className='flex cursor-pointer items-center'>
-						<TelegramIcon className='mr-2' size={18} round />
+						<Image
+							src='/img/icon/telegram.svg'
+							height={20}
+							width={20}
+							className='mr-2'
+							alt='Telegram'
+						/>
 						<span>Telegram</span>
 					</DropdownMenuItem>
 				</TelegramShareButton>
 				<WhatsappShareButton url={url.href} className='block w-full'>
 					<DropdownMenuItem className='flex cursor-pointer items-center'>
-						<WhatsappIcon className='mr-2' size={18} round />
+						<Image
+							src='/img/icon/whatsapp.svg'
+							height={20}
+							width={20}
+							className='mr-2'
+							alt='WhatsApp'
+						/>
 						<span>WhatsApp</span>
 					</DropdownMenuItem>
 				</WhatsappShareButton>
@@ -85,8 +106,19 @@ export function ShareDropdown({
 					onClick={handleCopyLinkClick}
 					onSelect={(event) => event.preventDefault()}
 				>
-					<LinkIcon className='mr-2' size={18} />
-					<span>{copied ? 'Tersalin' : 'Salin link'}</span>
+					<span className='flex items-center'>
+						{copied ? (
+							<>
+								<CheckIcon className='mr-2' size={18} />
+								Tersalin!
+							</>
+						) : (
+							<>
+								<LinkIcon className='mr-2' size={18} />
+								Salin link
+							</>
+						)}
+					</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
