@@ -21,9 +21,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
 	title: 'Yukitanya',
 	description:
-		'Yukitanya adalah sebuah website yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
+		'Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
 	applicationName: 'Yukitanya',
-	keywords: ['Forum', 'QnA', 'Student', 'Question', 'Answer', 'seKODlah'],
+	keywords: ['Forum', 'QnA', 'Student', 'Question', 'Answer', 'seKODlah', 'Yukitanya', 'yukitanya', 'Brainly', 'brainly'],
 	creator: 'Taufik Hidayat',
 	publisher: 'seKODlah Kelompok 5 MSIB 5',
 	metadataBase: new URL(environment.NEXT_PUBLIC_BASE_PATH),
