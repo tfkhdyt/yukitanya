@@ -1,12 +1,13 @@
-import { RightSidebar } from '@/components/sidebar/right-sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { LogOutIcon, UserCircleIcon } from 'lucide-react';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
+
+import { RightSidebar } from '@/components/sidebar/right-sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { getDiceBearAvatar } from '@/lib/utils';
 
 export function MobileSheet({ session }: { session: Session | null }) {
 	const [open, setOpen] = useState(false);
@@ -68,6 +69,7 @@ export function MobileSheet({ session }: { session: Session | null }) {
 						className='flex w-fit items-center space-x-6'
 						href={`/users/${session.user?.username}`}
 						onClick={() => setOpen(false)}
+						tabIndex={-1}
 					>
 						<UserCircleIcon className='mr-2' size={28} strokeWidth={1} />
 						Profil
@@ -80,6 +82,7 @@ export function MobileSheet({ session }: { session: Session | null }) {
 								callbackUrl: '/auth/sign-in',
 							})
 						}
+						tabIndex={-1}
 					>
 						<LogOutIcon className='mr-2' size={28} strokeWidth={1} />
 						Sign out
