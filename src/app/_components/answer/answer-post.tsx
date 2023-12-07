@@ -1,7 +1,6 @@
 'use client';
 
 import clsx from 'clsx';
-import { debounce } from 'lodash';
 import {
 	CheckCircle,
 	MoreHorizontalIcon,
@@ -12,7 +11,7 @@ import {
 } from 'lucide-react';
 import { type Session } from 'next-auth';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { DeleteModal } from '@/components/modals/delete-modal';
@@ -29,6 +28,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
@@ -71,39 +71,7 @@ export function AnswerPost({
 	session: Session | null;
 }) {
 	const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
-	const [clamped, setClamped] = useState(true);
-	const [showButton, setShowButton] = useState(true);
-	const containerReference = useRef<HTMLParagraphElement>(null);
-
-	const handleReadMore = () => setClamped((v) => !v);
-
-	useEffect(() => {
-		const hasClamping = (element: HTMLParagraphElement) => {
-			const { clientHeight, scrollHeight } = element;
-			return clientHeight !== scrollHeight;
-		};
-
-		const checkButtonAvailability = () => {
-			if (containerReference.current) {
-				const hadClampClass =
-					containerReference.current.classList.contains('line-clamp-4');
-				if (!hadClampClass)
-					containerReference.current.classList.add('line-clamp-4');
-				setShowButton(hasClamping(containerReference.current));
-				if (!hadClampClass)
-					containerReference.current.classList.remove('line-clamp-4');
-			}
-		};
-
-		const debouncedCheck = debounce(checkButtonAvailability, 50);
-
-		checkButtonAvailability();
-		window.addEventListener('resize', debouncedCheck);
-
-		return () => {
-			window.removeEventListener('resize', debouncedCheck);
-		};
-	});
+	const { isOpen, setIsOpen, showReadMoreButton, ref } = useClamp();
 
 	const utils = api.useUtils();
 	const deleteAnswerMutation = api.answer.deleteAnswerById.useMutation({
@@ -256,19 +224,19 @@ export function AnswerPost({
 					<p
 						className={clsx(
 							'whitespace-pre-wrap text-sm leading-relaxed text-[#696984]',
-							clamped && 'line-clamp-4',
+							isOpen || 'line-clamp-4',
 						)}
-						ref={containerReference}
+						ref={ref}
 					>
 						{answer.content}
 					</p>
-					{showButton && (
+					{showReadMoreButton && (
 						<button
 							className='text-sm font-medium text-[#696984] hover:underline'
-							onClick={handleReadMore}
+							onClick={() => setIsOpen((v) => !v)}
 							type='button'
 						>
-							Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
+							Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
 						</button>
 					)}
 					<div className='flex flex-wrap-reverse items-center gap-4 pt-4 text-[#696984] justify-between'>

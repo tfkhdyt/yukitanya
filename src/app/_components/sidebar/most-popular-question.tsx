@@ -1,10 +1,9 @@
 'use client';
 
 import clsx from 'clsx';
-import { debounce } from 'lodash';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 
+import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial, getDiceBearAvatar } from '@/lib/utils';
 import { api } from '@/trpc/react';
@@ -26,39 +25,7 @@ export function MostPopularQuestionSection({
 		subject?.id,
 	);
 
-	const [clamped, setClamped] = useState(true);
-	const [showButton, setShowButton] = useState(true);
-	const containerReference = useRef<HTMLParagraphElement>(null);
-
-	const handleReadMore = () => setClamped((v) => !v);
-
-	useEffect(() => {
-		const hasClamping = (element: HTMLParagraphElement) => {
-			const { clientHeight, scrollHeight } = element;
-			return clientHeight !== scrollHeight;
-		};
-
-		const checkButtonAvailability = () => {
-			if (containerReference.current) {
-				const hadClampClass =
-					containerReference.current.classList.contains('line-clamp-4');
-				if (!hadClampClass)
-					containerReference.current.classList.add('line-clamp-4');
-				setShowButton(hasClamping(containerReference.current));
-				if (!hadClampClass)
-					containerReference.current.classList.remove('line-clamp-4');
-			}
-		};
-
-		const debouncedCheck = debounce(checkButtonAvailability, 50);
-
-		checkButtonAvailability();
-		window.addEventListener('resize', debouncedCheck);
-
-		return () => {
-			window.removeEventListener('resize', debouncedCheck);
-		};
-	});
+	const { isOpen, setIsOpen, ref, showReadMoreButton } = useClamp();
 
 	if (isLoading) {
 		return <SkeletonMostPopularQuestionSection subject={subject} />;
@@ -116,21 +83,21 @@ export function MostPopularQuestionSection({
 						<p
 							className={clsx(
 								'whitespace-pre-wrap pt-2 text-sm leading-relaxed text-[#696984] font-normal',
-								clamped && 'line-clamp-4',
+								isOpen || 'line-clamp-4',
 							)}
-							ref={containerReference}
+							ref={ref}
 						>
 							{data.question.content}
 						</p>
 					</Link>
-					{showButton && (
+					{showReadMoreButton && (
 						<button
 							className='text-sm font-medium text-[#696984] hover:underline mt-2'
-							onClick={handleReadMore}
+							onClick={() => setIsOpen((v) => !v)}
 							type='button'
 							tabIndex={-1}
 						>
-							Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
+							Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
 						</button>
 					)}
 					<div className='flex items-center gap-2 pt-4 flex-wrap-reverse justify-between'>

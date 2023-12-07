@@ -1,7 +1,6 @@
 'use client';
 
 import clsx from 'clsx';
-import { debounce } from 'lodash';
 import {
 	Heart,
 	MessageCircle,
@@ -12,7 +11,7 @@ import {
 } from 'lucide-react';
 import { type Session } from 'next-auth';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { AnswerModal } from '@/components/modals/answer-modal';
@@ -37,6 +36,7 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
+import { useClamp } from '@/hooks/useClamp';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 
 type Question = {
@@ -68,39 +68,8 @@ export function QuestionPost({
 	const utils = api.useUtils();
 	const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 	const [isShowDropdown, setIsShowDropDown] = useState(false);
-	const [clamped, setClamped] = useState(true);
-	const [showButton, setShowButton] = useState(true);
-	const containerReference = useRef<HTMLParagraphElement>(null);
 
-	const handleReadMore = () => setClamped((v) => !v);
-
-	useEffect(() => {
-		const hasClamping = (element: HTMLParagraphElement) => {
-			const { clientHeight, scrollHeight } = element;
-			return clientHeight !== scrollHeight;
-		};
-
-		const checkButtonAvailability = () => {
-			if (containerReference.current) {
-				const hadClampClass =
-					containerReference.current.classList.contains('line-clamp-4');
-				if (!hadClampClass)
-					containerReference.current.classList.add('line-clamp-4');
-				setShowButton(hasClamping(containerReference.current));
-				if (!hadClampClass)
-					containerReference.current.classList.remove('line-clamp-4');
-			}
-		};
-
-		const debouncedCheck = debounce(checkButtonAvailability, 50);
-
-		checkButtonAvailability();
-		window.addEventListener('resize', debouncedCheck);
-
-		return () => {
-			window.removeEventListener('resize', debouncedCheck);
-		};
-	});
+	const { isOpen, setIsOpen, ref, showReadMoreButton } = useClamp();
 
 	const favoriteMutation = api.favorite.toggleFavorite.useMutation({
 		onError: () => toast.error('Gagal memberi favorit'),
@@ -190,9 +159,9 @@ export function QuestionPost({
 					<p
 						className={clsx(
 							'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
-							clamped && 'line-clamp-4',
+							isOpen || 'line-clamp-4',
 						)}
-						ref={containerReference}
+						ref={ref}
 					>
 						{question.content.split(' ').map((word, index) => {
 							if (highlightedWords?.includes(word.toLowerCase())) {
@@ -208,13 +177,13 @@ export function QuestionPost({
 						})}
 					</p>
 				</Link>
-				{showButton && (
+				{showReadMoreButton && (
 					<button
 						className='text-sm font-medium text-[#696984] hover:underline'
-						onClick={handleReadMore}
+						onClick={() => setIsOpen((v) => !v)}
 						type='button'
 					>
-						Tampilkan lebih {clamped ? 'banyak' : 'sedikit'}
+						Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
 					</button>
 				)}
 				<div className='flex justify-between pt-4'>

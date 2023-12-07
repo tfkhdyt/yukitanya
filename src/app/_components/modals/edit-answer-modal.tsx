@@ -166,7 +166,7 @@ export function EditAnswerModal({
 									)}
 								</div>
 							</div>
-							<p className='text-left text-sm leading-relaxed text-[#696984]'>
+							<p className='line-clamp-4 whitespace-pre-wrap text-left text-sm leading-relaxed text-[#696984]'>
 								{question.content}
 							</p>
 							<div className='flex justify-start'>
