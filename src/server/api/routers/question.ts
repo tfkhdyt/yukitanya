@@ -1,5 +1,4 @@
-import { and, countDistinct, desc, eq, ilike, lte, sql } from 'drizzle-orm';
-import { match } from 'ts-pattern';
+import { and, countDistinct, desc, eq, inArray, lte, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 import {
@@ -12,6 +11,7 @@ import {
 	users,
 } from '@/server/db/schema';
 
+import { questionIndex } from '@/lib/algolia';
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
@@ -198,34 +198,44 @@ export const questionRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ ctx, input }) => {
-			const condition = match(input.subjectId)
-				.with('all', () => {
-					if (input.cursor) {
-						return and(
-							ilike(questions.content, `%${input.query}%`),
-							lte(questions.id, input.cursor),
-						);
-					}
+			const searchResults = await questionIndex.search(input.query, {
+				filters: input.subjectId ? `subjectId:${input.subjectId}` : undefined,
+			});
+			const hitsIds = searchResults.hits.map((hit) => hit.objectID);
+			if (hitsIds.length === 0) {
+				throw new Error('Pertanyaan yang kamu cari tidak ditemukan');
+			}
 
-					return ilike(questions.content, `%${input.query}%`);
-				})
-				.otherwise((subjectId) => {
-					if (input.cursor) {
-						return and(
-							ilike(questions.content, `%${input.query}%`),
-							eq(questions.subjectId, subjectId),
-							lte(questions.id, input.cursor),
-						);
-					}
-					return and(
-						ilike(questions.content, `%${input.query}%`),
-						eq(questions.subjectId, subjectId),
-					);
-				});
+			// const condition = match(input.subjectId)
+			// 	.with('all', () => {
+			// 		if (input.cursor) {
+			// 			return and(
+			// 				ilike(questions.content, `%${input.query}%`),
+			// 				lte(questions.id, input.cursor),
+			// 			);
+			// 		}
+
+			// 		return ilike(questions.content, `%${input.query}%`);
+			// 	})
+			// 	.otherwise((subjectId) => {
+			// 		if (input.cursor) {
+			// 			return and(
+			// 				ilike(questions.content, `%${input.query}%`),
+			// 				eq(questions.subjectId, subjectId),
+			// 				lte(questions.id, input.cursor),
+			// 			);
+			// 		}
+			// 		return and(
+			// 			ilike(questions.content, `%${input.query}%`),
+			// 			eq(questions.subjectId, subjectId),
+			// 		);
+			// 	});
 
 			const data = await ctx.db.query.questions.findMany({
 				orderBy: [desc(questions.createdAt)],
-				where: condition,
+				where: input.cursor
+					? and(lte(questions.id, input.cursor), inArray(questions.id, hitsIds))
+					: inArray(questions.id, hitsIds),
 				limit: input.limit + 1,
 				with: {
 					answers: {
