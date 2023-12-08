@@ -188,16 +188,16 @@ export function AnswerPost({
 					</Avatar>
 				</Link>
 				<div className='grow space-y-1'>
-					<div className='flex items-center space-x-2 text-[#696984]'>
+					<div className='flex items-center space-x-2 text-[#696984] max-w-full'>
 						<Link
-							className='max-w-[5.5rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem]'
+							className='cursor-pointer font-medium decoration-2 hover:underline break-all line-clamp-1 max-w-[38%] md:max-w-[50%]'
 							href={`/users/${answer.owner.username}`}
 							title={answer.owner.name ?? answer.owner.username}
 						>
 							{answer.owner.name}
 						</Link>
 						<Link
-							className='max-w-[5.5rem] truncate font-normal md:max-w-[12rem]'
+							className='font-normal break-all line-clamp-1 max-w-[23%] md:max-w-[34%]'
 							href={`/users/${answer.owner.username}`}
 							title={`@${answer.owner.username}`}
 						>
