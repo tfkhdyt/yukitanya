@@ -198,12 +198,15 @@ export const questionRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ ctx, input }) => {
-			console.info(`subjectId: ${input.subjectId}`);
-			const searchResults = await questionIndex.search(input.query, {
-				filters:
-					input.subjectId !== 'all' ? `subjectId:${input.subjectId}` : '',
-			});
-			console.info('Search result:', searchResults);
+			const requestOpts =
+				input.subjectId !== 'all'
+					? { filters: `subjectId:${input.subjectId}` }
+					: undefined;
+
+			const searchResults = await questionIndex.search(
+				input.query,
+				requestOpts,
+			);
 			const hitsIds = searchResults.hits.map((hit) => hit.objectID);
 			if (hitsIds.length === 0) {
 				throw new Error('Pertanyaan yang kamu cari tidak ditemukan');
