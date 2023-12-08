@@ -36,7 +36,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className='flex w-fit items-center space-x-3 rounded-full border-transparent transition md:border-2 md:px-4 md:py-3 md:hover:border-[#F48C06]'>
+			<DropdownMenuTrigger className='flex w-fit max-w-full items-center space-x-3 rounded-full border-transparent transition md:border-2 md:px-4 md:py-3 md:hover:border-[#F48C06]'>
 				<Avatar>
 					<AvatarImage
 						src={user?.image ?? getDiceBearAvatar(user.username)}
@@ -44,11 +44,11 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 					/>
 					<AvatarFallback>{user?.initial}</AvatarFallback>
 				</Avatar>
-				<div className='hidden text-left md:inline'>
-					<h2 className='text-sm font-medium md:text-base truncate max-w-[5.5rem]'>
+				<div className='hidden text-left md:inline truncate'>
+					<h2 className='text-sm font-medium md:text-base truncate'>
 						{user?.name}
 					</h2>
-					<p className='hidden text-sm md:inline md:text-base truncate max-w-[5.5rem]'>
+					<p className='hidden text-sm md:inline md:text-base truncate'>
 						@{user?.username}
 					</p>
 				</div>

@@ -209,31 +209,6 @@ export const questionRouter = createTRPCRouter({
 				throw new Error('Pertanyaan yang kamu cari tidak ditemukan');
 			}
 
-			// const condition = match(input.subjectId)
-			// 	.with('all', () => {
-			// 		if (input.cursor) {
-			// 			return and(
-			// 				ilike(questions.content, `%${input.query}%`),
-			// 				lte(questions.id, input.cursor),
-			// 			);
-			// 		}
-
-			// 		return ilike(questions.content, `%${input.query}%`);
-			// 	})
-			// 	.otherwise((subjectId) => {
-			// 		if (input.cursor) {
-			// 			return and(
-			// 				ilike(questions.content, `%${input.query}%`),
-			// 				eq(questions.subjectId, subjectId),
-			// 				lte(questions.id, input.cursor),
-			// 			);
-			// 		}
-			// 		return and(
-			// 			ilike(questions.content, `%${input.query}%`),
-			// 			eq(questions.subjectId, subjectId),
-			// 		);
-			// 	});
-
 			const data = await ctx.db.query.questions.findMany({
 				orderBy: [desc(questions.createdAt)],
 				where: input.cursor
