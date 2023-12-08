@@ -7,7 +7,6 @@ export async function GET() {
 			id: users.id,
 			name: users.name,
 			username: users.username,
-			email: users.email,
 			image: users.image,
 			createdAt: users.createdAt,
 			updatedAt: users.updatedAt,
