@@ -199,7 +199,10 @@ export const questionRouter = createTRPCRouter({
 		)
 		.query(async ({ ctx, input }) => {
 			const searchResults = await questionIndex.search(input.query, {
-				filters: input.subjectId ? `subjectId:${input.subjectId}` : undefined,
+				filters:
+					input.subjectId !== 'all'
+						? `subjectId:${input.subjectId}`
+						: undefined,
 			});
 			const hitsIds = searchResults.hits.map((hit) => hit.objectID);
 			if (hitsIds.length === 0) {
