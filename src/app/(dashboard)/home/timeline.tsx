@@ -74,6 +74,7 @@ export function Timeline({ session }: { session: Session | null }) {
 									...question.owner,
 									initial: createInitial(question.owner.name),
 								},
+								images: question.images,
 							}}
 							session={session}
 						/>

@@ -13,6 +13,7 @@ import { type Session } from 'next-auth';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { DeleteModal } from '@/components/modals/delete-modal';
@@ -37,6 +38,7 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
+import Image from 'next/image';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 
 type Question = {
@@ -54,6 +56,10 @@ type Question = {
 	updatedAt: Date;
 	slug: string;
 	owner: User;
+	images: {
+		id: string;
+		url: string;
+	}[];
 };
 
 export function QuestionPost({
@@ -81,10 +87,14 @@ export function QuestionPost({
 	});
 
 	const deleteQuestionMutation = api.question.deleteQuestionById.useMutation({
-		onError: () => toast.error('Gagal menghapus pertanyaan'),
+		onError: () => {
+			toast.dismiss();
+			toast.error('Gagal menghapus pertanyaan');
+		},
 		onSuccess: async () => {
+			toast.dismiss();
 			toast.success('Pertanyaan telah dihapus!');
-			setIsShowDeleteModal(false);
+
 			await utils.question.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
@@ -101,6 +111,8 @@ export function QuestionPost({
 	};
 
 	const handleDeleteQuestion = (id: string) => {
+		setIsShowDeleteModal(false);
+		toast.loading('Pertanyaan akan segera dihapus...');
 		deleteQuestionMutation.mutate(id);
 	};
 
@@ -185,6 +197,34 @@ export function QuestionPost({
 					>
 						Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
 					</button>
+				)}
+				{question.images.length > 0 && (
+					<PhotoProvider>
+						<div
+							className={clsx(
+								'grid gap-4 w-5/6 pt-2',
+								question.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1',
+							)}
+						>
+							{question.images.map((img, idx) => (
+								<PhotoView key={img.id} src={img.url}>
+									<Image
+										src={img.url}
+										alt={img.id}
+										key={img.id}
+										height={720}
+										width={720}
+										className={clsx(
+											'object-cover',
+											idx + 1 === 3 && question.images.length === 3
+												? 'col-span-2 aspect-[2.7/1]'
+												: 'aspect-[4/3]',
+										)}
+									/>
+								</PhotoView>
+							))}
+						</div>
+					</PhotoProvider>
 				)}
 				<div className='flex justify-between pt-4'>
 					<div className='mr-2 space-x-1'>

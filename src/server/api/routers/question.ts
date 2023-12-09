@@ -47,7 +47,7 @@ export const questionRouter = createTRPCRouter({
 				.values(input.schema)
 				.returning({ id: questions.id });
 
-			if (input.image && createdQuestion[0]?.id) {
+			if (input.image && input.image?.length > 0 && createdQuestion[0]?.id) {
 				const questionId = createdQuestion[0].id;
 
 				const imagesInput = input.image.map((img) => ({
@@ -57,8 +57,6 @@ export const questionRouter = createTRPCRouter({
 
 				return ctx.db.insert(questionImages).values(imagesInput);
 			}
-
-			throw new Error('Gagal membuat pertanyaan');
 		}),
 	deleteQuestionById: protectedProcedure
 		.input(z.string())
@@ -98,6 +96,7 @@ export const questionRouter = createTRPCRouter({
 					},
 					owner: true,
 					subject: true,
+					images: true,
 				},
 			});
 
