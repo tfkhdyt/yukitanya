@@ -122,6 +122,7 @@ export const questionsRelations = relations(questions, ({ many, one }) => ({
 	}),
 	oldSlugs: many(oldSlug),
 	notifications: many(notifications),
+	images: many(questionImages),
 }));
 
 export const oldSlug = pgTable('old_slug', {
@@ -271,3 +272,21 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
 		references: [questions.id],
 	}),
 }));
+
+export const questionImages = pgTable('question_image', {
+	id: text('id').notNull().primaryKey(),
+	url: text('url').notNull(),
+	questionId: text('question_id')
+		.notNull()
+		.references(() => questions.id, { onDelete: 'cascade' }),
+});
+
+export const questionImagesRelations = relations(
+	questionImages,
+	({ one }) => ({
+		question: one(questions, {
+			fields: [questionImages.questionId],
+			references: [questions.id],
+		}),
+	}),
+);

@@ -6,6 +6,7 @@ import {
 	favorites,
 	insertQuestionSchema,
 	oldSlug,
+	questionImages,
 	questions,
 	subjects,
 	users,
@@ -22,6 +23,13 @@ export const questionRouter = createTRPCRouter({
 			z.object({
 				schema: insertQuestionSchema,
 				token: z.string().optional(),
+				image: z
+					.object({
+						id: z.string(),
+						url: z.string().url(),
+					})
+					.array()
+					.optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -34,7 +42,23 @@ export const questionRouter = createTRPCRouter({
 				throw new Error('Pertanyaan yang sama telah ada!');
 			}
 
-			return ctx.db.insert(questions).values(input.schema);
+			const createdQuestion = await ctx.db
+				.insert(questions)
+				.values(input.schema)
+				.returning({ id: questions.id });
+
+			if (input.image && createdQuestion[0]?.id) {
+				const questionId = createdQuestion[0].id;
+
+				const imagesInput = input.image.map((img) => ({
+					...img,
+					questionId,
+				}));
+
+				return ctx.db.insert(questionImages).values(imagesInput);
+			}
+
+			throw new Error('Gagal membuat pertanyaan');
 		}),
 	deleteQuestionById: protectedProcedure
 		.input(z.string())

@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import clsx from 'clsx';
 import cuid from 'cuid';
-import { SendIcon } from 'lucide-react';
+import { ImagePlusIcon, SendIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,9 +38,12 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
+import { useUploadThing } from '@/lib/uploadthing';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import Image from 'next/image';
+import { Input } from '../ui/input';
 
 const questionSchema = z.object({
 	question: z
@@ -73,6 +76,9 @@ export function QuestionModal({
 
 	const [token, setToken] = useState('');
 	const captcha = useRef<TurnstileInstance>();
+	const [files, setFiles] = useState<File[]>([]);
+	const fileRef = useRef<HTMLInputElement>(null);
+	const [isUploading, setIsUploading] = useState(false);
 
 	const utils = api.useUtils();
 	const { isLoading, mutate } = api.question.createQuestion.useMutation({
@@ -81,13 +87,36 @@ export function QuestionModal({
 			toast.success('Pertanyaanmu telah berhasil dibuat');
 			setOpen(false);
 			form.reset();
+			setFiles([]);
 			await utils.question.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
 		},
 		onSettled: () => captcha.current?.reset(),
 	});
 
-	function onSubmit(values: z.infer<typeof questionSchema>) {
+	const { startUpload } = useUploadThing('questionImageUploader', {
+		onUploadError: (error) => {
+			console.error(error.message);
+			toast.error('Gagal mengupload gambar');
+		},
+		onUploadProgress: () => {
+			setIsUploading(true);
+		},
+		onClientUploadComplete: () => {
+			setIsUploading(false);
+		},
+	});
+
+	const onSubmit = async (values: z.infer<typeof questionSchema>) => {
+		let imagesMetadata: {
+			id: string;
+			url: string;
+		}[] = [];
+		if (files.length > 0) {
+			const result = await startUpload(files);
+			imagesMetadata = result?.map((r) => ({ id: r.key, url: r.url })) ?? [];
+		}
+
 		const id = cuid();
 		const input = {
 			content: values.question,
@@ -97,16 +126,18 @@ export function QuestionModal({
 				`-${id.slice(-5)}`,
 			subjectId: values.subject,
 			userId: user.id,
-			token,
 		};
 
-		mutate({ schema: input, token });
-	}
+		mutate({ schema: input, token, image: imagesMetadata });
+	};
 
 	return (
 		<Dialog onOpenChange={setOpen} open={open}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent className='md:max-w-2xl'>
+			<DialogContent
+				className='md:max-w-2xl'
+				onInteractOutside={(e) => e.preventDefault()}
+			>
 				<DialogHeader>
 					<DialogTitle>Ajukan pertanyaan</DialogTitle>
 					<div className='-mx-4 px-4 pt-4'>
@@ -161,16 +192,87 @@ export function QuestionModal({
 											</FormItem>
 										)}
 									/>
-									<p className='text-right text-[#696984]'>
-										<span
-											className={clsx(
-												questionLength > 1000 && 'font-semibold text-red-700',
+									<div className='flex justify-between flex-wrap-reverse'>
+										<div>
+											<div className='grid w-fit max-w-sm items-center gap-1.5'>
+												<Button
+													className='font-normal'
+													variant='outline'
+													onClick={(e) => {
+														e.preventDefault();
+														fileRef.current?.click();
+													}}
+												>
+													<ImagePlusIcon size={18} className='mr-2' />
+													Upload gambar (Maks. 4)
+												</Button>
+												<Input
+													accept='image/*'
+													id='picture'
+													type='file'
+													multiple
+													ref={fileRef}
+													className='hidden'
+													onChange={(e) => {
+														const files = e.target.files;
+														if (!files) return;
+														if (files.length > 4) {
+															return toast.error(
+																'Maksimal 4 gambar yang bisa diupload',
+															);
+														}
+
+														setFiles([...files]);
+													}}
+												/>
+											</div>
+											{files.length > 0 && (
+												<div className='grid mt-4 grid-cols-2 md:grid-cols-4 gap-4'>
+													{files.map((file) => (
+														<div className='relative group' key={file.name}>
+															<Image
+																src={URL.createObjectURL(file)}
+																alt={file.name}
+																height={100}
+																width={100}
+																className='object-cover aspect-square'
+															/>
+															<div className='invisible group-hover:visible w-[100px] h-[100px] absolute inset-0 bg-gradient-to-bl from-slate-700/50 via-slate-700/25 to-transparent' />
+															<button
+																className='absolute top-0 right-0 p-2 invisible group-hover:visible'
+																type='button'
+																onClick={() => {
+																	setFiles((files) => {
+																		return files.filter(
+																			(f) => f.name !== file.name,
+																		);
+																	});
+																}}
+															>
+																<XIcon
+																	size={18}
+																	strokeWidth={3}
+																	color='white'
+																/>
+															</button>
+														</div>
+													))}
+												</div>
 											)}
-										>
-											{questionLength}
-										</span>
-										/1000
-									</p>
+										</div>
+
+										<div className='text-[#696984]'>
+											<span
+												className={clsx(
+													questionLength > 1000 && 'font-semibold text-red-700',
+												)}
+											>
+												{questionLength}
+											</span>
+											/1000
+										</div>
+									</div>
+
 									<div className='flex justify-between'>
 										<FormField
 											control={form.control}
@@ -201,11 +303,11 @@ export function QuestionModal({
 										/>
 										<Button
 											className='rounded-full font-semibold'
-											disabled={isLoading}
+											disabled={isLoading || isUploading}
 											type='submit'
 										>
 											<SendIcon className='mr-1' size={16} />
-											{isLoading ? 'Loading...' : 'Kirim'}
+											{isLoading || isUploading ? 'Loading...' : 'Kirim'}
 										</Button>
 									</div>
 									<Turnstile
