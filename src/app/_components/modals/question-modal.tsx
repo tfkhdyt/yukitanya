@@ -78,42 +78,49 @@ export function QuestionModal({
 	const captcha = useRef<TurnstileInstance>();
 	const [files, setFiles] = useState<File[]>([]);
 	const fileRef = useRef<HTMLInputElement>(null);
-	const [isUploading, setIsUploading] = useState(false);
 
 	const utils = api.useUtils();
-	const { isLoading, mutate } = api.question.createQuestion.useMutation({
-		onError: (error) => toast.error(error.message),
+	const { mutate } = api.question.createQuestion.useMutation({
+		onError: (error) => {
+			toast.dismiss();
+			toast.error(error.message);
+		},
 		onSuccess: async () => {
+			toast.dismiss();
 			toast.success('Pertanyaanmu telah berhasil dibuat');
-			setOpen(false);
+
 			form.reset();
 			setFiles([]);
 			await utils.question.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
 		},
-		onSettled: () => captcha.current?.reset(),
+		onSettled: () => {
+			captcha.current?.reset();
+		},
 	});
 
 	const { startUpload } = useUploadThing('questionImageUploader', {
 		onUploadError: (error) => {
 			console.error(error.message);
+			toast.dismiss();
 			toast.error('Gagal mengupload gambar');
-		},
-		onUploadProgress: () => {
-			setIsUploading(true);
-		},
-		onClientUploadComplete: () => {
-			setIsUploading(false);
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof questionSchema>) => {
+		setOpen(false);
+		toast.loading('Pertanyaan anda sedang dikirim, mohon tunggu sesaat...');
+
 		let imagesMetadata: {
 			id: string;
 			url: string;
 		}[] = [];
 		if (files.length > 0) {
 			const result = await startUpload(files);
+			if (!result) {
+				return;
+			}
+
 			imagesMetadata = result?.map((r) => ({ id: r.key, url: r.url })) ?? [];
 		}
 
@@ -204,7 +211,7 @@ export function QuestionModal({
 													}}
 												>
 													<ImagePlusIcon size={18} className='mr-2' />
-													Upload gambar (Maks. 4)
+													Upload gambar
 												</Button>
 												<Input
 													accept='image/*'
@@ -217,9 +224,18 @@ export function QuestionModal({
 														const files = e.target.files;
 														if (!files) return;
 														if (files.length > 4) {
+															toast.dismiss();
 															return toast.error(
 																'Maksimal 4 gambar yang bisa diupload',
 															);
+														}
+														for (const file of files) {
+															if (file.size > 512000) {
+																toast.dismiss();
+																return toast.error(
+																	'Ukuran gambar tidak boleh lebih dari 512KB',
+																);
+															}
 														}
 
 														setFiles([...files]);
@@ -303,11 +319,10 @@ export function QuestionModal({
 										/>
 										<Button
 											className='rounded-full font-semibold'
-											disabled={isLoading || isUploading}
 											type='submit'
 										>
 											<SendIcon className='mr-1' size={16} />
-											{isLoading || isUploading ? 'Loading...' : 'Kirim'}
+											Kirim
 										</Button>
 									</div>
 									<Turnstile
