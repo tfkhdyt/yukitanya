@@ -10,6 +10,8 @@ import { api } from '@/trpc/react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import Image from 'next/image';
 
 export function MostPopularQuestionSection({
 	subject,
@@ -99,6 +101,34 @@ export function MostPopularQuestionSection({
 						>
 							Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
 						</button>
+					)}
+					{data.images.length > 0 && (
+						<PhotoProvider>
+							<div
+								className={clsx(
+									'grid gap-2 w-5/6 pt-2',
+									data.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1',
+								)}
+							>
+								{data.images.map((img, idx) => (
+									<PhotoView key={img.id} src={img.url}>
+										<Image
+											src={img.url}
+											alt={img.id}
+											key={img.id}
+											height={360}
+											width={360}
+											className={clsx(
+												'object-cover',
+												idx + 1 === 3 && data.images.length === 3
+													? 'col-span-2 aspect-[2.7/1]'
+													: 'aspect-[4/3]',
+											)}
+										/>
+									</PhotoView>
+								))}
+							</div>
+						</PhotoProvider>
 					)}
 					<div className='flex items-center gap-2 pt-4 flex-wrap-reverse justify-between'>
 						<div className='text-sm font-medium text-[#696984] flex flex-wrap gap-1'>
