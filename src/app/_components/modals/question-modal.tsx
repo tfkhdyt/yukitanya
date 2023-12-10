@@ -200,7 +200,7 @@ export function QuestionModal({
 										<div>
 											<div className='grid w-fit max-w-sm items-center gap-1.5'>
 												<Button
-													className='font-normal'
+													className='font-normal rounded-full'
 													variant='outline'
 													onClick={(e) => {
 														e.preventDefault();
@@ -297,12 +297,15 @@ export function QuestionModal({
 														onValueChange={field.onChange}
 													>
 														<FormControl>
-															<SelectTrigger className='w-[200px]'>
+															<SelectTrigger
+																className='w-fit rounded-full
+                          '
+															>
 																<SelectValue placeholder='Mata pelajaran' />
 															</SelectTrigger>
 														</FormControl>
 
-														<SelectContent>
+														<SelectContent className='rounded-lg'>
 															{mapel.map((each) => (
 																<SelectItem key={each.id} value={each.id}>
 																	{each.name}
