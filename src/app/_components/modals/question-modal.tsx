@@ -110,7 +110,7 @@ export function QuestionModal({
 
 	const onSubmit = async (values: z.infer<typeof questionSchema>) => {
 		setOpen(false);
-		toast.loading('Pertanyaan anda sedang dikirim, mohon tunggu sesaat...');
+		toast.loading('Pertanyaanmu sedang dikirim, mohon tunggu sesaat...');
 
 		let imagesMetadata: {
 			id: string;

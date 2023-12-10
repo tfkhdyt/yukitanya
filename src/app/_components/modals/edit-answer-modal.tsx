@@ -63,13 +63,11 @@ export function EditAnswerModal({
 	question,
 	session,
 	answer,
-	setShowDropdown,
 }: {
 	children: ReactNode;
 	question: Question;
 	session: Session;
 	answer: Answer;
-	setShowDropdown: (open: boolean) => void;
 }) {
 	const form = useForm<z.infer<typeof answerSchema>>({
 		defaultValues: {
@@ -84,12 +82,15 @@ export function EditAnswerModal({
 	const captcha = useRef<TurnstileInstance>();
 
 	const utils = api.useUtils();
-	const { mutate, isLoading } = api.answer.updateAnswerById.useMutation({
-		onError: (error) => toast.error(error.message),
+	const { mutate } = api.answer.updateAnswerById.useMutation({
+		onError: (error) => {
+			toast.dismiss();
+			toast.error(error.message);
+		},
 		onSuccess: async () => {
-			toast.success('Pertanyaan mu telah berhasil diedit');
-			setShowDropdown(false);
-			setOpen(false);
+			toast.dismiss();
+			toast.success('Jawabanmu telah berhasil diedit');
+
 			form.reset();
 			await utils.answer.invalidate();
 			// await utils.question.findQuestionMetadata.invalidate();
@@ -99,6 +100,8 @@ export function EditAnswerModal({
 	});
 
 	function onSubmit(values: z.infer<typeof answerSchema>) {
+		setOpen(false);
+		toast.loading('Jawabanmu sedang diproses, mohon tunggu beberapa saat...');
 		mutate({
 			content: values.answer,
 			id: answer.id,
@@ -262,10 +265,9 @@ export function EditAnswerModal({
 										<Button
 											className='rounded-full font-semibold ml-auto'
 											type='submit'
-											disabled={isLoading}
 										>
 											<SendIcon className='mr-1' size={16} />
-											{isLoading ? 'Loading...' : 'Kirim'}
+											Kirim
 										</Button>
 									</div>
 								</form>

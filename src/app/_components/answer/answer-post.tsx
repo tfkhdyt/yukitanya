@@ -93,7 +93,7 @@ export function AnswerPost({
 
 	const handleDelete = (id: string) => {
 		setIsShowDeleteModal(false);
-		toast.loading('Pertanyaan akan segera dihapus...');
+		toast.loading('Jawaban akan segera dihapus...');
 		deleteAnswerMutation.mutate(id);
 	};
 
@@ -383,7 +383,6 @@ export function AnswerPost({
 												id: answer.id,
 												content: answer.content,
 											}}
-											setShowDropdown={setIsShowDropDown}
 										>
 											<DropdownMenuItem
 												onSelect={(event) => event.preventDefault()}

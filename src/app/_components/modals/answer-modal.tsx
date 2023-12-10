@@ -93,7 +93,7 @@ export function AnswerModal({
 
 	function onSubmit(values: z.infer<typeof answerSchema>) {
 		setOpen(false);
-		toast.loading('Jawaban anda sedang dikirim, mohon tunggu sesaat...');
+		toast.loading('Jawabanmu sedang dikirim, mohon tunggu sesaat...');
 
 		mutate({
 			schema: {

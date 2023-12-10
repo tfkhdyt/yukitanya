@@ -101,7 +101,7 @@ export function EditQuestionModal({
 		},
 		onSuccess: async () => {
 			toast.dismiss();
-			toast.success('Pertanyaan mu telah berhasil diedit');
+			toast.success('Pertanyaanmu telah berhasil diedit');
 
 			form.reset();
 			await utils.question.invalidate();
@@ -121,7 +121,7 @@ export function EditQuestionModal({
 	const onSubmit = async (values: z.infer<typeof questionSchema>) => {
 		setOpen(false);
 		toast.loading(
-			'Pertanyaan anda sedang diproses, mohon tunggu beberapa saat...',
+			'Pertanyaanmu sedang diproses, mohon tunggu beberapa saat...',
 		);
 
 		let imagesMetadata: {
