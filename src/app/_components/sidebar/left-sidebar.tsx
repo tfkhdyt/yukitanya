@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { P, match } from 'ts-pattern';
 
-import { useSidebarStore } from '@/stores/sidebar';
-
 import { menu } from '@/constants/menu';
+import { useSidebarStore } from '@/stores/sidebar';
 import { Session } from 'next-auth';
 import { NotifCount } from '../notif-counter';
 import { ProfileButton } from './profile-button';
+import { TanyakanSekarangButton } from '../buttons/tanyakan-sekarang';
+import { RightSidebar } from './right-sidebar';
 
 export function LeftSidebar({
 	isMobile = false,
@@ -23,7 +24,7 @@ export function LeftSidebar({
 	const toggleSidebar = useSidebarStore((state) => state.toggle);
 
 	return (
-		<nav className='space-y-6 text-[#696984] md:p-3 lg:space-y-8 lg:p-6'>
+		<nav className='space-y-6 text-[#696984] md:p-6 lg:space-y-8'>
 			<div className='ml-4 flex items-end space-x-2'>
 				<Image
 					alt='Yukitanya Logo'
@@ -39,6 +40,7 @@ export function LeftSidebar({
 			<div className='space-y-1 lg:space-y-2'>
 				{menu.map((each) => {
 					if (each.title === 'Notifikasi' && !session?.user) return;
+					if (each.title === 'Buat') return;
 
 					return (
 						<Link
@@ -75,6 +77,12 @@ export function LeftSidebar({
 				<div className='hidden md:block'>
 					<ProfileButton user={session?.user} />
 				</div>
+				<div className='pt-2'>
+					{session && <TanyakanSekarangButton user={session?.user} fullWidth />}
+				</div>
+			</div>
+			<div className='hidden md:block lg:hidden'>
+				<RightSidebar />
 			</div>
 		</nav>
 	);

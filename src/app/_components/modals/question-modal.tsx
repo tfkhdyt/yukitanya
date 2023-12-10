@@ -141,10 +141,7 @@ export function QuestionModal({
 	return (
 		<Dialog onOpenChange={setOpen} open={open}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent
-				className='md:max-w-2xl'
-				onInteractOutside={(e) => e.preventDefault()}
-			>
+			<DialogContent className='md:max-w-2xl'>
 				<DialogHeader>
 					<DialogTitle>Ajukan pertanyaan</DialogTitle>
 					<div className='-mx-4 px-4 pt-4'>

@@ -1,3 +1,4 @@
+import { QuestionModal } from '@/components/modals/question-modal';
 import { NotifCount } from '@/components/notif-counter';
 import { menu } from '@/constants/menu';
 import { User } from '@/server/auth';
@@ -18,6 +19,20 @@ export function MobileNav({ user }: { user?: User }) {
 		>
 			{menu.map((each) => {
 				if (each.title === 'Notifikasi' && !user) return;
+
+				if (each.title === 'Buat' && user) {
+					return (
+						<QuestionModal user={user} key={each.title}>
+							<button
+								type='button'
+								className='flex w-fit items-center px-4 py-3 transition relative'
+								aria-label={each.title}
+							>
+								<each.icon size={28} strokeWidth={1} />
+							</button>
+						</QuestionModal>
+					);
+				}
 
 				return (
 					<Link

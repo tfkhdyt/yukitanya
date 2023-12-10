@@ -22,7 +22,7 @@ export default async function DashboardLayout({
 			</aside>
 			<MainContent session={session}>{children}</MainContent>
 			<aside className='sticky top-0 hidden h-screen w-1/4 border-l-2 p-6 lg:inline overflow-y-auto'>
-				<RightSidebar session={session} />
+				<RightSidebar />
 			</aside>
 		</section>
 	);

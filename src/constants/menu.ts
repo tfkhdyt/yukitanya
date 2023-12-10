@@ -1,4 +1,4 @@
-import { Bell, Book, HomeIcon, Search } from 'lucide-react';
+import { Bell, Book, HomeIcon, PencilIcon, Search } from 'lucide-react';
 
 export const menu = [
 	{
@@ -10,6 +10,11 @@ export const menu = [
 		icon: Search,
 		title: 'Cari',
 		url: '/search',
+	},
+	{
+		icon: PencilIcon,
+		title: 'Buat',
+		url: '',
 	},
 	{
 		icon: Bell,
