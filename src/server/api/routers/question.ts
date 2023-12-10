@@ -13,10 +13,10 @@ import {
 } from '@/server/db/schema';
 
 import { questionIndex } from '@/lib/algolia';
+import { utapi } from '@/lib/uploadthing/server';
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
-import { utapi } from '@/lib/uploadthing/server';
 
 export const questionRouter = createTRPCRouter({
 	createQuestion: protectedProcedure

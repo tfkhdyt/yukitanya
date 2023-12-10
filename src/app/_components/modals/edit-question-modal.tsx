@@ -36,13 +36,13 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
+import { useUploadThing } from '@/lib/uploadthing/client';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { Input } from '../ui/input';
 import Image from 'next/image';
-import { useUploadThing } from '@/lib/uploadthing/client';
+import { Input } from '../ui/input';
 
 const questionSchema = z.object({
 	question: z

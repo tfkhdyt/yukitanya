@@ -7,11 +7,11 @@ import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial, getDiceBearAvatar } from '@/lib/utils';
 import { api } from '@/trpc/react';
+import Image from 'next/image';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
-import { PhotoProvider, PhotoView } from 'react-photo-view';
-import Image from 'next/image';
 
 export function MostPopularQuestionSection({
 	subject,

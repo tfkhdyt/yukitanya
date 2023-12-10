@@ -10,11 +10,11 @@ import {
 	TrashIcon,
 } from 'lucide-react';
 import { type Session } from 'next-auth';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
-import Image from 'next/image';
 
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { DeleteModal } from '@/components/modals/delete-modal';

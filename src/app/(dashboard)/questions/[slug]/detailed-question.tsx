@@ -18,8 +18,8 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import clsx from 'clsx';
-import { PhotoProvider, PhotoView } from 'react-photo-view';
 import Image from 'next/image';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 type Question = {
 	content: string;
