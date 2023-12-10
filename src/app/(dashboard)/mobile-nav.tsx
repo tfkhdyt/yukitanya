@@ -13,7 +13,7 @@ export function MobileNav({ user }: { user?: User }) {
 	return (
 		<div
 			className={clsx(
-				'md:hidden w-full fixed bottom-0 z-50 flex items-center border-t-2 bg-white/75 py-2 px-4 backdrop-blur-md text-[#696984]',
+				'md:hidden w-full fixed bottom-0 z-50 flex items-center border-t-2 bg-white/75 p-2 backdrop-blur-md text-[#696984]',
 				user ? 'justify-between' : 'justify-around',
 			)}
 		>
