@@ -24,6 +24,8 @@ export async function generateMetadata({
 			description: question[0]?.content,
 		};
 	}
+
+	return {};
 }
 
 export default async function Question({
@@ -51,6 +53,7 @@ export default async function Question({
 						...question.owner,
 						initial: createInitial(question.owner.name),
 					},
+					images: question.images,
 				}}
 				session={session}
 			/>

@@ -18,6 +18,8 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import clsx from 'clsx';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import Image from 'next/image';
 
 type Question = {
 	content: string;
@@ -30,6 +32,10 @@ type Question = {
 	updatedAt: Date;
 	owner: User;
 	slug: string;
+	images: {
+		id: string;
+		url: string;
+	}[];
 };
 
 export function DetailedQuestion({
@@ -99,6 +105,35 @@ export function DetailedQuestion({
 						{question.content}
 					</p>
 				</div>
+
+				{question.images.length > 0 && (
+					<PhotoProvider>
+						<div
+							className={clsx(
+								'grid gap-4 w-5/6 pt-2',
+								question.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1',
+							)}
+						>
+							{question.images.map((img, idx) => (
+								<PhotoView key={img.id} src={img.url}>
+									<Image
+										src={img.url}
+										alt={img.id}
+										key={img.id}
+										height={720}
+										width={720}
+										className={clsx(
+											'object-cover',
+											idx + 1 === 3 && question.images.length === 3
+												? 'col-span-2 aspect-[2.7/1]'
+												: 'aspect-[4/3]',
+										)}
+									/>
+								</PhotoView>
+							))}
+						</div>
+					</PhotoProvider>
+				)}
 
 				<div className='mt-4 flex flex-wrap-reverse items-center justify-between gap-4 md:flex-wrap'>
 					<span className='flex flex-wrap items-center gap-1 text-sm font-medium text-[#696984]'>
