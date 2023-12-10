@@ -12,7 +12,7 @@ export function useClamp() {
 				ref.current.scrollHeight !== ref.current.clientHeight,
 			);
 		}
-	}, []);
+	});
 
 	return { isOpen, setIsOpen, showReadMoreButton, ref };
 }
