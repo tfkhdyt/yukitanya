@@ -76,6 +76,7 @@ export function QuestionModal({
 
 	const [token, setToken] = useState('');
 	const captcha = useRef<TurnstileInstance>();
+
 	const [files, setFiles] = useState<File[]>([]);
 	const fileRef = useRef<HTMLInputElement>(null);
 
@@ -208,7 +209,7 @@ export function QuestionModal({
 													}}
 												>
 													<ImagePlusIcon size={18} className='mr-2' />
-													Upload gambar
+													Tambah gambar
 												</Button>
 												<Input
 													accept='image/*'
