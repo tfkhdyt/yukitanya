@@ -92,6 +92,7 @@ export function QuestionList({
 									...question.owner,
 									initial: createInitial(question.owner.name),
 								},
+								images: question.images,
 							}}
 							session={session}
 						/>

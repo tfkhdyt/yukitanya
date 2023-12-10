@@ -150,6 +150,7 @@ export const questionRouter = createTRPCRouter({
 					},
 					owner: true,
 					subject: true,
+					images: true,
 				},
 			});
 
@@ -200,6 +201,7 @@ export const questionRouter = createTRPCRouter({
 					},
 					owner: true,
 					subject: true,
+					images: true,
 				},
 			});
 
@@ -259,6 +261,7 @@ export const questionRouter = createTRPCRouter({
 					},
 					owner: true,
 					subject: true,
+					images: true,
 				},
 			});
 

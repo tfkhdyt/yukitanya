@@ -97,6 +97,7 @@ export function FavoriteTabContent({
 									(favorite) => favorite.userId === session?.user.id,
 								),
 								rating: Number.isNaN(averageRating) ? undefined : averageRating,
+								images: question.question.images,
 							}}
 							session={session}
 						/>

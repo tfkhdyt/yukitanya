@@ -38,7 +38,7 @@ export const environment = createEnv({
 		ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
 		ALGOLIA_API_KEY: process.env.ALGOLIA_API_KEY,
 		UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
-		UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET
+		UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
 		// DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
 		// DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 	},
@@ -76,7 +76,7 @@ export const environment = createEnv({
 		ALGOLIA_APP_ID: z.string(),
 		ALGOLIA_API_KEY: z.string(),
 		UPLOADTHING_APP_ID: z.string(),
-		UPLOADTHING_SECRET: z.string()
+		UPLOADTHING_SECRET: z.string(),
 		// Add ` on ID and SECRET if you want to make sure they're not empty
 		// DISCORD_CLIENT_ID: z.string(),
 		// DISCORD_CLIENT_SECRET: z.string(),

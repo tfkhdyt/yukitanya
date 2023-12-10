@@ -119,6 +119,7 @@ export const favoriteRouter = createTRPCRouter({
 							},
 							owner: true,
 							subject: true,
+							images: true,
 						},
 					},
 				},
