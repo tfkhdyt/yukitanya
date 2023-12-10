@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
-import { SendIcon } from 'lucide-react';
+import { ImagePlusIcon, SendIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,6 +40,9 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { Input } from '../ui/input';
+import Image from 'next/image';
+import { useUploadThing } from '@/lib/uploadthing/client';
 
 const questionSchema = z.object({
 	question: z
@@ -60,16 +63,18 @@ type Question = {
 		name: string;
 	};
 	owner: User;
+	images: {
+		id: string;
+		url: string;
+	}[];
 };
 
 export function EditQuestionModal({
 	children,
 	question,
-	setShowDropdown,
 }: {
 	children: ReactNode;
 	question: Question;
-	setShowDropdown: (open: boolean) => void;
 	title?: string;
 }) {
 	const [open, setOpen] = useState(false);
@@ -85,13 +90,19 @@ export function EditQuestionModal({
 	const [token, setToken] = useState('');
 	const captcha = useRef<TurnstileInstance>();
 
+	const [files, setFiles] = useState<File[]>([]);
+	const fileRef = useRef<HTMLInputElement>(null);
+
 	const utils = api.useUtils();
 	const { isLoading, mutate } = api.question.updateQuestionById.useMutation({
-		onError: (error) => toast.error(error.message),
+		onError: (error) => {
+			toast.dismiss();
+			toast.error(error.message);
+		},
 		onSuccess: async () => {
+			toast.dismiss();
 			toast.success('Pertanyaan mu telah berhasil diedit');
-			setShowDropdown(false);
-			setOpen(false);
+
 			form.reset();
 			await utils.question.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
@@ -99,7 +110,33 @@ export function EditQuestionModal({
 		onSettled: () => captcha.current?.reset(),
 	});
 
-	function onSubmit(values: z.infer<typeof questionSchema>) {
+	const { startUpload } = useUploadThing('questionImageUploader', {
+		onUploadError: (error) => {
+			console.error(error.message);
+			toast.dismiss();
+			toast.error('Gagal mengupload gambar');
+		},
+	});
+
+	const onSubmit = async (values: z.infer<typeof questionSchema>) => {
+		setOpen(false);
+		toast.loading(
+			'Pertanyaan anda sedang diproses, mohon tunggu beberapa saat...',
+		);
+
+		let imagesMetadata: {
+			id: string;
+			url: string;
+		}[] = [];
+		if (files.length > 0) {
+			const result = await startUpload(files);
+			if (!result) {
+				return;
+			}
+
+			imagesMetadata = result?.map((r) => ({ id: r.key, url: r.url })) ?? [];
+		}
+
 		mutate({
 			schema: {
 				content: values.question,
@@ -111,8 +148,9 @@ export function EditQuestionModal({
 				userId: question.owner.id,
 			},
 			token,
+			images: imagesMetadata,
 		});
-	}
+	};
 
 	return (
 		<Dialog onOpenChange={setOpen} open={open}>
@@ -178,16 +216,96 @@ export function EditQuestionModal({
 											</FormItem>
 										)}
 									/>
-									<p className='text-right text-[#696984]'>
-										<span
-											className={clsx(
-												questionLength > 1000 && 'font-semibold text-red-700',
+									<div className='flex justify-between flex-wrap-reverse'>
+										<div>
+											<div className='grid w-fit max-w-sm items-center gap-1.5'>
+												<Button
+													className='font-normal rounded-full'
+													variant='outline'
+													onClick={(e) => {
+														e.preventDefault();
+														fileRef.current?.click();
+													}}
+												>
+													<ImagePlusIcon size={18} className='mr-2' />
+													{question.images.length > 0
+														? 'Ganti gambar'
+														: 'Tambah gambar'}
+												</Button>
+												<Input
+													accept='image/*'
+													id='picture'
+													type='file'
+													multiple
+													ref={fileRef}
+													className='hidden'
+													onChange={(e) => {
+														const files = e.target.files;
+														if (!files) return;
+														if (files.length > 4) {
+															toast.dismiss();
+															return toast.error(
+																'Maksimal 4 gambar yang bisa diupload',
+															);
+														}
+														for (const file of files) {
+															if (file.size > 512000) {
+																toast.dismiss();
+																return toast.error(
+																	'Ukuran gambar tidak boleh lebih dari 512KB',
+																);
+															}
+														}
+
+														setFiles([...files]);
+													}}
+												/>
+											</div>
+											{files.length > 0 && (
+												<div className='grid mt-4 grid-cols-2 md:grid-cols-4 gap-4'>
+													{files.map((file) => (
+														<div className='relative group' key={file.name}>
+															<Image
+																src={URL.createObjectURL(file)}
+																alt={file.name}
+																height={100}
+																width={100}
+																className='object-cover aspect-square'
+															/>
+															<div className='invisible group-hover:visible w-[100px] h-[100px] absolute inset-0 bg-gradient-to-bl from-slate-700/50 via-slate-700/25 to-transparent' />
+															<button
+																className='absolute top-0 right-0 p-2 invisible group-hover:visible'
+																type='button'
+																onClick={() => {
+																	setFiles((files) => {
+																		return files.filter(
+																			(f) => f.name !== file.name,
+																		);
+																	});
+																}}
+															>
+																<XIcon
+																	size={18}
+																	strokeWidth={3}
+																	color='white'
+																/>
+															</button>
+														</div>
+													))}
+												</div>
 											)}
-										>
-											{questionLength}
-										</span>
-										/1000
-									</p>
+										</div>
+										<div className='text-[#696984]'>
+											<span
+												className={clsx(
+													questionLength > 1000 && 'font-semibold text-red-700',
+												)}
+											>
+												{questionLength}
+											</span>
+											/1000
+										</div>
+									</div>
 									<div className='flex justify-between'>
 										<FormField
 											control={form.control}
@@ -199,12 +317,12 @@ export function EditQuestionModal({
 														onValueChange={field.onChange}
 													>
 														<FormControl>
-															<SelectTrigger className='w-[200px]'>
+															<SelectTrigger className='w-fit rounded-full'>
 																<SelectValue placeholder='Mata pelajaran' />
 															</SelectTrigger>
 														</FormControl>
 
-														<SelectContent>
+														<SelectContent className='rounded-lg'>
 															{mapel.map((each) => (
 																<SelectItem key={each.id} value={each.id}>
 																	{each.name}

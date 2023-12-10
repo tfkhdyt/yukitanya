@@ -68,7 +68,10 @@ export const questionRouter = createTRPCRouter({
 				.where(eq(questionImages.questionId, questionId));
 
 			await ctx.db.delete(questions).where(eq(questions.id, questionId));
-			await utapi.deleteFiles(images.map((img) => img.id));
+
+			if (images.length > 0) {
+				await utapi.deleteFiles(images.map((img) => img.id));
+			}
 		}),
 	findAllQuestions: publicProcedure
 		.input(
@@ -369,25 +372,48 @@ export const questionRouter = createTRPCRouter({
 			z.object({
 				schema: insertQuestionSchema,
 				token: z.string().optional(),
+				images: z
+					.object({
+						id: z.string(),
+						url: z.string().url(),
+					})
+					.array()
+					.optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
 			await verifyCaptchaToken(input.token);
 
-			const question = await ctx.db
+			const [question] = await ctx.db
 				.select({ slug: questions.slug })
 				.from(questions)
 				.where(eq(questions.id, input.schema.id))
 				.limit(1);
 
-			if (question.length === 0 || !question[0])
-				throw new Error('Pertanyaan tidak ditemukan');
+			if (!question) throw new Error('Pertanyaan tidak ditemukan');
 
-			await ctx.db.insert(oldSlug).values({
-				id: `old-slug-${cuid()}`,
-				questionId: input.schema.id,
-				slug: question[0].slug,
-			});
+			if (input.schema.slug !== question.slug) {
+				await ctx.db.insert(oldSlug).values({
+					id: `old-slug-${cuid()}`,
+					questionId: input.schema.id,
+					slug: question.slug,
+				});
+			}
+
+			if (input.images && input.images.length > 0) {
+				const replacedImages = await ctx.db
+					.delete(questionImages)
+					.where(eq(questionImages.questionId, input.schema.id))
+					.returning({ id: questionImages.id });
+				await utapi.deleteFiles(replacedImages.map((img) => img.id));
+
+				const imagesInput = input.images.map((img) => ({
+					...img,
+					questionId: input.schema.id,
+				}));
+
+				return ctx.db.insert(questionImages).values(imagesInput);
+			}
 
 			await ctx.db
 				.update(questions)
@@ -434,6 +460,14 @@ export const questionRouter = createTRPCRouter({
 
 			if (!data) return null;
 
-			return data;
+			const images = await ctx.db
+				.select()
+				.from(questionImages)
+				.where(eq(questionImages.questionId, data.question.id));
+
+			return {
+				...data,
+				images,
+			};
 		}),
 });
