@@ -38,7 +38,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
-import { useUploadThing } from '@/lib/uploadthing';
+import { useUploadThing } from '@/lib/uploadthing/client';
 import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';

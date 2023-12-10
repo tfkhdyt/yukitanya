@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import Image from 'next/image';
 
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { DeleteModal } from '@/components/modals/delete-modal';
@@ -38,7 +39,6 @@ import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
-import Image from 'next/image';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 
 type Question = {

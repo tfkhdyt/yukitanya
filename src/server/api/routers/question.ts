@@ -16,6 +16,7 @@ import { questionIndex } from '@/lib/algolia';
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+import { utapi } from '@/lib/uploadthing/server';
 
 export const questionRouter = createTRPCRouter({
 	createQuestion: protectedProcedure
@@ -60,8 +61,14 @@ export const questionRouter = createTRPCRouter({
 		}),
 	deleteQuestionById: protectedProcedure
 		.input(z.string())
-		.mutation(({ ctx, input: questionId }) => {
-			return ctx.db.delete(questions).where(eq(questions.id, questionId));
+		.mutation(async ({ ctx, input: questionId }) => {
+			const images = await ctx.db
+				.select()
+				.from(questionImages)
+				.where(eq(questionImages.questionId, questionId));
+
+			await ctx.db.delete(questions).where(eq(questions.id, questionId));
+			await utapi.deleteFiles(images.map((img) => img.id));
 		}),
 	findAllQuestions: publicProcedure
 		.input(
