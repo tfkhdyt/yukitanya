@@ -89,7 +89,7 @@ export function MobileSheet({ session }: { session: Session | null }) {
 					</button>
 				</div>
 				<div className='mt-6 pt-6 border-t-2'>
-					<RightSidebar session={session} isMobile setSheetOpen={closeSheet} />
+					<RightSidebar setSheetOpen={closeSheet} />
 				</div>
 			</SheetContent>
 		</Sheet>
