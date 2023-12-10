@@ -75,10 +75,14 @@ export function AnswerPost({
 
 	const utils = api.useUtils();
 	const deleteAnswerMutation = api.answer.deleteAnswerById.useMutation({
-		onError: () => toast.error('Gagal menghapus jawaban'),
+		onError: () => {
+			toast.dismiss();
+			toast.error('Gagal menghapus jawaban');
+		},
 		onSuccess: async () => {
+			toast.dismiss();
 			toast.success('Jawaban telah dihapus!');
-			setIsShowDeleteModal(false);
+
 			await utils.answer.invalidate();
 			await utils.question.findQuestionMetadata.invalidate();
 			await utils.user.findUserStatByUsername.invalidate();
@@ -88,6 +92,8 @@ export function AnswerPost({
 	const [isShowRatingDropdown, setIsShowRatingDropdown] = useState(false);
 
 	const handleDelete = (id: string) => {
+		setIsShowDeleteModal(false);
+		toast.loading('Pertanyaan akan segera dihapus...');
 		deleteAnswerMutation.mutate(id);
 	};
 

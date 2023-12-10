@@ -73,11 +73,15 @@ export function AnswerModal({
 	const [token, setToken] = useState('');
 	const captcha = useRef<TurnstileInstance>();
 
-	const { mutate, isLoading } = api.answer.createAnswer.useMutation({
-		onError: (error) => toast.error(error.message),
+	const { mutate } = api.answer.createAnswer.useMutation({
+		onError: (error) => {
+			toast.dismiss();
+			toast.error(error.message);
+		},
 		onSuccess: async () => {
+			toast.dismiss();
 			toast.success('Jawabanmu telah berhasil ditambahkan');
-			setOpen(false);
+
 			form.reset();
 			await utils.answer.findAllAnswersByQuestionId.invalidate();
 			await utils.question.invalidate();
@@ -88,6 +92,9 @@ export function AnswerModal({
 	});
 
 	function onSubmit(values: z.infer<typeof answerSchema>) {
+		setOpen(false);
+		toast.loading('Jawaban anda sedang dikirim, mohon tunggu sesaat...');
+
 		mutate({
 			schema: {
 				content: values.answer,
@@ -257,10 +264,9 @@ export function AnswerModal({
 										<Button
 											className='rounded-full font-semibold ml-auto'
 											type='submit'
-											disabled={isLoading}
 										>
 											<SendIcon className='mr-1' size={16} />
-											{isLoading ? 'Loading...' : 'Kirim'}
+											Kirim
 										</Button>
 									</div>
 								</form>
