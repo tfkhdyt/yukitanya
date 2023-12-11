@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { PencilIcon } from 'lucide-react';
+import { MessageSquarePlusIcon } from 'lucide-react';
 
 import { QuestionModal } from '@/components/modals/question-modal';
 import { type User } from '@/server/auth';
@@ -26,7 +26,7 @@ export function TanyakanSekarangButton({
 					center && 'mx-auto',
 				)}
 			>
-				<PencilIcon size={16} className='mr-2' />
+				<MessageSquarePlusIcon size={20} className='mr-2' />
 				Tanyakan Sekarang!
 			</Button>
 		</QuestionModal>
