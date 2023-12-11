@@ -250,7 +250,9 @@ export function QuestionPost({
 				<div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
 					<Button
 						className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-						disabled={!session || favoriteMutation.isLoading}
+						disabled={
+							!session || favoriteMutation.isLoading || !session.user.membership
+						}
 						onClick={handleFavorite}
 						size='sm'
 						title='Favorit'

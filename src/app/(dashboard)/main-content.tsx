@@ -58,6 +58,7 @@ export function MainContent({
 							.with(P.string.startsWith('/notifications'), () => 'Notifikasi')
 							.with(P.string.startsWith('/questions'), () => 'Pertanyaan')
 							.with(P.string.startsWith('/premium'), () => 'Premium')
+							.with(P.string.startsWith('/favorite'), () => 'Favorit')
 							.with(P.string.startsWith('/users'), () => (
 								<span className='max-w-[9rem] truncate'>@{username}</span>
 							))

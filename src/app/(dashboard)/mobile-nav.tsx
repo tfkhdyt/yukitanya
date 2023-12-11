@@ -21,6 +21,7 @@ export function MobileNav({ user }: { user?: User }) {
 			{menu.map((each) => {
 				if (each.title === 'Notifikasi' && !user) return;
 				if (each.title === 'Premium') return;
+				if (each.title === 'Favorit') return;
 
 				if (each.title === 'Buat' && user) {
 					return (

@@ -1,9 +1,10 @@
 import {
-	Bell,
-	Book,
+	BellIcon,
+	BookIcon,
+	HeartIcon,
 	HomeIcon,
 	MessageSquarePlusIcon,
-	Search,
+	SearchIcon,
 	SparklesIcon,
 } from 'lucide-react';
 
@@ -14,7 +15,7 @@ export const menu = [
 		url: '/home',
 	},
 	{
-		icon: Search,
+		icon: SearchIcon,
 		title: 'Cari',
 		url: '/search',
 	},
@@ -24,12 +25,12 @@ export const menu = [
 		url: '',
 	},
 	{
-		icon: Bell,
+		icon: BellIcon,
 		title: 'Notifikasi',
 		url: '/notifications',
 	},
 	{
-		icon: Book,
+		icon: BookIcon,
 		title: 'Mata Pelajaran',
 		url: '/subjects',
 	},
@@ -38,9 +39,9 @@ export const menu = [
 		title: 'Premium',
 		url: '/premium',
 	},
-	// {
-	//   icon: Heart,
-	//   title: 'Favorit',
-	//   url: '/favorite',
-	// },
+	{
+		icon: HeartIcon,
+		title: 'Favorit',
+		url: '/favorite',
+	},
 ];

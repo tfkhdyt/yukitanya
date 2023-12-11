@@ -1,7 +1,13 @@
-import { LogOutIcon, SparklesIcon, UserCircleIcon } from 'lucide-react';
+import {
+	HeartIcon,
+	LogOutIcon,
+	SparklesIcon,
+	UserCircleIcon,
+} from 'lucide-react';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import { RightSidebar } from '@/components/sidebar/right-sidebar';
@@ -11,6 +17,25 @@ import { getDiceBearAvatar } from '@/lib/utils';
 
 export function MobileSheet({ session }: { session: Session | null }) {
 	const [open, setOpen] = useState(false);
+	const pathname = usePathname();
+
+	const menu = [
+		{
+			icon: UserCircleIcon,
+			title: 'Profil',
+			url: `/users/${session?.user.username}`,
+		},
+		{
+			icon: SparklesIcon,
+			title: 'Premium',
+			url: '/premium',
+		},
+		{
+			icon: HeartIcon,
+			title: 'Favorit',
+			url: '/favorite',
+		},
+	];
 
 	if (!session) {
 		return (
@@ -64,25 +89,22 @@ export function MobileSheet({ session }: { session: Session | null }) {
 						<p className='truncate max-w-[10rem]'>@{session.user?.username}</p>
 					</div>
 				</div>
-				<div className='mt-4 space-y-3'>
-					<Link
-						className='flex w-fit items-center space-x-6'
-						href={`/users/${session.user?.username}`}
-						onClick={() => setOpen(false)}
-						tabIndex={-1}
-					>
-						<UserCircleIcon className='mr-2' size={28} strokeWidth={1} />
-						Profil
-					</Link>
-					<Link
-						className='flex w-fit items-center space-x-6'
-						href='/premium'
-						onClick={() => setOpen(false)}
-						tabIndex={-1}
-					>
-						<SparklesIcon className='mr-2' size={28} strokeWidth={1} />
-						Premium
-					</Link>
+				<div className='mt-4 space-y-4'>
+					{menu.map((mn) => (
+						<Link
+							className='flex w-fit items-center space-x-6'
+							href={mn.url}
+							onClick={() => setOpen(false)}
+							tabIndex={-1}
+						>
+							<mn.icon
+								className='mr-2'
+								size={28}
+								strokeWidth={pathname.startsWith(mn.url) ? 2 : 1}
+							/>
+							{mn.title}
+						</Link>
+					))}
 					<button
 						type='button'
 						className='flex w-fit items-center space-x-6'
