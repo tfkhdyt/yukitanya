@@ -113,6 +113,9 @@ dependencies:
   lucide-react:
     specifier: ^0.292.0
     version: 0.292.0(react@18.2.0)
+  midtrans-node-client:
+    specifier: ^0.0.6
+    version: 0.0.6
   next:
     specifier: ^14.0.4
     version: 14.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -2703,6 +2706,14 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
+  /axios@0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.15.3
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
@@ -3291,6 +3302,16 @@ packages:
     dependencies:
       to-regex-range: 5.0.1
 
+  /follow-redirects@1.15.3:
+    resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
     dev: true
@@ -3465,6 +3486,11 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
+  /is-any-type@0.0.3:
+    resolution: {integrity: sha512-rw2B2XCU7QVJcEc7my183wpDSqgZdXc0aaYgzkMg4rFKSyna4RUR/6xCoIasqbYI3/v7LB1bOqpj9uFpWLOZNA==}
+    engines: {node: '>=12', npm: '>=6'}
+    dev: false
+
   /is-binary-path@2.1.0:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
     engines: {node: '>=8'}
@@ -3614,6 +3640,17 @@ packages:
     dependencies:
       braces: 3.0.2
       picomatch: 2.3.1
+
+  /midtrans-node-client@0.0.6:
+    resolution: {integrity: sha512-NuU4P+svet37uY0hQ4ViW+fRgs8YhwaqGjmz+vfvT+0rHkwas7+w1sCRR9ZzqoTTfZA1CSCP5DNC8+N4zJGKAA==}
+    engines: {node: '>=12', npm: '>=6'}
+    dependencies:
+      axios: 0.21.4
+      is-any-type: 0.0.3
+      lodash: 4.17.21
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /mime@3.0.0:
     resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}

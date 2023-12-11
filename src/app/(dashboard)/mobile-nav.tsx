@@ -1,5 +1,6 @@
 import { QuestionModal } from '@/components/modals/question-modal';
 import { NotifCount } from '@/components/notif-counter';
+import { Button } from '@/components/ui/button';
 import { menu } from '@/constants/menu';
 import { User } from '@/server/auth';
 import clsx from 'clsx';
@@ -19,17 +20,18 @@ export function MobileNav({ user }: { user?: User }) {
 		>
 			{menu.map((each) => {
 				if (each.title === 'Notifikasi' && !user) return;
+				if (each.title === 'Premium') return;
 
 				if (each.title === 'Buat' && user) {
 					return (
 						<QuestionModal user={user} key={each.title}>
-							<button
+							<Button
 								type='button'
-								className='flex w-fit items-center px-4 py-3 transition relative'
 								aria-label={each.title}
+								className='rounded-lg'
 							>
-								<each.icon size={28} strokeWidth={1} />
-							</button>
+								<each.icon size={24} strokeWidth={2} />
+							</Button>
 						</QuestionModal>
 					);
 				}

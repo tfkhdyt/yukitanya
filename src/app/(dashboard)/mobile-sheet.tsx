@@ -1,4 +1,4 @@
-import { LogOutIcon, UserCircleIcon } from 'lucide-react';
+import { LogOutIcon, SparklesIcon, UserCircleIcon } from 'lucide-react';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -73,6 +73,15 @@ export function MobileSheet({ session }: { session: Session | null }) {
 					>
 						<UserCircleIcon className='mr-2' size={28} strokeWidth={1} />
 						Profil
+					</Link>
+					<Link
+						className='flex w-fit items-center space-x-6'
+						href='/premium'
+						onClick={() => setOpen(false)}
+						tabIndex={-1}
+					>
+						<SparklesIcon className='mr-2' size={28} strokeWidth={1} />
+						Premium
 					</Link>
 					<button
 						type='button'

@@ -201,6 +201,7 @@ export function QuestionModal({
 										<div>
 											<div className='grid w-fit max-w-sm items-center gap-1.5'>
 												<Button
+													disabled={!user.membership}
 													className='font-normal rounded-full'
 													variant='outline'
 													onClick={(e) => {

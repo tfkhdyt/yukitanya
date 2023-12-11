@@ -329,7 +329,7 @@ export function QuestionPost({
 							<DropdownMenuContent className='text-[#696984]'>
 								<DropdownMenuLabel>Menu lainnya</DropdownMenuLabel>
 								<DropdownMenuSeparator />
-								<EditQuestionModal question={question}>
+								<EditQuestionModal question={question} user={session.user}>
 									<DropdownMenuItem
 										className='cursor-pointer'
 										onSelect={(event) => event.preventDefault()}

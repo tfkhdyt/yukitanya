@@ -13,9 +13,9 @@ import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 import { environment } from '@/environment.mjs';
 import { createInitial } from '@/lib/utils';
 import { db } from '@/server/db';
-import { ilike } from 'drizzle-orm';
+import { and, eq, gt, ilike } from 'drizzle-orm';
 import { CustomDrizzleAdapter } from './custom-drizzle-adapter';
-import { users } from './db/schema';
+import { memberships, users } from './db/schema';
 
 export type User = {
 	// ...other properties
@@ -23,6 +23,10 @@ export type User = {
 	id: string;
 	initial: string;
 	username: string;
+	membership?: {
+		type?: 'standard' | 'plus';
+		expiresAt?: Date;
+	};
 } & DefaultSession['user'];
 
 /**
@@ -40,6 +44,10 @@ declare module 'next-auth' {
 			initial: string;
 			// role: UserRole;
 			username: string;
+			membership?: {
+				type?: 'standard' | 'plus';
+				expiresAt?: Date;
+			};
 		} & DefaultSession['user'];
 	}
 
@@ -90,6 +98,13 @@ export const authOptions: NextAuthOptions = {
 					throw new Error('User tidak ditemukan');
 				}
 
+				const membership = await db.query.memberships.findFirst({
+					where: and(
+						eq(memberships.userId, user.id),
+						gt(memberships.expiresAt, new Date()),
+					),
+				});
+
 				session = {
 					...session,
 					user: {
@@ -99,6 +114,7 @@ export const authOptions: NextAuthOptions = {
 						initial: createInitial(user.name),
 						name: user.name,
 						username: user.username,
+						membership,
 					},
 				};
 			}

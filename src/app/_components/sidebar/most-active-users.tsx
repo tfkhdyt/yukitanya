@@ -25,9 +25,9 @@ export function MostActiveUsers({
 				<ol className='space-y-5'>
 					{data.map(({ user }, index) => (
 						<li key={user.id} className='flex space-x-2 items-center'>
-							<span className='mr-1 text-[#696984] font-medium w-4 text-lg'>
-								{index + 1}.
-							</span>
+							<div className='text-[#696984] w-4 pr-2 font-medium text-lg'>
+								<span>{index + 1}.</span>
+							</div>
 							<Link
 								href={`/users/${user.username}`}
 								aria-label={user.username}

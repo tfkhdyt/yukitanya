@@ -37,6 +37,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 	questions: many(questions),
 	ratings: many(ratings),
 	notifications: many(notifications),
+	memberships: many(memberships),
 }));
 
 export const accounts = pgTable(
@@ -290,3 +291,22 @@ export const questionImagesRelations = relations(
 		}),
 	}),
 );
+
+export const memberships = pgTable('membership', {
+	id: text('id').notNull().primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => users.id, { onDelete: 'cascade' }),
+	type: varchar('type', { enum: ['standard', 'plus'], length: 10 }).notNull(),
+	expiresAt: timestamp('expires_at', {
+		mode: 'date',
+		withTimezone: true,
+	}).notNull(),
+});
+
+export const membershipsRelation = relations(users, ({ one }) => ({
+	user: one(users, {
+		fields: [memberships.userId],
+		references: [users.id],
+	}),
+}));

@@ -72,10 +72,12 @@ type Question = {
 export function EditQuestionModal({
 	children,
 	question,
+	user,
 }: {
 	children: ReactNode;
 	question: Question;
 	title?: string;
+	user: User;
 }) {
 	const [open, setOpen] = useState(false);
 	const form = useForm<z.infer<typeof questionSchema>>({
@@ -222,6 +224,7 @@ export function EditQuestionModal({
 												<Button
 													className='font-normal rounded-full'
 													variant='outline'
+													disabled={!user.membership}
 													onClick={(e) => {
 														e.preventDefault();
 														fileRef.current?.click();

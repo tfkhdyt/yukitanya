@@ -34,13 +34,17 @@ export function LeftSidebar({
 					width={54}
 				/>
 				<span className='font-rubik text-xl font-extrabold text-black lg:text-2xl'>
-					Yukitanya
+					{match(session?.user.membership?.type)
+						.with('standard', () => 'Premium')
+						.with('plus', () => 'Premium+')
+						.otherwise(() => 'Yukitanya')}
 				</span>
 			</div>
 			<div className='space-y-1 lg:space-y-2'>
 				{menu.map((each) => {
 					if (each.title === 'Notifikasi' && !session?.user) return;
 					if (each.title === 'Buat') return;
+					if (each.title === 'Premium' && !session?.user) return;
 
 					return (
 						<Link

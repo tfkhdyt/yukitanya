@@ -3,6 +3,7 @@ import { createTRPCRouter } from '@/server/api/trpc';
 import { answerRouter } from './routers/answer';
 import { favoriteRouter } from './routers/favorite';
 import { notificationRouter } from './routers/notification';
+import { paymentRouter } from './routers/payment';
 import { questionRouter } from './routers/question';
 import { ratingRouter } from './routers/rating';
 import { subjectRouter } from './routers/subject';
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
 	answer: answerRouter,
 	notification: notificationRouter,
 	subject: subjectRouter,
+	payment: paymentRouter,
 });
 
 // export type definition of API
