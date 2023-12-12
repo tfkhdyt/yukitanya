@@ -1,10 +1,10 @@
 import { getDiceBearAvatar } from '@/lib/utils';
 import { User } from '@/server/auth';
 
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import clsx from 'clsx';
 import { BadgeCheckIcon } from 'lucide-react';
 import { match } from 'ts-pattern';
-import clsx from 'clsx';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 export function AvatarWithBadge({
 	user,

@@ -10,10 +10,10 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import { AvatarWithBadge } from '@/components/avatar-with-badge';
 
 type Question = {
 	slug: string;

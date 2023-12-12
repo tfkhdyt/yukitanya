@@ -1,8 +1,8 @@
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import Link from 'next/link';
-import { SkeletonMostActiveUsers } from './skeleton-most-active-users';
 import { AvatarWithBadge } from '../avatar-with-badge';
+import { SkeletonMostActiveUsers } from './skeleton-most-active-users';
 
 export function MostActiveUsers({
 	setSheetOpen,

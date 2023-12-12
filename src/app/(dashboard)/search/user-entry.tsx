@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { type User } from '@/server/auth';
 import { AvatarWithBadge } from '@/components/avatar-with-badge';
+import { type User } from '@/server/auth';
 
 export function UserEntry({
 	user,

@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 
 import { getServerAuthSession } from '@/server/auth';
 
-import { PremiumType } from './premium-type';
-import { redirect } from 'next/navigation';
 import { formatLongDateTime } from '@/lib/datetime';
+import { redirect } from 'next/navigation';
+import { PremiumType } from './premium-type';
 
 export const metadata: Metadata = {
 	title: 'Premium - Yukitanya',

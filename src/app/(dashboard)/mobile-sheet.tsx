@@ -10,9 +10,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { RightSidebar } from '@/components/sidebar/right-sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { AvatarWithBadge } from '@/components/avatar-with-badge';
 
 export function MobileSheet({ session }: { session: Session | null }) {
 	const [open, setOpen] = useState(false);

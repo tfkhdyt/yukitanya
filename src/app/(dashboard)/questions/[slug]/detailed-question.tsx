@@ -6,6 +6,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { ShareDropdown } from '@/components/dropdown/share-dropdown';
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { badgeVariants } from '@/components/ui/badge';
@@ -18,7 +19,6 @@ import { api } from '@/trpc/react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
-import { AvatarWithBadge } from '@/components/avatar-with-badge';
 
 type Question = {
 	content: string;

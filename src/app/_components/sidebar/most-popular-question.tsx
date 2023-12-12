@@ -9,9 +9,9 @@ import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { AvatarWithBadge } from '../avatar-with-badge';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
-import { AvatarWithBadge } from '../avatar-with-badge';
 
 export function MostPopularQuestionSection({
 	subject,

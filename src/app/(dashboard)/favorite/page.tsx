@@ -2,8 +2,8 @@ import { type Metadata } from 'next';
 
 import { getServerAuthSession } from '@/server/auth';
 
-import { FavoriteQuestionList } from './favorite-question-list';
 import { redirect } from 'next/navigation';
+import { FavoriteQuestionList } from './favorite-question-list';
 
 export const metadata: Metadata = {
 	title: 'Favorit - Yukitanya',
