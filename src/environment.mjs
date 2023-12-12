@@ -12,6 +12,7 @@ export const environment = createEnv({
 		NEXT_PUBLIC_BASE_PATH: z.string().url(),
 		NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string(),
 		NEXT_PUBLIC_MIDTRANS_CLIENT_KEY: z.string(),
+		NEXT_PUBLIC_NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 	},
 
 	/**
@@ -29,6 +30,7 @@ export const environment = createEnv({
 		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
 		NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 		NODE_ENV: process.env.NODE_ENV,
+		NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
 		NEXT_PUBLIC_BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH,
 		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
 		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
