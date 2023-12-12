@@ -176,7 +176,9 @@ export function DetailedQuestion({
 					size='sm'
 					title='Favorit'
 					variant='ghost'
-					disabled={!session || favoriteMutation.isLoading}
+					disabled={
+						!session || favoriteMutation.isLoading || !session.user.membership
+					}
 					onClick={handleFavorite}
 				>
 					<>
