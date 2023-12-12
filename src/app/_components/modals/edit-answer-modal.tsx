@@ -91,9 +91,11 @@ export function EditAnswerModal({
 			toast.success('Jawabanmu telah berhasil diedit');
 
 			form.reset();
-			await utils.answer.invalidate();
+			await Promise.allSettled([
+				utils.answer.invalidate(),
+				utils.user.invalidate(),
+			]);
 			// await utils.question.findQuestionMetadata.invalidate();
-			await utils.user.invalidate();
 		},
 		onSettled: () => captcha.current?.reset(),
 	});

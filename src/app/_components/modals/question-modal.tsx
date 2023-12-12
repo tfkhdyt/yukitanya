@@ -91,9 +91,12 @@ export function QuestionModal({
 
 			form.reset();
 			setFiles([]);
-			await utils.question.invalidate();
-			await utils.user.findMostActiveUsers.invalidate();
-			await utils.user.findUserStatByUsername.invalidate();
+
+			await Promise.allSettled([
+				utils.question.invalidate(),
+				utils.user.findMostActiveUsers.invalidate(),
+				utils.user.findUserStatByUsername.invalidate(),
+			]);
 		},
 		onSettled: () => {
 			captcha.current?.reset();

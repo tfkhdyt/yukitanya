@@ -78,9 +78,11 @@ export function QuestionPost({
 	const favoriteMutation = api.favorite.toggleFavorite.useMutation({
 		onError: () => toast.error('Gagal memberi favorit'),
 		onSuccess: async () => {
-			await utils.question.invalidate();
-			await utils.favorite.findAllFavoritedQuestions.invalidate();
-			await utils.user.invalidate();
+			await Promise.allSettled([
+				utils.question.invalidate(),
+				utils.favorite.findAllFavoritedQuestions.invalidate(),
+				utils.user.invalidate(),
+			]);
 		},
 	});
 
@@ -93,9 +95,11 @@ export function QuestionPost({
 			toast.dismiss();
 			toast.success('Pertanyaan telah dihapus!');
 
-			await utils.question.invalidate();
-			await utils.favorite.findAllFavoritedQuestions.invalidate();
-			await utils.user.invalidate();
+			await Promise.allSettled([
+				utils.question.invalidate(),
+				utils.favorite.findAllFavoritedQuestions.invalidate(),
+				utils.user.invalidate(),
+			]);
 		},
 	});
 

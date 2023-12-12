@@ -82,10 +82,13 @@ export function AnswerModal({
 			toast.success('Jawabanmu telah berhasil ditambahkan');
 
 			form.reset();
-			await utils.answer.findAllAnswersByQuestionId.invalidate();
-			await utils.question.invalidate();
-			await utils.favorite.findAllFavoritedQuestions.invalidate();
-			await utils.user.invalidate();
+
+			await Promise.allSettled([
+				utils.answer.findAllAnswersByQuestionId.invalidate(),
+				utils.question.invalidate(),
+				utils.favorite.findAllFavoritedQuestions.invalidate(),
+				utils.user.invalidate(),
+			]);
 		},
 		onSettled: () => captcha.current?.reset(),
 	});

@@ -105,9 +105,11 @@ export function EditQuestionModal({
 			toast.success('Pertanyaanmu telah berhasil diedit');
 
 			form.reset();
-			await utils.question.invalidate();
-			await utils.user.findMostActiveUsers.invalidate();
-			await utils.favorite.findAllFavoritedQuestions.invalidate();
+			await Promise.allSettled([
+				utils.question.invalidate(),
+				utils.user.findMostActiveUsers.invalidate(),
+				utils.favorite.findAllFavoritedQuestions.invalidate(),
+			]);
 		},
 		onSettled: () => captcha.current?.reset(),
 	});

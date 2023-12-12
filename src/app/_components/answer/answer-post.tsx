@@ -82,9 +82,11 @@ export function AnswerPost({
 			toast.dismiss();
 			toast.success('Jawaban telah dihapus!');
 
-			await utils.answer.invalidate();
-			await utils.question.findQuestionMetadata.invalidate();
-			await utils.user.invalidate();
+			await Promise.allSettled([
+				utils.answer.invalidate(),
+				utils.question.findQuestionMetadata.invalidate(),
+				utils.user.invalidate(),
+			]);
 		},
 	});
 	const [isShowDropdown, setIsShowDropDown] = useState(false);
@@ -129,9 +131,7 @@ export function AnswerPost({
 
 	const bestAnswerMutation = api.answer.toggleBestAnswer.useMutation({
 		onError: () => toast.error('Gagal menandai jawaban terbaik'),
-		onSuccess: async () => {
-			await utils.answer.invalidate();
-		},
+		onSuccess: () => utils.answer.invalidate(),
 	});
 
 	const handleBestAnswer = (id: string) => {
