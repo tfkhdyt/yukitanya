@@ -40,8 +40,8 @@ import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import Image from 'next/image';
-import { Input } from '../ui/input';
 import { AvatarWithBadge } from '../avatar-with-badge';
+import { Input } from '../ui/input';
 
 const questionSchema = z.object({
 	question: z
@@ -106,6 +106,7 @@ export function EditQuestionModal({
 
 			form.reset();
 			await utils.question.invalidate();
+			await utils.user.findMostActiveUsers.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
 		},
 		onSettled: () => captcha.current?.reset(),

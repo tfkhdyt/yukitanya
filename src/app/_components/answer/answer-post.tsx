@@ -84,7 +84,7 @@ export function AnswerPost({
 
 			await utils.answer.invalidate();
 			await utils.question.findQuestionMetadata.invalidate();
-			await utils.user.findUserStatByUsername.invalidate();
+			await utils.user.invalidate();
 		},
 	});
 	const [isShowDropdown, setIsShowDropDown] = useState(false);

@@ -4,6 +4,7 @@ import {
 	desc,
 	eq,
 	gt,
+	gte,
 	inArray,
 	lte,
 	sql,
@@ -26,6 +27,7 @@ import { questionIndex } from '@/lib/algolia';
 import { utapi } from '@/lib/uploadthing/server';
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
+import { match } from 'ts-pattern';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const questionRouter = createTRPCRouter({
@@ -45,6 +47,48 @@ export const questionRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			await verifyCaptchaToken(input.token);
+
+			const [membership] = await ctx.db
+				.select()
+				.from(memberships)
+				.where(
+					and(
+						eq(memberships.userId, input.schema.userId),
+						gt(memberships.expiresAt, new Date()),
+					),
+				)
+				.limit(1);
+
+			const currentDate = new Date();
+			currentDate.setHours(0, 0, 0, 0);
+			const [thisDayPostsCount] = await ctx.db
+				.select({
+					count: countDistinct(questions),
+				})
+				.from(questions)
+				.where(
+					and(
+						eq(questions.userId, input.schema.userId),
+						gte(questions.createdAt, currentDate),
+					),
+				);
+
+			match(membership?.type)
+				.with('standard', () => {
+					if (thisDayPostsCount && thisDayPostsCount.count >= 10) {
+						throw new Error(
+							'Anda telah melewati batas pembuatan pertanyaan hari ini',
+						);
+					}
+				})
+				.with('plus', () => undefined)
+				.otherwise(() => {
+					if (thisDayPostsCount && thisDayPostsCount.count >= 2) {
+						throw new Error(
+							'Anda telah melewati batas pembuatan pertanyaan hari ini',
+						);
+					}
+				});
 
 			const question = await ctx.db.query.questions.findFirst({
 				where: eq(questions.slug, input.schema.slug),

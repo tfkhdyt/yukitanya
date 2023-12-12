@@ -85,7 +85,7 @@ export function AnswerModal({
 			await utils.answer.findAllAnswersByQuestionId.invalidate();
 			await utils.question.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
-			await utils.user.findUserStatByUsername.invalidate();
+			await utils.user.invalidate();
 		},
 		onSettled: () => captcha.current?.reset(),
 	});

@@ -36,8 +36,8 @@ import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
-import { ShareDropdown } from '../dropdown/share-dropdown';
 import { AvatarWithBadge } from '../avatar-with-badge';
+import { ShareDropdown } from '../dropdown/share-dropdown';
 
 type Question = {
 	content: string;
@@ -80,7 +80,7 @@ export function QuestionPost({
 		onSuccess: async () => {
 			await utils.question.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
-			await utils.user.findUserStatByUsername.invalidate();
+			await utils.user.invalidate();
 		},
 	});
 
@@ -95,7 +95,7 @@ export function QuestionPost({
 
 			await utils.question.invalidate();
 			await utils.favorite.findAllFavoritedQuestions.invalidate();
-			await utils.user.findUserStatByUsername.invalidate();
+			await utils.user.invalidate();
 		},
 	});
 

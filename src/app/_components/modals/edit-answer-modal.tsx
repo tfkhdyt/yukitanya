@@ -93,7 +93,7 @@ export function EditAnswerModal({
 			form.reset();
 			await utils.answer.invalidate();
 			// await utils.question.findQuestionMetadata.invalidate();
-			await utils.user.findUserStatByUsername.invalidate();
+			await utils.user.invalidate();
 		},
 		onSettled: () => captcha.current?.reset(),
 	});
