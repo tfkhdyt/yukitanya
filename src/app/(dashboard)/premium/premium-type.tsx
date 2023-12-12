@@ -76,7 +76,7 @@ export function PremiumType({ user }: { user: User }) {
 		setType(e.target.value);
 	};
 
-	const handleSubmit = async () => {
+	const handleSubmit = () => {
 		const price = Math.round(calculatePrice(type, Number(duration)));
 
 		mutate({
