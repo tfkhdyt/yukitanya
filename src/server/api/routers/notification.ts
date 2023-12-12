@@ -25,7 +25,11 @@ export const notificationRouter = createTRPCRouter({
 				limit: input.limit + 1,
 				with: {
 					question: true,
-					transmitterUser: true,
+					transmitterUser: {
+						with: {
+							memberships: true,
+						},
+					},
 				},
 				orderBy: desc(notifications.createdAt),
 			});

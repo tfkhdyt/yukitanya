@@ -10,11 +10,10 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { createInitial, getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 
 type Question = {
 	slug: string;
@@ -79,18 +78,7 @@ export function NotificationItem({
 					href={`/users/${transmitterUser.username}`}
 					aria-label={transmitterUser.username}
 				>
-					<Avatar className='h-10 w-10'>
-						<AvatarImage
-							src={
-								transmitterUser.image ??
-								getDiceBearAvatar(transmitterUser.username)
-							}
-							alt={`${transmitterUser.name} avatar`}
-						/>
-						<AvatarFallback>
-							{createInitial(transmitterUser.name)}
-						</AvatarFallback>
-					</Avatar>
+					<AvatarWithBadge user={transmitterUser} classNames='h-10 w-10' />
 				</Link>
 			</div>
 			<div className='ml-12 mt-2 flex items-center justify-between gap-4'>

@@ -58,7 +58,11 @@ export const answerRouter = createTRPCRouter({
 					eq(answers.questionId, questionId),
 				),
 				with: {
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					ratings: true,
 				},
 			});
@@ -94,7 +98,11 @@ export const answerRouter = createTRPCRouter({
 				orderBy: [asc(answers.createdAt)],
 				limit: input.limit + 1,
 				with: {
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					ratings: true,
 				},
 			});
@@ -126,12 +134,20 @@ export const answerRouter = createTRPCRouter({
 				orderBy: [desc(answers.createdAt)],
 				limit: input.limit + 1,
 				with: {
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					ratings: true,
 					question: {
 						with: {
 							subject: true,
-							owner: true,
+							owner: {
+								with: {
+									memberships: true,
+								},
+							},
 						},
 					},
 				},

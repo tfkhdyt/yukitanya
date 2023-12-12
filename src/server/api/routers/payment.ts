@@ -1,10 +1,10 @@
 import { z } from 'zod';
+import { and, eq, gt } from 'drizzle-orm';
 
 import { snap } from '@/lib/midtrans';
+import { memberships } from '@/server/db/schema';
 
 import { createTRPCRouter, protectedProcedure } from '../trpc';
-import { memberships } from '@/server/db/schema';
-import { and, eq, gt } from 'drizzle-orm';
 
 type InvoiceOpts = {
 	price: number;
@@ -42,7 +42,7 @@ async function createInvoice({
 			],
 			customer_details: {
 				first_name: user.name?.split(' ')[0],
-				last_name: user.name?.split(' ').slice(1),
+				last_name: user.name?.split(' ').slice(1).join(' '),
 			},
 		};
 

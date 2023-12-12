@@ -5,6 +5,7 @@ import { createInitial } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
 import { api } from '@/trpc/server';
 
+import dayjs from 'dayjs';
 import { AnswerList } from './answer-list';
 import { DetailedQuestion } from './detailed-question';
 
@@ -39,6 +40,10 @@ export default async function Question({
 		return redirect('/home');
 	}
 
+	const membership = question.owner.memberships.find((membership) =>
+		dayjs().isBefore(membership.expiresAt),
+	);
+
 	return (
 		<div>
 			<DetailedQuestion
@@ -51,6 +56,7 @@ export default async function Question({
 					slug: question.slug,
 					owner: {
 						...question.owner,
+						membership,
 						initial: createInitial(question.owner.name),
 					},
 					images: question.images,
@@ -63,6 +69,7 @@ export default async function Question({
 						...question,
 						owner: {
 							...question.owner,
+							membership,
 							initial: createInitial(question.owner.name),
 						},
 					}}

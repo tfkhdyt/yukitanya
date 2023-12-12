@@ -9,6 +9,7 @@ import { createInitial } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 type Question = {
@@ -79,6 +80,10 @@ export function AnswerList({
 		);
 	}
 
+	const bestAnswerOwnerMembership = bestAnswer.data?.owner.memberships.find(
+		(membership) => dayjs().isBefore(membership.expiresAt),
+	);
+
 	return (
 		<>
 			{bestAnswer.data && (
@@ -93,6 +98,7 @@ export function AnswerList({
 						ratings: bestAnswer.data.ratings,
 						owner: {
 							...bestAnswer.data.owner,
+							membership: bestAnswerOwnerMembership,
 							initial: createInitial(bestAnswer.data.owner.name),
 						},
 					}}
@@ -115,6 +121,10 @@ export function AnswerList({
 			{answers &&
 				answers.length > 0 &&
 				answers.map((answer, index) => {
+					const membership = answer.owner.memberships.find((membership) =>
+						dayjs().isBefore(membership.expiresAt),
+					);
+
 					return (
 						<div
 							ref={index === answers.length - 1 ? reference : undefined}
@@ -131,6 +141,7 @@ export function AnswerList({
 									ratings: answer.ratings,
 									owner: {
 										...answer.owner,
+										membership,
 										initial: createInitial(answer.owner.name),
 									},
 								}}

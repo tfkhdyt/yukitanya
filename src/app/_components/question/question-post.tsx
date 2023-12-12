@@ -20,8 +20,6 @@ import { AnswerModal } from '@/components/modals/answer-modal';
 import { DeleteModal } from '@/components/modals/delete-modal';
 import { EditQuestionModal } from '@/components/modals/edit-question-modal';
 import { StarRating } from '@/components/star-rating';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { AvatarImage } from '@/components/ui/avatar';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,11 +33,11 @@ import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
 import { environment } from '@/environment.mjs';
 import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 import { ShareDropdown } from '../dropdown/share-dropdown';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 type Question = {
 	content: string;
@@ -123,15 +121,7 @@ export function QuestionPost({
 				aria-label={question.owner.username}
 				className='h-fit'
 			>
-				<Avatar>
-					<AvatarImage
-						src={
-							question.owner.image ?? getDiceBearAvatar(question.owner.username)
-						}
-						alt={`${question.owner.name} avatar`}
-					/>
-					<AvatarFallback>{question.owner.initial}</AvatarFallback>
-				</Avatar>
+				<AvatarWithBadge user={question.owner} />
 			</Link>
 			<div className='grow space-y-1'>
 				<div className='flex items-center space-x-2 text-[#696984] max-w-full'>

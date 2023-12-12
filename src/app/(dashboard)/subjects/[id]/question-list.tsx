@@ -8,6 +8,7 @@ import { SkeletonQuestionPost } from '@/components/question/skeleton-question-po
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export function QuestionList({
@@ -68,6 +69,9 @@ export function QuestionList({
 						0,
 					) ?? 0;
 				const averageRating = totalRating / bestAnswerRatings?.length;
+				const membership = question.owner.memberships.find((mb) =>
+					dayjs().isBefore(mb.expiresAt),
+				);
 
 				return (
 					<div
@@ -90,6 +94,7 @@ export function QuestionList({
 								slug: question.slug,
 								owner: {
 									...question.owner,
+									membership,
 									initial: createInitial(question.owner.name),
 								},
 								images: question.images,

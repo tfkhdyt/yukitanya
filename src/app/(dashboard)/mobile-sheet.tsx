@@ -11,9 +11,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import { RightSidebar } from '@/components/sidebar/right-sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { getDiceBearAvatar } from '@/lib/utils';
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 
 export function MobileSheet({ session }: { session: Session | null }) {
 	const [open, setOpen] = useState(false);
@@ -63,25 +62,17 @@ export function MobileSheet({ session }: { session: Session | null }) {
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
-				<Avatar>
-					<AvatarImage
-						src={session.user.image ?? getDiceBearAvatar(session.user.username)}
-						alt={`${session.user.name} avatar`}
-					/>
-					<AvatarFallback>{session.user.initial}</AvatarFallback>
-				</Avatar>
+				<div>
+					<AvatarWithBadge user={session.user} />
+				</div>
 			</SheetTrigger>
 			<SheetContent className='text-[#696984] overflow-y-auto'>
 				<div className='w-fit space-y-3'>
-					<Avatar className='h-16 w-16'>
-						<AvatarImage
-							src={
-								session.user?.image ?? getDiceBearAvatar(session.user.username)
-							}
-							alt={`${session.user.name} avatar`}
-						/>
-						<AvatarFallback>{session.user?.initial}</AvatarFallback>
-					</Avatar>
+					<AvatarWithBadge
+						user={session.user}
+						classNames='h-16 w-16'
+						badgeSize='lg'
+					/>
 					<div className='text-left'>
 						<h2 className='font-medium truncate max-w-[10rem]'>
 							{session.user?.name}
@@ -90,21 +81,26 @@ export function MobileSheet({ session }: { session: Session | null }) {
 					</div>
 				</div>
 				<div className='mt-4 space-y-4'>
-					{menu.map((mn) => (
-						<Link
-							className='flex w-fit items-center space-x-6'
-							href={mn.url}
-							onClick={() => setOpen(false)}
-							tabIndex={-1}
-						>
-							<mn.icon
-								className='mr-2'
-								size={28}
-								strokeWidth={pathname.startsWith(mn.url) ? 2 : 1}
-							/>
-							{mn.title}
-						</Link>
-					))}
+					{menu.map((mn) => {
+						if (mn.title === 'Favorit' && !session.user.membership) return;
+
+						return (
+							<Link
+								key={mn.title}
+								className='flex w-fit items-center space-x-6'
+								href={mn.url}
+								onClick={() => setOpen(false)}
+								tabIndex={-1}
+							>
+								<mn.icon
+									className='mr-2'
+									size={28}
+									strokeWidth={pathname.startsWith(mn.url) ? 2 : 1}
+								/>
+								{mn.title}
+							</Link>
+						);
+					})}
 					<button
 						type='button'
 						className='flex w-fit items-center space-x-6'

@@ -2,7 +2,6 @@ import { LogOutIcon, MoreHorizontal, UserCircle } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,8 +10,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 export function ProfileButton({ user }: { user: User | undefined }) {
 	if (!user) {
@@ -37,13 +36,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className='flex w-fit max-w-full items-center space-x-3 rounded-full border-transparent transition md:border-2 md:px-4 md:py-3 md:hover:border-[#F48C06]'>
-				<Avatar>
-					<AvatarImage
-						src={user?.image ?? getDiceBearAvatar(user.username)}
-						alt={`${user.name} avatar`}
-					/>
-					<AvatarFallback>{user?.initial}</AvatarFallback>
-				</Avatar>
+				<AvatarWithBadge user={user} />
 				<div className='hidden text-left md:inline truncate'>
 					<h2 className='text-sm font-medium md:text-base truncate'>
 						{user?.name}

@@ -1,11 +1,28 @@
 import * as argon2 from 'argon2';
-import { and, asc, desc, eq, gte, ilike, or, sql } from 'drizzle-orm';
+import {
+	and,
+	asc,
+	desc,
+	eq,
+	gt,
+	gte,
+	ilike,
+	inArray,
+	or,
+	sql,
+} from 'drizzle-orm';
 import { z } from 'zod';
 
 import { getDiceBearAvatar, verifyCaptchaToken } from '@/lib/utils';
 import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
-import { answers, favorites, questions, users } from '@/server/db/schema';
+import {
+	answers,
+	favorites,
+	memberships,
+	questions,
+	users,
+} from '@/server/db/schema';
 import cuid from 'cuid';
 
 export const userRouter = createTRPCRouter({
@@ -97,8 +114,31 @@ export const userRouter = createTRPCRouter({
 				nextCursor = nextItem?.id;
 			}
 
+			if (data.length === 0) {
+				return {
+					data,
+					nextCursor,
+				};
+			}
+
+			const _memberships = await ctx.db
+				.select()
+				.from(memberships)
+				.where(
+					and(
+						inArray(
+							memberships.userId,
+							data.map((dt) => dt.id),
+						),
+						gt(memberships.expiresAt, new Date()),
+					),
+				);
+
 			return {
-				data,
+				data: data.map((dt) => ({
+					...dt,
+					membership: _memberships.find((mb) => mb.userId === dt.id),
+				})),
 				nextCursor,
 			};
 		}),
@@ -107,6 +147,9 @@ export const userRouter = createTRPCRouter({
 		.query(({ ctx, input: username }) => {
 			return ctx.db.query.users.findFirst({
 				where: eq(users.username, username),
+				with: {
+					memberships: true,
+				},
 			});
 		}),
 	findUserStatByUsername: publicProcedure
@@ -154,6 +197,25 @@ export const userRouter = createTRPCRouter({
 			.orderBy(desc(score))
 			.limit(3);
 
-		return data;
+		if (data.length === 0) return null;
+
+		const _memberships = await ctx.db
+			.select()
+			.from(memberships)
+			.where(
+				and(
+					inArray(
+						memberships.userId,
+						data.map((dt) => dt.user.id),
+					),
+					gt(memberships.expiresAt, new Date()),
+				),
+			);
+		return data.map((dt) => ({
+			user: {
+				...dt.user,
+				membership: _memberships.find((mb) => mb.userId === dt.user.id),
+			},
+		}));
 	}),
 });

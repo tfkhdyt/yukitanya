@@ -8,18 +8,17 @@ import { match } from 'ts-pattern';
 
 import { ShareDropdown } from '@/components/dropdown/share-dropdown';
 import { AnswerModal } from '@/components/modals/answer-modal';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { environment } from '@/environment.mjs';
 import { formatLongDateTime } from '@/lib/datetime';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 
 type Question = {
 	content: string;
@@ -71,16 +70,7 @@ export function DetailedQuestion({
 						href={`/users/${question.owner.username}`}
 						aria-label={question.owner.username}
 					>
-						<Avatar className='h-12 w-12'>
-							<AvatarImage
-								src={
-									question.owner.image ??
-									getDiceBearAvatar(question.owner.username)
-								}
-								alt={`${question.owner.name} avatar`}
-							/>
-							<AvatarFallback>{question.owner.initial}</AvatarFallback>
-						</Avatar>
+						<AvatarWithBadge user={question.owner} classNames='h-12 w-12' />
 					</Link>
 					<div className='text-[#696984]'>
 						<Link

@@ -1,8 +1,8 @@
-import { createInitial, getDiceBearAvatar } from '@/lib/utils';
+import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { SkeletonMostActiveUsers } from './skeleton-most-active-users';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 export function MostActiveUsers({
 	setSheetOpen,
@@ -33,13 +33,13 @@ export function MostActiveUsers({
 								aria-label={user.username}
 								onClick={setSheetOpen}
 							>
-								<Avatar>
-									<AvatarImage
-										src={user.image ?? getDiceBearAvatar(user.username)}
-										alt={`${user.name} avatar`}
-									/>
-									<AvatarFallback>{createInitial(user.name)}</AvatarFallback>
-								</Avatar>
+								<AvatarWithBadge
+									user={{
+										...user,
+										membership: user.membership,
+										initial: createInitial(user.name),
+									}}
+								/>
 							</Link>
 							<div className='text-[#696984]'>
 								<Link

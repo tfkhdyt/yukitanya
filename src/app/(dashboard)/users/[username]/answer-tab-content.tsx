@@ -9,6 +9,7 @@ import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export function AnswerTabContent({
@@ -62,6 +63,10 @@ export function AnswerTabContent({
 	return (
 		<>
 			{answers.map((answer, index) => {
+				const membership = answer.owner.memberships.find((mb) =>
+					dayjs().isBefore(mb.expiresAt),
+				);
+
 				return (
 					<div
 						key={answer.id}
@@ -78,6 +83,7 @@ export function AnswerTabContent({
 								ratings: answer.ratings,
 								owner: {
 									...answer.owner,
+									membership,
 									initial: createInitial(answer.owner.name),
 								},
 							}}
@@ -90,6 +96,9 @@ export function AnswerTabContent({
 								updatedAt: answer.question.updatedAt,
 								owner: {
 									...answer.question.owner,
+									membership: answer.question.owner.memberships.find((mb) =>
+										dayjs().isBefore(mb.expiresAt),
+									),
 									initial: createInitial(answer.question.owner.name),
 								},
 								slug: answer.question.slug,

@@ -12,7 +12,6 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -32,9 +31,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 const answerSchema = z.object({
 	answer: z
@@ -120,16 +119,7 @@ export function AnswerModal({
 							aria-label={question.owner.username}
 							className='h-fit'
 						>
-							<Avatar>
-								<AvatarImage
-									src={
-										question.owner.image ??
-										getDiceBearAvatar(question.owner.username)
-									}
-									alt={`${question.owner.name} avatar`}
-								/>
-								<AvatarFallback>{question.owner.initial}</AvatarFallback>
-							</Avatar>
+							<AvatarWithBadge user={question.owner} />
 						</Link>
 						<div className='grow space-y-1'>
 							<div className='flex items-center space-x-2 text-[#696984] max-w-full'>
@@ -190,16 +180,7 @@ export function AnswerModal({
 								href={`/users/${session.user.username}`}
 								aria-label={session.user.username}
 							>
-								<Avatar>
-									<AvatarImage
-										src={
-											session?.user.image ??
-											getDiceBearAvatar(session?.user.username)
-										}
-										alt={`${session?.user.name} avatar`}
-									/>
-									<AvatarFallback>{session.user.initial}</AvatarFallback>
-								</Avatar>
+								<AvatarWithBadge user={session.user} />
 							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link

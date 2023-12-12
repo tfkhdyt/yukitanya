@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 import slugify from 'slugify';
 import { z } from 'zod';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -37,12 +36,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
 import { useUploadThing } from '@/lib/uploadthing/client';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import Image from 'next/image';
 import { Input } from '../ui/input';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 const questionSchema = z.object({
 	question: z
@@ -166,16 +165,7 @@ export function EditQuestionModal({
 								href={`/users/${question.owner.username}`}
 								aria-label={question.owner.username}
 							>
-								<Avatar>
-									<AvatarImage
-										src={
-											question.owner.image ??
-											getDiceBearAvatar(question.owner.username)
-										}
-										alt={`${question.owner.name} avatar`}
-									/>
-									<AvatarFallback>{question.owner.initial}</AvatarFallback>
-								</Avatar>
+								<AvatarWithBadge user={question.owner} />
 							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link

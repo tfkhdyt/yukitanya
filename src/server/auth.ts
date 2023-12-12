@@ -1,4 +1,6 @@
 import * as argon2 from 'argon2';
+import dayjs from 'dayjs';
+import { ilike } from 'drizzle-orm';
 import {
 	type DefaultSession,
 	type NextAuthOptions,
@@ -13,9 +15,9 @@ import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 import { environment } from '@/environment.mjs';
 import { createInitial } from '@/lib/utils';
 import { db } from '@/server/db';
-import { and, eq, gt, ilike } from 'drizzle-orm';
+
 import { CustomDrizzleAdapter } from './custom-drizzle-adapter';
-import { memberships, users } from './db/schema';
+import { users } from './db/schema';
 
 export type User = {
 	// ...other properties
@@ -26,7 +28,7 @@ export type User = {
 	membership?: {
 		type?: 'standard' | 'plus';
 		expiresAt?: Date;
-	};
+	} | null;
 } & DefaultSession['user'];
 
 /**
@@ -47,7 +49,7 @@ declare module 'next-auth' {
 			membership?: {
 				type?: 'standard' | 'plus';
 				expiresAt?: Date;
-			};
+			} | null;
 		} & DefaultSession['user'];
 	}
 
@@ -92,18 +94,18 @@ export const authOptions: NextAuthOptions = {
 			if (token) {
 				const user = await db.query.users.findFirst({
 					where: (users, { eq }) => eq(users.id, token.id),
+					with: {
+						memberships: true,
+					},
 				});
 
 				if (!user) {
 					throw new Error('User tidak ditemukan');
 				}
 
-				const membership = await db.query.memberships.findFirst({
-					where: and(
-						eq(memberships.userId, user.id),
-						gt(memberships.expiresAt, new Date()),
-					),
-				});
+				const membership = user.memberships.find((membership) =>
+					dayjs().isBefore(membership.expiresAt),
+				);
 
 				session = {
 					...session,

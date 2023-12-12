@@ -8,6 +8,7 @@ import { SkeletonQuestionPost } from '@/components/question/skeleton-question-po
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export function FavoriteTabContent({
@@ -73,6 +74,9 @@ export function FavoriteTabContent({
 						0,
 					) ?? 0;
 				const averageRating = totalRating / bestAnswerRatings?.length;
+				const membership = question.question.owner.memberships.find((mb) =>
+					dayjs().isBefore(mb.expiresAt),
+				);
 
 				return (
 					<div
@@ -88,6 +92,7 @@ export function FavoriteTabContent({
 								numberOfFavorites: question.question.favorites.length,
 								owner: {
 									...question.question.owner,
+									membership,
 									initial: createInitial(question.question.owner.name),
 								},
 								slug: question.question.slug,

@@ -12,7 +12,6 @@ import toast from 'react-hot-toast';
 import slugify from 'slugify';
 import { z } from 'zod';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -39,10 +38,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
 import { useUploadThing } from '@/lib/uploadthing/client';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import Image from 'next/image';
+import { AvatarWithBadge } from '../avatar-with-badge';
 import { Input } from '../ui/input';
 
 const questionSchema = z.object({
@@ -148,13 +147,7 @@ export function QuestionModal({
 					<div className='-mx-4 px-4 pt-4'>
 						<div className='flex items-center space-x-3'>
 							<Link href={`/users/${user.username}`} aria-label={user.username}>
-								<Avatar>
-									<AvatarImage
-										src={user.image ?? getDiceBearAvatar(user.username)}
-										alt={`${user.name} avatar`}
-									/>
-									<AvatarFallback>{user.initial}</AvatarFallback>
-								</Avatar>
+								<AvatarWithBadge user={user} />
 							</Link>
 							<div className='text-left text-[#696984]'>
 								<Link

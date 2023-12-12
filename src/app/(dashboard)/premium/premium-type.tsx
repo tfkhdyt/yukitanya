@@ -42,9 +42,13 @@ export function PremiumType({ user }: { user: User }) {
 	const [type, setType] = useState('standard');
 	const [duration, setDuration] = useState('1');
 
-	const { mutateAsync, isLoading } = api.payment.getInvoiceToken.useMutation({
+	const { mutate, isLoading } = api.payment.getInvoiceToken.useMutation({
 		onError: (error) => {
 			toast.error(error.message);
+		},
+		onSuccess: (invoiceToken) => {
+			// @ts-ignore
+			window.snap.pay(invoiceToken);
 		},
 	});
 
@@ -75,7 +79,7 @@ export function PremiumType({ user }: { user: User }) {
 	const handleSubmit = async () => {
 		const price = Math.round(calculatePrice(type, Number(duration)));
 
-		const invoiceToken = await mutateAsync({
+		mutate({
 			user: {
 				id: user.id,
 				name: user.name ?? user.username,
@@ -84,9 +88,6 @@ export function PremiumType({ user }: { user: User }) {
 			duration: Number(duration),
 			premiumType: type,
 		});
-
-		// @ts-ignore
-		window.snap.pay(invoiceToken);
 	};
 
 	return (

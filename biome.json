@@ -18,6 +18,9 @@
 			}
 		}
 	},
+	"formatter": {
+		"formatWithErrors": true
+	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "single",

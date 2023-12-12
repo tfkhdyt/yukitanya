@@ -2,12 +2,12 @@ import dayjs from 'dayjs';
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial, getDiceBearAvatar } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
 import { api } from '@/trpc/server';
 
+import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { z } from 'zod';
 import { UserStat } from './user-stat';
 import { UserTabs } from './user-tabs';
@@ -57,17 +57,22 @@ export default async function UserPage({
 	if (!user) return redirect('/home');
 
 	const activeTab = tabScheme.safeParse(searchParams?.tab);
+	const membership = user.memberships.find((membership) =>
+		dayjs().isBefore(membership.expiresAt),
+	);
 
 	return (
 		<main>
 			<div className='mx-4 mt-4 flex space-x-6 text-[#696984] md:m-8 md:space-x-8'>
-				<Avatar className='h-20 w-20 md:h-28 md:w-28'>
-					<AvatarImage
-						src={user.image ?? getDiceBearAvatar(user.username)}
-						alt={`${user.name} avatar`}
-					/>
-					<AvatarFallback>{createInitial(user.name)}</AvatarFallback>
-				</Avatar>
+				<AvatarWithBadge
+					user={{
+						...user,
+						membership,
+						initial: createInitial(user.name),
+					}}
+					classNames='h-20 w-20 md:h-28 md:w-28'
+					badgeSize='xl'
+				/>
 				<div className='w-full space-y-2 text-[#696984]'>
 					<p className='line-clamp-1 hidden font-medium md:block md:text-lg'>
 						{user.name}

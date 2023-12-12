@@ -26,7 +26,7 @@ export function MostPopularSubject({
 				<ol className='space-y-2'>
 					{data.map((subject, index) => (
 						<li key={subject.id} className='flex space-x-1 items-center'>
-							<span className='mr-2 text-[#696984] font-medium w-4 text-lg'>
+							<span className='pr-2 text-[#696984] font-medium w-4 text-lg'>
 								{index + 1}.
 							</span>
 							<Link href={`/subjects/${subject.id}`} onClick={setSheetOpen}>

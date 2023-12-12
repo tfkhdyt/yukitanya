@@ -304,8 +304,8 @@ export const memberships = pgTable('membership', {
 	}).notNull(),
 });
 
-export const membershipsRelation = relations(users, ({ one }) => ({
-	user: one(users, {
+export const membershipsRelations = relations(memberships, ({ one }) => ({
+	owner: one(users, {
 		fields: [memberships.userId],
 		references: [users.id],
 	}),

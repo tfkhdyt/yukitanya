@@ -1,10 +1,20 @@
-import { and, countDistinct, desc, eq, inArray, lte, sql } from 'drizzle-orm';
+import {
+	and,
+	countDistinct,
+	desc,
+	eq,
+	gt,
+	inArray,
+	lte,
+	sql,
+} from 'drizzle-orm';
 import { z } from 'zod';
 
 import {
 	answers,
 	favorites,
 	insertQuestionSchema,
+	memberships,
 	oldSlug,
 	questionImages,
 	questions,
@@ -104,7 +114,11 @@ export const questionRouter = createTRPCRouter({
 							userId: true,
 						},
 					},
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					subject: true,
 					images: true,
 				},
@@ -158,7 +172,11 @@ export const questionRouter = createTRPCRouter({
 							userId: true,
 						},
 					},
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					subject: true,
 					images: true,
 				},
@@ -209,7 +227,11 @@ export const questionRouter = createTRPCRouter({
 							userId: true,
 						},
 					},
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					subject: true,
 					images: true,
 				},
@@ -269,7 +291,11 @@ export const questionRouter = createTRPCRouter({
 							userId: true,
 						},
 					},
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					subject: true,
 					images: true,
 				},
@@ -292,7 +318,11 @@ export const questionRouter = createTRPCRouter({
 			const question = await ctx.db.query.questions.findFirst({
 				where: eq(questions.slug, slug),
 				with: {
-					owner: true,
+					owner: {
+						with: {
+							memberships: true,
+						},
+					},
 					subject: true,
 					images: true,
 				},
@@ -310,7 +340,11 @@ export const questionRouter = createTRPCRouter({
 				return ctx.db.query.questions.findFirst({
 					where: eq(questions.id, questionId[0].questionId),
 					with: {
-						owner: true,
+						owner: {
+							with: {
+								memberships: true,
+							},
+						},
 						subject: true,
 						images: true,
 					},
@@ -465,8 +499,23 @@ export const questionRouter = createTRPCRouter({
 				.from(questionImages)
 				.where(eq(questionImages.questionId, data.question.id));
 
+			const membership = await ctx.db
+				.select()
+				.from(memberships)
+				.where(
+					and(
+						eq(memberships.userId, data.owner.id),
+						gt(memberships.expiresAt, new Date()),
+					),
+				)
+				.limit(1);
+
 			return {
 				...data,
+				owner: {
+					...data.owner,
+					membership,
+				},
 				images,
 			};
 		}),

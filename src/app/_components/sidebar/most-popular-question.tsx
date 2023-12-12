@@ -5,13 +5,13 @@ import Link from 'next/link';
 
 import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime } from '@/lib/datetime';
-import { createInitial, getDiceBearAvatar } from '@/lib/utils';
+import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 export function MostPopularQuestionSection({
 	subject,
@@ -47,17 +47,13 @@ export function MostPopularQuestionSection({
 							aria-label={data.owner.username}
 							onClick={setSheetOpen}
 						>
-							<Avatar>
-								<AvatarImage
-									src={
-										data.owner.image ?? getDiceBearAvatar(data.owner.username)
-									}
-									alt={`${data.owner.name} avatar`}
-								/>
-								<AvatarFallback>
-									{createInitial(data.owner.name)}
-								</AvatarFallback>
-							</Avatar>
+							<AvatarWithBadge
+								user={{
+									...data.owner,
+									membership: data.owner.membership[0],
+									initial: createInitial(data.owner.name),
+								}}
+							/>
 						</Link>
 						<div className='text-[#696984]'>
 							<Link

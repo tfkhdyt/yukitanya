@@ -9,6 +9,7 @@ import { QuestionPost } from '@/components/question/question-post';
 import { SkeletonQuestionPost } from '@/components/question/skeleton-question-post';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
+import dayjs from 'dayjs';
 
 export function QuestionList({
 	query,
@@ -70,6 +71,9 @@ export function QuestionList({
 						0,
 					) ?? 0;
 				const averageRating = totalRating / bestAnswerRatings?.length;
+				const membership = question.owner.memberships.find((mb) =>
+					dayjs().isBefore(mb.expiresAt),
+				);
 
 				return (
 					<div
@@ -93,6 +97,7 @@ export function QuestionList({
 								slug: question.slug,
 								owner: {
 									...question.owner,
+									membership,
 									initial: createInitial(question.owner.name),
 								},
 								images: question.images,

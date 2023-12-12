@@ -18,7 +18,6 @@ import { DeleteModal } from '@/components/modals/delete-modal';
 import { EditAnswerModal } from '@/components/modals/edit-answer-modal';
 import { StarRating } from '@/components/star-rating';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -30,9 +29,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { getDiceBearAvatar } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import { AvatarWithBadge } from '../avatar-with-badge';
 
 type Answer = {
 	content: string;
@@ -183,15 +182,7 @@ export function AnswerPost({
 					aria-label={answer.owner.username}
 					className='h-fit'
 				>
-					<Avatar>
-						<AvatarImage
-							src={
-								answer.owner.image ?? getDiceBearAvatar(answer.owner.username)
-							}
-							alt={`${answer.owner.name} avatar`}
-						/>
-						<AvatarFallback>{answer.owner.initial}</AvatarFallback>
-					</Avatar>
+					<AvatarWithBadge user={answer.owner} />
 				</Link>
 				<div className='grow space-y-1'>
 					<div className='flex items-center space-x-2 text-[#696984] max-w-full'>

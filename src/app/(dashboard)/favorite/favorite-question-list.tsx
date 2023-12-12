@@ -9,6 +9,7 @@ import { QuestionPost } from '@/components/question/question-post';
 import { SkeletonQuestionPost } from '@/components/question/skeleton-question-post';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
+import dayjs from 'dayjs';
 
 export function FavoriteQuestionList({ session }: { session: Session }) {
 	const { isLoading, data, fetchNextPage, isFetchingNextPage } =
@@ -58,6 +59,9 @@ export function FavoriteQuestionList({ session }: { session: Session }) {
 						0,
 					) ?? 0;
 				const averageRating = totalRating / bestAnswerRatings?.length;
+				const membership = question.question.owner.memberships.find((mb) =>
+					dayjs().isBefore(mb.expiresAt),
+				);
 
 				return (
 					<div
@@ -80,6 +84,7 @@ export function FavoriteQuestionList({ session }: { session: Session }) {
 								slug: question.question.slug,
 								owner: {
 									...question.question.owner,
+									membership,
 									initial: createInitial(question.question.owner.name),
 								},
 								images: question.question.images,

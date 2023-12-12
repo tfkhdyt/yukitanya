@@ -5,6 +5,7 @@ import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 
 import { useIntersectionObserver } from '@uidotdev/usehooks';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { NotificationItem } from './notification-item';
 import { SkeletonNotificationItem } from './skeleton-notification-item';
@@ -49,26 +50,33 @@ export function NotificationList({
 
 	return (
 		<>
-			{notifications.map((notif, index) => (
-				<div
-					key={notif.id}
-					ref={index === notifications.length - 1 ? reference : undefined}
-				>
-					<NotificationItem
-						id={notif.id}
-						createdAt={notif.createdAt}
-						hasBeenRead={Boolean(notif.readAt)}
-						question={notif.question}
-						transmitterUser={{
-							...notif.transmitterUser,
-							initial: createInitial(notif.transmitterUser.name),
-						}}
-						type={notif.type}
-						rating={notif.rating}
-						description={notif.description}
-					/>
-				</div>
-			))}
+			{notifications.map((notif, index) => {
+				const membership = notif.transmitterUser.memberships.find(
+					(membership) => dayjs().isBefore(membership.expiresAt),
+				);
+
+				return (
+					<div
+						key={notif.id}
+						ref={index === notifications.length - 1 ? reference : undefined}
+					>
+						<NotificationItem
+							id={notif.id}
+							createdAt={notif.createdAt}
+							hasBeenRead={Boolean(notif.readAt)}
+							question={notif.question}
+							transmitterUser={{
+								...notif.transmitterUser,
+								membership,
+								initial: createInitial(notif.transmitterUser.name),
+							}}
+							type={notif.type}
+							rating={notif.rating}
+							description={notif.description}
+						/>
+					</div>
+				);
+			})}
 			{isFetchingNextPage && <SkeletonNotificationItem />}
 		</>
 	);
