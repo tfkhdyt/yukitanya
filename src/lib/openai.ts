@@ -4,4 +4,3 @@ import OpenAI from 'openai';
 export const openai = new OpenAI({
 	apiKey: environment.OPENAI_API_KEY,
 });
-  
