@@ -205,10 +205,14 @@ export function PremiumType({ user }: { user: User }) {
 					onClick={handleSubmit}
 					disabled={isLoading}
 				>
-					<BanknoteIcon className='mr-1' />
-					Langganan (
-					{formatter.format(Math.round(calculatePrice(type, Number(duration))))}
-					)
+					<BanknoteIcon className='mr-2' />
+					<span className='truncate'>
+						Langganan (
+						{formatter.format(
+							Math.round(calculatePrice(type, Number(duration))),
+						)}
+						)
+					</span>
 				</Button>
 			</div>
 		</>

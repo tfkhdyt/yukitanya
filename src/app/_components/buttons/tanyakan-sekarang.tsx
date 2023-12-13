@@ -21,13 +21,13 @@ export function TanyakanSekarangButton({
 		<QuestionModal user={user} defaultSubject={defaultSubject}>
 			<Button
 				className={clsx(
-					'flex items-center space-x-2 rounded-full font-semibold',
+					'rounded-full font-semibold',
 					fullWidth && 'text-base w-full',
 					center && 'mx-auto',
 				)}
 			>
 				<MessageSquarePlusIcon size={20} className='mr-2' />
-				Tanyakan Sekarang!
+				<span className='truncate'>Tanyakan Sekarang!</span>
 			</Button>
 		</QuestionModal>
 	);
