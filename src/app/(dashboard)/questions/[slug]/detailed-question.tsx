@@ -9,6 +9,7 @@ import { match } from 'ts-pattern';
 import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { ShareDropdown } from '@/components/dropdown/share-dropdown';
 import { AnswerModal } from '@/components/modals/answer-modal';
+import { AskAIModal } from '@/components/modals/ask-ai-modal';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,7 +20,6 @@ import { api } from '@/trpc/react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
-import { AskAIModal } from '@/components/modals/ask-ai-modal';
 
 type Question = {
 	content: string;

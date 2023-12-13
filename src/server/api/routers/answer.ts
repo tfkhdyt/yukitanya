@@ -9,10 +9,10 @@ import {
 	updateAnswerSchema,
 } from '@/server/db/schema';
 
+import { openai } from '@/lib/openai';
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
-import { openai } from '@/lib/openai';
 
 export const answerRouter = createTRPCRouter({
 	createAnswer: protectedProcedure
