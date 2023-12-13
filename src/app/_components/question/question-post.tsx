@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import {
+	BotIcon,
 	Heart,
 	MessageCircle,
 	MoreHorizontalIcon,
@@ -38,6 +39,7 @@ import { api } from '@/trpc/react';
 
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { ShareDropdown } from '../dropdown/share-dropdown';
+import { AskAIModal } from '../modals/ask-ai-modal';
 
 type Question = {
 	content: string;
@@ -285,7 +287,29 @@ export function QuestionPost({
 							{question.numberOfAnswers}
 						</Button>
 					)}
-
+					{session ? (
+						<AskAIModal question={question} session={session}>
+							<Button
+								className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+								size='sm'
+								title='Tanyakan pada AI'
+								variant='ghost'
+								disabled={session.user.membership?.type !== 'plus'}
+							>
+								<BotIcon className='mr-1' size={18} />
+							</Button>
+						</AskAIModal>
+					) : (
+						<Button
+							className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+							disabled
+							size='sm'
+							title='Tanyakan pada AI'
+							variant='ghost'
+						>
+							<BotIcon className='mr-1' size={18} />
+						</Button>
+					)}
 					<ShareDropdown
 						url={
 							new URL(

@@ -12,6 +12,7 @@ import {
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+import { openai } from '@/lib/openai';
 
 export const answerRouter = createTRPCRouter({
 	createAnswer: protectedProcedure
@@ -224,5 +225,15 @@ export const answerRouter = createTRPCRouter({
 				.update(answers)
 				.set({ isBestAnswer: true })
 				.where(eq(answers.id, input.answerId));
+		}),
+	askAI: protectedProcedure
+		.input(z.string())
+		.query(async ({ input: question }) => {
+			const chatCompletion = await openai.chat.completions.create({
+				messages: [{ role: 'user', content: question }],
+				model: 'gpt-3.5-turbo-1106',
+			});
+
+			return chatCompletion.choices;
 		}),
 });

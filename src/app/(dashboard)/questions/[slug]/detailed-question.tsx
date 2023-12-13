@@ -1,6 +1,6 @@
 'use client';
 
-import { Heart, MessageCircle, Share2Icon } from 'lucide-react';
+import { BotIcon, Heart, MessageCircle, Share2Icon } from 'lucide-react';
 import { type Session } from 'next-auth';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -19,6 +19,7 @@ import { api } from '@/trpc/react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { AskAIModal } from '@/components/modals/ask-ai-modal';
 
 type Question = {
 	content: string;
@@ -170,7 +171,7 @@ export function DetailedQuestion({
 					</div>
 				</div>
 			</div>
-			<div className='flex flex-wrap items-center justify-around border-b-2 py-2 text-[#696984] md:gap-2'>
+			<div className='flex flex-wrap items-center justify-around md:justify-evenly border-b-2 py-2 text-[#696984] md:gap-2'>
 				<Button
 					className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
 					size='sm'
@@ -190,7 +191,7 @@ export function DetailedQuestion({
 							<Heart className='mr-1' size={18} />
 						)}
 					</>
-					<span>Favorit</span>
+					<span className='hidden md:inline'>Favorit</span>
 				</Button>
 				{session ? (
 					<AnswerModal question={question} session={session}>
@@ -201,7 +202,7 @@ export function DetailedQuestion({
 							variant='ghost'
 						>
 							<MessageCircle size={18} />
-							<span>Jawab</span>
+							<span className='hidden md:inline'>Jawab</span>
 						</Button>
 					</AnswerModal>
 				) : (
@@ -213,7 +214,32 @@ export function DetailedQuestion({
 						disabled
 					>
 						<MessageCircle size={18} />
-						<span>Jawab</span>
+						<span className='hidden md:inline'>Jawab</span>
+					</Button>
+				)}
+				{session ? (
+					<AskAIModal question={question} session={session}>
+						<Button
+							className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
+							size='sm'
+							title='Tanyakan pada AI'
+							variant='ghost'
+							disabled={session.user.membership?.type !== 'plus'}
+						>
+							<BotIcon size={18} />
+							<span className='hidden md:inline'>Tanyakan pada AI</span>
+						</Button>
+					</AskAIModal>
+				) : (
+					<Button
+						className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
+						size='sm'
+						title='Tanyakan pada AI'
+						variant='ghost'
+						disabled
+					>
+						<BotIcon size={18} />
+						<span className='hidden md:inline'>Tanyakan pada AI</span>
 					</Button>
 				)}
 				<ShareDropdown
@@ -231,7 +257,7 @@ export function DetailedQuestion({
 						variant='ghost'
 					>
 						<Share2Icon size={18} />
-						<span>Bagikan</span>
+						<span className='hidden md:inline'>Bagikan</span>
 					</Button>
 				</ShareDropdown>
 			</div>
