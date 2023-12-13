@@ -37,7 +37,7 @@ export function JawabSekarangButton({
 				)}
 			>
 				<MessageCircleIcon size={16} />
-				<p>Jawab Sekarang!</p>
+				<span>Jawab Sekarang!</span>
 			</Button>
 		</AnswerModal>
 	);
