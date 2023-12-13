@@ -62,8 +62,8 @@ export function ShareDropdown({
 	children: ReactNode;
 	url: URL;
 }) {
-	const [copied, setCopied] = useState(false);
 	const [open, setOpen] = useState(false);
+	const [copied, setCopied] = useState(false);
 
 	const handleCopyLinkClick = async () => {
 		// Logic to copy the link goes here (if needed)

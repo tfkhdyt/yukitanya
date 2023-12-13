@@ -3,6 +3,8 @@
 import clsx from 'clsx';
 import {
 	CheckCircle,
+	CheckIcon,
+	CopyIcon,
 	MoreHorizontalIcon,
 	PencilIcon,
 	Star,
@@ -161,6 +163,15 @@ export function AnswerPost({
 			});
 			setIsShowRatingDropdown(false);
 		}
+	};
+
+	const [copied, setCopied] = useState(false);
+	const handleCopy = async (text: string) => {
+		await navigator.clipboard.writeText(text);
+		setCopied(true);
+		setTimeout(() => {
+			setCopied(false);
+		}, 500);
 	};
 
 	return (
@@ -339,6 +350,19 @@ export function AnswerPost({
 									</>
 								</Button>
 							)}
+							<Button
+								className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+								size='sm'
+								title='Salin jawaban'
+								variant='ghost'
+								onClick={() => handleCopy(answer.content)}
+							>
+								{copied ? (
+									<CheckIcon className='mr-2' size={18} />
+								) : (
+									<CopyIcon className='mr-2' size={18} />
+								)}
+							</Button>
 							{answer.owner.id === session?.user.id && (
 								<DropdownMenu
 									open={isShowDropdown}
