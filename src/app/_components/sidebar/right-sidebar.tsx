@@ -26,6 +26,7 @@ export function RightSidebar({ setSheetOpen }: Props) {
 						<div className='space-y-8'>
 							<MostPopularQuestionSection
 								subject={mapel.find((mpl) => mpl.id === params.id)}
+								setSheetOpen={setSheetOpen}
 							/>
 							<MostActiveUsers setSheetOpen={setSheetOpen} />
 						</div>
