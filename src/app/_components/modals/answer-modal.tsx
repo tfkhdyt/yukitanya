@@ -39,7 +39,8 @@ const answerSchema = z.object({
 	answer: z
 		.string({ required_error: 'Jawaban tidak boleh kosong' })
 		.min(1, 'Jawaban tidak boleh kosong')
-		.max(1000, 'Jawaban tidak boleh lebih dari 1000 karakter'),
+		.max(1000, 'Jawaban tidak boleh lebih dari 1000 karakter')
+		.trim(),
 });
 
 type Question = {

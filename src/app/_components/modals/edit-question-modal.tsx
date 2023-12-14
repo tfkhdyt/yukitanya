@@ -47,7 +47,8 @@ const questionSchema = z.object({
 	question: z
 		.string({ required_error: 'Pertanyaan tidak boleh kosong' })
 		.min(1, 'Pertanyaan tidak boleh kosong')
-		.max(1000, 'Pertanyaan tidak boleh lebih dari 1000 karakter'),
+		.max(1000, 'Pertanyaan tidak boleh lebih dari 1000 karakter')
+		.trim(),
 	subject: z
 		.string({ required_error: 'Pilih salah satu mapel' })
 		.min(1, 'Mapel tidak boleh kosong')
