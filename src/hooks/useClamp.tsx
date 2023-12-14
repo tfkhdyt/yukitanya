@@ -7,12 +7,19 @@ export function useClamp() {
 	const ref = useRef<HTMLParagraphElement>(null);
 
 	useEffect(() => {
-		if (ref.current) {
+		const checkHeight = () => {
 			setShowReadMoreButton(
-				ref.current.scrollHeight !== ref.current.clientHeight,
+				ref.current?.scrollHeight !== ref.current?.clientHeight,
 			);
-		}
-	});
+		};
+
+		checkHeight();
+		window.addEventListener('resize', checkHeight);
+
+		return () => {
+			window.removeEventListener('resize', checkHeight);
+		};
+	}, []);
 
 	return { isOpen, setIsOpen, showReadMoreButton, ref };
 }
