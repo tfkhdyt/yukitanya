@@ -4,7 +4,7 @@ export function SkeletonMostActiveUsers() {
 	return (
 		<div className='space-y-4'>
 			<h2 className='text-xl font-extrabold uppercase text-[#F48C06]'>
-				PENGGUNA TERAKTIF
+				PENGGUNA TERAKTIF MINGGU INI
 			</h2>
 
 			<ol className='space-y-5'>
