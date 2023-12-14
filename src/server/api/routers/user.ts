@@ -24,6 +24,7 @@ import {
 	users,
 } from '@/server/db/schema';
 import cuid from 'cuid';
+import dayjs from 'dayjs';
 
 export const userRouter = createTRPCRouter({
 	register: publicProcedure
@@ -193,6 +194,12 @@ export const userRouter = createTRPCRouter({
 			.leftJoin(questions, eq(questions.userId, users.id))
 			.leftJoin(answers, eq(answers.userId, users.id))
 			.leftJoin(favorites, eq(favorites.userId, users.id))
+			.where(
+				and(
+					gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+					gt(answers.createdAt, dayjs().subtract(7, 'days').toDate()),
+				),
+			)
 			.groupBy(users.id)
 			.orderBy(desc(score))
 			.limit(3);

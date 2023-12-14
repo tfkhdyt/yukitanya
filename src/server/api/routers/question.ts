@@ -27,6 +27,7 @@ import { questionIndex } from '@/lib/algolia';
 import { utapi } from '@/lib/uploadthing/server';
 import { verifyCaptchaToken } from '@/lib/utils';
 import cuid from 'cuid';
+import dayjs from 'dayjs';
 import { match } from 'ts-pattern';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -525,7 +526,14 @@ export const questionRouter = createTRPCRouter({
 				.leftJoin(answers, eq(answers.questionId, questions.id))
 				.innerJoin(users, eq(users.id, questions.userId))
 				.innerJoin(subjects, eq(subjects.id, questions.subjectId))
-				.where(subjectId ? eq(questions.subjectId, subjectId) : undefined)
+				.where(
+					subjectId
+						? and(
+								eq(questions.subjectId, subjectId),
+								gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+						  )
+						: gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+				)
 				.orderBy(desc(popularity))
 				.groupBy(
 					questions.content,

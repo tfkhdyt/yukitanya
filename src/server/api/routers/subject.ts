@@ -1,5 +1,6 @@
 import { answers, favorites, questions, subjects } from '@/server/db/schema';
-import { desc, eq, sql } from 'drizzle-orm';
+import dayjs from 'dayjs';
+import { and, desc, eq, gt, sql } from 'drizzle-orm';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 
 export const subjectRouter = createTRPCRouter({
@@ -18,6 +19,12 @@ export const subjectRouter = createTRPCRouter({
 			.leftJoin(questions, eq(questions.subjectId, subjects.id))
 			.leftJoin(answers, eq(answers.questionId, questions.id))
 			.leftJoin(favorites, eq(favorites.questionId, questions.id))
+			.where(
+				and(
+					gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+					gt(answers.createdAt, dayjs().subtract(7, 'days').toDate()),
+				),
+			)
 			.orderBy(desc(score))
 			.groupBy(subjects.id)
 			.limit(3);

@@ -20,7 +20,7 @@ export function MostPopularSubject({
 		return (
 			<div className='space-y-4'>
 				<h2 className='text-xl font-extrabold uppercase text-[#F48C06]'>
-					MATA PELAJARAN TERPOPULER
+					MATA PELAJARAN TERPOPULER MINGGU INI
 				</h2>
 
 				<ol className='space-y-2'>
