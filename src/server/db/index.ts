@@ -4,13 +4,15 @@ import postgres from 'postgres';
 import { environment } from '@/environment.mjs';
 import * as schema from '@/server/db/schema';
 
+export type Pg = PostgresJsDatabase<typeof schema>;
+
 declare global {
 	// eslint-disable-next-line no-var -- only var works here
 	// biome-ignore lint/style/noVar: <explanation>
-	var database: PostgresJsDatabase<typeof schema> | undefined;
+	var database: Pg | undefined;
 }
 
-let db: PostgresJsDatabase<typeof schema>;
+let db: Pg;
 
 // for query purposes
 const queryClient = postgres(environment.DATABASE_URL);

@@ -1,21 +1,22 @@
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-
-import { db } from '@/server/db';
-import * as schema from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
 
-export class QuestionImageRepoPg {
-		constructor(private readonly db: PostgresJsDatabase<typeof schema>) {}
+import { Pg, db } from '@/server/db';
+import * as schema from '@/server/db/schema';
 
-		async addQuestionImage(...questionImage: schema.InsertQuestionImage[]) {
-			await this.db.insert(schema.questionImages).values(questionImage);
-		}
+class QuestionImageRepoPg {
+	constructor(private readonly db: Pg) {}
 
-		async findImagesByQuestionId(questionId: string) {
-			return await this.db.query.questionImages.findMany({
-				where: eq(schema.questionImages.questionId, questionId),
-			});
-		}
+	async addQuestionImage(...questionImage: schema.InsertQuestionImage[]) {
+		await this.db.insert(schema.questionImages).values(questionImage);
 	}
+
+	async findImagesByQuestionId(questionId: string) {
+		return await this.db.query.questionImages.findMany({
+			where: eq(schema.questionImages.questionId, questionId),
+		});
+	}
+}
+
+export { QuestionImageRepoPg };
 
 export const questionImageRepoPg = new QuestionImageRepoPg(db);
