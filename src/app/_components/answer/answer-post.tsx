@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import {
 	CheckCircle,
 	CheckIcon,
@@ -29,10 +28,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
+import ReactShowMoreText from 'react-show-more-text';
 import { AvatarWithBadge } from '../avatar-with-badge';
 
 type Answer = {
@@ -72,7 +71,6 @@ export function AnswerPost({
 	session: Session | null;
 }) {
 	const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
-	const { isOpen, setIsOpen, showReadMoreButton, ref } = useClamp();
 
 	const utils = api.useUtils();
 	const deleteAnswerMutation = api.answer.deleteAnswerById.useMutation({
@@ -229,24 +227,15 @@ export function AnswerPost({
 							)}
 						</Link>
 					</div>
-					<p
-						className={clsx(
-							'whitespace-pre-wrap text-sm leading-relaxed text-[#696984]',
-							isOpen || 'line-clamp-4',
-						)}
-						ref={ref}
+					<ReactShowMoreText
+						more='Tampilkan lebih banyak'
+						less='Tampilkan lebih sedikit'
+						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
+						className='whitespace-pre-wrap text-sm leading-relaxed text-[#696984]'
+						truncatedEndingComponent='...  '
 					>
 						{answer.content}
-					</p>
-					{showReadMoreButton && (
-						<button
-							className='text-sm font-medium text-[#696984] hover:underline'
-							onClick={() => setIsOpen((v) => !v)}
-							type='button'
-						>
-							Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
-						</button>
-					)}
+					</ReactShowMoreText>
 					<div className='flex flex-wrap-reverse items-center gap-4 pt-4 text-[#696984] justify-between'>
 						<div className='flex flex-wrap gap-2'>
 							<DropdownMenu

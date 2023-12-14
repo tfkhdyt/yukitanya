@@ -32,11 +32,11 @@ import {
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
 import { environment } from '@/environment.mjs';
-import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
+import ReactShowMoreText from 'react-show-more-text';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 import { AskAIModal } from '../modals/ask-ai-modal';
@@ -74,8 +74,6 @@ export function QuestionPost({
 	const utils = api.useUtils();
 	const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 	const [isShowDropdown, setIsShowDropDown] = useState(false);
-
-	const { isOpen, setIsOpen, ref, showReadMoreButton } = useClamp();
 
 	const favoriteMutation = api.favorite.toggleFavorite.useMutation({
 		onError: () => toast.error('Gagal memberi favorit'),
@@ -164,12 +162,12 @@ export function QuestionPost({
 					</Link>
 				</div>
 				<Link href={`/questions/${question.slug}`}>
-					<p
-						className={clsx(
-							'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
-							isOpen || 'line-clamp-4',
-						)}
-						ref={ref}
+					<ReactShowMoreText
+						more='Tampilkan lebih banyak'
+						less='Tampilkan lebih sedikit'
+						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
+						className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'
+						truncatedEndingComponent='...  '
 					>
 						{question.content.split(' ').map((word, index) => {
 							if (highlightedWords?.includes(word.toLowerCase())) {
@@ -183,17 +181,8 @@ export function QuestionPost({
 							}
 							return <span key={`${word}-${index}`}>{word} </span>;
 						})}
-					</p>
+					</ReactShowMoreText>
 				</Link>
-				{showReadMoreButton && (
-					<button
-						className='text-sm font-medium text-[#696984] hover:underline'
-						onClick={() => setIsOpen((v) => !v)}
-						type='button'
-					>
-						Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
-					</button>
-				)}
 				{question.images.length > 0 && (
 					<PhotoProvider>
 						<div

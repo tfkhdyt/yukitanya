@@ -3,12 +3,12 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
-import { useClamp } from '@/hooks/useClamp';
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import Image from 'next/image';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import ReactShowMoreText from 'react-show-more-text';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
@@ -26,8 +26,6 @@ export function MostPopularQuestionSection({
 	const { data, isLoading } = api.question.findMostPopularQuestion.useQuery(
 		subject?.id,
 	);
-
-	const { isOpen, setIsOpen, ref, showReadMoreButton } = useClamp();
 
 	if (isLoading) {
 		return <SkeletonMostPopularQuestionSection subject={subject} />;
@@ -78,26 +76,16 @@ export function MostPopularQuestionSection({
 						href={`/questions/${data.question.slug}`}
 						onClick={setSheetOpen}
 					>
-						<p
-							className={clsx(
-								'whitespace-pre-wrap pt-2 text-sm leading-relaxed text-[#696984] font-normal',
-								isOpen || 'line-clamp-4',
-							)}
-							ref={ref}
+						<ReactShowMoreText
+							more='Tampilkan lebih banyak'
+							less='Tampilkan lebih sedikit'
+							anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
+							className='whitespace-pre-wrap pt-2 text-sm leading-relaxed text-[#696984] font-normal'
+							truncatedEndingComponent='...  '
 						>
 							{data.question.content}
-						</p>
+						</ReactShowMoreText>
 					</Link>
-					{showReadMoreButton && (
-						<button
-							className='text-sm font-medium text-[#696984] hover:underline mt-2'
-							onClick={() => setIsOpen((v) => !v)}
-							type='button'
-							tabIndex={-1}
-						>
-							Tampilkan lebih {isOpen ? 'sedikit' : 'banyak'}
-						</button>
-					)}
 					{data.images.length > 0 && (
 						<PhotoProvider>
 							<div
