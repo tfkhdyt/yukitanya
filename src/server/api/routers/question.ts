@@ -38,18 +38,9 @@ export const questionRouter = createTRPCRouter({
 
 	deleteQuestionById: protectedProcedure
 		.input(z.string())
-		.mutation(async ({ ctx, input: questionId }) => {
-			const images = await ctx.db
-				.select()
-				.from(questionImages)
-				.where(eq(questionImages.questionId, questionId));
-
-			await ctx.db.delete(questions).where(eq(questions.id, questionId));
-
-			if (images.length > 0) {
-				await utapi.deleteFiles(images.map((img) => img.id));
-			}
-		}),
+		.mutation(async ({ input: questionId }) =>
+			questionService.deleteQuestionById(questionId),
+		),
 	findAllQuestions: publicProcedure
 		.input(
 			z.object({

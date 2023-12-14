@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { verifyCaptchaToken } from '@/lib/turnstile';
+import { utapi } from '@/lib/uploadthing/server';
 import { CreateQuestion } from '@/schema/question-schema';
 
 import {
@@ -68,6 +69,15 @@ class QuestionService {
 			}));
 
 			await this.questionImageRepo.addQuestionImage(...imagesInput);
+		}
+	}
+
+	async deleteQuestionById(questionId: string) {
+		const images =
+			await this.questionImageRepo.findImagesByQuestionId(questionId);
+		await this.questionRepo.deleteQuestionById(questionId);
+		if (images.length > 0) {
+			await utapi.deleteFiles(images.map((image) => image.id));
 		}
 	}
 }
