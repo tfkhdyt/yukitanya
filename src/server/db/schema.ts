@@ -282,6 +282,8 @@ export const questionImages = pgTable('question_image', {
 		.references(() => questions.id, { onDelete: 'cascade' }),
 });
 
+export type InsertQuestionImage = typeof questionImages.$inferInsert;
+
 export const questionImagesRelations = relations(
 	questionImages,
 	({ one }) => ({

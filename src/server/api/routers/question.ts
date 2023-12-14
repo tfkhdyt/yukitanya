@@ -1,16 +1,21 @@
+import cuid from 'cuid';
+import dayjs from 'dayjs';
 import {
 	and,
 	countDistinct,
 	desc,
 	eq,
 	gt,
-	gte,
 	inArray,
 	lte,
 	sql,
 } from 'drizzle-orm';
 import { z } from 'zod';
 
+import { questionIndex } from '@/lib/algolia';
+import { utapi } from '@/lib/uploadthing/server';
+import { verifyCaptchaToken } from '@/lib/utils';
+import { createQuestionSchema } from '@/schema/question-schema';
 import {
 	answers,
 	favorites,
@@ -22,98 +27,15 @@ import {
 	subjects,
 	users,
 } from '@/server/db/schema';
+import { questionService } from '@/server/services/question-service';
 
-import { questionIndex } from '@/lib/algolia';
-import { utapi } from '@/lib/uploadthing/server';
-import { verifyCaptchaToken } from '@/lib/utils';
-import cuid from 'cuid';
-import dayjs from 'dayjs';
-import { match } from 'ts-pattern';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const questionRouter = createTRPCRouter({
 	createQuestion: protectedProcedure
-		.input(
-			z.object({
-				schema: insertQuestionSchema,
-				token: z.string().optional(),
-				image: z
-					.object({
-						id: z.string(),
-						url: z.string().url(),
-					})
-					.array()
-					.optional(),
-			}),
-		)
-		.mutation(async ({ ctx, input }) => {
-			await verifyCaptchaToken(input.token);
+		.input(createQuestionSchema)
+		.mutation(({ input }) => questionService.createQuestion(input)),
 
-			const [membership] = await ctx.db
-				.select()
-				.from(memberships)
-				.where(
-					and(
-						eq(memberships.userId, input.schema.userId),
-						gt(memberships.expiresAt, new Date()),
-					),
-				)
-				.limit(1);
-
-			const currentDate = new Date();
-			currentDate.setHours(0, 0, 0, 0);
-			const [thisDayPostsCount] = await ctx.db
-				.select({
-					count: countDistinct(questions),
-				})
-				.from(questions)
-				.where(
-					and(
-						eq(questions.userId, input.schema.userId),
-						gte(questions.createdAt, currentDate),
-					),
-				);
-
-			match(membership?.type)
-				.with('standard', () => {
-					if (thisDayPostsCount && thisDayPostsCount.count >= 10) {
-						throw new Error(
-							'Anda telah melewati batas pembuatan pertanyaan hari ini',
-						);
-					}
-				})
-				.with('plus', () => undefined)
-				.otherwise(() => {
-					if (thisDayPostsCount && thisDayPostsCount.count >= 2) {
-						throw new Error(
-							'Anda telah melewati batas pembuatan pertanyaan hari ini',
-						);
-					}
-				});
-
-			const question = await ctx.db.query.questions.findFirst({
-				where: eq(questions.slug, input.schema.slug),
-			});
-			if (question) {
-				throw new Error('Pertanyaan yang sama telah ada!');
-			}
-
-			const createdQuestion = await ctx.db
-				.insert(questions)
-				.values(input.schema)
-				.returning({ id: questions.id });
-
-			if (input.image && input.image?.length > 0 && createdQuestion[0]?.id) {
-				const questionId = createdQuestion[0].id;
-
-				const imagesInput = input.image.map((img) => ({
-					...img,
-					questionId,
-				}));
-
-				return ctx.db.insert(questionImages).values(imagesInput);
-			}
-		}),
 	deleteQuestionById: protectedProcedure
 		.input(z.string())
 		.mutation(async ({ ctx, input: questionId }) => {
