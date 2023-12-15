@@ -1,9 +1,12 @@
 'use client';
 
+import clsx from 'clsx';
 import { BotIcon, Heart, MessageCircle, Share2Icon } from 'lucide-react';
 import { type Session } from 'next-auth';
+import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { match } from 'ts-pattern';
 
 import { AvatarWithBadge } from '@/components/avatar-with-badge';
@@ -12,19 +15,16 @@ import { AnswerModal } from '@/components/modals/answer-modal';
 import { AskAIModal } from '@/components/modals/ask-ai-modal';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { environment } from '@/environment.mjs';
-import { formatLongDateTime } from '@/lib/datetime';
-import { type User } from '@/server/auth';
-import { api } from '@/trpc/react';
-import clsx from 'clsx';
-import Image from 'next/image';
-import { PhotoProvider, PhotoView } from 'react-photo-view';
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
+import { Skeleton } from '@/components/ui/skeleton';
+import { environment } from '@/environment.mjs';
+import { formatLongDateTime } from '@/lib/datetime';
+import { type User } from '@/server/auth';
+import { api } from '@/trpc/react';
 
 type Question = {
 	content: string;

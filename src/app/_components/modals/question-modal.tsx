@@ -5,8 +5,9 @@ import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import clsx from 'clsx';
 import cuid from 'cuid';
 import { ImagePlusIcon, SendIcon, XIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { type ReactNode, useRef, useState } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import slugify from 'slugify';
@@ -40,10 +41,10 @@ import { environment } from '@/environment.mjs';
 import { useUploadThing } from '@/lib/uploadthing/client';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import Image from 'next/image';
+
 import { AvatarWithBadge } from '../avatar-with-badge';
-import { Input } from '../ui/input';
 import { LimitPopover } from '../question/limit-popover';
+import { Input } from '../ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const questionSchema = z.object({
