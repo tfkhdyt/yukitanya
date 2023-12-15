@@ -1,12 +1,15 @@
+'use client';
+
+import clsx from 'clsx';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { P, match } from 'ts-pattern';
+
 import { QuestionModal } from '@/components/modals/question-modal';
 import { NotifCount } from '@/components/notif-counter';
 import { Button } from '@/components/ui/button';
 import { menu } from '@/constants/menu';
 import { User } from '@/server/auth';
-import clsx from 'clsx';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { P, match } from 'ts-pattern';
 
 export function MobileNav({ user }: { user?: User }) {
 	const pathname = usePathname();

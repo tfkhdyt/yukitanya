@@ -41,6 +41,14 @@ export const questionRouter = createTRPCRouter({
 		.mutation(async ({ input: questionId }) =>
 			questionService.deleteQuestionById(questionId),
 		),
+	getTodayQuestionCount: protectedProcedure
+		.input(z.string().optional())
+		.query(({ input: userId }) => {
+			if (!userId) {
+				return null;
+			}
+			return questionService.getTodayQuestionCount(userId);
+		}),
 	findAllQuestions: publicProcedure
 		.input(
 			z.object({

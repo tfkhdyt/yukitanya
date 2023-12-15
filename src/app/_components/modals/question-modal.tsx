@@ -43,6 +43,8 @@ import { api } from '@/trpc/react';
 import Image from 'next/image';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { Input } from '../ui/input';
+import { LimitPopover } from '../question/limit-popover';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const questionSchema = z.object({
 	question: z
@@ -111,6 +113,19 @@ export function QuestionModal({
 			toast.error('Gagal mengupload gambar');
 		},
 	});
+
+	const { data: todayQuestionCount } =
+		api.question.getTodayQuestionCount.useQuery(user?.id);
+
+	if (todayQuestionCount) {
+		if (user.membership?.type === 'standard' && todayQuestionCount >= 10) {
+			return <LimitPopover>{children}</LimitPopover>;
+		}
+
+		if (!user.membership && todayQuestionCount >= 2) {
+			return <LimitPopover>{children}</LimitPopover>;
+		}
+	}
 
 	const onSubmit = async (values: z.infer<typeof questionSchema>) => {
 		setOpen(false);
@@ -198,18 +213,43 @@ export function QuestionModal({
 									<div className='flex justify-between flex-wrap-reverse'>
 										<div>
 											<div className='grid w-fit max-w-sm items-center gap-1.5'>
-												<Button
-													disabled={!user.membership}
-													className='font-normal rounded-full'
-													variant='outline'
-													onClick={(e) => {
-														e.preventDefault();
-														fileRef.current?.click();
-													}}
-												>
-													<ImagePlusIcon size={18} className='mr-2' />
-													Tambah gambar
-												</Button>
+												{user.membership ? (
+													<Button
+														className='font-normal rounded-full'
+														variant='outline'
+														onClick={(e) => {
+															e.preventDefault();
+															fileRef.current?.click();
+														}}
+													>
+														<ImagePlusIcon size={18} className='mr-2' />
+														Tambah gambar
+													</Button>
+												) : (
+													<Popover>
+														<PopoverTrigger asChild>
+															<Button
+																className='font-normal rounded-full'
+																variant='outline'
+															>
+																<ImagePlusIcon size={18} className='mr-2' />
+																Tambah gambar
+															</Button>
+														</PopoverTrigger>
+														<PopoverContent className='text-[#696984] font-medium rounded-xl'>
+															Anda harus menjadi pengguna{' '}
+															<Link
+																href='/premium'
+																className='font-bold hover:underline'
+																onClick={() => setOpen(false)}
+															>
+																Premium
+															</Link>{' '}
+															untuk menggunakan fitur ini.
+														</PopoverContent>
+													</Popover>
+												)}
+
 												<Input
 													accept='image/*'
 													id='picture'

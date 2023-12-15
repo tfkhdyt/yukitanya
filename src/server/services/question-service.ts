@@ -80,6 +80,10 @@ class QuestionService {
 			await utapi.deleteFiles(images.map((image) => image.id));
 		}
 	}
+
+	async getTodayQuestionCount(userId: string) {
+		return await this.questionRepo.getTodayQuestionCount(userId);
+	}
 }
 
 export const questionService = new QuestionService(

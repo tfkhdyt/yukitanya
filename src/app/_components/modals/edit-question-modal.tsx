@@ -42,6 +42,7 @@ import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import Image from 'next/image';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { Input } from '../ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const questionSchema = z.object({
 	question: z
@@ -215,20 +216,47 @@ export function EditQuestionModal({
 									<div className='flex justify-between flex-wrap-reverse'>
 										<div>
 											<div className='grid w-fit max-w-sm items-center gap-1.5'>
-												<Button
-													className='font-normal rounded-full'
-													variant='outline'
-													disabled={!user.membership}
-													onClick={(e) => {
-														e.preventDefault();
-														fileRef.current?.click();
-													}}
-												>
-													<ImagePlusIcon size={18} className='mr-2' />
-													{question.images.length > 0
-														? 'Ganti gambar'
-														: 'Tambah gambar'}
-												</Button>
+												{user.membership ? (
+													<Button
+														className='font-normal rounded-full'
+														variant='outline'
+														onClick={(e) => {
+															e.preventDefault();
+															fileRef.current?.click();
+														}}
+													>
+														<ImagePlusIcon size={18} className='mr-2' />
+														{question.images.length > 0
+															? 'Ganti gambar'
+															: 'Tambah gambar'}
+													</Button>
+												) : (
+													<Popover>
+														<PopoverTrigger asChild>
+															<Button
+																className='font-normal rounded-full'
+																variant='outline'
+															>
+																<ImagePlusIcon size={18} className='mr-2' />
+																{question.images.length > 0
+																	? 'Ganti gambar'
+																	: 'Tambah gambar'}
+															</Button>
+														</PopoverTrigger>
+														<PopoverContent className='text-[#696984] font-medium rounded-xl'>
+															Anda harus menjadi pengguna{' '}
+															<Link
+																href='/premium'
+																className='font-bold hover:underline'
+																onClick={() => setOpen(false)}
+															>
+																Premium
+															</Link>{' '}
+															untuk menggunakan fitur ini.
+														</PopoverContent>
+													</Popover>
+												)}
+
 												<Input
 													accept='image/*'
 													id='picture'
