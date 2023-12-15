@@ -15,18 +15,16 @@ export async function generateMetadata({
 	params: { slug: string };
 }) {
 	const { slug } = params;
+	
 	const question = await api.question.findQuestionContentBySlug.query(slug);
+	if (!question) return null;
 
-	if (question.length > 0) {
-		return {
-			title: `${match(question[0]?.content.length)
-				.with(P.number.gte(50), () => `${question[0]?.content.slice(0, 50)}...`)
-				.otherwise(() => question[0]?.content)} - Yukitanya`,
-			description: question[0]?.content,
-		};
-	}
-
-	return {};
+	return {
+		title: `${match(question.content.length)
+			.with(P.number.gte(50), () => `${question.content.slice(0, 50)}...`)
+			.otherwise(() => question.content)} - Yukitanya`,
+		description: question.content,
+	};
 }
 
 export default async function Question({

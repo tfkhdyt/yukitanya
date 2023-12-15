@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { verifyCaptchaToken } from '@/lib/turnstile';
 import { utapi } from '@/lib/uploadthing/server';
-import { CreateQuestion } from '@/schema/question-schema';
+import { CreateQuestion, UpdateQuestion } from '@/schema/question-schema';
 
 import {
 	QuestionRepoAlgolia,
@@ -173,6 +173,53 @@ class QuestionService {
 
 	async findQuestionMetadata(questionId: string) {
 		return await this.questionRepo.findQuestionMetadata(questionId);
+	}
+
+	async findQuestionContentBySlug(slug: string) {
+		const question = await this.questionRepo.findQuestionContentBySlug(slug);
+		if (!question) {
+			const oldQuestion = await this.oldSlugRepo.findOldSlug(slug);
+			if (!oldQuestion) return null;
+
+			return await this.questionRepo.findQuestionContentById(
+				oldQuestion.questionId,
+			);
+		}
+
+		return question;
+	}
+
+	async updateQuestion(payload: UpdateQuestion) {
+		await verifyCaptchaToken(payload.token);
+
+		const question = await this.questionRepo.findQuestionById(
+			payload.schema.id,
+		);
+		if (!question) {
+			throw new Error('Pertanyaan tidak ditemukan');
+		}
+
+		if (payload.schema.slug !== question.slug) {
+			await this.oldSlugRepo.addOldSlug(payload.schema.id, question.slug);
+		}
+
+		if (payload.images?.length && payload.images.length > 0) {
+			const replacedImages =
+				await this.questionImageRepo.deleteImagesByQuestionId(
+					payload.schema.id,
+				);
+
+			await utapi.deleteFiles(replacedImages.map((img) => img.id));
+
+			const imagesInput = payload.images.map((img) => ({
+				...img,
+				questionId: payload.schema.id,
+			}));
+
+			await this.questionImageRepo.addQuestionImage(...imagesInput);
+		}
+
+		await this.questionRepo.updateQuestion(payload.schema);
 	}
 }
 

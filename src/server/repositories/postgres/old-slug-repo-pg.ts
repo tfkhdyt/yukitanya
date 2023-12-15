@@ -1,10 +1,11 @@
+import cuid from 'cuid';
 import { eq } from 'drizzle-orm';
 
 import { Pg, db } from '@/server/db';
 
 import { oldSlug } from './../../db/schema';
 
-export class OldSlugRepoPg {
+ class OldSlugRepoPg {
 	constructor(private readonly db: Pg) {}
 
 	async findOldSlug(slug: string) {
@@ -15,6 +16,16 @@ export class OldSlugRepoPg {
 			},
 		});
 	}
+
+	async addOldSlug(questionId: string, slug: string) {
+		return await this.db.insert(oldSlug).values({
+			id: `old-slug-${cuid()}`,
+			questionId,
+			slug,
+		});
+	}
 }
+
+export { OldSlugRepoPg };
 
 export const oldSlugRepoPg = new OldSlugRepoPg(db);

@@ -1,19 +1,26 @@
 import { eq } from 'drizzle-orm';
 
 import { Pg, db } from '@/server/db';
-import * as schema from '@/server/db/schema';
+import { InsertQuestionImage, questionImages } from '@/server/db/schema';
 
 class QuestionImageRepoPg {
 	constructor(private readonly db: Pg) {}
 
-	async addQuestionImage(...questionImage: schema.InsertQuestionImage[]) {
-		await this.db.insert(schema.questionImages).values(questionImage);
+	async addQuestionImage(...questionImage: InsertQuestionImage[]) {
+		await this.db.insert(questionImages).values(questionImage);
 	}
 
 	async findImagesByQuestionId(questionId: string) {
 		return await this.db.query.questionImages.findMany({
-			where: eq(schema.questionImages.questionId, questionId),
+			where: eq(questionImages.questionId, questionId),
 		});
+	}
+
+	async deleteImagesByQuestionId(questionId: string) {
+		return await this.db
+			.delete(questionImages)
+			.where(eq(questionImages.questionId, questionId))
+			.returning({ id: questionImages.id });
 	}
 }
 

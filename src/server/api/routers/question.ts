@@ -1,23 +1,19 @@
-import cuid from 'cuid';
 import dayjs from 'dayjs';
 import { and, countDistinct, desc, eq, gt, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
-import { utapi } from '@/lib/uploadthing/server';
-import { verifyCaptchaToken } from '@/lib/utils';
 import {
 	createQuestionSchema,
 	findAllQuestionsBySubjectSchema,
 	findAllQuestionsByUserIdSchema,
 	findAllQuestionsSchema,
 	searchQuestionSchema,
+	updateQuestionSchema,
 } from '@/schema/question-schema';
 import {
 	answers,
 	favorites,
-	insertQuestionSchema,
 	memberships,
-	oldSlug,
 	questionImages,
 	questions,
 	subjects,
@@ -95,88 +91,13 @@ export const questionRouter = createTRPCRouter({
 		),
 	findQuestionContentBySlug: publicProcedure
 		.input(z.string())
-		.query(async ({ ctx, input: slug }) => {
-			const question = await ctx.db
-				.select({ content: questions.content })
-				.from(questions)
-				.where(eq(questions.slug, slug))
-				.limit(1);
-
-			if (!question[0]) {
-				const questionId = await ctx.db
-					.select({ questionId: oldSlug.questionId })
-					.from(oldSlug)
-					.where(eq(oldSlug.slug, slug))
-					.limit(1);
-
-				if (questionId[0])
-					return ctx.db
-						.select({ content: questions.content })
-						.from(questions)
-						.where(eq(questions.id, questionId[0].questionId))
-						.limit(1);
-			}
-
-			return question;
-		}),
+		.query(
+			async ({ input: slug }) =>
+				await questionService.findQuestionContentBySlug(slug),
+		),
 	updateQuestionById: protectedProcedure
-		.input(
-			z.object({
-				schema: insertQuestionSchema,
-				token: z.string().optional(),
-				images: z
-					.object({
-						id: z.string(),
-						url: z.string().url(),
-					})
-					.array()
-					.optional(),
-			}),
-		)
-		.mutation(async ({ ctx, input }) => {
-			await verifyCaptchaToken(input.token);
-
-			const [question] = await ctx.db
-				.select({ slug: questions.slug })
-				.from(questions)
-				.where(eq(questions.id, input.schema.id))
-				.limit(1);
-
-			if (!question) throw new Error('Pertanyaan tidak ditemukan');
-
-			if (input.schema.slug !== question.slug) {
-				await ctx.db.insert(oldSlug).values({
-					id: `old-slug-${cuid()}`,
-					questionId: input.schema.id,
-					slug: question.slug,
-				});
-			}
-
-			if (input.images && input.images.length > 0) {
-				const replacedImages = await ctx.db
-					.delete(questionImages)
-					.where(eq(questionImages.questionId, input.schema.id))
-					.returning({ id: questionImages.id });
-				await utapi.deleteFiles(replacedImages.map((img) => img.id));
-
-				const imagesInput = input.images.map((img) => ({
-					...img,
-					questionId: input.schema.id,
-				}));
-
-				return ctx.db.insert(questionImages).values(imagesInput);
-			}
-
-			await ctx.db
-				.update(questions)
-				.set({
-					content: input.schema.content,
-					slug: input.schema.slug,
-					subjectId: input.schema.subjectId,
-					updatedAt: new Date(),
-				})
-				.where(eq(questions.id, input.schema.id));
-		}),
+		.input(updateQuestionSchema)
+		.mutation(async ({ input }) => await questionService.updateQuestion(input)),
 	findMostPopularQuestion: publicProcedure
 		.input(z.string().optional())
 		.query(async ({ ctx, input: subjectId }) => {

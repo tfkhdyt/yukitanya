@@ -227,6 +227,36 @@ class QuestionRepoPg {
 			},
 		});
 	}
+
+	async findQuestionContentBySlug(slug: string) {
+		return await this.db.query.questions.findFirst({
+			where: eq(questions.slug, slug),
+			columns: {
+				content: true,
+			},
+		});
+	}
+
+	async findQuestionContentById(questionId: string) {
+		return await this.db.query.questions.findFirst({
+			where: eq(questions.id, questionId),
+			columns: {
+				content: true,
+			},
+		});
+	}
+
+	async updateQuestion(question: InsertQuestion) {
+		await this.db
+			.update(questions)
+			.set({
+				content: question.content,
+				slug: question.slug,
+				subjectId: question.subjectId,
+				updatedAt: new Date(),
+			})
+			.where(eq(questions.id, question.id));
+	}
 }
 
 export { QuestionRepoPg };
