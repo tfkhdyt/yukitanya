@@ -24,7 +24,7 @@ export function AvatarWithBadge({
 				.with('standard', () => (
 					<div className='absolute -bottom-1 -right-1' title='Premium'>
 						<BadgeCheckIcon
-							color='#15202B'
+							color='white'
 							fill='#1D9BF0'
 							size={match(badgeSize)
 								.with('sm', () => 20)
