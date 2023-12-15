@@ -15,7 +15,7 @@ export async function generateMetadata({
 	params: { slug: string };
 }) {
 	const { slug } = params;
-	
+
 	const question = await api.question.findQuestionContentBySlug.query(slug);
 	if (!question) return null;
 

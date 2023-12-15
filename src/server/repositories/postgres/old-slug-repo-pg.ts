@@ -5,7 +5,7 @@ import { Pg, db } from '@/server/db';
 
 import { oldSlug } from './../../db/schema';
 
- class OldSlugRepoPg {
+class OldSlugRepoPg {
 	constructor(private readonly db: Pg) {}
 
 	async findOldSlug(slug: string) {
