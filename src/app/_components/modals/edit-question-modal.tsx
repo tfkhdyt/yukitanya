@@ -149,7 +149,7 @@ export function EditQuestionModal({
 				id: question.id,
 				slug:
 					slugify(values.question.slice(0, 50), { strict: true }) +
-					`-${question.id.replace('question-', '')}`,
+					`-${question.id.replace('question-', '').slice(-5)}`,
 				subjectId: values.subject,
 				userId: question.owner.id,
 			},
