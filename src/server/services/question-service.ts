@@ -5,6 +5,10 @@ import { utapi } from '@/lib/uploadthing/server';
 import { CreateQuestion } from '@/schema/question-schema';
 
 import {
+	QuestionRepoAlgolia,
+	questionRepoAlgolia,
+} from '../repositories/algolia/question-repo-algolia';
+import {
 	MembershipRepoPg,
 	membershipRepoPg,
 } from '../repositories/postgres/membership-repo-pg';
@@ -16,10 +20,6 @@ import {
 	QuestionRepoPg,
 	questionRepoPg,
 } from '../repositories/postgres/question-repo-pg';
-import {
-	QuestionRepoAlgolia,
-	questionRepoAlgolia,
-} from '../repositories/algolia/question-repo-algolia';
 
 class QuestionService {
 	constructor(

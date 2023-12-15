@@ -20,10 +20,10 @@ export function TanyakanSekarangButton({
 			<Button
 				className={clsx(
 					'rounded-full font-semibold',
-					fullWidth && 'text-lg w-full py-8',
+					fullWidth && 'text-base w-full py-7',
 				)}
 			>
-				<MessageSquarePlusIcon size={24} className='mr-2' />
+				<MessageSquarePlusIcon size={20} className='mr-2' />
 				<span className='truncate'>Buat pertanyaan</span>
 			</Button>
 		</QuestionModal>
