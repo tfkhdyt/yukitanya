@@ -40,6 +40,7 @@ import ReactShowMoreText from 'react-show-more-text';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 import { AskAIModal } from '../modals/ask-ai-modal';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 type Question = {
 	content: string;
@@ -233,25 +234,58 @@ export function QuestionPost({
 					)}
 				</div>
 				<div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
-					<Button
-						className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-						disabled={
-							!session || favoriteMutation.isLoading || !session.user.membership
-						}
-						onClick={handleFavorite}
-						size='sm'
-						title='Favorit'
-						variant='ghost'
-					>
-						<>
-							{question.isFavorited ? (
-								<Heart className='mr-1' color='red' fill='red' size={18} />
-							) : (
-								<Heart className='mr-1' size={18} />
-							)}
-							{question.numberOfFavorites}
-						</>
-					</Button>
+					{session?.user.membership ? (
+						<Button
+							className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+							disabled={favoriteMutation.isLoading}
+							onClick={handleFavorite}
+							size='sm'
+							title='Favorit'
+							variant='ghost'
+						>
+							<>
+								{question.isFavorited ? (
+									<Heart className='mr-1' color='red' fill='red' size={18} />
+								) : (
+									<Heart className='mr-1' size={18} />
+								)}
+								{question.numberOfFavorites}
+							</>
+						</Button>
+					) : (
+						<Popover>
+							<PopoverTrigger asChild>
+								<Button
+									className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+									size='sm'
+									title='Favorit'
+									variant='ghost'
+								>
+									<>
+										{question.isFavorited ? (
+											<Heart
+												className='mr-1'
+												color='red'
+												fill='red'
+												size={18}
+											/>
+										) : (
+											<Heart className='mr-1' size={18} />
+										)}
+										{question.numberOfFavorites}
+									</>
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className='text-[#696984] font-medium rounded-xl'>
+								Anda harus menjadi pengguna{' '}
+								<Link href='/premium' className='font-bold hover:underline'>
+									Premium
+								</Link>{' '}
+								untuk menggunakan fitur ini.
+							</PopoverContent>
+						</Popover>
+					)}
+
 					{session ? (
 						<AnswerModal question={question} session={session}>
 							<Button
@@ -265,39 +299,62 @@ export function QuestionPost({
 							</Button>
 						</AnswerModal>
 					) : (
-						<Button
-							className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-							disabled
-							size='sm'
-							title='Beri jawaban mu'
-							variant='ghost'
-						>
-							<MessageCircle className='mr-1' size={18} />
-							{question.numberOfAnswers}
-						</Button>
+						<Popover>
+							<PopoverTrigger asChild>
+								<Button
+									className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+									size='sm'
+									title='Beri jawaban mu'
+									variant='ghost'
+								>
+									<MessageCircle className='mr-1' size={18} />
+									{question.numberOfAnswers}
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className='text-[#696984] font-medium rounded-xl'>
+								Anda harus{' '}
+								<Link
+									href='/auth/sign-in'
+									className='font-bold hover:underline'
+								>
+									Sign In
+								</Link>{' '}
+								untuk menggunakan fitur ini.
+							</PopoverContent>
+						</Popover>
 					)}
-					{session ? (
+
+					{session?.user.membership?.type === 'plus' ? (
 						<AskAIModal question={question} session={session}>
 							<Button
 								className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
 								size='sm'
 								title='Tanyakan pada AI'
 								variant='ghost'
-								disabled={session.user.membership?.type !== 'plus'}
 							>
 								<BotIcon className='mr-1' size={18} />
 							</Button>
 						</AskAIModal>
 					) : (
-						<Button
-							className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-							disabled
-							size='sm'
-							title='Tanyakan pada AI'
-							variant='ghost'
-						>
-							<BotIcon className='mr-1' size={18} />
-						</Button>
+						<Popover>
+							<PopoverTrigger asChild>
+								<Button
+									className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+									size='sm'
+									title='Tanyakan pada AI'
+									variant='ghost'
+								>
+									<BotIcon className='mr-1' size={18} />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className='text-[#696984] font-medium rounded-xl'>
+								Anda harus menjadi pengguna{' '}
+								<Link href='/premium' className='font-bold hover:underline'>
+									Premium+
+								</Link>{' '}
+								untuk menggunakan fitur ini.
+							</PopoverContent>
+						</Popover>
 					)}
 					<ShareDropdown
 						url={
