@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { and, countDistinct, desc, eq, gt, lte } from 'drizzle-orm';
+import { and, countDistinct, desc, eq, gt, inArray, lte } from 'drizzle-orm';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 import { db } from '@/server/db';
@@ -79,6 +79,94 @@ class QuestionRepoPg {
 		return await db.query.questions.findMany({
 			where,
 			orderBy: [desc(schema.questions.createdAt)],
+			limit: limit + 1,
+			with: {
+				answers: {
+					columns: {
+						id: true,
+						isBestAnswer: true,
+					},
+					with: {
+						ratings: {
+							columns: {
+								value: true,
+							},
+						},
+					},
+				},
+				favorites: {
+					columns: {
+						userId: true,
+					},
+				},
+				owner: {
+					with: {
+						memberships: true,
+					},
+				},
+				subject: true,
+				images: true,
+			},
+		});
+	}
+
+	async findAllQuestionsByUserId(
+		userId: string,
+		cursor?: string | null,
+		limit = 10,
+	) {
+		return await this.db.query.questions.findMany({
+			orderBy: [desc(schema.questions.createdAt)],
+			where: cursor
+				? and(
+						eq(schema.questions.userId, userId),
+						lte(schema.questions.id, cursor),
+				  )
+				: eq(schema.questions.userId, userId),
+			limit: limit + 1,
+			with: {
+				answers: {
+					columns: {
+						id: true,
+						isBestAnswer: true,
+					},
+					with: {
+						ratings: {
+							columns: {
+								value: true,
+							},
+						},
+					},
+				},
+				favorites: {
+					columns: {
+						userId: true,
+					},
+				},
+				owner: {
+					with: {
+						memberships: true,
+					},
+				},
+				subject: true,
+				images: true,
+			},
+		});
+	}
+
+	async findAllQuestionsById(
+		cursor?: string | null,
+		limit = 10,
+		...questionId: string[]
+	) {
+		return await await this.db.query.questions.findMany({
+			orderBy: [desc(schema.questions.createdAt)],
+			where: cursor
+				? and(
+						lte(schema.questions.id, cursor),
+						inArray(schema.questions.id, questionId),
+				  )
+				: inArray(schema.questions.id, questionId),
 			limit: limit + 1,
 			with: {
 				answers: {

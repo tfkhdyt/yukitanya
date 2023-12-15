@@ -1,24 +1,16 @@
 import cuid from 'cuid';
 import dayjs from 'dayjs';
-import {
-	and,
-	countDistinct,
-	desc,
-	eq,
-	gt,
-	inArray,
-	lte,
-	sql,
-} from 'drizzle-orm';
+import { and, countDistinct, desc, eq, gt, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
-import { questionIndex } from '@/lib/algolia';
 import { utapi } from '@/lib/uploadthing/server';
 import { verifyCaptchaToken } from '@/lib/utils';
 import {
 	createQuestionSchema,
 	findAllQuestionsBySubjectSchema,
+	findAllQuestionsByUserIdSchema,
 	findAllQuestionsSchema,
+	searchQuestionSchema,
 } from '@/schema/question-schema';
 import {
 	answers,
@@ -38,157 +30,58 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 export const questionRouter = createTRPCRouter({
 	createQuestion: protectedProcedure
 		.input(createQuestionSchema)
-		.mutation(({ input }) => questionService.createQuestion(input)),
+		.mutation(async ({ input }) => await questionService.createQuestion(input)),
 
 	deleteQuestionById: protectedProcedure
 		.input(z.string())
-		.mutation(async ({ input: questionId }) =>
-			questionService.deleteQuestionById(questionId),
+		.mutation(
+			async ({ input: questionId }) =>
+				await questionService.deleteQuestionById(questionId),
 		),
 	getTodayQuestionCount: protectedProcedure
 		.input(z.string().optional())
-		.query(({ input: userId }) => {
+		.query(async ({ input: userId }) => {
 			if (!userId) {
 				return null;
 			}
-			return questionService.getTodayQuestionCount(userId);
+			return await questionService.getTodayQuestionCount(userId);
 		}),
 	findAllQuestions: publicProcedure
 		.input(findAllQuestionsSchema)
-		.query(async ({ input }) =>
-			questionService.findAllQuestions(input.cursor, input.limit),
+		.query(
+			async ({ input }) =>
+				await questionService.findAllQuestions(input.cursor, input.limit),
 		),
 	findAllQuestionsBySubject: publicProcedure
 		.input(findAllQuestionsBySubjectSchema)
-		.query(async ({ input }) =>
-			questionService.findAllQuestions(
-				input.cursor,
-				input.limit,
-				input.subjectId,
-			),
+		.query(
+			async ({ input }) =>
+				await questionService.findAllQuestions(
+					input.cursor,
+					input.limit,
+					input.subjectId,
+				),
 		),
 	findAllQuestionsByUserId: publicProcedure
-		.input(
-			z.object({
-				userId: z.string(),
-				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().nullish(),
-			}),
-		)
-		.query(async ({ ctx, input }) => {
-			const data = await ctx.db.query.questions.findMany({
-				orderBy: [desc(questions.createdAt)],
-				where: input.cursor
-					? and(
-							eq(questions.userId, input.userId),
-							lte(questions.id, input.cursor),
-					  )
-					: eq(questions.userId, input.userId),
-				limit: input.limit + 1,
-				with: {
-					answers: {
-						columns: {
-							id: true,
-							isBestAnswer: true,
-						},
-						with: {
-							ratings: {
-								columns: {
-									value: true,
-								},
-							},
-						},
-					},
-					favorites: {
-						columns: {
-							userId: true,
-						},
-					},
-					owner: {
-						with: {
-							memberships: true,
-						},
-					},
-					subject: true,
-					images: true,
-				},
-			});
-
-			let nextCursor: typeof input.cursor | undefined = undefined;
-			if (data.length > input.limit) {
-				const nextItem = data.pop();
-				nextCursor = nextItem?.id;
-			}
-
-			return { data, nextCursor };
-		}),
+		.input(findAllQuestionsByUserIdSchema)
+		.query(
+			async ({ input }) =>
+				await questionService.findAllQuestionsByUserId(
+					input.userId,
+					input.cursor,
+					input.limit,
+				),
+		),
 	findAllQuestionsByQueryAndSubject: publicProcedure
-		.input(
-			z.object({
-				query: z.string(),
-				subjectId: z.string(),
-				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().nullish(),
-			}),
-		)
-		.query(async ({ ctx, input }) => {
-			const searchResults = await questionIndex.search(input.query, {
-				filters:
-					input.subjectId !== 'all'
-						? `subjectId:${input.subjectId}`
-						: undefined,
-			});
-			const hitsIds = searchResults.hits.map((hit) => hit.objectID);
-			if (hitsIds.length === 0) {
-				throw new Error('Pertanyaan yang kamu cari tidak ditemukan');
-			}
-
-			const data = await ctx.db.query.questions.findMany({
-				orderBy: [desc(questions.createdAt)],
-				where: input.cursor
-					? and(lte(questions.id, input.cursor), inArray(questions.id, hitsIds))
-					: inArray(questions.id, hitsIds),
-				limit: input.limit + 1,
-				with: {
-					answers: {
-						columns: {
-							id: true,
-							isBestAnswer: true,
-						},
-						with: {
-							ratings: {
-								columns: {
-									value: true,
-								},
-							},
-						},
-					},
-					favorites: {
-						columns: {
-							userId: true,
-						},
-					},
-					owner: {
-						with: {
-							memberships: true,
-						},
-					},
-					subject: true,
-					images: true,
-				},
-			});
-
-			let nextCursor: typeof input.cursor | undefined = undefined;
-			if (data.length > input.limit) {
-				const nextItem = data.pop();
-				nextCursor = nextItem?.id;
-			}
-
-			return {
-				data,
-				nextCursor,
-			};
-		}),
+		.input(searchQuestionSchema)
+		.query(
+			async ({ input }) =>
+				await questionService.searchQuestion(input.query, {
+					subjectId: input.subjectId,
+					cursor: input.cursor,
+					limit: input.limit,
+				}),
+		),
 	findQuestionBySlug: publicProcedure
 		.input(z.string())
 		.query(async ({ ctx, input: slug }) => {

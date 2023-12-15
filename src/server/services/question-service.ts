@@ -16,12 +16,18 @@ import {
 	QuestionRepoPg,
 	questionRepoPg,
 } from '../repositories/postgres/question-repo-pg';
+import {
+	QuestionRepoAlgolia,
+	questionRepoAlgolia,
+} from '../repositories/algolia/question-repo-algolia';
 
 class QuestionService {
 	constructor(
 		private readonly membershipRepo: MembershipRepoPg,
 		private readonly questionImageRepo: QuestionImageRepoPg,
 		private readonly questionRepo: QuestionRepoPg,
+
+		private readonly questionRepoAlgolia: QuestionRepoAlgolia,
 	) {}
 
 	async createQuestion(payload: CreateQuestion) {
@@ -102,15 +108,62 @@ class QuestionService {
 			nextCursor = nextItem?.id;
 		}
 
-		return {
-			data,
-			nextCursor,
-		};
+		return { data, nextCursor };
+	}
+
+	async findAllQuestionsByUserId(
+		userId: string,
+		cursor?: string | null,
+		limit = 10,
+	) {
+		const data = await this.questionRepo.findAllQuestionsByUserId(
+			userId,
+			cursor,
+			limit,
+		);
+
+		let nextCursor: typeof cursor | undefined = undefined;
+		if (data.length > limit) {
+			const nextItem = data.pop();
+			nextCursor = nextItem?.id;
+		}
+
+		return { data, nextCursor };
+	}
+
+	async searchQuestion(
+		query: string,
+		{ subjectId, cursor, limit }: SearchQuestionDto,
+	) {
+		const searchResult = await this.questionRepoAlgolia.searchQuestion(
+			query,
+			subjectId,
+		);
+		const data = await this.questionRepo.findAllQuestionsById(
+			cursor,
+			limit,
+			...searchResult,
+		);
+
+		let nextCursor: typeof cursor | undefined = undefined;
+		if (data.length > limit) {
+			const nextItem = data.pop();
+			nextCursor = nextItem?.id;
+		}
+
+		return { data, nextCursor };
 	}
 }
+
+type SearchQuestionDto = {
+	subjectId?: string;
+	cursor?: string | null;
+	limit: number;
+};
 
 export const questionService = new QuestionService(
 	membershipRepoPg,
 	questionImageRepoPg,
 	questionRepoPg,
+	questionRepoAlgolia,
 );
