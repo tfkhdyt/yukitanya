@@ -32,7 +32,7 @@ export function MobileNav({ user }: { user?: User }) {
 							<Button
 								type='button'
 								aria-label={each.title}
-								className='rounded-lg'
+								className='rounded-xl'
 							>
 								<each.icon size={24} strokeWidth={2} />
 							</Button>
