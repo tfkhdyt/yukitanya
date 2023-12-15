@@ -7,7 +7,7 @@ import cuid from 'cuid';
 import { ImagePlusIcon, SendIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState, type ReactNode } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import slugify from 'slugify';
