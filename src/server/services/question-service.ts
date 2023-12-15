@@ -13,6 +13,10 @@ import {
 	membershipRepoPg,
 } from '../repositories/postgres/membership-repo-pg';
 import {
+	OldSlugRepoPg,
+	oldSlugRepoPg,
+} from '../repositories/postgres/old-slug-repo-pg';
+import {
 	QuestionImageRepoPg,
 	questionImageRepoPg,
 } from '../repositories/postgres/question-image-repo-pg';
@@ -26,6 +30,7 @@ class QuestionService {
 		private readonly membershipRepo: MembershipRepoPg,
 		private readonly questionImageRepo: QuestionImageRepoPg,
 		private readonly questionRepo: QuestionRepoPg,
+		private readonly oldSlugRepo: OldSlugRepoPg,
 
 		private readonly questionRepoAlgolia: QuestionRepoAlgolia,
 	) {}
@@ -153,6 +158,22 @@ class QuestionService {
 
 		return { data, nextCursor };
 	}
+
+	async findQuestionBySlug(slug: string) {
+		const question = await this.questionRepo.findQuestionBySlug(slug);
+		if (!question) {
+			const oldQuestion = await this.oldSlugRepo.findOldSlug(slug);
+			if (!oldQuestion) return null;
+
+			return await this.questionRepo.findQuestionById(oldQuestion.questionId);
+		}
+
+		return question;
+	}
+
+	async findQuestionMetadata(questionId: string) {
+		return await this.questionRepo.findQuestionMetadata(questionId);
+	}
 }
 
 type SearchQuestionDto = {
@@ -165,5 +186,6 @@ export const questionService = new QuestionService(
 	membershipRepoPg,
 	questionImageRepoPg,
 	questionRepoPg,
+	oldSlugRepoPg,
 	questionRepoAlgolia,
 );

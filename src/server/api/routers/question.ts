@@ -84,67 +84,15 @@ export const questionRouter = createTRPCRouter({
 		),
 	findQuestionBySlug: publicProcedure
 		.input(z.string())
-		.query(async ({ ctx, input: slug }) => {
-			const question = await ctx.db.query.questions.findFirst({
-				where: eq(questions.slug, slug),
-				with: {
-					owner: {
-						with: {
-							memberships: true,
-						},
-					},
-					subject: true,
-					images: true,
-				},
-			});
-
-			if (!question) {
-				const questionId = await ctx.db
-					.select({ questionId: oldSlug.questionId })
-					.from(oldSlug)
-					.where(eq(oldSlug.slug, slug))
-					.limit(1);
-
-				if (!questionId[0]) return;
-
-				return ctx.db.query.questions.findFirst({
-					where: eq(questions.id, questionId[0].questionId),
-					with: {
-						owner: {
-							with: {
-								memberships: true,
-							},
-						},
-						subject: true,
-						images: true,
-					},
-				});
-			}
-
-			return question;
-		}),
+		.query(
+			async ({ input: slug }) => await questionService.findQuestionBySlug(slug),
+		),
 	findQuestionMetadata: publicProcedure
 		.input(z.string())
-		.query(({ ctx, input: questionId }) => {
-			return ctx.db.query.questions.findFirst({
-				where: eq(questions.id, questionId),
-				columns: {
-					id: true,
-				},
-				with: {
-					answers: {
-						columns: {
-							id: true,
-						},
-					},
-					favorites: {
-						columns: {
-							userId: true,
-						},
-					},
-				},
-			});
-		}),
+		.query(
+			async ({ input: questionId }) =>
+				await questionService.findQuestionMetadata(questionId),
+		),
 	findQuestionContentBySlug: publicProcedure
 		.input(z.string())
 		.query(async ({ ctx, input: slug }) => {
