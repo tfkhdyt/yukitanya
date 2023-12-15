@@ -28,11 +28,9 @@ export function PertanyaanKosong({
 				{title}
 			</p>
 			{user && showTanyakanButton && (
-				<TanyakanSekarangButton
-					center
-					user={user}
-					defaultSubject={defaultSubject}
-				/>
+				<div className='flex justify-center'>
+					<TanyakanSekarangButton user={user} defaultSubject={defaultSubject} />
+				</div>
 			)}
 		</div>
 	);

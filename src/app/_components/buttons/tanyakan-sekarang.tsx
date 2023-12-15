@@ -7,12 +7,10 @@ import { type User } from '@/server/auth';
 import { Button } from '../ui/button';
 
 export function TanyakanSekarangButton({
-	center = false,
 	fullWidth = false,
 	user,
 	defaultSubject,
 }: {
-	center?: boolean;
 	user: User;
 	defaultSubject?: string;
 	fullWidth?: boolean;
@@ -22,12 +20,11 @@ export function TanyakanSekarangButton({
 			<Button
 				className={clsx(
 					'rounded-full font-semibold',
-					fullWidth && 'text-base w-full',
-					center && 'mx-auto',
+					fullWidth && 'text-lg w-full py-8',
 				)}
 			>
-				<MessageSquarePlusIcon size={20} className='mr-2' />
-				<span className='truncate'>Tanyakan Sekarang!</span>
+				<MessageSquarePlusIcon size={24} className='mr-2' />
+				<span className='truncate'>Buat pertanyaan</span>
 			</Button>
 		</QuestionModal>
 	);
