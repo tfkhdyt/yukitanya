@@ -84,6 +84,29 @@ class QuestionService {
 	async getTodayQuestionCount(userId: string) {
 		return await this.questionRepo.getTodayQuestionCount(userId);
 	}
+
+	async findAllQuestions(
+		cursor?: string | null,
+		limit = 10,
+		subjectId?: string,
+	) {
+		const data = await this.questionRepo.findAllQuestions(
+			cursor,
+			limit,
+			subjectId,
+		);
+
+		let nextCursor: typeof cursor | undefined = undefined;
+		if (data.length > limit) {
+			const nextItem = data.pop();
+			nextCursor = nextItem?.id;
+		}
+
+		return {
+			data,
+			nextCursor,
+		};
+	}
 }
 
 export const questionService = new QuestionService(

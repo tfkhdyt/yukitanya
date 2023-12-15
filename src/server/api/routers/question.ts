@@ -15,7 +15,11 @@ import { z } from 'zod';
 import { questionIndex } from '@/lib/algolia';
 import { utapi } from '@/lib/uploadthing/server';
 import { verifyCaptchaToken } from '@/lib/utils';
-import { createQuestionSchema } from '@/schema/question-schema';
+import {
+	createQuestionSchema,
+	findAllQuestionsBySubjectSchema,
+	findAllQuestionsSchema,
+} from '@/schema/question-schema';
 import {
 	answers,
 	favorites,
@@ -50,112 +54,19 @@ export const questionRouter = createTRPCRouter({
 			return questionService.getTodayQuestionCount(userId);
 		}),
 	findAllQuestions: publicProcedure
-		.input(
-			z.object({
-				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().nullish(),
-			}),
-		)
-		.query(async ({ ctx, input }) => {
-			const data = await ctx.db.query.questions.findMany({
-				where: input.cursor ? lte(questions.id, input.cursor) : undefined,
-				orderBy: [desc(questions.createdAt)],
-				limit: input.limit + 1,
-				with: {
-					answers: {
-						columns: {
-							id: true,
-							isBestAnswer: true,
-						},
-						with: {
-							ratings: {
-								columns: {
-									value: true,
-								},
-							},
-						},
-					},
-					favorites: {
-						columns: {
-							userId: true,
-						},
-					},
-					owner: {
-						with: {
-							memberships: true,
-						},
-					},
-					subject: true,
-					images: true,
-				},
-			});
-
-			let nextCursor: typeof input.cursor | undefined = undefined;
-			if (data.length > input.limit) {
-				const nextItem = data.pop();
-				nextCursor = nextItem?.id;
-			}
-
-			return {
-				data,
-				nextCursor,
-			};
-		}),
+		.input(findAllQuestionsSchema)
+		.query(async ({ input }) =>
+			questionService.findAllQuestions(input.cursor, input.limit),
+		),
 	findAllQuestionsBySubject: publicProcedure
-		.input(
-			z.object({
-				subjectId: z.string(),
-				limit: z.number().min(1).max(50).default(10),
-				cursor: z.string().nullish(),
-			}),
-		)
-		.query(async ({ ctx, input }) => {
-			const data = await ctx.db.query.questions.findMany({
-				orderBy: [desc(questions.createdAt)],
-				where: input.cursor
-					? and(
-							eq(questions.subjectId, input.subjectId),
-							lte(questions.id, input.cursor),
-					  )
-					: eq(questions.subjectId, input.subjectId),
-				limit: input.limit + 1,
-				with: {
-					answers: {
-						columns: {
-							id: true,
-							isBestAnswer: true,
-						},
-						with: {
-							ratings: {
-								columns: {
-									value: true,
-								},
-							},
-						},
-					},
-					favorites: {
-						columns: {
-							userId: true,
-						},
-					},
-					owner: {
-						with: {
-							memberships: true,
-						},
-					},
-					subject: true,
-					images: true,
-				},
-			});
-
-			let nextCursor: typeof input.cursor | undefined = undefined;
-			if (data.length > input.limit) {
-				const nextItem = data.pop();
-				nextCursor = nextItem?.id;
-			}
-
-			return { data, nextCursor };
-		}),
+		.input(findAllQuestionsBySubjectSchema)
+		.query(async ({ input }) =>
+			questionService.findAllQuestions(
+				input.cursor,
+				input.limit,
+				input.subjectId,
+			),
+		),
 	findAllQuestionsByUserId: publicProcedure
 		.input(
 			z.object({

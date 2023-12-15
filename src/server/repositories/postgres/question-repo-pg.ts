@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
-import { and, countDistinct, eq, gt } from 'drizzle-orm';
+import { and, countDistinct, desc, eq, gt, lte } from 'drizzle-orm';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 import { db } from '@/server/db';
 import * as schema from '@/server/db/schema';
+import { P, match } from 'ts-pattern';
 
 class QuestionRepoPg {
 	constructor(private readonly db: PostgresJsDatabase<typeof schema>) {}
@@ -49,6 +50,64 @@ class QuestionRepoPg {
 		await this.db
 			.delete(schema.questions)
 			.where(eq(schema.questions.id, questionId));
+	}
+
+	async findAllQuestions(
+		cursor?: string | null,
+		limit = 10,
+		subjectId?: string,
+	) {
+		const where = match(cursor)
+			.with(P.not(P.nullish), (cursor) =>
+				match(subjectId)
+					.with(P.not(P.nullish), (subjectId) =>
+						and(
+							eq(schema.questions.subjectId, subjectId),
+							lte(schema.questions.id, cursor),
+						),
+					)
+					.otherwise(() => lte(schema.questions.id, cursor)),
+			)
+			.otherwise(() =>
+				match(subjectId)
+					.with(P.not(P.nullish), (subjectId) =>
+						eq(schema.questions.subjectId, subjectId),
+					)
+					.otherwise(() => undefined),
+			);
+
+		return await db.query.questions.findMany({
+			where,
+			orderBy: [desc(schema.questions.createdAt)],
+			limit: limit + 1,
+			with: {
+				answers: {
+					columns: {
+						id: true,
+						isBestAnswer: true,
+					},
+					with: {
+						ratings: {
+							columns: {
+								value: true,
+							},
+						},
+					},
+				},
+				favorites: {
+					columns: {
+						userId: true,
+					},
+				},
+				owner: {
+					with: {
+						memberships: true,
+					},
+				},
+				subject: true,
+				images: true,
+			},
+		});
 	}
 }
 
