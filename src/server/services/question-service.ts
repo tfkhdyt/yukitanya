@@ -209,7 +209,9 @@ class QuestionService {
 					payload.schema.id,
 				);
 
-			await utapi.deleteFiles(replacedImages.map((img) => img.id));
+			if (replacedImages.length > 0) {
+				await utapi.deleteFiles(replacedImages.map((img) => img.id));
+			}
 
 			const imagesInput = payload.images.map((img) => ({
 				...img,
