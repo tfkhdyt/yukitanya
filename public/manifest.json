@@ -1,27 +1,30 @@
 {
-	"theme_color": "#f97316",
-	"background_color": "#ffffff",
-	"icons": [
-		{
-			"purpose": "maskable",
-			"sizes": "512x512",
-			"src": "/img/icon512_maskable.png",
-			"type": "image/png"
-		},
-		{
-			"purpose": "any",
-			"sizes": "512x512",
-			"src": "/img/icon512_rounded.png",
-			"type": "image/png"
-		}
-	],
-	"orientation": "portrait",
-	"display": "standalone",
-	"dir": "left",
-	"lang": "id-ID",
-	"name": "Yukitanya",
-	"short_name": "Yukitanya",
-	"start_url": "/",
-	"description": "Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.",
-	"id": "id.my.yukitanya"
+  "theme_color": "#f97316",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "/img/icon512_maskable.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "/img/icon512_rounded.png",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "display": "standalone",
+  "dir": "ltr",
+  "lang": "id-ID",
+  "name": "Yukitanya",
+  "short_name": "Yukitanya",
+  "start_url": "/",
+  "description": "Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.",
+  "id": "id.my.yukitanya",
+  "categories": [
+    "education"
+  ]
 }
