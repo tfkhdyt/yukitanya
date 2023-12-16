@@ -18,7 +18,7 @@ import { extractRouterConfig } from 'uploadthing/server';
 
 import { environment } from '@/environment.mjs';
 import { TRPCReactProvider } from '@/trpc/react';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { fileRouter } from './api/uploadthing/core';
 
 export const metadata: Metadata = {
@@ -41,6 +41,22 @@ export const metadata: Metadata = {
 	creator: 'Taufik Hidayat',
 	publisher: 'seKODlah Kelompok 5 MSIB 5',
 	metadataBase: new URL(environment.NEXT_PUBLIC_BASE_PATH),
+	appleWebApp: {
+		title: 'Yukitanya',
+		capable: true,
+		statusBarStyle: 'default',
+	},
+	formatDetection: {
+		telephone: false,
+	},
+	icons: {
+		apple: '/img/icon512_rounded.png',
+	},
+	manifest: '/manifest.json',
+};
+
+export const viewport: Viewport = {
+	themeColor: '#f97316',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
