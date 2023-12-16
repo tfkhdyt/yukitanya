@@ -98,8 +98,7 @@ export function QuestionModal({
 
 			await Promise.allSettled([
 				utils.question.invalidate(),
-				utils.user.findMostActiveUsers.invalidate(),
-				utils.user.findUserStatByUsername.invalidate(),
+				utils.user.invalidate(),
 			]);
 		},
 		onSettled: () => {
