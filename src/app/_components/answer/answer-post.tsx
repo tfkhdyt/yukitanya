@@ -235,7 +235,7 @@ export function AnswerPost({
 						less='Tampilkan lebih sedikit'
 						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
 						className={clsx(
-							'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
+							'whitespace-pre-wrap text-sm leading-relaxed text-[#696984]',
 							containsURL(answer.content) ? 'break-all' : 'break-words',
 						)}
 						truncatedEndingComponent='...  '
