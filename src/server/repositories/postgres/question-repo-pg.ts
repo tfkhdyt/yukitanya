@@ -1,9 +1,25 @@
 import dayjs from 'dayjs';
-import { and, countDistinct, desc, eq, gt, inArray, lte } from 'drizzle-orm';
+import {
+	and,
+	countDistinct,
+	desc,
+	eq,
+	gt,
+	inArray,
+	lte,
+	sql,
+} from 'drizzle-orm';
 import { P, match } from 'ts-pattern';
 
 import { Pg, db } from '@/server/db';
-import { InsertQuestion, questions } from '@/server/db/schema';
+import {
+	InsertQuestion,
+	answers,
+	favorites,
+	questions,
+	subjects,
+	users,
+} from '@/server/db/schema';
 
 class QuestionRepoPg {
 	constructor(private readonly db: Pg) {}
@@ -256,6 +272,47 @@ class QuestionRepoPg {
 				updatedAt: new Date(),
 			})
 			.where(eq(questions.id, question.id));
+	}
+
+	async findMostPopularQuestion(subjectId?: string) {
+		const popularity =
+			sql`COUNT(DISTINCT ${favorites.userId}) + COUNT(DISTINCT ${answers.id}) * 2`.mapWith(
+				Number,
+			);
+
+		const [data] = await this.db
+			.select({
+				popularity,
+				question: questions,
+				owner: users,
+				subject: subjects,
+				numberOfFavorites: countDistinct(favorites.userId),
+				numberOfAnswers: countDistinct(answers.id),
+			})
+			.from(questions)
+			.leftJoin(favorites, eq(favorites.questionId, questions.id))
+			.leftJoin(answers, eq(answers.questionId, questions.id))
+			.innerJoin(users, eq(users.id, questions.userId))
+			.innerJoin(subjects, eq(subjects.id, questions.subjectId))
+			.where(
+				subjectId
+					? and(
+							eq(questions.subjectId, subjectId),
+							gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+					  )
+					: gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+			)
+			.orderBy(desc(popularity))
+			.groupBy(
+				questions.content,
+				questions.id,
+				questions.createdAt,
+				users.id,
+				subjects.id,
+			)
+			.limit(1);
+
+		return data;
 	}
 }
 

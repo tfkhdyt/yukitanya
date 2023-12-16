@@ -1,14 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
+import Image from 'next/image';
 import Link from 'next/link';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import ReactShowMoreText from 'react-show-more-text';
 
 import { formatLongDateTime } from '@/lib/datetime';
 import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
-import Image from 'next/image';
-import { PhotoProvider, PhotoView } from 'react-photo-view';
-import ReactShowMoreText from 'react-show-more-text';
+
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { badgeVariants } from '../ui/badge';
 import { SkeletonMostPopularQuestionSection } from './skeleton-most-popular-question';
@@ -48,7 +49,7 @@ export function MostPopularQuestionSection({
 							<AvatarWithBadge
 								user={{
 									...data.owner,
-									membership: data.owner.membership[0],
+									membership: data.owner.membership,
 									initial: createInitial(data.owner.name),
 								}}
 							/>

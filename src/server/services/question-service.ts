@@ -223,6 +223,30 @@ class QuestionService {
 
 		await this.questionRepo.updateQuestion(payload.schema);
 	}
+
+	async findMostPopularQuestion(subjectId?: string) {
+		const mostPopularQuestion =
+			await this.questionRepo.findMostPopularQuestion(subjectId);
+		if (!mostPopularQuestion) {
+			return null;
+		}
+
+		const questionImages = await this.questionImageRepo.findImagesByQuestionId(
+			mostPopularQuestion.question.id,
+		);
+		const membership = await this.membershipRepo.findValidMembership(
+			mostPopularQuestion.owner.id,
+		);
+
+		return {
+			...mostPopularQuestion,
+			owner: {
+				...mostPopularQuestion.owner,
+				membership,
+			},
+			images: questionImages,
+		};
+	}
 }
 
 type SearchQuestionDto = {
