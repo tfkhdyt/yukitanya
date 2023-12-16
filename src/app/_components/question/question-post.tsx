@@ -41,6 +41,7 @@ import { AvatarWithBadge } from '../avatar-with-badge';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 import { AskAIModal } from '../modals/ask-ai-modal';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { containsURL } from '@/lib/utils';
 
 type Question = {
 	content: string;
@@ -167,7 +168,10 @@ export function QuestionPost({
 						more='Tampilkan lebih banyak'
 						less='Tampilkan lebih sedikit'
 						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
-						className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984] break-all'
+						className={clsx(
+							'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
+							containsURL(question.content) ? 'break-all' : 'break-words',
+						)}
 						truncatedEndingComponent='...  '
 					>
 						{question.content.split(' ').map((word, index) => {

@@ -45,3 +45,10 @@ export async function verifyCaptchaToken(token?: string) {
 		throw new Error('Token captcha Anda tidak valid');
 	}
 }
+
+export function containsURL(str: string) {
+	const urlRegex = /(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+
+	return urlRegex.test(str);
+}
+  

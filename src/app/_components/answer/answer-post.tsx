@@ -33,6 +33,8 @@ import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import ReactShowMoreText from 'react-show-more-text';
 import { AvatarWithBadge } from '../avatar-with-badge';
+import clsx from 'clsx';
+import { containsURL } from '@/lib/utils';
 
 type Answer = {
 	content: string;
@@ -231,7 +233,10 @@ export function AnswerPost({
 						more='Tampilkan lebih banyak'
 						less='Tampilkan lebih sedikit'
 						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
-						className='whitespace-pre-wrap text-sm leading-relaxed text-[#696984] break-all'
+						className={clsx(
+							'whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]',
+							containsURL(answer.content) ? 'break-all' : 'break-words',
+						)}
 						truncatedEndingComponent='...  '
 					>
 						{answer.content}
