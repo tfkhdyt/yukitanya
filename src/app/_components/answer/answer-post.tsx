@@ -87,7 +87,7 @@ export function AnswerPost({
 
 			await Promise.allSettled([
 				utils.answer.invalidate(),
-				utils.question.findQuestionMetadata.invalidate(),
+				utils.question.invalidate(),
 				utils.user.invalidate(),
 			]);
 		},
