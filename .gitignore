@@ -42,3 +42,4 @@ yarn-error.log*
 *.tsbuildinfo
 .env.production
 public/workbox-*.js
+public/sw.js
