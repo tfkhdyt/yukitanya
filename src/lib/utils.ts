@@ -47,7 +47,7 @@ export async function verifyCaptchaToken(token?: string) {
 }
 
 export function containsURL(str: string) {
-	const urlRegex = /(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+	const urlRegex = /https?:\/\/\S+/i;
 
 	return urlRegex.test(str);
 }
