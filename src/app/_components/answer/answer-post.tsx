@@ -231,7 +231,7 @@ export function AnswerPost({
 						more='Tampilkan lebih banyak'
 						less='Tampilkan lebih sedikit'
 						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
-						className='whitespace-pre-wrap text-sm leading-relaxed text-[#696984]'
+						className='whitespace-pre-wrap text-sm leading-relaxed text-[#696984] break-words'
 						truncatedEndingComponent='...  '
 					>
 						{answer.content}

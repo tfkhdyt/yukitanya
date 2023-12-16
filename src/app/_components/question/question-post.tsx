@@ -167,7 +167,7 @@ export function QuestionPost({
 						more='Tampilkan lebih banyak'
 						less='Tampilkan lebih sedikit'
 						anchorClass='text-sm font-medium text-[#696984] hover:underline -ml-1 cursor-pointer'
-						className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984]'
+						className='whitespace-pre-wrap py-1 text-sm leading-relaxed text-[#696984] break-words'
 						truncatedEndingComponent='...  '
 					>
 						{question.content.split(' ').map((word, index) => {
