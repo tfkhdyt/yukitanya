@@ -51,4 +51,3 @@ export function containsURL(str: string) {
 
 	return urlRegex.test(str);
 }
-  
