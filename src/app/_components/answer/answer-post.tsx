@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import {
 	CheckCircle,
 	CheckIcon,
@@ -14,6 +15,7 @@ import { type Session } from 'next-auth';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import ReactShowMoreText from 'react-show-more-text';
 
 import { DeleteModal } from '@/components/modals/delete-modal';
 import { EditAnswerModal } from '@/components/modals/edit-answer-modal';
@@ -29,12 +31,11 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
+import { containsURL } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import ReactShowMoreText from 'react-show-more-text';
+
 import { AvatarWithBadge } from '../avatar-with-badge';
-import clsx from 'clsx';
-import { containsURL } from '@/lib/utils';
 
 type Answer = {
 	content: string;

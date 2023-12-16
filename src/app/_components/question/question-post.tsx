@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import ReactShowMoreText from 'react-show-more-text';
 
 import { AnswerModal } from '@/components/modals/answer-modal';
 import { DeleteModal } from '@/components/modals/delete-modal';
@@ -33,15 +34,14 @@ import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
 import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
+import { containsURL } from '@/lib/utils';
 import { type User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
-import ReactShowMoreText from 'react-show-more-text';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { ShareDropdown } from '../dropdown/share-dropdown';
 import { AskAIModal } from '../modals/ask-ai-modal';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { containsURL } from '@/lib/utils';
 
 type Question = {
 	content: string;
