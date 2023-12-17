@@ -1,4 +1,3 @@
-import { defaultCache } from '@serwist/next/browser';
 import type { PrecacheEntry } from '@serwist/precaching';
 import { installSerwist } from '@serwist/sw';
 
@@ -12,5 +11,24 @@ installSerwist({
 	skipWaiting: true,
 	clientsClaim: true,
 	navigationPreload: true,
-	runtimeCaching: defaultCache,
+	runtimeCaching: [
+		{
+			urlPattern: () => true,
+			handler: 'CacheFirst',
+			options: {
+				cacheName: 'fallback',
+				plugins: [
+					{
+						handlerDidError: async () => {
+							const fallbackResponse = await caches.match('/~offline', {
+								ignoreSearch: true,
+							});
+							if (fallbackResponse !== undefined) return fallbackResponse;
+							return Response.error();
+						},
+					},
+				],
+			},
+		},
+	],
 });
