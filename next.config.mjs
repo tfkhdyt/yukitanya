@@ -15,7 +15,7 @@ const withPWA = withPWAInit({
 	cacheOnFrontEndNav: true,
 	aggressiveFrontEndNavCaching: true,
 	fallbacks: {
-		document: '/~offline',
+		document: '/_offline',
 	},
 });
 
