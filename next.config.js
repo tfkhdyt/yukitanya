@@ -2,10 +2,10 @@
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
-import nextPWA from 'next-pwa';
-import path from 'path';
+const nextPWA = require('next-pwa');
+const path = require('path');
 
-await import('./src/environment.mjs');
+// require('./src/environment.mjs');
 
 // const withBundleAnalyzer = bundleAnalyzer({
 // 	enabled: process.env.ANALYZE === 'true',
@@ -54,4 +54,4 @@ const config = {
 	},
 };
 
-export default withPWA(config);
+module.exports = withPWA(config);
