@@ -22,6 +22,7 @@
 	"name": "Yukitanya",
 	"short_name": "Yukitanya",
 	"start_url": "/home",
+	"scope": "/",
 	"description": "Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.",
 	"id": "id.my.yukitanya",
 	"categories": ["education"]
