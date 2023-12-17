@@ -45,3 +45,5 @@ yarn-error.log*
 # serwist
 **/public/serwist-*.js
 **/public/sw.js
+**/public/workbox-*.js
+**/public/swe-worker-*.js
