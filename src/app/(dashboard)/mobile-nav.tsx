@@ -23,29 +23,31 @@ export function MobileNav({ user }: { user?: User }) {
 		>
 			{menu.map((each) => {
 				if (each.title === 'Notifikasi' && !user) return;
+				if (each.title === 'Buat') {
+					if (user) {
+						return (
+							<QuestionModal user={user} key={each.title}>
+								<Button
+									type='button'
+									aria-label={each.title}
+									className='rounded-xl'
+								>
+									<each.icon size={24} strokeWidth={2} />
+								</Button>
+							</QuestionModal>
+						);
+					}
+					return;
+				}
+
 				if (each.title === 'Premium') return;
 				if (each.title === 'Favorit') return;
-
-				if (each.title === 'Buat' && user) {
-					return (
-						<QuestionModal user={user} key={each.title}>
-							<Button
-								type='button'
-								aria-label={each.title}
-								className='rounded-xl'
-							>
-								<each.icon size={24} strokeWidth={2} />
-							</Button>
-						</QuestionModal>
-					);
-				}
 
 				return (
 					<Link
 						className='flex w-fit items-center px-4 py-3 transition relative'
 						href={each.url}
 						key={each.title}
-						// onClick={isMobile ? toggleSidebar : undefined}
 						aria-label={each.title}
 					>
 						{match(pathname)
