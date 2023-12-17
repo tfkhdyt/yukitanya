@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "id.my.yukitanya",
-        "sha256_cert_fingerprints": ["63:2C:36:8B:A2:8F:6C:E5:ED:8C:98:F5:ED:96:F9:DB:3A:B8:27:6B:5D:D7:61:06:ED:16:15:15:F0:45:F5:67"]
+        "sha256_cert_fingerprints": ["D3:E9:5C:6F:32:E4:11:93:A5:23:D5:A1:93:90:8A:FE:CA:DE:D4:2A:B1:6F:61:34:4D:B1:EB:19:0E:1A:AF:85"]
       }
     }]
