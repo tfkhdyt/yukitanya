@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "id.my.yukitanya",
+        "sha256_cert_fingerprints": ["63:2C:36:8B:A2:8F:6C:E5:ED:8C:98:F5:ED:96:F9:DB:3A:B8:27:6B:5D:D7:61:06:ED:16:15:15:F0:45:F5:67"]
+      }
+    }]
