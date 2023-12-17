@@ -62,7 +62,7 @@ export function Header() {
 					<SheetTrigger aria-label='Mobile nav' className='p-2 lg:hidden'>
 						<AlignJustify />
 					</SheetTrigger>
-					<SheetContent className='flex w-fit flex-col space-y-4 pt-12'>
+					<SheetContent className='flex w-fit flex-col space-y-4 pt-12 max-w-[250px]'>
 						{navbar.map((each) => (
 							<SheetClose asChild key={each.id}>
 								<ScrollIntoView
@@ -73,7 +73,7 @@ export function Header() {
 								</ScrollIntoView>
 							</SheetClose>
 						))}
-						<div className='space-x-3'>
+						<div className='gap-3 flex flex-wrap'>
 							<Link
 								className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
 								href='/auth/sign-in'
@@ -85,6 +85,15 @@ export function Header() {
 								href='/auth/sign-up'
 							>
 								Daftar
+							</Link>
+							<Link href='/apk/Yukitanya-v0.0.1.apk' className='p-0' download>
+								<Image
+									src='/img/pwa-button.png'
+									alt='PWA'
+									height={28}
+									width={135}
+									className='h-full rounded-lg'
+								/>
 							</Link>
 						</div>
 					</SheetContent>
@@ -100,7 +109,7 @@ export function Header() {
 							{each.title}
 						</ScrollIntoView>
 					))}
-					<div className='space-x-3'>
+					<div className='space-x-3 flex'>
 						<Link
 							className='rounded-lg bg-[#F48C06] px-4 py-2 font-semibold text-white shadow-md'
 							href='/auth/sign-in'
@@ -112,6 +121,15 @@ export function Header() {
 							href='/auth/sign-up'
 						>
 							Daftar
+						</Link>
+						<Link href='/apk/Yukitanya-v0.0.1.apk' className='p-0' download>
+							<Image
+								src='/img/pwa-button.png'
+								alt='PWA'
+								height={28}
+								width={135}
+								className='h-full rounded-lg'
+							/>
 						</Link>
 					</div>
 				</nav>
