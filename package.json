@@ -20,6 +20,7 @@
 		"@auth/drizzle-adapter": "^0.3.11",
 		"@dicebear/collection": "^7.0.1",
 		"@dicebear/core": "^7.0.1",
+		"@ducanh2912/next-pwa": "^10.0.0",
 		"@fontsource-variable/rubik": "^5.0.20",
 		"@fontsource/poppins": "^5.0.8",
 		"@hookform/resolvers": "^3.3.2",
