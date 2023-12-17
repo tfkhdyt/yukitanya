@@ -19,7 +19,8 @@
     "lib": [
       "es2022",
       "dom",
-      "dom.iterable"
+      "dom.iterable",
+      "WebWorker"
     ],
     /* Other */
     "checkJs": true,
@@ -49,7 +50,7 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts",
-    "next.config.js",
+    "next.config.mjs",
   ],
   "exclude": [
     "node_modules"
