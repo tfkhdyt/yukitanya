@@ -12,8 +12,8 @@ await import('./src/environment.mjs');
 
 const withPWA = withPWAInit({
 	dest: 'public',
-	cacheOnFrontEndNav: true,
-	aggressiveFrontEndNavCaching: true,
+	// cacheOnFrontEndNav: true,
+	// aggressiveFrontEndNavCaching: true,
 	fallbacks: {
 		document: '/~offline',
 	},
