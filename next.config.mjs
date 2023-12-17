@@ -12,7 +12,7 @@ await import('./src/environment.mjs');
 
 const withSerwist = withSerwistInit({
 	cacheOnFrontEndNav: true,
-	swSrc: 'app/sw.ts',
+	swSrc: 'src/app/sw.ts',
 	swDest: 'public/sw.js',
 	disable: process.env.NODE_ENV === 'development',
 });
