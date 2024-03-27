@@ -13,7 +13,7 @@ dependencies:
     version: 7.1.1(@dicebear/core@7.1.1)
   '@dicebear/core':
     specifier: ^7.1.1
-    version: 7.1.1
+    version: 7.1.1(sharp@0.33.3)
   '@ducanh2912/next-pwa':
     specifier: ^10.2.5
     version: 10.2.5(esbuild@0.19.8)(next@14.1.4)(webpack@5.89.0)
@@ -161,6 +161,9 @@ dependencies:
   react-show-more-text:
     specifier: ^1.7.1
     version: 1.7.1(react@18.2.0)
+  sharp:
+    specifier: ^0.33.3
+    version: 0.33.3
   slugify:
     specifier: ^1.6.6
     version: 1.6.6
@@ -1661,7 +1664,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/adventurer@7.1.1(@dicebear/core@7.1.1):
@@ -1670,7 +1673,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/avataaars-neutral@7.1.1(@dicebear/core@7.1.1):
@@ -1679,7 +1682,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/avataaars@7.1.1(@dicebear/core@7.1.1):
@@ -1688,7 +1691,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/big-ears-neutral@7.1.1(@dicebear/core@7.1.1):
@@ -1697,7 +1700,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/big-ears@7.1.1(@dicebear/core@7.1.1):
@@ -1706,7 +1709,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/big-smile@7.1.1(@dicebear/core@7.1.1):
@@ -1715,7 +1718,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/bottts-neutral@7.1.1(@dicebear/core@7.1.1):
@@ -1724,7 +1727,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/bottts@7.1.1(@dicebear/core@7.1.1):
@@ -1733,7 +1736,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/collection@7.1.1(@dicebear/core@7.1.1):
@@ -1751,7 +1754,7 @@ packages:
       '@dicebear/big-smile': 7.1.1(@dicebear/core@7.1.1)
       '@dicebear/bottts': 7.1.1(@dicebear/core@7.1.1)
       '@dicebear/bottts-neutral': 7.1.1(@dicebear/core@7.1.1)
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
       '@dicebear/croodles': 7.1.1(@dicebear/core@7.1.1)
       '@dicebear/croodles-neutral': 7.1.1(@dicebear/core@7.1.1)
       '@dicebear/fun-emoji': 7.1.1(@dicebear/core@7.1.1)
@@ -1773,7 +1776,7 @@ packages:
       '@dicebear/thumbs': 7.1.1(@dicebear/core@7.1.1)
     dev: false
 
-  /@dicebear/converter@7.1.1:
+  /@dicebear/converter@7.1.1(sharp@0.33.3):
     resolution: {integrity: sha512-0/RTgyi/2VqK5kHy6kfeIhgV8nQssSVhN4s90F1c9Y+bNyRDySGmlfaTQfPj9YmpFHO9Fa7Ey+FJBEAjkara6w==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -1789,14 +1792,15 @@ packages:
         optional: true
     dependencies:
       '@types/json-schema': 7.0.15
+      sharp: 0.33.3
       tmp-promise: 3.0.3
     dev: false
 
-  /@dicebear/core@7.1.1:
+  /@dicebear/core@7.1.1(sharp@0.33.3):
     resolution: {integrity: sha512-rgMqKBFugjsrerLF+wgcpBR9jW5/OnxHZM66NdkoCMffoww1jzBBc3AACi7y3Z+YNueYiwlrTgscqt4mQAWEvA==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@dicebear/converter': 7.1.1
+      '@dicebear/converter': 7.1.1(sharp@0.33.3)
       '@types/json-schema': 7.0.15
     transitivePeerDependencies:
       - '@resvg/resvg-js'
@@ -1810,7 +1814,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/croodles@7.1.1(@dicebear/core@7.1.1):
@@ -1819,7 +1823,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/fun-emoji@7.1.1(@dicebear/core@7.1.1):
@@ -1828,7 +1832,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/icons@7.1.1(@dicebear/core@7.1.1):
@@ -1837,7 +1841,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/identicon@7.1.1(@dicebear/core@7.1.1):
@@ -1846,7 +1850,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/initials@7.1.1(@dicebear/core@7.1.1):
@@ -1855,7 +1859,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/lorelei-neutral@7.1.1(@dicebear/core@7.1.1):
@@ -1864,7 +1868,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/lorelei@7.1.1(@dicebear/core@7.1.1):
@@ -1873,7 +1877,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/micah@7.1.1(@dicebear/core@7.1.1):
@@ -1882,7 +1886,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/miniavs@7.1.1(@dicebear/core@7.1.1):
@@ -1891,7 +1895,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/notionists-neutral@7.1.1(@dicebear/core@7.1.1):
@@ -1900,7 +1904,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/notionists@7.1.1(@dicebear/core@7.1.1):
@@ -1909,7 +1913,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/open-peeps@7.1.1(@dicebear/core@7.1.1):
@@ -1918,7 +1922,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/personas@7.1.1(@dicebear/core@7.1.1):
@@ -1927,7 +1931,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/pixel-art-neutral@7.1.1(@dicebear/core@7.1.1):
@@ -1936,7 +1940,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/pixel-art@7.1.1(@dicebear/core@7.1.1):
@@ -1945,7 +1949,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/rings@7.1.1(@dicebear/core@7.1.1):
@@ -1954,7 +1958,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/shapes@7.1.1(@dicebear/core@7.1.1):
@@ -1963,7 +1967,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@dicebear/thumbs@7.1.1(@dicebear/core@7.1.1):
@@ -1972,7 +1976,7 @@ packages:
     peerDependencies:
       '@dicebear/core': ^7.0.0
     dependencies:
-      '@dicebear/core': 7.1.1
+      '@dicebear/core': 7.1.1(sharp@0.33.3)
     dev: false
 
   /@discoveryjs/json-ext@0.5.7:
@@ -2009,6 +2013,14 @@ packages:
       - supports-color
       - uglify-js
     dev: false
+
+  /@emnapi/runtime@1.1.0:
+    resolution: {integrity: sha512-gCGlE0fJGWalfy+wbFApjhKn6uoSVvopru77IPyxNKkjkaiSx2HxDS7eOYSmo9dcMIhmmIvoxiC3N9TM1c3EaA==}
+    requiresBuild: true
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+    optional: true
 
   /@esbuild-kit/core-utils@3.3.2:
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
@@ -2648,6 +2660,194 @@ packages:
     dependencies:
       react-hook-form: 7.51.2(react@18.2.0)
     dev: false
+
+  /@img/sharp-darwin-arm64@0.33.3:
+    resolution: {integrity: sha512-FaNiGX1MrOuJ3hxuNzWgsT/mg5OHG/Izh59WW2mk1UwYHUwtfbhk5QNKYZgxf0pLOhx9ctGiGa2OykD71vOnSw==}
+    engines: {glibc: '>=2.26', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-darwin-arm64': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-darwin-x64@0.33.3:
+    resolution: {integrity: sha512-2QeSl7QDK9ru//YBT4sQkoq7L0EAJZA3rtV+v9p8xTKl4U1bUqTIaCnoC7Ctx2kCjQgwFXDasOtPTCT8eCTXvw==}
+    engines: {glibc: '>=2.26', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-darwin-x64': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-darwin-arm64@1.0.2:
+    resolution: {integrity: sha512-tcK/41Rq8IKlSaKRCCAuuY3lDJjQnYIW1UXU1kxcEKrfL8WR7N6+rzNoOxoQRJWTAECuKwgAHnPvqXGN8XfkHA==}
+    engines: {macos: '>=11', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-darwin-x64@1.0.2:
+    resolution: {integrity: sha512-Ofw+7oaWa0HiiMiKWqqaZbaYV3/UGL2wAPeLuJTx+9cXpCRdvQhCLG0IH8YGwM0yGWGLpsF4Su9vM1o6aer+Fw==}
+    engines: {macos: '>=10.13', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-linux-arm64@1.0.2:
+    resolution: {integrity: sha512-x7kCt3N00ofFmmkkdshwj3vGPCnmiDh7Gwnd4nUwZln2YjqPxV1NlTyZOvoDWdKQVDL911487HOueBvrpflagw==}
+    engines: {glibc: '>=2.26', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-linux-arm@1.0.2:
+    resolution: {integrity: sha512-iLWCvrKgeFoglQxdEwzu1eQV04o8YeYGFXtfWU26Zr2wWT3q3MTzC+QTCO3ZQfWd3doKHT4Pm2kRmLbupT+sZw==}
+    engines: {glibc: '>=2.28', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-linux-s390x@1.0.2:
+    resolution: {integrity: sha512-cmhQ1J4qVhfmS6szYW7RT+gLJq9dH2i4maq+qyXayUSn9/3iY2ZeWpbAgSpSVbV2E1JUL2Gg7pwnYQ1h8rQIog==}
+    engines: {glibc: '>=2.28', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [s390x]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-linux-x64@1.0.2:
+    resolution: {integrity: sha512-E441q4Qdb+7yuyiADVi5J+44x8ctlrqn8XgkDTwr4qPJzWkaHwD489iZ4nGDgcuya4iMN3ULV6NwbhRZJ9Z7SQ==}
+    engines: {glibc: '>=2.26', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-linuxmusl-arm64@1.0.2:
+    resolution: {integrity: sha512-3CAkndNpYUrlDqkCM5qhksfE+qSIREVpyoeHIU6jd48SJZViAmznoQQLAv4hVXF7xyUB9zf+G++e2v1ABjCbEQ==}
+    engines: {musl: '>=1.2.2', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-libvips-linuxmusl-x64@1.0.2:
+    resolution: {integrity: sha512-VI94Q6khIHqHWNOh6LLdm9s2Ry4zdjWJwH56WoiJU7NTeDwyApdZZ8c+SADC8OH98KWNQXnE01UdJ9CSfZvwZw==}
+    engines: {musl: '>=1.2.2', npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-linux-arm64@0.33.3:
+    resolution: {integrity: sha512-Zf+sF1jHZJKA6Gor9hoYG2ljr4wo9cY4twaxgFDvlG0Xz9V7sinsPp8pFd1XtlhTzYo0IhDbl3rK7P6MzHpnYA==}
+    engines: {glibc: '>=2.26', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-linux-arm64': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-linux-arm@0.33.3:
+    resolution: {integrity: sha512-Q7Ee3fFSC9P7vUSqVEF0zccJsZ8GiiCJYGWDdhEjdlOeS9/jdkyJ6sUSPj+bL8VuOYFSbofrW0t/86ceVhx32w==}
+    engines: {glibc: '>=2.28', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-linux-arm': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-linux-s390x@0.33.3:
+    resolution: {integrity: sha512-vFk441DKRFepjhTEH20oBlFrHcLjPfI8B0pMIxGm3+yilKyYeHEVvrZhYFdqIseSclIqbQ3SnZMwEMWonY5XFA==}
+    engines: {glibc: '>=2.28', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [s390x]
+    os: [linux]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-linux-s390x': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-linux-x64@0.33.3:
+    resolution: {integrity: sha512-Q4I++herIJxJi+qmbySd072oDPRkCg/SClLEIDh5IL9h1zjhqjv82H0Seupd+q2m0yOfD+/fJnjSoDFtKiHu2g==}
+    engines: {glibc: '>=2.26', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-linux-x64': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-linuxmusl-arm64@0.33.3:
+    resolution: {integrity: sha512-qnDccehRDXadhM9PM5hLvcPRYqyFCBN31kq+ErBSZtZlsAc1U4Z85xf/RXv1qolkdu+ibw64fUDaRdktxTNP9A==}
+    engines: {musl: '>=1.2.2', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-linuxmusl-arm64': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-linuxmusl-x64@0.33.3:
+    resolution: {integrity: sha512-Jhchim8kHWIU/GZ+9poHMWRcefeaxFIs9EBqf9KtcC14Ojk6qua7ghKiPs0sbeLbLj/2IGBtDcxHyjCdYWkk2w==}
+    engines: {musl: '>=1.2.2', node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    optionalDependencies:
+      '@img/sharp-libvips-linuxmusl-x64': 1.0.2
+    dev: false
+    optional: true
+
+  /@img/sharp-wasm32@0.33.3:
+    resolution: {integrity: sha512-68zivsdJ0koE96stdUfM+gmyaK/NcoSZK5dV5CAjES0FUXS9lchYt8LAB5rTbM7nlWtxaU/2GON0HVN6/ZYJAQ==}
+    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [wasm32]
+    requiresBuild: true
+    dependencies:
+      '@emnapi/runtime': 1.1.0
+    dev: false
+    optional: true
+
+  /@img/sharp-win32-ia32@0.33.3:
+    resolution: {integrity: sha512-CyimAduT2whQD8ER4Ux7exKrtfoaUiVr7HG0zZvO0XTFn2idUWljjxv58GxNTkFb8/J9Ub9AqITGkJD6ZginxQ==}
+    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@img/sharp-win32-x64@0.33.3:
+    resolution: {integrity: sha512-viT4fUIDKnli3IfOephGnolMzhz5VaTvDRkYqtZxOMIoMQ4MrAziO7pT1nVnOt2FAm7qW5aa+CCc13aEY6Le0g==}
+    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0', yarn: '>=3.2.0'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -4606,7 +4806,6 @@ packages:
       electron-to-chromium: 1.4.717
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
-    dev: true
 
   /buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
@@ -4759,9 +4958,24 @@ packages:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: false
 
+  /color-string@1.9.1:
+    resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+    dev: false
+
   /color-support@1.1.3:
     resolution: {integrity: sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==}
     hasBin: true
+    dev: false
+
+  /color@4.2.3:
+    resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
+    engines: {node: '>=12.5.0'}
+    dependencies:
+      color-convert: 2.0.1
+      color-string: 1.9.1
     dev: false
 
   /combined-stream@1.0.8:
@@ -4935,6 +5149,11 @@ packages:
 
   /detect-libc@2.0.2:
     resolution: {integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==}
+    engines: {node: '>=8'}
+    dev: false
+
+  /detect-libc@2.0.3:
+    resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
     dev: false
 
@@ -5118,7 +5337,6 @@ packages:
 
   /electron-to-chromium@1.4.717:
     resolution: {integrity: sha512-6Fmg8QkkumNOwuZ/5mIbMU9WI3H2fmn5ajcVya64I5Yr5CcNmO7vcLt0Y7c96DCiMO5/9G+4sI2r6eEvdg1F7A==}
-    dev: true
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -5839,6 +6057,10 @@ packages:
       call-bind: 1.0.5
       get-intrinsic: 1.2.2
       is-typed-array: 1.1.12
+    dev: false
+
+  /is-arrayish@0.3.2:
+    resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
     dev: false
 
   /is-bigint@1.0.4:
@@ -7052,6 +7274,14 @@ packages:
     dependencies:
       lru-cache: 6.0.0
 
+  /semver@7.6.0:
+    resolution: {integrity: sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: false
+
   /serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
     dependencies:
@@ -7087,6 +7317,36 @@ packages:
       has-property-descriptors: 1.0.1
     dev: false
 
+  /sharp@0.33.3:
+    resolution: {integrity: sha512-vHUeXJU1UvlO/BNwTpT0x/r53WkLUVxrmb5JTgW92fdFCFk0ispLMAeu/jPO2vjkXM1fYUi3K7/qcLF47pwM1A==}
+    engines: {libvips: '>=8.15.2', node: ^18.17.0 || ^20.3.0 || >=21.0.0}
+    requiresBuild: true
+    dependencies:
+      color: 4.2.3
+      detect-libc: 2.0.3
+      semver: 7.6.0
+    optionalDependencies:
+      '@img/sharp-darwin-arm64': 0.33.3
+      '@img/sharp-darwin-x64': 0.33.3
+      '@img/sharp-libvips-darwin-arm64': 1.0.2
+      '@img/sharp-libvips-darwin-x64': 1.0.2
+      '@img/sharp-libvips-linux-arm': 1.0.2
+      '@img/sharp-libvips-linux-arm64': 1.0.2
+      '@img/sharp-libvips-linux-s390x': 1.0.2
+      '@img/sharp-libvips-linux-x64': 1.0.2
+      '@img/sharp-libvips-linuxmusl-arm64': 1.0.2
+      '@img/sharp-libvips-linuxmusl-x64': 1.0.2
+      '@img/sharp-linux-arm': 0.33.3
+      '@img/sharp-linux-arm64': 0.33.3
+      '@img/sharp-linux-s390x': 0.33.3
+      '@img/sharp-linux-x64': 0.33.3
+      '@img/sharp-linuxmusl-arm64': 0.33.3
+      '@img/sharp-linuxmusl-x64': 0.33.3
+      '@img/sharp-wasm32': 0.33.3
+      '@img/sharp-win32-ia32': 0.33.3
+      '@img/sharp-win32-x64': 0.33.3
+    dev: false
+
   /shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
     engines: {node: '>=8'}
@@ -7112,6 +7372,12 @@ packages:
   /signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
+    dev: false
+
+  /simple-swizzle@0.2.2:
+    resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
+    dependencies:
+      is-arrayish: 0.3.2
     dev: false
 
   /sirv@2.0.4:
@@ -7430,31 +7696,6 @@ packages:
       webpack: 5.89.0(esbuild@0.19.8)
     dev: false
 
-  /terser-webpack-plugin@5.3.9(esbuild@0.19.8)(webpack@5.89.0):
-    resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      '@swc/core': '*'
-      esbuild: '*'
-      uglify-js: '*'
-      webpack: ^5.1.0
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      esbuild:
-        optional: true
-      uglify-js:
-        optional: true
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.20
-      esbuild: 0.19.8
-      jest-worker: 27.5.1
-      schema-utils: 3.3.0
-      serialize-javascript: 6.0.1
-      terser: 5.26.0
-      webpack: 5.89.0(esbuild@0.19.8)
-    dev: false
-
   /terser@5.26.0:
     resolution: {integrity: sha512-dytTGoE2oHgbNV9nTzgBEPaqAWvcJNl66VZ0BkJqlvp71IjO8CxdBx/ykCNb47cLnCmCvRZ6ZR0tLkqvZCdVBQ==}
     engines: {node: '>=10'}
@@ -7678,7 +7919,6 @@ packages:
       browserslist: 4.23.0
       escalade: 3.1.1
       picocolors: 1.0.0
-    dev: true
 
   /uploadthing@6.7.0(next@14.1.4)(tailwindcss@3.4.1):
     resolution: {integrity: sha512-meWUtFcESRTnmn0vvis6GH07tuQ73sZVYwlQBzspPy2XJq+4fJQ6S9j3sXbp/ocrpc6UyeiMLfM+QURzAtv5lA==}
@@ -7840,7 +8080,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.6
       acorn: 8.11.2
       acorn-import-assertions: 1.9.0(acorn@8.11.2)
-      browserslist: 4.22.2
+      browserslist: 4.23.0
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0
       es-module-lexer: 1.4.1
@@ -7854,7 +8094,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.9(esbuild@0.19.8)(webpack@5.89.0)
+      terser-webpack-plugin: 5.3.10(esbuild@0.19.8)(webpack@5.89.0)
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:

@@ -69,6 +69,7 @@
 		"react-photo-view": "^1.2.4",
 		"react-scroll-into-view": "^2.1.2",
 		"react-show-more-text": "^1.7.1",
+		"sharp": "^0.33.3",
 		"slugify": "^1.6.6",
 		"superjson": "^2.2.1",
 		"tailwind-merge": "^2.2.2",
