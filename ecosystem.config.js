@@ -3,10 +3,9 @@ module.exports = {
     {
       name: 'yukitanya',
       script: './node_modules/.bin/next',
-      args: 'start',
+      args: 'start -p 3003',
       exec_mode: 'cluster',
       instances: 'max',
-      autorestart: true,
     },
   ],
 };
