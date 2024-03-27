@@ -9,7 +9,7 @@ import { QuestionModal } from '@/components/modals/question-modal';
 import { NotifCount } from '@/components/notif-counter';
 import { Button } from '@/components/ui/button';
 import { menu } from '@/constants/menu';
-import { User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 export function MobileNav({ user }: { user?: User }) {
 	const pathname = usePathname();

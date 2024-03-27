@@ -10,7 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { AvatarWithBadge } from '../avatar-with-badge';
 
 export function ProfileButton({ user }: { user: User | undefined }) {

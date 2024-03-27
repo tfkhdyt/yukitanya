@@ -1,12 +1,12 @@
 'use client';
 
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 
 import { AnswerPost } from '@/components/answer/answer-post';
 import { SkeletonAnswerPost } from '@/components/answer/skeleton-answer-post';
 import { JawabanKosong } from '@/components/jawaban-kosong';
 import { createInitial } from '@/lib/utils';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
 import dayjs from 'dayjs';

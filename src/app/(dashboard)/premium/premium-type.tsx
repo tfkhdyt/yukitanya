@@ -1,7 +1,7 @@
 'use client';
 
 import { BanknoteIcon } from 'lucide-react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { match } from 'ts-pattern';
 
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { environment } from '@/environment.mjs';
-import { User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import toast from 'react-hot-toast';
 

@@ -11,9 +11,9 @@ import {
 } from 'drizzle-orm';
 import { P, match } from 'ts-pattern';
 
-import { Pg, db } from '@/server/db';
+import { type Pg, db } from '@/server/db';
 import {
-	InsertQuestion,
+	type InsertQuestion,
 	answers,
 	favorites,
 	questions,
@@ -299,7 +299,7 @@ class QuestionRepoPg {
 					? and(
 							eq(questions.subjectId, subjectId),
 							gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
-					  )
+						)
 					: gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
 			)
 			.orderBy(desc(popularity))

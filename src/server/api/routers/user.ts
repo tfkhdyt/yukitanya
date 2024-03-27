@@ -91,11 +91,11 @@ export const userRouter = createTRPCRouter({
 							ilike(users.name, `%${input.query}%`),
 						),
 						gte(users.id, input.cursor),
-				  )
+					)
 				: or(
 						ilike(users.username, `%${input.query}%`),
 						ilike(users.name, `%${input.query}%`),
-				  );
+					);
 			const data = await ctx.db
 				.select({
 					id: users.id,

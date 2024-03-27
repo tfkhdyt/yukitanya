@@ -1,6 +1,6 @@
 'use client';
 
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import { useRouter } from 'next/navigation';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

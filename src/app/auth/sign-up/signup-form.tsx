@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';

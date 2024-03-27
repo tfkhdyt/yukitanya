@@ -1,6 +1,6 @@
 import 'react-photo-view/dist/react-photo-view.css';
 
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { LeftSidebar } from '@/components/sidebar/left-sidebar';
 import { RightSidebar } from '@/components/sidebar/right-sidebar';

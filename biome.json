@@ -7,9 +7,6 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-			"nursery": {
-				"noUnusedImports": "warn"
-			},
 			"correctness": {
 				"noUnusedVariables": "warn"
 			},

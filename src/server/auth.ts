@@ -8,9 +8,9 @@ import {
 } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import FacebookProvider, {
-	FacebookProfile,
+	type FacebookProfile,
 } from 'next-auth/providers/facebook';
-import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
+import GoogleProvider, { type GoogleProfile } from 'next-auth/providers/google';
 
 import { environment } from '@/environment.mjs';
 import { createInitial } from '@/lib/utils';

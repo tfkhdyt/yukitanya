@@ -88,11 +88,11 @@ export const answerRouter = createTRPCRouter({
 						eq(answers.questionId, input.questionId),
 						eq(answers.isBestAnswer, false),
 						gte(answers.id, input.cursor),
-				  )
+					)
 				: and(
 						eq(answers.questionId, input.questionId),
 						eq(answers.isBestAnswer, false),
-				  );
+					);
 
 			const data = await ctx.db.query.answers.findMany({
 				where,

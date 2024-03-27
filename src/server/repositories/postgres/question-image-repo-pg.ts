@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 
-import { Pg, db } from '@/server/db';
-import { InsertQuestionImage, questionImages } from '@/server/db/schema';
+import { type Pg, db } from '@/server/db';
+import { type InsertQuestionImage, questionImages } from '@/server/db/schema';
 
 class QuestionImageRepoPg {
 	constructor(private readonly db: Pg) {}

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { and, eq } from 'drizzle-orm';
-import { PgDatabase } from 'drizzle-orm/pg-core';
+import type { PgDatabase } from 'drizzle-orm/pg-core';
 
 import { getDiceBearAvatar } from '@/lib/utils';
 import cuid from 'cuid';

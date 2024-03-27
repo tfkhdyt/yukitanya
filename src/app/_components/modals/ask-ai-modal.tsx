@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
 
@@ -14,7 +14,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 import { api } from '@/trpc/react';
 import { CheckIcon, CopyIcon } from 'lucide-react';
@@ -46,8 +46,8 @@ export function AskAIModal({
 	const [open, setOpen] = useState(false);
 	const { data, isLoading } = api.answer.askAI.useQuery(question.content, {
 		enabled: open,
-		staleTime: Infinity,
-		cacheTime: Infinity,
+		staleTime: Number.POSITIVE_INFINITY,
+		cacheTime: Number.POSITIVE_INFINITY,
 	});
 
 	const [copied, setCopied] = useState(false);

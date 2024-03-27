@@ -1,7 +1,7 @@
 'use client';
 
 import { useDebounce } from '@uidotdev/usehooks';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { match } from 'ts-pattern';

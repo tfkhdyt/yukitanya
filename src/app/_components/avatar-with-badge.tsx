@@ -1,5 +1,5 @@
 import { getDiceBearAvatar } from '@/lib/utils';
-import { User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 import clsx from 'clsx';
 import { BadgeCheckIcon } from 'lucide-react';

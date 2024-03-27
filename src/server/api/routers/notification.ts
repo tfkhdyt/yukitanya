@@ -20,7 +20,7 @@ export const notificationRouter = createTRPCRouter({
 					? and(
 							eq(notifications.receiverUserId, input.receiverUserId),
 							lte(notifications.id, input.cursor),
-					  )
+						)
 					: eq(notifications.receiverUserId, input.receiverUserId),
 				limit: input.limit + 1,
 				with: {

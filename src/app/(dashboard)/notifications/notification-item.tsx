@@ -12,7 +12,7 @@ import { match } from 'ts-pattern';
 
 import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 type Question = {

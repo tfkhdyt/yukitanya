@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { type Metadata } from 'next';
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { formatLongDateTime } from '@/lib/datetime';

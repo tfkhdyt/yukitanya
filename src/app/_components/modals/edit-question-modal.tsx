@@ -36,9 +36,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
 import { useUploadThing } from '@/lib/uploadthing/client';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import Image from 'next/image';
 import { AvatarWithBadge } from '../avatar-with-badge';
 import { Input } from '../ui/input';
@@ -147,9 +147,9 @@ export function EditQuestionModal({
 			schema: {
 				content: values.question,
 				id: question.id,
-				slug:
-					slugify(values.question.slice(0, 50), { strict: true }) +
-					`-${question.id.replace('question-', '').slice(-5)}`,
+				slug: `${slugify(values.question.slice(0, 50), {
+					strict: true,
+				})}-${question.id.replace('question-', '').slice(-5)}`,
 				subjectId: values.subject,
 				userId: question.owner.id,
 			},

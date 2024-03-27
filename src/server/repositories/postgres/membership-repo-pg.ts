@@ -1,6 +1,6 @@
 import { and, eq, gt } from 'drizzle-orm';
 
-import { Pg, db } from '@/server/db';
+import { type Pg, db } from '@/server/db';
 import { memberships } from '@/server/db/schema';
 
 class MembershipRepoPg {

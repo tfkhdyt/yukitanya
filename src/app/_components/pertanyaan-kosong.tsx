@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 import { TanyakanSekarangButton } from './buttons/tanyakan-sekarang';
 

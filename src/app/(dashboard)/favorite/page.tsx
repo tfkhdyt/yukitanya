@@ -1,4 +1,4 @@
-import { type Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { getServerAuthSession } from '@/server/auth';
 

@@ -10,7 +10,7 @@ import {
 	Share2Icon,
 	TrashIcon,
 } from 'lucide-react';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -35,7 +35,7 @@ import { DropdownMenuContent } from '@/components/ui/dropdown-menu';
 import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { containsURL } from '@/lib/utils';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 import { AvatarWithBadge } from '../avatar-with-badge';

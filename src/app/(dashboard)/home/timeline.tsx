@@ -1,7 +1,7 @@
 'use client';
 
 import { useIntersectionObserver } from '@uidotdev/usehooks';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import { useEffect } from 'react';
 
 import { PertanyaanKosong } from '@/components/pertanyaan-kosong';

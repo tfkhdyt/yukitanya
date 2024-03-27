@@ -9,7 +9,7 @@ import {
 	varchar,
 } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
-import { type AdapterAccount } from 'next-auth/adapters';
+import type { AdapterAccount } from 'next-auth/adapters';
 import { z } from 'zod';
 
 export const users = pgTable('user', {
@@ -284,15 +284,12 @@ export const questionImages = pgTable('question_image', {
 
 export type InsertQuestionImage = typeof questionImages.$inferInsert;
 
-export const questionImagesRelations = relations(
-	questionImages,
-	({ one }) => ({
-		question: one(questions, {
-			fields: [questionImages.questionId],
-			references: [questions.id],
-		}),
+export const questionImagesRelations = relations(questionImages, ({ one }) => ({
+	question: one(questions, {
+		fields: [questionImages.questionId],
+		references: [questions.id],
 	}),
-);
+}));
 
 export const memberships = pgTable('membership', {
 	id: text('id').notNull().primaryKey(),

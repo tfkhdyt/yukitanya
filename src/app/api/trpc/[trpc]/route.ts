@@ -1,5 +1,5 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import { type NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import { environment } from '@/environment.mjs';
 import { appRouter } from '@/server/api/root';
@@ -15,7 +15,7 @@ const handler = (request: NextRequest) =>
 						console.error(
 							`❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`,
 						);
-				  }
+					}
 				: undefined,
 		req: request,
 		router: appRouter,

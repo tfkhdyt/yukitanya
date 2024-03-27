@@ -93,7 +93,7 @@ export const favoriteRouter = createTRPCRouter({
 					? and(
 							eq(favorites.userId, input.userId),
 							lte(favorites.questionId, input.cursor),
-					  )
+						)
 					: eq(favorites.userId, input.userId),
 				limit: input.limit + 1,
 				with: {

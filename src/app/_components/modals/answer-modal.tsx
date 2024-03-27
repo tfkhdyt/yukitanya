@@ -1,11 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import clsx from 'clsx';
 import cuid from 'cuid';
 import { SendIcon } from 'lucide-react';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { type ReactNode, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -31,7 +31,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { environment } from '@/environment.mjs';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 import { AvatarWithBadge } from '../avatar-with-badge';
 

@@ -1,4 +1,4 @@
-import { SearchIndex } from 'algoliasearch';
+import type { SearchIndex } from 'algoliasearch';
 
 import { questionIndex } from '@/lib/algolia';
 

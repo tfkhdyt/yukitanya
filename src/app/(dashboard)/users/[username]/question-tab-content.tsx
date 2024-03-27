@@ -1,6 +1,6 @@
 'use client';
 
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 
 import { PertanyaanKosong } from '@/components/pertanyaan-kosong';
 import { QuestionPost } from '@/components/question/question-post';

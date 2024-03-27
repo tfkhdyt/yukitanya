@@ -1,7 +1,7 @@
 import cuid from 'cuid';
 import { eq } from 'drizzle-orm';
 
-import { Pg, db } from '@/server/db';
+import { type Pg, db } from '@/server/db';
 
 import { oldSlug } from './../../db/schema';
 

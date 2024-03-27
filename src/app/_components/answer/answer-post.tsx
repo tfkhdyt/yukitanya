@@ -11,7 +11,7 @@ import {
 	StarIcon,
 	TrashIcon,
 } from 'lucide-react';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { formatLongDateTime, getFromNowTime } from '@/lib/datetime';
 import { containsURL } from '@/lib/utils';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 import { AvatarWithBadge } from '../avatar-with-badge';
@@ -129,7 +129,7 @@ export function AnswerPost({
 			? answer.ratings.reduce(
 					(accumulator, rating) => accumulator + rating.value,
 					0,
-			  ) / answer.ratings.length
+				) / answer.ratings.length
 			: 0;
 
 	const bestAnswerMutation = api.answer.toggleBestAnswer.useMutation({

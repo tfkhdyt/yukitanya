@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import clsx from 'clsx';
 import cuid from 'cuid';
 import { ImagePlusIcon, SendIcon, XIcon } from 'lucide-react';
@@ -39,7 +39,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { mapel } from '@/constants/mapel';
 import { environment } from '@/environment.mjs';
 import { useUploadThing } from '@/lib/uploadthing/client';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 import { AvatarWithBadge } from '../avatar-with-badge';
@@ -148,9 +148,9 @@ export function QuestionModal({
 		const input = {
 			content: values.question,
 			id: `question-${id}`,
-			slug:
-				slugify(values.question.slice(0, 50), { strict: true }) +
-				`-${id.slice(-5)}`,
+			slug: `${slugify(values.question.slice(0, 50), {
+				strict: true,
+			})}-${id.slice(-5)}`,
 			subjectId: values.subject,
 			userId: user.id,
 		};

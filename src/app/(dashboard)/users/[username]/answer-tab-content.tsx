@@ -1,6 +1,6 @@
 'use client';
 
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 
 import { AnswerPost } from '@/components/answer/answer-post';
 import { SkeletonAnswerPost } from '@/components/answer/skeleton-answer-post';

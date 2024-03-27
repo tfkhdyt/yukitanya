@@ -1,7 +1,7 @@
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import Image from 'next/image';
 
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 import { JawabSekarangButton } from './buttons/jawab-sekarang';
 

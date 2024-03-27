@@ -7,7 +7,7 @@ import { P, match } from 'ts-pattern';
 
 import { menu } from '@/constants/menu';
 import { useSidebarStore } from '@/stores/sidebar';
-import { Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import { TanyakanSekarangButton } from '../buttons/tanyakan-sekarang';
 import { NotifCount } from '../notif-counter';
 import { ProfileButton } from './profile-button';

@@ -12,13 +12,13 @@ import '@fontsource/poppins/900.css';
 
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { headers } from 'next/headers';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { extractRouterConfig } from 'uploadthing/server';
 
 import { environment } from '@/environment.mjs';
 import { TRPCReactProvider } from '@/trpc/react';
-import { Metadata, Viewport } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { fileRouter } from './api/uploadthing/core';
 
 export const metadata: Metadata = {

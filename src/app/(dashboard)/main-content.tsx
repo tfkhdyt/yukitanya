@@ -3,13 +3,13 @@
 import clsx from 'clsx';
 import { CheckCheckIcon } from 'lucide-react';
 import { useParams, usePathname } from 'next/navigation';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import toast from 'react-hot-toast';
 import { P, match } from 'ts-pattern';
 
 import { mapel } from '@/constants/mapel';
 import { api } from '@/trpc/react';
-import { Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import { MobileNav } from './mobile-nav';
 import { MobileSheet } from './mobile-sheet';
 

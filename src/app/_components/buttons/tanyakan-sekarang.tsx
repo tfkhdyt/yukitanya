@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { MessageSquarePlusIcon } from 'lucide-react';
 
 import { QuestionModal } from '@/components/modals/question-modal';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 import { Button } from '../ui/button';
 

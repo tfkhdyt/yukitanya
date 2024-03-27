@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { BotIcon, Heart, MessageCircle, Share2Icon } from 'lucide-react';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -23,7 +23,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { environment } from '@/environment.mjs';
 import { formatLongDateTime } from '@/lib/datetime';
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 import { api } from '@/trpc/react';
 
 type Question = {

@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { MessageCircleIcon } from 'lucide-react';
-import { type Session } from 'next-auth';
+import type { Session } from 'next-auth';
 
-import { type User } from '@/server/auth';
+import type { User } from '@/server/auth';
 
 import { AnswerModal } from '../modals/answer-modal';
 import { Button } from '../ui/button';

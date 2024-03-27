@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 
 import { environment } from '@/environment.mjs';
 import { db } from '@/server/db';

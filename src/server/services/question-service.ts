@@ -2,26 +2,26 @@ import { match } from 'ts-pattern';
 
 import { verifyCaptchaToken } from '@/lib/turnstile';
 import { utapi } from '@/lib/uploadthing/server';
-import { CreateQuestion, UpdateQuestion } from '@/schema/question-schema';
+import type { CreateQuestion, UpdateQuestion } from '@/schema/question-schema';
 
 import {
-	QuestionRepoAlgolia,
+	type QuestionRepoAlgolia,
 	questionRepoAlgolia,
 } from '../repositories/algolia/question-repo-algolia';
 import {
-	MembershipRepoPg,
+	type MembershipRepoPg,
 	membershipRepoPg,
 } from '../repositories/postgres/membership-repo-pg';
 import {
-	OldSlugRepoPg,
+	type OldSlugRepoPg,
 	oldSlugRepoPg,
 } from '../repositories/postgres/old-slug-repo-pg';
 import {
-	QuestionImageRepoPg,
+	type QuestionImageRepoPg,
 	questionImageRepoPg,
 } from '../repositories/postgres/question-image-repo-pg';
 import {
-	QuestionRepoPg,
+	type QuestionRepoPg,
 	questionRepoPg,
 } from '../repositories/postgres/question-repo-pg';
 
