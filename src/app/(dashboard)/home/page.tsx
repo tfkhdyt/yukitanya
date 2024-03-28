@@ -5,15 +5,15 @@ import { getServerAuthSession } from '@/server/auth';
 import { Timeline } from './timeline';
 
 export const metadata: Metadata = {
-	title: 'Beranda - Yukitanya',
+  title: 'Beranda - Yukitanya',
 };
 
 export default async function Home() {
-	const session = await getServerAuthSession();
+  const session = await getServerAuthSession();
 
-	return (
-		<>
-			<Timeline session={session} />
-		</>
-	);
+  return (
+    <>
+      <Timeline session={session} />
+    </>
+  );
 }

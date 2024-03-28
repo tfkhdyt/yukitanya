@@ -9,39 +9,39 @@ const seedClient = postgres(environment.DATABASE_URL, { max: 1 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
 (async () => {
-	const database = drizzle(seedClient);
-	await database
-		.insert(subjects)
-		.values([
-			{
-				id: 'ipa',
-				name: 'IPA',
-			},
-			{
-				id: 'ips',
-				name: 'IPS',
-			},
-			{
-				id: 'mtk',
-				name: 'Matematika',
-			},
-			{
-				id: 'indo',
-				name: 'B. Indonesia',
-			},
-			{
-				id: 'inggris',
-				name: 'B. Inggris',
-			},
-			{
-				id: 'ppkn',
-				name: 'PPKn',
-			},
-			{
-				id: 'other',
-				name: 'Lainnya',
-			},
-		])
-		.onConflictDoNothing();
-	await seedClient.end();
+  const database = drizzle(seedClient);
+  await database
+    .insert(subjects)
+    .values([
+      {
+        id: 'ipa',
+        name: 'IPA',
+      },
+      {
+        id: 'ips',
+        name: 'IPS',
+      },
+      {
+        id: 'mtk',
+        name: 'Matematika',
+      },
+      {
+        id: 'indo',
+        name: 'B. Indonesia',
+      },
+      {
+        id: 'inggris',
+        name: 'B. Inggris',
+      },
+      {
+        id: 'ppkn',
+        name: 'PPKn',
+      },
+      {
+        id: 'other',
+        name: 'Lainnya',
+      },
+    ])
+    .onConflictDoNothing();
+  await seedClient.end();
 })();

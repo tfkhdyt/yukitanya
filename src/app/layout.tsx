@@ -22,51 +22,51 @@ import type { Metadata, Viewport } from 'next';
 import { fileRouter } from './api/uploadthing/core';
 
 export const metadata: Metadata = {
-	title: 'Yukitanya - Jangan malu untuk bertanya!',
-	description:
-		'Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
-	applicationName: 'Yukitanya',
-	keywords: [
-		'Forum',
-		'QnA',
-		'Student',
-		'Question',
-		'Answer',
-		'seKODlah',
-		'Yukitanya',
-		'yukitanya',
-		'Brainly',
-		'brainly',
-	],
-	creator: 'Taufik Hidayat',
-	publisher: 'seKODlah Kelompok 5 MSIB 5',
-	metadataBase: new URL(environment.NEXT_PUBLIC_BASE_PATH),
-	appleWebApp: {
-		title: 'Yukitanya',
-		capable: true,
-		statusBarStyle: 'default',
-	},
-	formatDetection: {
-		telephone: false,
-	},
-	icons: {
-		apple: '/img/icon512_rounded.png',
-	},
-	manifest: '/manifest.json',
+  title: 'Yukitanya - Jangan malu untuk bertanya!',
+  description:
+    'Yukitanya adalah sebuah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.',
+  applicationName: 'Yukitanya',
+  keywords: [
+    'Forum',
+    'QnA',
+    'Student',
+    'Question',
+    'Answer',
+    'seKODlah',
+    'Yukitanya',
+    'yukitanya',
+    'Brainly',
+    'brainly',
+  ],
+  creator: 'Taufik Hidayat',
+  publisher: 'seKODlah Kelompok 5 MSIB 5',
+  metadataBase: new URL(environment.NEXT_PUBLIC_BASE_PATH),
+  appleWebApp: {
+    title: 'Yukitanya',
+    capable: true,
+    statusBarStyle: 'default',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    apple: '/img/icon512_rounded.png',
+  },
+  manifest: '/manifest.json',
 };
 
 export const viewport: Viewport = {
-	themeColor: '#ffffff',
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-	return (
-		<html lang='en'>
-			<body className='font-poppins'>
-				<NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
-				<TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
-				<Toaster position='top-right' reverseOrder={false} />
-			</body>
-		</html>
-	);
+  return (
+    <html lang='en'>
+      <body className='font-poppins'>
+        <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
+        <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+        <Toaster position='top-right' reverseOrder={false} />
+      </body>
+    </html>
+  );
 }

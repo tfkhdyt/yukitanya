@@ -7,9 +7,9 @@ import * as schema from '@/server/db/schema';
 export type Pg = PostgresJsDatabase<typeof schema>;
 
 declare global {
-	// eslint-disable-next-line no-var -- only var works here
-	// biome-ignore lint/style/noVar: <explanation>
-	var database: Pg | undefined;
+  // eslint-disable-next-line no-var -- only var works here
+  // biome-ignore lint/style/noVar: <explanation>
+  var database: Pg | undefined;
 }
 
 let db: Pg;
@@ -17,11 +17,11 @@ let db: Pg;
 // for query purposes
 const queryClient = postgres(environment.DATABASE_URL);
 if (environment.NODE_ENV === 'production') {
-	db = drizzle(queryClient, { schema });
+  db = drizzle(queryClient, { schema });
 } else {
-	if (!global.database) global.database = drizzle(queryClient, { schema });
+  if (!global.database) global.database = drizzle(queryClient, { schema });
 
-	db = global.database;
+  db = global.database;
 }
 
 export { db };

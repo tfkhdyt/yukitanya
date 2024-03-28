@@ -4,14 +4,14 @@ import { environment } from '@/environment.mjs';
 import type { AppRouter } from '@/server/api/root';
 
 function getBaseUrl() {
-	if (typeof window !== 'undefined') return '';
-	if (process.env.NODE_ENV === 'production') return environment.NEXTAUTH_URL;
-	// if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-	return `http://localhost:${process.env.PORT ?? 3000}`;
+  if (typeof window !== 'undefined') return '';
+  if (process.env.NODE_ENV === 'production') return environment.NEXTAUTH_URL;
+  // if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
 export function getUrl() {
-	return `${getBaseUrl()}/api/trpc`;
+  return `${getBaseUrl()}/api/trpc`;
 }
 
 /**

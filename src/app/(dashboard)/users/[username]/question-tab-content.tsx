@@ -12,103 +12,103 @@ import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 export function QuestionTabContent({
-	session,
-	user,
+  session,
+  user,
 }: {
-	session: Session | null;
-	user: {
-		id: string;
-		name: string;
-	};
+  session: Session | null;
+  user: {
+    id: string;
+    name: string;
+  };
 }) {
-	const { fetchNextPage, data, isLoading, isError, error, isFetchingNextPage } =
-		api.question.findAllQuestionsByUserId.useInfiniteQuery(
-			{
-				userId: user.id,
-				limit: 10,
-			},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor,
-			},
-		);
+  const { fetchNextPage, data, isLoading, isError, error, isFetchingNextPage } =
+    api.question.findAllQuestionsByUserId.useInfiniteQuery(
+      {
+        userId: user.id,
+        limit: 10,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
-	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
-	useEffect(() => {
-		if (entry?.isIntersecting) {
-			void fetchNextPage();
-		}
-	}, [entry, fetchNextPage]);
+  const [reference, entry] = useIntersectionObserver({ threshold: 0 });
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      void fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
 
-	const questions = data?.pages.flatMap((page) => page.data);
+  const questions = data?.pages.flatMap((page) => page.data);
 
-	if (isLoading) {
-		return <SkeletonQuestionPost />;
-	}
+  if (isLoading) {
+    return <SkeletonQuestionPost />;
+  }
 
-	if (isError) {
-		return (
-			<PertanyaanKosong title={error?.message} showTanyakanButton={false} />
-		);
-	}
+  if (isError) {
+    return (
+      <PertanyaanKosong title={error?.message} showTanyakanButton={false} />
+    );
+  }
 
-	if (questions?.length === 0 || !questions) {
-		return (
-			<PertanyaanKosong
-				user={session?.user}
-				title={`${user.name} belum membuat pertanyaan`}
-				showTanyakanButton={session?.user.id === user.id}
-			/>
-		);
-	}
+  if (questions?.length === 0 || !questions) {
+    return (
+      <PertanyaanKosong
+        user={session?.user}
+        title={`${user.name} belum membuat pertanyaan`}
+        showTanyakanButton={session?.user.id === user.id}
+      />
+    );
+  }
 
-	return (
-		<>
-			{questions.map((question, index) => {
-				const bestAnswerRatings =
-					question.answers.find((answer) => answer.isBestAnswer === true)
-						?.ratings ?? [];
-				const totalRating =
-					bestAnswerRatings?.reduce(
-						(accumulator, rating) => accumulator + rating.value,
-						0,
-					) ?? 0;
-				const averageRating = totalRating / bestAnswerRatings?.length;
-				const membership = question.owner.memberships.find((mb) =>
-					dayjs().isBefore(mb.expiresAt),
-				);
+  return (
+    <>
+      {questions.map((question, index) => {
+        const bestAnswerRatings =
+          question.answers.find((answer) => answer.isBestAnswer === true)
+            ?.ratings ?? [];
+        const totalRating =
+          bestAnswerRatings?.reduce(
+            (accumulator, rating) => accumulator + rating.value,
+            0,
+          ) ?? 0;
+        const averageRating = totalRating / bestAnswerRatings?.length;
+        const membership = question.owner.memberships.find((mb) =>
+          dayjs().isBefore(mb.expiresAt),
+        );
 
-				return (
-					<div
-						key={question.id}
-						ref={index === questions.length - 1 ? reference : undefined}
-					>
-						<QuestionPost
-							question={{
-								content: question.content,
-								createdAt: question.createdAt,
-								id: question.id,
-								numberOfAnswers: question.answers.length,
-								numberOfFavorites: question.favorites.length,
-								owner: {
-									...question.owner,
-									membership,
-									initial: createInitial(question.owner.name),
-								},
-								slug: question.slug,
-								subject: question.subject,
-								updatedAt: question.updatedAt,
-								isFavorited: question.favorites.some(
-									(favorite) => favorite.userId === session?.user.id,
-								),
-								rating: Number.isNaN(averageRating) ? undefined : averageRating,
-								images: question.images,
-							}}
-							session={session}
-						/>
-					</div>
-				);
-			})}
-			{isFetchingNextPage && <SkeletonQuestionPost />}
-		</>
-	);
+        return (
+          <div
+            key={question.id}
+            ref={index === questions.length - 1 ? reference : undefined}
+          >
+            <QuestionPost
+              question={{
+                content: question.content,
+                createdAt: question.createdAt,
+                id: question.id,
+                numberOfAnswers: question.answers.length,
+                numberOfFavorites: question.favorites.length,
+                owner: {
+                  ...question.owner,
+                  membership,
+                  initial: createInitial(question.owner.name),
+                },
+                slug: question.slug,
+                subject: question.subject,
+                updatedAt: question.updatedAt,
+                isFavorited: question.favorites.some(
+                  (favorite) => favorite.userId === session?.user.id,
+                ),
+                rating: Number.isNaN(averageRating) ? undefined : averageRating,
+                images: question.images,
+              }}
+              session={session}
+            />
+          </div>
+        );
+      })}
+      {isFetchingNextPage && <SkeletonQuestionPost />}
+    </>
+  );
 }

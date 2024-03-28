@@ -13,22 +13,22 @@ import { TentangKami } from './tentang-kami';
 import { Testimoni } from './testimoni';
 
 export default async function Landing() {
-	const session = await getServerAuthSession();
-	if (session) {
-		return redirect('/home');
-	}
+  const session = await getServerAuthSession();
+  if (session) {
+    return redirect('/home');
+  }
 
-	return (
-		<main className='relative'>
-			<Header />
-			<Hero />
-			<MataPelajaran />
-			<TentangKami />
-			<Keunggulan />
-			<Fitur />
-			<Testimoni />
-			<Berita />
-			<Footer scroll />
-		</main>
-	);
+  return (
+    <main className='relative'>
+      <Header />
+      <Hero />
+      <MataPelajaran />
+      <TentangKami />
+      <Keunggulan />
+      <Fitur />
+      <Testimoni />
+      <Berita />
+      <Footer scroll />
+    </main>
+  );
 }

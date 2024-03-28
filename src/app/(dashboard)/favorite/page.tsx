@@ -6,18 +6,18 @@ import { redirect } from 'next/navigation';
 import { FavoriteQuestionList } from './favorite-question-list';
 
 export const metadata: Metadata = {
-	title: 'Favorit - Yukitanya',
+  title: 'Favorit - Yukitanya',
 };
 
 export default async function Favorit() {
-	const session = await getServerAuthSession();
-	if (!session?.user.membership) {
-		return redirect('/home');
-	}
+  const session = await getServerAuthSession();
+  if (!session?.user.membership) {
+    return redirect('/home');
+  }
 
-	return (
-		<>
-			<FavoriteQuestionList session={session} />
-		</>
-	);
+  return (
+    <>
+      <FavoriteQuestionList session={session} />
+    </>
+  );
 }

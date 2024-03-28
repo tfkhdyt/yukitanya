@@ -11,73 +11,73 @@ import { NotificationItem } from './notification-item';
 import { SkeletonNotificationItem } from './skeleton-notification-item';
 
 export function NotificationList({
-	receiverUserId,
+  receiverUserId,
 }: {
-	receiverUserId: string;
+  receiverUserId: string;
 }) {
-	const { isLoading, fetchNextPage, data, isFetchingNextPage } =
-		api.notification.findAllNotificationByReceiverUserId.useInfiniteQuery(
-			{
-				receiverUserId,
-				limit: 10,
-			},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor,
-			},
-		);
+  const { isLoading, fetchNextPage, data, isFetchingNextPage } =
+    api.notification.findAllNotificationByReceiverUserId.useInfiniteQuery(
+      {
+        receiverUserId,
+        limit: 10,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
-	const [reference, entry] = useIntersectionObserver({ threshold: 0 });
-	useEffect(() => {
-		if (entry?.isIntersecting) {
-			void fetchNextPage();
-		}
-	}, [entry, fetchNextPage]);
+  const [reference, entry] = useIntersectionObserver({ threshold: 0 });
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      void fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
 
-	const notifications = data?.pages.flatMap((page) => page.data);
+  const notifications = data?.pages.flatMap((page) => page.data);
 
-	if (isLoading) {
-		return <SkeletonNotificationItem />;
-	}
+  if (isLoading) {
+    return <SkeletonNotificationItem />;
+  }
 
-	if (notifications?.length === 0 || !notifications) {
-		return (
-			<PertanyaanKosong
-				title='Notifikasi masih kosong'
-				showTanyakanButton={false}
-			/>
-		);
-	}
+  if (notifications?.length === 0 || !notifications) {
+    return (
+      <PertanyaanKosong
+        title='Notifikasi masih kosong'
+        showTanyakanButton={false}
+      />
+    );
+  }
 
-	return (
-		<>
-			{notifications.map((notif, index) => {
-				const membership = notif.transmitterUser.memberships.find(
-					(membership) => dayjs().isBefore(membership.expiresAt),
-				);
+  return (
+    <>
+      {notifications.map((notif, index) => {
+        const membership = notif.transmitterUser.memberships.find(
+          (membership) => dayjs().isBefore(membership.expiresAt),
+        );
 
-				return (
-					<div
-						key={notif.id}
-						ref={index === notifications.length - 1 ? reference : undefined}
-					>
-						<NotificationItem
-							id={notif.id}
-							createdAt={notif.createdAt}
-							hasBeenRead={Boolean(notif.readAt)}
-							question={notif.question}
-							transmitterUser={{
-								...notif.transmitterUser,
-								membership,
-								initial: createInitial(notif.transmitterUser.name),
-							}}
-							type={notif.type}
-							rating={notif.rating}
-							description={notif.description}
-						/>
-					</div>
-				);
-			})}
-			{isFetchingNextPage && <SkeletonNotificationItem />}
-		</>
-	);
+        return (
+          <div
+            key={notif.id}
+            ref={index === notifications.length - 1 ? reference : undefined}
+          >
+            <NotificationItem
+              id={notif.id}
+              createdAt={notif.createdAt}
+              hasBeenRead={Boolean(notif.readAt)}
+              question={notif.question}
+              transmitterUser={{
+                ...notif.transmitterUser,
+                membership,
+                initial: createInitial(notif.transmitterUser.name),
+              }}
+              type={notif.type}
+              rating={notif.rating}
+              description={notif.description}
+            />
+          </div>
+        );
+      })}
+      {isFetchingNextPage && <SkeletonNotificationItem />}
+    </>
+  );
 }

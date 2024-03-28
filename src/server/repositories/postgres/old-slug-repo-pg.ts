@@ -6,24 +6,24 @@ import { type Pg, db } from '@/server/db';
 import { oldSlug } from './../../db/schema';
 
 class OldSlugRepoPg {
-	constructor(private readonly db: Pg) {}
+  constructor(private readonly db: Pg) {}
 
-	async findOldSlug(slug: string) {
-		return await this.db.query.oldSlug.findFirst({
-			where: eq(oldSlug.slug, slug),
-			columns: {
-				questionId: true,
-			},
-		});
-	}
+  async findOldSlug(slug: string) {
+    return await this.db.query.oldSlug.findFirst({
+      where: eq(oldSlug.slug, slug),
+      columns: {
+        questionId: true,
+      },
+    });
+  }
 
-	async addOldSlug(questionId: string, slug: string) {
-		return await this.db.insert(oldSlug).values({
-			id: `old-slug-${cuid()}`,
-			questionId,
-			slug,
-		});
-	}
+  async addOldSlug(questionId: string, slug: string) {
+    return await this.db.insert(oldSlug).values({
+      id: `old-slug-${cuid()}`,
+      questionId,
+      slug,
+    });
+  }
 }
 
 export { OldSlugRepoPg };
