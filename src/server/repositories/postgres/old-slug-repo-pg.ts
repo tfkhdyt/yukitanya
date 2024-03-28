@@ -9,7 +9,7 @@ class OldSlugRepoPg {
   constructor(private readonly db: Pg) {}
 
   async findOldSlug(slug: string) {
-    return await this.db.query.oldSlug.findFirst({
+    return this.db.query.oldSlug.findFirst({
       where: eq(oldSlug.slug, slug),
       columns: {
         questionId: true,
@@ -18,7 +18,7 @@ class OldSlugRepoPg {
   }
 
   async addOldSlug(questionId: string, slug: string) {
-    return await this.db.insert(oldSlug).values({
+    return this.db.insert(oldSlug).values({
       id: `old-slug-${cuid()}`,
       questionId,
       slug,

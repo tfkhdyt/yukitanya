@@ -50,7 +50,7 @@ export function MostPopularQuestionSection({
                 user={{
                   ...data.owner,
                   membership: data.owner.membership,
-                  initial: createInitial(data.owner.name),
+                  initial: createInitial(data.owner.name ?? undefined),
                 }}
               />
             </Link>

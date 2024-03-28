@@ -64,10 +64,10 @@ type Question = {
     name: string;
   };
   owner: User;
-  images: {
+  images: Array<{
     id: string;
     url: string;
-  }[];
+  }>;
 };
 
 export function EditQuestionModal({
@@ -98,11 +98,11 @@ export function EditQuestionModal({
 
   const utils = api.useUtils();
   const { isLoading, mutate } = api.question.updateQuestionById.useMutation({
-    onError: (error) => {
+    onError(error) {
       toast.dismiss();
       toast.error(error.message);
     },
-    onSuccess: async () => {
+    async onSuccess() {
       toast.dismiss();
       toast.success('Pertanyaanmu telah berhasil diedit');
 
@@ -117,7 +117,7 @@ export function EditQuestionModal({
   });
 
   const { startUpload } = useUploadThing('questionImageUploader', {
-    onUploadError: (error) => {
+    onUploadError(error) {
       console.error(error.message);
       toast.dismiss();
       toast.error('Gagal mengupload gambar');
@@ -130,10 +130,10 @@ export function EditQuestionModal({
       'Pertanyaanmu sedang diproses, mohon tunggu beberapa saat...',
     );
 
-    let imagesMetadata: {
+    let imagesMetadata: Array<{
       id: string;
       url: string;
-    }[] = [];
+    }> = [];
     if (files.length > 0) {
       const result = await startUpload(files);
       if (!result) {
@@ -248,7 +248,7 @@ export function EditQuestionModal({
                               <Link
                                 href='/premium'
                                 className='font-bold hover:underline'
-                                onClick={() => setOpen(false)}
+                                onClick={() => { setOpen(false); }}
                               >
                                 Premium
                               </Link>{' '}
@@ -265,7 +265,7 @@ export function EditQuestionModal({
                           ref={fileRef}
                           className='hidden'
                           onChange={(e) => {
-                            const files = e.target.files;
+                            const {files} = e.target;
                             if (!files) return;
                             if (files.length > 4) {
                               toast.dismiss();
@@ -273,6 +273,7 @@ export function EditQuestionModal({
                                 'Maksimal 4 gambar yang bisa diupload',
                               );
                             }
+
                             for (const file of files) {
                               if (file.size > 512000) {
                                 toast.dismiss();
@@ -302,11 +303,9 @@ export function EditQuestionModal({
                                 className='absolute top-0 right-0 p-2 invisible group-hover:visible'
                                 type='button'
                                 onClick={() => {
-                                  setFiles((files) => {
-                                    return files.filter(
+                                  setFiles((files) => files.filter(
                                       (f) => f.name !== file.name,
-                                    );
-                                  });
+                                    ));
                                 }}
                               >
                                 <XIcon

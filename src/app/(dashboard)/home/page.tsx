@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <>
-      <Timeline session={session} />
+      <Timeline session={session ?? undefined} />
     </>
   );
 }

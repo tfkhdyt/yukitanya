@@ -34,7 +34,7 @@ export const notificationRouter = createTRPCRouter({
         orderBy: desc(notifications.createdAt),
       });
 
-      let nextCursor: typeof input.cursor | undefined = undefined;
+      let nextCursor: typeof input.cursor | undefined;
       if (data.length > input.limit) {
         const nextItem = data.pop();
         nextCursor = nextItem?.id;

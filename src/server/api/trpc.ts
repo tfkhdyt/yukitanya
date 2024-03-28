@@ -23,7 +23,7 @@ import { db } from '@/server/db';
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-interface CreateContextOptions {
+type CreateContextOptions = {
   headers: Headers;
 }
 
@@ -53,13 +53,13 @@ export const createInnerTRPCContext = async (options: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (options: { req: NextRequest }) => {
+export const createTRPCContext = async (options: { req: NextRequest }) => 
   // Fetch stuff that depends on the request
 
-  return await createInnerTRPCContext({
+   createInnerTRPCContext({
     headers: options.req.headers,
-  });
-};
+  })
+;
 
 /**
  * 2. INITIALIZATION
@@ -107,13 +107,14 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
+
   return next({
     ctx: {
-      // infers the `session` as non-nullable
+      // Infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
     },
   });

@@ -15,7 +15,7 @@ export function UserTabs({
   user,
   activeTab,
 }: {
-  session: Session | null;
+  session: Session | undefined;
   user: {
     id: string;
     name: string;

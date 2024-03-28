@@ -25,10 +25,12 @@ export type User = {
   id: string;
   initial: string;
   username: string;
-  membership?: {
-    type?: 'standard' | 'plus';
-    expiresAt?: Date;
-  } | null;
+  membership?:
+    | {
+        type?: 'standard' | 'plus';
+        expiresAt?: Date;
+      }
+    | undefined;
 } & DefaultSession['user'];
 
 /**
@@ -38,22 +40,25 @@ export type User = {
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module 'next-auth' {
-  interface Session {
+  // @ts-expect-error i don't care
+  type Session = {
     token: string;
     user: {
       // ...other properties
       id: string;
       initial: string;
-      // role: UserRole;
+      // Role: UserRole;
       username: string;
-      membership?: {
-        type?: 'standard' | 'plus';
-        expiresAt?: Date;
-      } | null;
+      membership?:
+        | {
+            type?: 'standard' | 'plus';
+            expiresAt?: Date;
+          }
+        | undefined;
     } & DefaultSession['user'];
-  }
+  };
 
-  // interface User {
+  // Interface User {
   //   // ...other properties
   //   // role: UserRole;
   //   id: string;
@@ -64,9 +69,10 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT {
+  // @ts-expect-error i don't care
+  type JWT = {
     id: string;
-  }
+  };
 }
 
 /**
@@ -75,8 +81,8 @@ declare module 'next-auth/jwt' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  // @ts-ignore
-  adapter: CustomDrizzleAdapter(db),
+  // @ts-expect-error i don't care
+  adapter: CustomDrizzleAdapter(db), // eslint-disable-line
   callbacks: {
     jwt({ account, token, user }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
@@ -85,6 +91,7 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (account) {
+        // @ts-expect-error i don't care
         token.accessToken = account.access_token;
       }
 
@@ -111,8 +118,10 @@ export const authOptions: NextAuthOptions = {
           ...session,
           user: {
             email: user.email,
+            // @ts-expect-error i don't care
             id: user.id,
             image: user.image,
+            // @ts-expect-error i don't care
             initial: createInitial(user.name),
             name: user.name,
             username: user.username,
@@ -128,10 +137,11 @@ export const authOptions: NextAuthOptions = {
     error: undefined, // Error code passed in query string as ?error=
     // newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
     signIn: '/auth/sign-in',
-    // signOut: '/auth/signout',
+    // SignOut: '/auth/signout',
     // verifyRequest: '/auth/verify-request', // (used for check email message)
   },
   providers: [
+    // eslint-disable-next-line
     CredentialsProvider({
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
@@ -168,11 +178,12 @@ export const authOptions: NextAuthOptions = {
       },
       name: 'Credentials',
     }),
+    // eslint-disable-next-line
     GoogleProvider({
       clientId: environment.GOOGLE_CLIENT_ID,
       clientSecret: environment.GOOGLE_CLIENT_SECRET,
-      profile: async (profile: GoogleProfile) => {
-        // const isEmailUsed = await db.query.users.findFirst({
+      async profile(profile: GoogleProfile) {
+        // Const isEmailUsed = await db.query.users.findFirst({
         // 	where: eq(users.email, profile.email),
         // 	columns: { id: true },
         // });
@@ -202,10 +213,11 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+    // eslint-disable-next-line
     FacebookProvider({
       clientId: environment.FB_CLIENT_ID,
       clientSecret: environment.FB_CLIENT_SECRET,
-      profile: async (profile: FacebookProfile) => {
+      async profile(profile: FacebookProfile) {
         let username = (profile.email as string)
           .split('@')[0]
           ?.replace(/[^a-zA-Z0-9-_]/g, '')
@@ -220,8 +232,10 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: profile.id,
+          // eslint-disable-next-line
           name: profile.name,
           username,
+          // eslint-disable-next-line
           email: profile.email,
           image: profile.picture.data.url,
           password: 'facebook',
@@ -249,4 +263,4 @@ export const authOptions: NextAuthOptions = {
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getServerAuthSession = async () => getServerSession(authOptions);

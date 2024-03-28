@@ -7,7 +7,7 @@ class QuestionRepoAlgolia {
 
   async searchQuestion(query: string, subjectId?: string) {
     const searchResults = await this.questionIndex.search(query, {
-      filters: subjectId !== 'all' ? `subjectId:${subjectId}` : undefined,
+      filters: subjectId === 'all' ? undefined : `subjectId:${subjectId}`,
     });
     const hitsIds = searchResults.hits.map((hit) => hit.objectID);
 

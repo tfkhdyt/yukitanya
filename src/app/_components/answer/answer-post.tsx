@@ -44,10 +44,10 @@ type Answer = {
   id: string;
   isBestAnswer: boolean;
   numberOfVotes: number;
-  ratings: {
+  ratings: Array<{
     userId: string;
     value: number;
-  }[];
+  }>;
   owner: User;
 };
 
@@ -71,17 +71,17 @@ export function AnswerPost({
 }: {
   answer: Answer;
   question: Question;
-  session: Session | null;
+  session?: Session;
 }) {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
   const utils = api.useUtils();
   const deleteAnswerMutation = api.answer.deleteAnswerById.useMutation({
-    onError: () => {
+    onError() {
       toast.dismiss();
       toast.error('Gagal menghapus jawaban');
     },
-    onSuccess: async () => {
+    async onSuccess() {
       toast.dismiss();
       toast.success('Jawaban telah dihapus!');
 
@@ -103,7 +103,7 @@ export function AnswerPost({
 
   const ratingMutation = api.rating.addRating.useMutation({
     onError: () => toast.error('Gagal menambahkan nilai'),
-    onSuccess: async () => {
+    async onSuccess() {
       toast.success('Berhasil memberi nilai!');
       await utils.answer.invalidate();
     },
@@ -121,6 +121,7 @@ export function AnswerPost({
         value: rating,
       });
     }
+
     setIsShowRatingDropdown(false);
   };
 
@@ -134,7 +135,7 @@ export function AnswerPost({
 
   const bestAnswerMutation = api.answer.toggleBestAnswer.useMutation({
     onError: () => toast.error('Gagal menandai jawaban terbaik'),
-    onSuccess: () => utils.answer.invalidate(),
+    onSuccess: async () => utils.answer.invalidate(),
   });
 
   const handleBestAnswer = (id: string) => {
@@ -149,7 +150,7 @@ export function AnswerPost({
 
   const deleteRatingMutation = api.rating.deleteRating.useMutation({
     onError: () => toast.error('Gagal menghapus nilai'),
-    onSuccess: async () => {
+    async onSuccess() {
       toast.success('Berhasil menghapus nilai!');
       await utils.answer.invalidate();
       await utils.user.findUserStatByUsername.invalidate();
@@ -250,8 +251,12 @@ export function AnswerPost({
               >
                 <DropdownMenuTrigger
                   asChild
-                  onPointerDown={(e) => e.preventDefault()}
-                  onClick={() => setIsShowRatingDropdown((v) => !v)}
+                  onPointerDown={(e) => {
+                    e.preventDefault();
+                  }}
+                  onClick={() => {
+                    setIsShowRatingDropdown((v) => !v);
+                  }}
                 >
                   <Button
                     className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
@@ -286,27 +291,37 @@ export function AnswerPost({
                     <StarIcon
                       className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
-                      onClick={() => handleRating(5)}
+                      onClick={() => {
+                        handleRating(5);
+                      }}
                     />
                     <StarIcon
                       className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
-                      onClick={() => handleRating(4)}
+                      onClick={() => {
+                        handleRating(4);
+                      }}
                     />
                     <StarIcon
                       className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
-                      onClick={() => handleRating(3)}
+                      onClick={() => {
+                        handleRating(3);
+                      }}
                     />
                     <StarIcon
                       className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
-                      onClick={() => handleRating(2)}
+                      onClick={() => {
+                        handleRating(2);
+                      }}
                     />
                     <StarIcon
                       className='peer cursor-pointer fill-white hover:fill-[#F48C06] peer-hover:fill-[#F48C06]'
                       color='#F48C06'
-                      onClick={() => handleRating(1)}
+                      onClick={() => {
+                        handleRating(1);
+                      }}
                     />
                   </div>
                   {ratingFromMe && (
@@ -314,7 +329,9 @@ export function AnswerPost({
                       size='sm'
                       className='mt-2 w-full'
                       disabled={deleteRatingMutation.isLoading}
-                      onClick={() => handleDeleteRating(answer.id)}
+                      onClick={() => {
+                        handleDeleteRating(answer.id);
+                      }}
                     >
                       {deleteRatingMutation.isLoading
                         ? 'Loading...'
@@ -334,7 +351,9 @@ export function AnswerPost({
                   }
                   variant='ghost'
                   disabled={bestAnswerMutation.isLoading}
-                  onClick={() => handleBestAnswer(answer.id)}
+                  onClick={() => {
+                    handleBestAnswer(answer.id);
+                  }}
                 >
                   <>
                     {answer.isBestAnswer ? (
@@ -350,7 +369,7 @@ export function AnswerPost({
                 size='sm'
                 title='Salin jawaban'
                 variant='ghost'
-                onClick={() => handleCopy(answer.content)}
+                onClick={async () => handleCopy(answer.content)}
               >
                 {copied ? (
                   <CheckIcon className='mr-2' size={18} />
@@ -365,8 +384,12 @@ export function AnswerPost({
                 >
                   <DropdownMenuTrigger
                     asChild
-                    onPointerDown={(e) => e.preventDefault()}
-                    onClick={() => setIsShowDropDown((v) => !v)}
+                    onPointerDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    onClick={() => {
+                      setIsShowDropDown((v) => !v);
+                    }}
                   >
                     <Button
                       className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
@@ -395,7 +418,9 @@ export function AnswerPost({
                       }}
                     >
                       <DropdownMenuItem
-                        onSelect={(event) => event.preventDefault()}
+                        onSelect={(event) => {
+                          event.preventDefault();
+                        }}
                       >
                         <PencilIcon className='mr-2' size={18} />
                         <span>Edit</span>
@@ -403,14 +428,18 @@ export function AnswerPost({
                     </EditAnswerModal>
                     <DeleteModal
                       description='Apakah Anda yakin ingin menghapus jawaban ini?'
-                      onClick={() => handleDelete(answer.id)}
+                      onClick={() => {
+                        handleDelete(answer.id);
+                      }}
                       onOpenChange={setIsShowDeleteModal}
                       open={isShowDeleteModal}
                       title='Hapus jawaban'
                     >
                       <DropdownMenuItem
                         className='focus:bg-red-100 focus:text-red-900'
-                        onSelect={(event) => event.preventDefault()}
+                        onSelect={(event) => {
+                          event.preventDefault();
+                        }}
                       >
                         <TrashIcon className='mr-2' size={18} />
                         <span>Hapus</span>

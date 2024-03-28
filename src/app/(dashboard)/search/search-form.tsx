@@ -19,7 +19,7 @@ import { mapel } from '@/constants/mapel';
 import { QuestionList } from './question-list';
 import { UserList } from './user-list';
 
-export function SearchForm({ session }: { session: Session | null }) {
+export function SearchForm({ session }: { session?: Session }) {
   const searchParameters = useSearchParams();
   const router = useRouter();
 
@@ -50,7 +50,9 @@ export function SearchForm({ session }: { session: Session | null }) {
       <form className='flex w-full items-center space-x-1 p-4'>
         <Input
           className='rounded-l-full'
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => {
+            setQuery(event.target.value);
+          }}
           placeholder='Cari...'
           type='text'
           value={query}

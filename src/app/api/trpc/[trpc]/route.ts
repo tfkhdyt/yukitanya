@@ -5,9 +5,9 @@ import { environment } from '@/environment.mjs';
 import { appRouter } from '@/server/api/root';
 import { createTRPCContext } from '@/server/api/trpc';
 
-const handler = (request: NextRequest) =>
+const handler = async (request: NextRequest) =>
   fetchRequestHandler({
-    createContext: () => createTRPCContext({ req: request }),
+    createContext: async () => createTRPCContext({ req: request }),
     endpoint: '/api/trpc',
     onError:
       environment.NODE_ENV === 'development'

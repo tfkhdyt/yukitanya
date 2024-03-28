@@ -18,7 +18,7 @@ export function LeftSidebar({
   session,
 }: {
   isMobile?: boolean;
-  session: Session | null;
+  session?: Session;
 }) {
   const pathname = usePathname();
   const toggleSidebar = useSidebarStore((state) => state.toggle);
@@ -56,17 +56,15 @@ export function LeftSidebar({
               aria-label={each.title}
             >
               {match(pathname)
-                .with(P.string.startsWith(each.url), () => {
-                  return (
-                    <>
-                      <each.icon size={28} strokeWidth={2} />
-                      {each.url === '/notifications' && session?.user && (
-                        <NotifCount userId={session?.user?.id} />
-                      )}
-                      <p className='text-xl font-medium'>{each.title}</p>
-                    </>
-                  );
-                })
+                .with(P.string.startsWith(each.url), () => (
+                  <>
+                    <each.icon size={28} strokeWidth={2} />
+                    {each.url === '/notifications' && session?.user && (
+                      <NotifCount userId={session?.user?.id} />
+                    )}
+                    <p className='text-xl font-medium'>{each.title}</p>
+                  </>
+                ))
                 .otherwise(() => (
                   <>
                     <each.icon size={28} strokeWidth={1} />

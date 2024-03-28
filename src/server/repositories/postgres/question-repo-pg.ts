@@ -41,7 +41,7 @@ class QuestionRepoPg {
   }
 
   async findQuestionBySlug(slug: string) {
-    return await this.db.query.questions.findFirst({
+    return this.db.query.questions.findFirst({
       where: eq(questions.slug, slug),
       with: {
         owner: {
@@ -72,7 +72,7 @@ class QuestionRepoPg {
   }
 
   async findAllQuestions(
-    cursor?: string | null,
+    cursor?: string | undefined,
     limit = 10,
     subjectId?: string,
   ) {
@@ -92,7 +92,7 @@ class QuestionRepoPg {
           .otherwise(() => undefined),
       );
 
-    return await db.query.questions.findMany({
+    return db.query.questions.findMany({
       where,
       orderBy: [desc(questions.createdAt)],
       limit: limit + 1,
@@ -128,10 +128,10 @@ class QuestionRepoPg {
 
   async findAllQuestionsByUserId(
     userId: string,
-    cursor?: string | null,
+    cursor?: string | undefined,
     limit = 10,
   ) {
-    return await this.db.query.questions.findMany({
+    return this.db.query.questions.findMany({
       orderBy: [desc(questions.createdAt)],
       where: cursor
         ? and(eq(questions.userId, userId), lte(questions.id, cursor))
@@ -168,11 +168,11 @@ class QuestionRepoPg {
   }
 
   async findAllQuestionsById(
-    cursor?: string | null,
+    cursor?: string | undefined,
     limit = 10,
     ...questionId: string[]
   ) {
-    return await await this.db.query.questions.findMany({
+    return this.db.query.questions.findMany({
       orderBy: [desc(questions.createdAt)],
       where: cursor
         ? and(lte(questions.id, cursor), inArray(questions.id, questionId))
@@ -209,7 +209,7 @@ class QuestionRepoPg {
   }
 
   async findQuestionById(questionId: string) {
-    return await this.db.query.questions.findFirst({
+    return this.db.query.questions.findFirst({
       where: eq(questions.id, questionId),
       with: {
         owner: {
@@ -224,7 +224,7 @@ class QuestionRepoPg {
   }
 
   async findQuestionMetadata(questionId: string) {
-    return await this.db.query.questions.findFirst({
+    return this.db.query.questions.findFirst({
       where: eq(questions.id, questionId),
       columns: {
         id: true,
@@ -245,7 +245,7 @@ class QuestionRepoPg {
   }
 
   async findQuestionContentBySlug(slug: string) {
-    return await this.db.query.questions.findFirst({
+    return this.db.query.questions.findFirst({
       where: eq(questions.slug, slug),
       columns: {
         content: true,
@@ -254,7 +254,7 @@ class QuestionRepoPg {
   }
 
   async findQuestionContentById(questionId: string) {
-    return await this.db.query.questions.findFirst({
+    return this.db.query.questions.findFirst({
       where: eq(questions.id, questionId),
       columns: {
         content: true,

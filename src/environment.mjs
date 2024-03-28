@@ -84,5 +84,5 @@ export const environment = createEnv({
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     // VERCEL_URL: process.env.VERCEL_URL,
   },
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: Boolean(process.env.SKIP_ENV_VALIDATION),
 });

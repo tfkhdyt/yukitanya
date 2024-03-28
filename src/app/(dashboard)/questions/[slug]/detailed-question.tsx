@@ -37,10 +37,10 @@ type Question = {
   updatedAt: Date;
   owner: User;
   slug: string;
-  images: {
+  images: Array<{
     id: string;
     url: string;
-  }[];
+  }>;
 };
 
 export function DetailedQuestion({
@@ -48,12 +48,12 @@ export function DetailedQuestion({
   session,
 }: {
   question: Question;
-  session: Session | null;
+  session?: Session;
 }) {
   const utils = api.useUtils();
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
-    onSuccess: () => utils.question.invalidate(),
+    onSuccess: async () => utils.question.invalidate(),
   });
   const questionMetadata = api.question.findQuestionMetadata.useQuery(
     question.id,

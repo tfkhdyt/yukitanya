@@ -13,7 +13,7 @@ export default async function SearchPage() {
 
   return (
     <main>
-      <SearchForm session={session} />
+      <SearchForm session={session ?? undefined} />
     </main>
   );
 }

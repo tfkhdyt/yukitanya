@@ -7,7 +7,6 @@ import { subjects } from './schema';
 
 const seedClient = postgres(environment.DATABASE_URL, { max: 1 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
 (async () => {
   const database = drizzle(seedClient);
   await database

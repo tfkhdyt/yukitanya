@@ -40,7 +40,7 @@ export function SignupForm() {
 
   const { isLoading, mutate } = api.user.register.useMutation({
     onError: (error) => toast.error(error.message),
-    onSuccess: () => {
+    onSuccess() {
       toast.success(
         'Registrasi berhasil!\nAnda akan segera diarahkan ke halaman sign-in',
       );
@@ -155,7 +155,7 @@ export function SignupForm() {
                     <Button
                       aria-label='Show password'
                       className='rounded-full p-2'
-                      onClick={() => setIsPasswordShowed((v) => !v)}
+                      onClick={() => { setIsPasswordShowed((v) => !v); }}
                       tabIndex={-1}
                       type='button'
                       variant='outline'
@@ -188,7 +188,7 @@ export function SignupForm() {
                     <Button
                       aria-label='Show confirm password'
                       className='rounded-full p-2'
-                      onClick={() => setIsConfirmPasswordShowed((v) => !v)}
+                      onClick={() => { setIsConfirmPasswordShowed((v) => !v); }}
                       tabIndex={-1}
                       type='button'
                       variant='outline'
@@ -228,7 +228,7 @@ export function SignupForm() {
           className='rounded-full'
           title='Daftar dengan Google'
           variant='outline'
-          onClick={() =>
+          onClick={async () =>
             signIn('google', {
               callbackUrl: '/home',
             })
@@ -246,7 +246,7 @@ export function SignupForm() {
           className='rounded-full'
           title='Daftar dengan Facebook'
           variant='outline'
-          onClick={() =>
+          onClick={async () =>
             signIn('facebook', {
               callbackUrl: '/home',
             })

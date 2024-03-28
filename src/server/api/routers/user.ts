@@ -13,7 +13,8 @@ import {
 } from 'drizzle-orm';
 import { z } from 'zod';
 
-import { getDiceBearAvatar, verifyCaptchaToken } from '@/lib/utils';
+import { getDiceBearAvatar } from '@/lib/utils';
+import { verifyCaptchaToken } from '@/lib/turnstile';
 import { signupSchema } from '@/schema/signup-schema';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import {
@@ -66,15 +67,15 @@ export const userRouter = createTRPCRouter({
         username: z.string().min(1).max(25),
       }),
     )
-    .query(({ ctx, input }) => {
-      return ctx.db.query.users.findFirst({
+    .query(({ ctx, input }) =>
+      ctx.db.query.users.findFirst({
         where: (users, { and, eq }) =>
           and(
             eq(users.username, input.username),
             eq(users.password, input.password),
           ),
-      });
-    }),
+      }),
+    ),
   findUsersByUsernameOrName: publicProcedure
     .input(
       z.object({
@@ -109,7 +110,7 @@ export const userRouter = createTRPCRouter({
         .orderBy(asc(users.createdAt))
         .limit(input.limit + 1);
 
-      let nextCursor: typeof input.cursor | undefined = undefined;
+      let nextCursor: typeof input.cursor | undefined;
       if (data.length > input.limit) {
         const nextItem = data.pop();
         nextCursor = nextItem?.id;
@@ -145,18 +146,18 @@ export const userRouter = createTRPCRouter({
     }),
   findUserByUsername: publicProcedure
     .input(z.string())
-    .query(({ ctx, input: username }) => {
-      return ctx.db.query.users.findFirst({
+    .query(({ ctx, input: username }) =>
+      ctx.db.query.users.findFirst({
         where: eq(users.username, username),
         with: {
           memberships: true,
         },
-      });
-    }),
+      }),
+    ),
   findUserStatByUsername: publicProcedure
     .input(z.string())
-    .query(({ ctx, input: username }) => {
-      return ctx.db.query.users.findFirst({
+    .query(({ ctx, input: username }) =>
+      ctx.db.query.users.findFirst({
         columns: {
           id: true,
         },
@@ -178,8 +179,8 @@ export const userRouter = createTRPCRouter({
             },
           },
         },
-      });
-    }),
+      }),
+    ),
   findMostActiveUsers: publicProcedure.query(async ({ ctx }) => {
     const score =
       sql`COUNT(DISTINCT ${questions.id}) * 2 + COUNT(DISTINCT ${answers.id}) * 3 + COUNT(DISTINCT ${favorites.questionId})`.mapWith(

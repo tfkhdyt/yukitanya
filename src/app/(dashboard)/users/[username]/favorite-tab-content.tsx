@@ -15,7 +15,7 @@ export function FavoriteTabContent({
   session,
   user,
 }: {
-  session: Session | null;
+  session: Session | undefined;
   user: {
     id: string;
     name: string;
@@ -65,15 +65,16 @@ export function FavoriteTabContent({
     <>
       {questions.map((question, index) => {
         const bestAnswerRatings =
-          question.question.answers.find(
-            (answer) => answer.isBestAnswer === true,
-          )?.ratings ?? [];
+          question.question.answers.find((answer) => answer.isBestAnswer)
+            ?.ratings ?? [];
         const totalRating =
           bestAnswerRatings?.reduce(
             (accumulator, rating) => accumulator + rating.value,
             0,
           ) ?? 0;
-        const averageRating = totalRating / bestAnswerRatings?.length;
+        const averageRating = bestAnswerRatings.length
+          ? totalRating / bestAnswerRatings.length
+          : NaN;
         const membership = question.question.owner.memberships.find((mb) =>
           dayjs().isBefore(mb.expiresAt),
         );
@@ -93,7 +94,9 @@ export function FavoriteTabContent({
                 owner: {
                   ...question.question.owner,
                   membership,
-                  initial: createInitial(question.question.owner.name),
+                  initial: createInitial(
+                    question.question.owner.name ?? undefined,
+                  ),
                 },
                 slug: question.question.slug,
                 subject: question.question.subject,

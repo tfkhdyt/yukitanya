@@ -51,7 +51,7 @@ export function AskAIModal({
   });
 
   const [copied, setCopied] = useState(false);
-  const handleCopy = async (text?: string | null) => {
+  const handleCopy = async (text?: string | undefined) => {
     if (!text) return;
 
     await navigator.clipboard.writeText(text);
@@ -180,7 +180,9 @@ export function AskAIModal({
                   <Button
                     variant='outline'
                     className='ml-auto rounded-full'
-                    onClick={() => handleCopy(data[0]?.message.content)}
+                    onClick={async () =>
+                      handleCopy(data[0]?.message.content ?? undefined)
+                    }
                   >
                     {copied ? (
                       <>

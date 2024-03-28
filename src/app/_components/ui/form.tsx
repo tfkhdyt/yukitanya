@@ -31,13 +31,11 @@ const FormField = <
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...properties
-}: ControllerProps<TFieldValues, TName>) => {
-  return (
+}: ControllerProps<TFieldValues, TName>) => (
     <FormFieldContext.Provider value={{ name: properties.name }}>
       <Controller {...properties} />
     </FormFieldContext.Provider>
   );
-};
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
@@ -117,7 +115,7 @@ const FormControl = React.forwardRef<
       aria-describedby={
         error ? `${formDescriptionId} ${formMessageId}` : `${formDescriptionId}`
       }
-      aria-invalid={!!error}
+      aria-invalid={Boolean(error)}
       id={formItemId}
       ref={reference}
       {...properties}

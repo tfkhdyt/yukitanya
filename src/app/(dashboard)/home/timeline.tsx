@@ -11,7 +11,7 @@ import { createInitial } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import dayjs from 'dayjs';
 
-export function Timeline({ session }: { session: Session | null }) {
+export function Timeline({ session }: { session?: Session }) {
   const { isLoading, data, fetchNextPage, isFetchingNextPage } =
     api.question.findAllQuestions.useInfiniteQuery(
       {
@@ -43,14 +43,15 @@ export function Timeline({ session }: { session: Session | null }) {
     <>
       {questions.map((question, index) => {
         const bestAnswerRatings =
-          question.answers.find((answer) => answer.isBestAnswer === true)
-            ?.ratings ?? [];
+          question.answers.find((answer) => answer.isBestAnswer)?.ratings ?? [];
         const totalRating =
           bestAnswerRatings?.reduce(
             (accumulator, rating) => accumulator + rating.value,
             0,
           ) ?? 0;
-        const averageRating = totalRating / bestAnswerRatings?.length;
+        const averageRating = bestAnswerRatings.length
+          ? totalRating / bestAnswerRatings.length
+          : NaN;
         const membership = question.owner.memberships.find((membership) =>
           dayjs().isBefore(membership.expiresAt),
         );
@@ -77,7 +78,7 @@ export function Timeline({ session }: { session: Session | null }) {
                 owner: {
                   ...question.owner,
                   membership,
-                  initial: createInitial(question.owner.name),
+                  initial: createInitial(question.owner.name ?? undefined),
                 },
                 images: question.images,
               }}

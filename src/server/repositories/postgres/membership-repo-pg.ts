@@ -7,7 +7,7 @@ class MembershipRepoPg {
   constructor(private readonly db: Pg) {}
 
   async findValidMembership(userId: string) {
-    return await this.db.query.memberships.findFirst({
+    return this.db.query.memberships.findFirst({
       where: and(
         eq(memberships.userId, userId),
         gt(memberships.expiresAt, new Date()),

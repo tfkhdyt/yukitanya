@@ -23,7 +23,7 @@ export function JawabanKosong({
   question,
 }: {
   title?: string;
-  session: Session | null;
+  session?: Session;
   question?: Question;
 }) {
   return (

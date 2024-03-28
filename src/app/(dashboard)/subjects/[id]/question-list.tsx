@@ -15,7 +15,7 @@ export function QuestionList({
   session,
   subjectId,
 }: {
-  session: Session | null;
+  session?: Session;
   subjectId: string;
 }) {
   const { isLoading, data, isError, error, fetchNextPage, isFetchingNextPage } =
@@ -61,14 +61,15 @@ export function QuestionList({
     <>
       {questions.map((question, index) => {
         const bestAnswerRatings =
-          question.answers.find((answer) => answer.isBestAnswer === true)
-            ?.ratings ?? [];
+          question.answers.find((answer) => answer.isBestAnswer)?.ratings ?? [];
         const totalRating =
           bestAnswerRatings?.reduce(
             (accumulator, rating) => accumulator + rating.value,
             0,
           ) ?? 0;
-        const averageRating = totalRating / bestAnswerRatings?.length;
+        const averageRating = bestAnswerRatings.length
+          ? totalRating / bestAnswerRatings.length
+          : NaN;
         const membership = question.owner.memberships.find((mb) =>
           dayjs().isBefore(mb.expiresAt),
         );
@@ -95,7 +96,7 @@ export function QuestionList({
                 owner: {
                   ...question.owner,
                   membership,
-                  initial: createInitial(question.owner.name),
+                  initial: createInitial(question.owner.name ?? undefined),
                 },
                 images: question.images,
               }}

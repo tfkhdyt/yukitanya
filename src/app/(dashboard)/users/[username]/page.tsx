@@ -68,7 +68,7 @@ export default async function UserPage({
           user={{
             ...user,
             membership,
-            initial: createInitial(user.name),
+            initial: createInitial(user.name ?? undefined),
           }}
           classNames='h-20 w-20 md:h-28 md:w-28'
           badgeSize='xl'
@@ -97,7 +97,7 @@ export default async function UserPage({
       </div>
       <div className='w-full'>
         <UserTabs
-          session={session}
+          session={session ?? undefined}
           user={{
             id: user.id,
             name: user.name ?? user.username,

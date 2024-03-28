@@ -6,7 +6,7 @@ import type { AppRouter } from '@/server/api/root';
 function getBaseUrl() {
   if (typeof window !== 'undefined') return '';
   if (process.env.NODE_ENV === 'production') return environment.NEXTAUTH_URL;
-  // if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  // If (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 

@@ -83,11 +83,11 @@ export function EditAnswerModal({
 
   const utils = api.useUtils();
   const { mutate } = api.answer.updateAnswerById.useMutation({
-    onError: (error) => {
+    onError(error) {
       toast.dismiss();
       toast.error(error.message);
     },
-    onSuccess: async () => {
+    async onSuccess() {
       toast.dismiss();
       toast.success('Jawabanmu telah berhasil diedit');
 
@@ -96,7 +96,7 @@ export function EditAnswerModal({
         utils.answer.invalidate(),
         utils.user.invalidate(),
       ]);
-      // await utils.question.findQuestionMetadata.invalidate();
+      // Await utils.question.findQuestionMetadata.invalidate();
     },
     onSettled: () => captcha.current?.reset(),
   });

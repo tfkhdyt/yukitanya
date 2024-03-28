@@ -3,7 +3,7 @@ import { questions } from '@/server/db/schema';
 import { desc } from 'drizzle-orm';
 
 export async function GET() {
-  // const data = await db
+  // Const data = await db
   // 	.select({
   // 		id: questions.id,
   // 		content: questions.content,

@@ -6,7 +6,7 @@ import { getServerAuthSession } from '@/server/auth';
 import { QuestionList } from './question-list';
 
 export function generateMetadata({ params }: { params: { id: string } }) {
-  const id = params.id;
+  const { id } = params;
   const mapel_ = mapel.find((mpl) => mpl.id === id);
 
   return {
@@ -26,7 +26,7 @@ export default async function SubjectDetail({
 
   return (
     <main>
-      <QuestionList subjectId={params.id} session={session} />
+      <QuestionList subjectId={params.id} session={session ?? undefined} />
     </main>
   );
 }

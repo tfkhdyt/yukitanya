@@ -26,12 +26,12 @@ import {
 } from '../repositories/postgres/question-repo-pg';
 
 class QuestionService {
+  // eslint-disable-next-line
   constructor(
     private readonly membershipRepo: MembershipRepoPg,
     private readonly questionImageRepo: QuestionImageRepoPg,
     private readonly questionRepo: QuestionRepoPg,
     private readonly oldSlugRepo: OldSlugRepoPg,
-
     private readonly questionRepoAlgolia: QuestionRepoAlgolia,
   ) {}
 
@@ -93,11 +93,11 @@ class QuestionService {
   }
 
   async getTodayQuestionCount(userId: string) {
-    return await this.questionRepo.getTodayQuestionCount(userId);
+    return this.questionRepo.getTodayQuestionCount(userId);
   }
 
   async findAllQuestions(
-    cursor?: string | null,
+    cursor?: string | undefined,
     limit = 10,
     subjectId?: string,
   ) {
@@ -107,7 +107,7 @@ class QuestionService {
       subjectId,
     );
 
-    let nextCursor: typeof cursor | undefined = undefined;
+    let nextCursor: typeof cursor | undefined;
     if (data.length > limit) {
       const nextItem = data.pop();
       nextCursor = nextItem?.id;
@@ -118,7 +118,7 @@ class QuestionService {
 
   async findAllQuestionsByUserId(
     userId: string,
-    cursor?: string | null,
+    cursor?: string | undefined,
     limit = 10,
   ) {
     const data = await this.questionRepo.findAllQuestionsByUserId(
@@ -127,7 +127,7 @@ class QuestionService {
       limit,
     );
 
-    let nextCursor: typeof cursor | undefined = undefined;
+    let nextCursor: typeof cursor | undefined;
     if (data.length > limit) {
       const nextItem = data.pop();
       nextCursor = nextItem?.id;
@@ -150,7 +150,7 @@ class QuestionService {
       ...searchResult,
     );
 
-    let nextCursor: typeof cursor | undefined = undefined;
+    let nextCursor: typeof cursor | undefined;
     if (data.length > limit) {
       const nextItem = data.pop();
       nextCursor = nextItem?.id;
@@ -165,14 +165,14 @@ class QuestionService {
       const oldQuestion = await this.oldSlugRepo.findOldSlug(slug);
       if (!oldQuestion) return null;
 
-      return await this.questionRepo.findQuestionById(oldQuestion.questionId);
+      return this.questionRepo.findQuestionById(oldQuestion.questionId);
     }
 
     return question;
   }
 
   async findQuestionMetadata(questionId: string) {
-    return await this.questionRepo.findQuestionMetadata(questionId);
+    return this.questionRepo.findQuestionMetadata(questionId);
   }
 
   async findQuestionContentBySlug(slug: string) {
@@ -181,9 +181,7 @@ class QuestionService {
       const oldQuestion = await this.oldSlugRepo.findOldSlug(slug);
       if (!oldQuestion) return null;
 
-      return await this.questionRepo.findQuestionContentById(
-        oldQuestion.questionId,
-      );
+      return this.questionRepo.findQuestionContentById(oldQuestion.questionId);
     }
 
     return question;
@@ -251,7 +249,7 @@ class QuestionService {
 
 type SearchQuestionDto = {
   subjectId?: string;
-  cursor?: string | null;
+  cursor?: string | undefined;
   limit: number;
 };
 

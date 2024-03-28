@@ -17,7 +17,7 @@ export async function generateMetadata({
   const { slug } = params;
 
   const question = await api.question.findQuestionContentBySlug.query(slug);
-  if (!question) return null;
+  if (!question) return {};
 
   return {
     title: `${match(question.content.length)
@@ -55,11 +55,11 @@ export default async function Question({
           owner: {
             ...question.owner,
             membership,
-            initial: createInitial(question.owner.name),
+            initial: createInitial(question.owner.name ?? undefined),
           },
           images: question.images,
         }}
-        session={session}
+        session={session ?? undefined}
       />
       <div>
         <AnswerList
@@ -68,10 +68,10 @@ export default async function Question({
             owner: {
               ...question.owner,
               membership,
-              initial: createInitial(question.owner.name),
+              initial: createInitial(question.owner.name ?? undefined),
             },
           }}
-          session={session}
+          session={session ?? undefined}
         />
       </div>
     </div>

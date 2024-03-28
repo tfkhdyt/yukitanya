@@ -37,7 +37,7 @@ export function MostActiveUsers({
                   user={{
                     ...user,
                     membership: user.membership,
-                    initial: createInitial(user.name),
+                    initial: createInitial(user.name ?? undefined),
                   }}
                 />
               </Link>

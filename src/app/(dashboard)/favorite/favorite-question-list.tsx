@@ -50,15 +50,16 @@ export function FavoriteQuestionList({ session }: { session: Session }) {
     <>
       {questions.map((question, index) => {
         const bestAnswerRatings =
-          question.question.answers.find(
-            (answer) => answer.isBestAnswer === true,
-          )?.ratings ?? [];
+          question.question.answers.find((answer) => answer.isBestAnswer)
+            ?.ratings ?? [];
         const totalRating =
           bestAnswerRatings?.reduce(
             (accumulator, rating) => accumulator + rating.value,
             0,
           ) ?? 0;
-        const averageRating = totalRating / bestAnswerRatings?.length;
+        const averageRating = bestAnswerRatings
+          ? totalRating / bestAnswerRatings.length
+          : NaN;
         const membership = question.question.owner.memberships.find((mb) =>
           dayjs().isBefore(mb.expiresAt),
         );
@@ -85,7 +86,9 @@ export function FavoriteQuestionList({ session }: { session: Session }) {
                 owner: {
                   ...question.question.owner,
                   membership,
-                  initial: createInitial(question.question.owner.name),
+                  initial: createInitial(
+                    question.question.owner.name ?? undefined,
+                  ),
                 },
                 images: question.question.images,
               }}

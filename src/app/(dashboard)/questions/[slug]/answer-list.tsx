@@ -30,7 +30,7 @@ export function AnswerList({
   session,
 }: {
   question: Question;
-  session: Session | null;
+  session?: Session;
 }) {
   const bestAnswer = api.answer.findBestAnswerByQuestionId.useQuery(
     question.id,
@@ -99,7 +99,7 @@ export function AnswerList({
             owner: {
               ...bestAnswer.data.owner,
               membership: bestAnswerOwnerMembership,
-              initial: createInitial(bestAnswer.data.owner.name),
+              initial: createInitial(bestAnswer.data.owner.name ?? undefined),
             },
           }}
           key={bestAnswer.data.id}
@@ -111,7 +111,7 @@ export function AnswerList({
             updatedAt: question.updatedAt,
             owner: {
               ...question.owner,
-              initial: createInitial(question.owner.name),
+              initial: createInitial(question.owner.name ?? undefined),
             },
             slug: question.slug,
           }}
@@ -142,7 +142,7 @@ export function AnswerList({
                   owner: {
                     ...answer.owner,
                     membership,
-                    initial: createInitial(answer.owner.name),
+                    initial: createInitial(answer.owner.name ?? undefined),
                   },
                 }}
                 question={{
@@ -153,7 +153,7 @@ export function AnswerList({
                   updatedAt: question.updatedAt,
                   owner: {
                     ...question.owner,
-                    initial: createInitial(question.owner.name),
+                    initial: createInitial(question.owner.name ?? undefined),
                   },
                   slug: question.slug,
                 }}

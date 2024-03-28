@@ -57,6 +57,7 @@ export function SigninForm() {
 
       return toast.error(result.error);
     }
+
     setIsLoading(false);
 
     window.location.replace('/home');
@@ -100,7 +101,7 @@ export function SigninForm() {
                     <Button
                       aria-label='Show password'
                       className='rounded-full p-2'
-                      onClick={() => setIsPasswordShowed((v) => !v)}
+                      onClick={() => { setIsPasswordShowed((v) => !v); }}
                       tabIndex={-1}
                       type='button'
                       variant='outline'
@@ -145,7 +146,7 @@ export function SigninForm() {
           className='rounded-full'
           title='Masuk dengan Google'
           variant='outline'
-          onClick={() =>
+          onClick={async () =>
             signIn('google', {
               callbackUrl: '/home',
             })
@@ -163,7 +164,7 @@ export function SigninForm() {
           className='rounded-full'
           title='Masuk dengan Facebook'
           variant='outline'
-          onClick={() =>
+          onClick={async () =>
             signIn('facebook', {
               callbackUrl: '/home',
             })

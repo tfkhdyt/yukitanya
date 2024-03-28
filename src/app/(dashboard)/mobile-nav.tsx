@@ -37,6 +37,7 @@ export function MobileNav({ user }: { user?: User }) {
               </QuestionModal>
             );
           }
+
           return;
         }
 
@@ -51,16 +52,14 @@ export function MobileNav({ user }: { user?: User }) {
             aria-label={each.title}
           >
             {match(pathname)
-              .with(P.string.startsWith(each.url), () => {
-                return (
-                  <>
-                    <each.icon size={28} strokeWidth={2} />
-                    {each.url === '/notifications' && user && (
-                      <NotifCount userId={user.id} />
-                    )}
-                  </>
-                );
-              })
+              .with(P.string.startsWith(each.url), () => (
+                <>
+                  <each.icon size={28} strokeWidth={2} />
+                  {each.url === '/notifications' && user && (
+                    <NotifCount userId={user.id} />
+                  )}
+                </>
+              ))
               .otherwise(() => (
                 <>
                   <each.icon size={28} strokeWidth={1} />

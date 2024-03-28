@@ -16,34 +16,13 @@ export function getDiceBearAvatar(seed: string) {
   return avatar.toDataUriSync();
 }
 
-export function createInitial(name?: string | null) {
+export function createInitial(name?: string | undefined) {
   return (
     name
       ?.split(' ')
       .map((name) => name.slice(0, 1))
       .join('') ?? ''
   );
-}
-
-export async function verifyCaptchaToken(token?: string) {
-  const verifyEndpoint =
-    'https://challenges.cloudflare.com/turnstile/v0/siteverify';
-
-  const res = await fetch(verifyEndpoint, {
-    method: 'POST',
-    body: `secret=${encodeURIComponent(
-      environment.TURNSTILE_SECRET_KEY,
-    )}&response=${encodeURIComponent(token ?? '')}`,
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-  });
-
-  const data = await res.json();
-
-  if (!data.success || !res.ok) {
-    throw new Error('Token captcha Anda tidak valid');
-  }
 }
 
 export function containsURL(str: string) {

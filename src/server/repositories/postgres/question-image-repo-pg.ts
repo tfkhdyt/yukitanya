@@ -11,13 +11,13 @@ class QuestionImageRepoPg {
   }
 
   async findImagesByQuestionId(questionId: string) {
-    return await this.db.query.questionImages.findMany({
+    return this.db.query.questionImages.findMany({
       where: eq(questionImages.questionId, questionId),
     });
   }
 
   async deleteImagesByQuestionId(questionId: string) {
-    return await this.db
+    return this.db
       .delete(questionImages)
       .where(eq(questionImages.questionId, questionId))
       .returning({ id: questionImages.id });

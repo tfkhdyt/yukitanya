@@ -68,10 +68,10 @@ export function NotificationList({
               transmitterUser={{
                 ...notif.transmitterUser,
                 membership,
-                initial: createInitial(notif.transmitterUser.name),
+                initial: createInitial(notif.transmitterUser.name ?? undefined),
               }}
               type={notif.type}
-              rating={notif.rating}
+              rating={notif.rating ?? undefined}
               description={notif.description}
             />
           </div>

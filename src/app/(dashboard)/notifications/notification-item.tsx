@@ -24,7 +24,7 @@ type Properties = {
   id: string;
   type: 'rating' | 'best-answer' | 'new-answer' | 'favorite';
   transmitterUser: User;
-  rating?: number | null;
+  rating?: number;
   question: Question;
   createdAt: Date;
   hasBeenRead: boolean;
@@ -44,7 +44,7 @@ export function NotificationItem({
   const utils = api.useUtils();
   const markHasBeenReadMutation = api.notification.markHasBeenRead.useMutation({
     onError: () => toast.error('Gagal menandai notifikasi'),
-    onSuccess: () => utils.notification.invalidate(),
+    onSuccess: async () => utils.notification.invalidate(),
   });
 
   const handleRead = () => {

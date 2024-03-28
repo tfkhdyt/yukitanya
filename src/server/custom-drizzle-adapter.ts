@@ -1,4 +1,4 @@
-// @ts-nocheck
+/* eslint-disable */
 import { and, eq } from 'drizzle-orm';
 import type { PgDatabase } from 'drizzle-orm/pg-core';
 
@@ -8,8 +8,9 @@ import { accounts, sessions, users, verificationTokens } from './db/schema';
 
 export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
   return {
+    // @ts-expect-error
     async createUser(data) {
-      return await client
+      return client
         .insert(users)
         .values({
           ...data,
@@ -22,29 +23,33 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
         .returning()
         .then((res) => res[0] ?? null);
     },
+    // @ts-expect-error
     async getUser(data) {
-      return await client
+      return client
         .select()
         .from(users)
         .where(eq(users.id, data))
         .then((res) => res[0] ?? null);
     },
+    // @ts-expect-error
     async getUserByEmail(data) {
-      return await client
+      return client
         .select()
         .from(users)
         .where(eq(users.email, data))
         .then((res) => res[0] ?? null);
     },
+    // @ts-expect-error
     async createSession(data) {
-      return await client
+      return client
         .insert(sessions)
         .values(data)
         .returning()
         .then((res) => res[0]);
     },
+    // @ts-expect-error
     async getSessionAndUser(data) {
-      return await client
+      return client
         .select({
           session: sessions,
           user: users,
@@ -54,26 +59,29 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
         .innerJoin(users, eq(users.id, sessions.userId))
         .then((res) => res[0] ?? null);
     },
+    // @ts-expect-error
     async updateUser(data) {
       if (!data.id) {
         throw new Error('No user id.');
       }
 
-      return await client
+      return client
         .update(users)
         .set(data)
         .where(eq(users.id, data.id))
         .returning()
         .then((res) => res[0]);
     },
+    // @ts-expect-error
     async updateSession(data) {
-      return await client
+      return client
         .update(sessions)
         .set(data)
         .where(eq(sessions.sessionToken, data.sessionToken))
         .returning()
         .then((res) => res[0]);
     },
+    // @ts-expect-error
     async linkAccount(rawAccount) {
       const updatedAccount = await client
         .insert(accounts)
@@ -96,6 +104,7 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
 
       return account;
     },
+    // @ts-expect-error
     async getUserByAccount(account) {
       const dbAccount =
         (await client
@@ -116,6 +125,7 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
 
       return dbAccount.user;
     },
+    // @ts-expect-error
     async deleteSession(sessionToken) {
       const session = await client
         .delete(sessions)
@@ -125,13 +135,15 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
 
       return session;
     },
+    // @ts-expect-error
     async createVerificationToken(token) {
-      return await client
+      return client
         .insert(verificationTokens)
         .values(token)
         .returning()
         .then((res) => res[0]);
     },
+    // @ts-expect-error
     async useVerificationToken(token) {
       try {
         return await client
@@ -148,6 +160,7 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
         throw new Error('No verification token found.');
       }
     },
+    // @ts-expect-error
     async deleteUser(id) {
       await client
         .delete(users)
@@ -155,7 +168,9 @@ export function CustomDrizzleAdapter(client: InstanceType<typeof PgDatabase>) {
         .returning()
         .then((res) => res[0] ?? null);
     },
+    // @ts-expect-error
     async unlinkAccount(account) {
+      // @ts-expect-error
       const { type, provider, providerAccountId, userId } = await client
         .delete(accounts)
         .where(

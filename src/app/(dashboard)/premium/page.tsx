@@ -18,14 +18,7 @@ export default async function PremiumPage() {
 
   return (
     <div className='p-4'>
-      {!session.user.membership ? (
-        <>
-          <h2 className='text-center text-2xl my-4 font-bold text-[#F48C06] uppercase'>
-            Pilih paket yang cocok untuk Anda
-          </h2>
-          <PremiumType user={session.user} />
-        </>
-      ) : (
+      {session.user.membership ? (
         <>
           <h2 className='text-center text-2xl my-4 font-bold text-[#F48C06] uppercase'>
             Terima kasih telah berlangganan
@@ -40,6 +33,13 @@ export default async function PremiumPage() {
               {formatLongDateTime(session.user.membership?.expiresAt)}
             </p>
           )}
+        </>
+      ) : (
+        <>
+          <h2 className='text-center text-2xl my-4 font-bold text-[#F48C06] uppercase'>
+            Pilih paket yang cocok untuk Anda
+          </h2>
+          <PremiumType user={session.user} />
         </>
       )}
     </div>

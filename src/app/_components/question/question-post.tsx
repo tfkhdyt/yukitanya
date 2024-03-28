@@ -58,10 +58,10 @@ type Question = {
   updatedAt: Date;
   slug: string;
   owner: User;
-  images: {
+  images: Array<{
     id: string;
     url: string;
-  }[];
+  }>;
 };
 
 export function QuestionPost({
@@ -71,7 +71,7 @@ export function QuestionPost({
 }: {
   highlightedWords?: string[];
   question: Question;
-  session: Session | null;
+  session?: Session;
 }) {
   const utils = api.useUtils();
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
@@ -79,7 +79,7 @@ export function QuestionPost({
 
   const favoriteMutation = api.favorite.toggleFavorite.useMutation({
     onError: () => toast.error('Gagal memberi favorit'),
-    onSuccess: async () => {
+    async onSuccess() {
       await Promise.allSettled([
         utils.question.invalidate(),
         utils.favorite.findAllFavoritedQuestions.invalidate(),
@@ -89,11 +89,11 @@ export function QuestionPost({
   });
 
   const deleteQuestionMutation = api.question.deleteQuestionById.useMutation({
-    onError: () => {
+    onError() {
       toast.dismiss();
       toast.error('Gagal menghapus pertanyaan');
     },
-    onSuccess: async () => {
+    async onSuccess() {
       toast.dismiss();
       toast.success('Pertanyaan telah dihapus!');
 
@@ -184,6 +184,7 @@ export function QuestionPost({
                   </span>
                 );
               }
+
               return <span key={`${word}-${index}`}>{word} </span>;
             })}
           </ReactShowMoreText>
@@ -384,8 +385,12 @@ export function QuestionPost({
             >
               <DropdownMenuTrigger
                 asChild
-                onPointerDown={(e) => e.preventDefault()}
-                onClick={() => setIsShowDropDown((v) => !v)}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                }}
+                onClick={() => {
+                  setIsShowDropDown((v) => !v);
+                }}
               >
                 <Button
                   className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
@@ -402,7 +407,9 @@ export function QuestionPost({
                 <EditQuestionModal question={question} user={session.user}>
                   <DropdownMenuItem
                     className='cursor-pointer'
-                    onSelect={(event) => event.preventDefault()}
+                    onSelect={(event) => {
+                      event.preventDefault();
+                    }}
                   >
                     <PencilIcon className='mr-2' size={18} />
                     <span>Edit</span>
@@ -411,14 +418,18 @@ export function QuestionPost({
 
                 <DeleteModal
                   description='Apakah Anda yakin ingin menghapus pertanyaan ini?'
-                  onClick={() => handleDeleteQuestion(question.id)}
+                  onClick={() => {
+                    handleDeleteQuestion(question.id);
+                  }}
                   onOpenChange={setIsShowDeleteModal}
                   open={isShowDeleteModal}
                   title='Hapus pertanyaan'
                 >
                   <DropdownMenuItem
                     className='cursor-pointer focus:bg-red-100 focus:text-red-900'
-                    onSelect={(event) => event.preventDefault()}
+                    onSelect={(event) => {
+                      event.preventDefault();
+                    }}
                   >
                     <TrashIcon className='mr-2' size={18} />
                     <span>Hapus</span>

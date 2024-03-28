@@ -15,13 +15,13 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 export const questionRouter = createTRPCRouter({
   createQuestion: protectedProcedure
     .input(createQuestionSchema)
-    .mutation(async ({ input }) => await questionService.createQuestion(input)),
+    .mutation(async ({ input }) => questionService.createQuestion(input)),
 
   deleteQuestionById: protectedProcedure
     .input(z.string())
     .mutation(
       async ({ input: questionId }) =>
-        await questionService.deleteQuestionById(questionId),
+        questionService.deleteQuestionById(questionId),
     ),
   getTodayQuestionCount: protectedProcedure
     .input(z.string().optional())
@@ -29,19 +29,20 @@ export const questionRouter = createTRPCRouter({
       if (!userId) {
         return null;
       }
-      return await questionService.getTodayQuestionCount(userId);
+
+      return questionService.getTodayQuestionCount(userId);
     }),
   findAllQuestions: publicProcedure
     .input(findAllQuestionsSchema)
     .query(
       async ({ input }) =>
-        await questionService.findAllQuestions(input.cursor, input.limit),
+        questionService.findAllQuestions(input.cursor, input.limit),
     ),
   findAllQuestionsBySubject: publicProcedure
     .input(findAllQuestionsBySubjectSchema)
     .query(
       async ({ input }) =>
-        await questionService.findAllQuestions(
+        questionService.findAllQuestions(
           input.cursor,
           input.limit,
           input.subjectId,
@@ -51,7 +52,7 @@ export const questionRouter = createTRPCRouter({
     .input(findAllQuestionsByUserIdSchema)
     .query(
       async ({ input }) =>
-        await questionService.findAllQuestionsByUserId(
+        questionService.findAllQuestionsByUserId(
           input.userId,
           input.cursor,
           input.limit,
@@ -61,7 +62,7 @@ export const questionRouter = createTRPCRouter({
     .input(searchQuestionSchema)
     .query(
       async ({ input }) =>
-        await questionService.searchQuestion(input.query, {
+        questionService.searchQuestion(input.query, {
           subjectId: input.subjectId,
           cursor: input.cursor,
           limit: input.limit,
@@ -70,27 +71,27 @@ export const questionRouter = createTRPCRouter({
   findQuestionBySlug: publicProcedure
     .input(z.string())
     .query(
-      async ({ input: slug }) => await questionService.findQuestionBySlug(slug),
+      async ({ input: slug }) => questionService.findQuestionBySlug(slug),
     ),
   findQuestionMetadata: publicProcedure
     .input(z.string())
     .query(
       async ({ input: questionId }) =>
-        await questionService.findQuestionMetadata(questionId),
+        questionService.findQuestionMetadata(questionId),
     ),
   findQuestionContentBySlug: publicProcedure
     .input(z.string())
     .query(
       async ({ input: slug }) =>
-        await questionService.findQuestionContentBySlug(slug),
+        questionService.findQuestionContentBySlug(slug),
     ),
   updateQuestionById: protectedProcedure
     .input(updateQuestionSchema)
-    .mutation(async ({ input }) => await questionService.updateQuestion(input)),
+    .mutation(async ({ input }) => questionService.updateQuestion(input)),
   findMostPopularQuestion: publicProcedure
     .input(z.string().optional())
     .query(
       async ({ input: subjectId }) =>
-        await questionService.findMostPopularQuestion(subjectId),
+        questionService.findMostPopularQuestion(subjectId),
     ),
 });

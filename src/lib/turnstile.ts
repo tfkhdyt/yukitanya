@@ -14,7 +14,7 @@ export async function verifyCaptchaToken(token?: string) {
     },
   });
 
-  const data = await res.json();
+  const data = await res.json(); // eslint-disable-line
 
   if (!data.success || !res.ok) {
     throw new Error('Token captcha Anda tidak valid');

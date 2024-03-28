@@ -62,7 +62,7 @@ export function ProfileButton({ user }: { user: User | undefined }) {
         </Link>
         <DropdownMenuItem
           className='cursor-pointer focus:bg-red-100 focus:text-red-900'
-          onClick={() =>
+          onClick={async () =>
             signOut({
               callbackUrl: '/auth/sign-in',
             })

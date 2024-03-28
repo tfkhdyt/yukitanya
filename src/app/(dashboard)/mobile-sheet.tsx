@@ -14,7 +14,7 @@ import { AvatarWithBadge } from '@/components/avatar-with-badge';
 import { RightSidebar } from '@/components/sidebar/right-sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
-export function MobileSheet({ session }: { session: Session | null }) {
+export function MobileSheet({ session }: { session?: Session }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -89,7 +89,9 @@ export function MobileSheet({ session }: { session: Session | null }) {
                 key={mn.title}
                 className='flex w-fit items-center space-x-6'
                 href={mn.url}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                }}
                 tabIndex={-1}
               >
                 <mn.icon
@@ -104,7 +106,7 @@ export function MobileSheet({ session }: { session: Session | null }) {
           <button
             type='button'
             className='flex w-fit items-center space-x-6'
-            onClick={() =>
+            onClick={async () =>
               signOut({
                 callbackUrl: '/auth/sign-in',
               })

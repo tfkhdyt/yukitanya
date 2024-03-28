@@ -10,7 +10,7 @@ import {
 } from '@/server/db/schema';
 
 import { openai } from '@/lib/openai';
-import { verifyCaptchaToken } from '@/lib/utils';
+import { verifyCaptchaToken } from '@/lib/turnstile';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
@@ -47,9 +47,9 @@ export const answerRouter = createTRPCRouter({
     }),
   deleteAnswerById: protectedProcedure
     .input(z.string())
-    .mutation(({ ctx, input: answerId }) => {
-      return ctx.db.delete(answers).where(eq(answers.id, answerId));
-    }),
+    .mutation(({ ctx, input: answerId }) =>
+      ctx.db.delete(answers).where(eq(answers.id, answerId)),
+    ),
   findBestAnswerByQuestionId: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input: questionId }) => {
@@ -108,7 +108,7 @@ export const answerRouter = createTRPCRouter({
         },
       });
 
-      let nextCursor: typeof input.cursor | undefined = undefined;
+      let nextCursor: typeof input.cursor | undefined;
       if (data.length > input.limit) {
         const nextItem = data.pop();
         nextCursor = nextItem?.id;
@@ -154,7 +154,7 @@ export const answerRouter = createTRPCRouter({
         },
       });
 
-      let nextCursor: typeof input.cursor | undefined = undefined;
+      let nextCursor: typeof input.cursor | undefined;
       if (data.length > input.limit) {
         const nextItem = data.pop();
         nextCursor = nextItem?.id;

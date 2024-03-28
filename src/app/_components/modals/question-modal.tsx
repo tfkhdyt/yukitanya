@@ -85,11 +85,11 @@ export function QuestionModal({
 
   const utils = api.useUtils();
   const { mutate } = api.question.createQuestion.useMutation({
-    onError: (error) => {
+    onError(error) {
       toast.dismiss();
       toast.error(error.message);
     },
-    onSuccess: async () => {
+    async onSuccess() {
       toast.dismiss();
       toast.success('Pertanyaanmu telah berhasil dibuat');
 
@@ -101,13 +101,13 @@ export function QuestionModal({
         utils.user.invalidate(),
       ]);
     },
-    onSettled: () => {
+    onSettled() {
       captcha.current?.reset();
     },
   });
 
   const { startUpload } = useUploadThing('questionImageUploader', {
-    onUploadError: (error) => {
+    onUploadError(error) {
       console.error(error.message);
       toast.dismiss();
       toast.error('Gagal mengupload gambar');
@@ -131,10 +131,10 @@ export function QuestionModal({
     setOpen(false);
     toast.loading('Pertanyaanmu sedang dikirim, mohon tunggu sesaat...');
 
-    let imagesMetadata: {
+    let imagesMetadata: Array<{
       id: string;
       url: string;
-    }[] = [];
+    }> = [];
     if (files.length > 0) {
       const result = await startUpload(files);
       if (!result) {
@@ -241,7 +241,7 @@ export function QuestionModal({
                               <Link
                                 href='/premium'
                                 className='font-bold hover:underline'
-                                onClick={() => setOpen(false)}
+                                onClick={() => { setOpen(false); }}
                               >
                                 Premium
                               </Link>{' '}
@@ -258,7 +258,7 @@ export function QuestionModal({
                           ref={fileRef}
                           className='hidden'
                           onChange={(e) => {
-                            const files = e.target.files;
+                            const {files} = e.target;
                             if (!files) return;
                             if (files.length > 4) {
                               toast.dismiss();
@@ -266,6 +266,7 @@ export function QuestionModal({
                                 'Maksimal 4 gambar yang bisa diupload',
                               );
                             }
+
                             for (const file of files) {
                               if (file.size > 512000) {
                                 toast.dismiss();
@@ -295,11 +296,9 @@ export function QuestionModal({
                                 className='absolute top-0 right-0 p-2 invisible group-hover:visible'
                                 type='button'
                                 onClick={() => {
-                                  setFiles((files) => {
-                                    return files.filter(
+                                  setFiles((files) => files.filter(
                                       (f) => f.name !== file.name,
-                                    );
-                                  });
+                                    ));
                                 }}
                               >
                                 <XIcon

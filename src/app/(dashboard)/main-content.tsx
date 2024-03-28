@@ -18,7 +18,7 @@ export function MainContent({
   session,
 }: {
   children: ReactNode;
-  session: Session | null;
+  session?: Session;
 }) {
   const pathname = usePathname();
   const parameters = useParams();
@@ -32,7 +32,7 @@ export function MainContent({
   const markAllHasBeenReadMutation =
     api.notification.markAllHasBeenRead.useMutation({
       onError: () => toast.error('Gagal menandai semua notifikasi'),
-      onSuccess: () => utils.notification.invalidate(),
+      onSuccess: async () => utils.notification.invalidate(),
     });
 
   const handleAllRead = () => {

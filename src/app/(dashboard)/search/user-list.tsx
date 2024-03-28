@@ -50,21 +50,19 @@ export function UserList({ query }: { query: string }) {
 
   return (
     <>
-      {users.map((user, index) => {
-        return (
-          <div
-            ref={index === users.length - 1 ? reference : undefined}
-            key={user.id}
-          >
-            <UserEntry
-              user={{
-                ...user,
-                initial: createInitial(user.name),
-              }}
-            />
-          </div>
-        );
-      })}
+      {users.map((user, index) => (
+        <div
+          ref={index === users.length - 1 ? reference : undefined}
+          key={user.id}
+        >
+          <UserEntry
+            user={{
+              ...user,
+              initial: createInitial(user.name ?? undefined),
+            }}
+          />
+        </div>
+      ))}
       {isFetchingNextPage && <SkeletonUserEntry />}
     </>
   );

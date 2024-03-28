@@ -16,7 +16,7 @@ export function AnswerTabContent({
   session,
   user,
 }: {
-  session: Session | null;
+  session: Session | undefined;
   user: {
     id: string;
     name: string;
@@ -84,7 +84,7 @@ export function AnswerTabContent({
                 owner: {
                   ...answer.owner,
                   membership,
-                  initial: createInitial(answer.owner.name),
+                  initial: createInitial(answer.owner.name ?? undefined),
                 },
               }}
               key={answer.id}
@@ -99,7 +99,9 @@ export function AnswerTabContent({
                   membership: answer.question.owner.memberships.find((mb) =>
                     dayjs().isBefore(mb.expiresAt),
                   ),
-                  initial: createInitial(answer.question.owner.name),
+                  initial: createInitial(
+                    answer.question.owner.name ?? undefined,
+                  ),
                 },
                 slug: answer.question.slug,
               }}

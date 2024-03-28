@@ -74,11 +74,11 @@ export function AnswerModal({
   const captcha = useRef<TurnstileInstance>();
 
   const { mutate } = api.answer.createAnswer.useMutation({
-    onError: (error) => {
+    onError(error) {
       toast.dismiss();
       toast.error(error.message);
     },
-    onSuccess: async () => {
+    async onSuccess() {
       toast.dismiss();
       toast.success('Jawabanmu telah berhasil ditambahkan');
 

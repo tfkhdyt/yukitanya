@@ -37,7 +37,7 @@ async function createInvoice({
             premiumType === 'standard' ? 'Premium' : 'Premium+'
           } Membership (${duration} bulan)`,
           quantity: 1,
-          price: price,
+          price,
         },
       ],
       customer_details: {
