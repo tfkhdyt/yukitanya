@@ -16,6 +16,7 @@ pre-push:
 pre-commit:
   parallel: true
   commands:
-    format:
-      glob: '**/*.{js,ts,jsx,tsx}'
-      run: pnpm biome format --write {staged_files}
+
+# format:
+#   glob: '**/*.{js,ts,jsx,tsx}'
+#   run: pnpm biome format --write {staged_files}
