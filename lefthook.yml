@@ -6,17 +6,18 @@
 pre-push:
   parallel: true
   commands:
-  # taze:
-  #   run: pnpx taze --failOnOutdated
-  # check:
-  #   glob: '**/*.{js,ts,jsx,tsx}'
-  #   run: pnpm biome check --apply {push_files}
-  # build:
-  #   run: pnpm build
+    taze:
+      run: pnpx taze --failOnOutdated
+    typecheck:
+      run: pnpm tsc
+    build:
+      run: pnpm build
 pre-commit:
   parallel: true
   commands:
-
-# format:
-#   glob: '**/*.{js,ts,jsx,tsx}'
-#   run: pnpm biome format --write {staged_files}
+    format:
+      glob: './src/**/*.{js,ts,jsx,tsx}'
+      run: pnpm format
+    lint:
+      glob: './src/**/*.{js,ts,jsx,tsx}'
+      run: pnpm lint:fix
