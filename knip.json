@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["index.{js,ts,tsx}", "src/index.{js,ts,tsx}", "src/app/layout.tsx"],
+  "project": ["**/*.{js,ts,tsx}"],
+  "drizzle": false
+}

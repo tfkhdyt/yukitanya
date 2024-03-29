@@ -38,7 +38,7 @@ export const searchQuestionSchema = z.object({
   limit: z.number().min(1).max(50).default(10),
   cursor: z.string().optional(),
 });
-export type SearchQuestion = z.infer<typeof searchQuestionSchema>;
+type SearchQuestion = z.infer<typeof searchQuestionSchema>;
 
 export const updateQuestionSchema = z.object({
   schema: insertQuestionSchema,

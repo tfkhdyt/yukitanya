@@ -25,7 +25,7 @@ import { db } from '@/server/db';
 
 type CreateContextOptions = {
   headers: Headers;
-}
+};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -37,7 +37,7 @@ type CreateContextOptions = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-export const createInnerTRPCContext = async (options: CreateContextOptions) => {
+const createInnerTRPCContext = async (options: CreateContextOptions) => {
   const session = await getServerAuthSession();
 
   return {
@@ -53,13 +53,12 @@ export const createInnerTRPCContext = async (options: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (options: { req: NextRequest }) => 
+export const createTRPCContext = async (options: { req: NextRequest }) =>
   // Fetch stuff that depends on the request
 
-   createInnerTRPCContext({
+  createInnerTRPCContext({
     headers: options.req.headers,
-  })
-;
+  });
 
 /**
  * 2. INITIALIZATION

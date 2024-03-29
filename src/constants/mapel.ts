@@ -1,4 +1,4 @@
-export type Mapel = {
+type Mapel = {
   id: string;
   imageUrl: string;
   name: string;
