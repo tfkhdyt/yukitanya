@@ -1,0 +1,22 @@
+name: deploy yukitanya
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd /root/yukitanya
+          git pull
+          npx pnpm i
+          npm run build
+          pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
