@@ -169,7 +169,7 @@ export function AskAIModal({
                   if (data) {
                     return (
                       <p className='whitespace-pre-wrap text-left text-sm leading-relaxed max-h-52 overflow-y-auto'>
-                        {data[0]?.message.content}
+                        {data}
                       </p>
                     );
                   }
@@ -180,9 +180,7 @@ export function AskAIModal({
                   <Button
                     variant='outline'
                     className='ml-auto rounded-full'
-                    onClick={async () =>
-                      handleCopy(data[0]?.message.content ?? undefined)
-                    }
+                    onClick={async () => handleCopy(data)}
                   >
                     {copied ? (
                       <>

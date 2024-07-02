@@ -230,7 +230,7 @@ export const answerRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ input: question }) => {
       const result = await model.generateContent(question);
-      const response = result.response.text;
+      const response = result.response.text();
 
       return response;
     }),
