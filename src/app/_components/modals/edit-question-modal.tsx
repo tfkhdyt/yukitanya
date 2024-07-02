@@ -248,7 +248,9 @@ export function EditQuestionModal({
                               <Link
                                 href='/premium'
                                 className='font-bold hover:underline'
-                                onClick={() => { setOpen(false); }}
+                                onClick={() => {
+                                  setOpen(false);
+                                }}
                               >
                                 Premium
                               </Link>{' '}
@@ -265,7 +267,7 @@ export function EditQuestionModal({
                           ref={fileRef}
                           className='hidden'
                           onChange={(e) => {
-                            const {files} = e.target;
+                            const { files } = e.target;
                             if (!files) return;
                             if (files.length > 4) {
                               toast.dismiss();
@@ -303,9 +305,9 @@ export function EditQuestionModal({
                                 className='absolute top-0 right-0 p-2 invisible group-hover:visible'
                                 type='button'
                                 onClick={() => {
-                                  setFiles((files) => files.filter(
-                                      (f) => f.name !== file.name,
-                                    ));
+                                  setFiles((files) =>
+                                    files.filter((f) => f.name !== file.name),
+                                  );
                                 }}
                               >
                                 <XIcon

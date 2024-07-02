@@ -28,30 +28,30 @@ function handleShare(
   url: string,
 ) {
   match(target)
-    .with('Facebook', () =>
-      { openInNewTab(
+    .with('Facebook', () => {
+      openInNewTab(
         `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
           url,
         )}`,
-      ); },
-    )
-    .with('X', () =>
-      { openInNewTab(
+      );
+    })
+    .with('X', () => {
+      openInNewTab(
         `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`,
-      ); },
-    )
-    .with('Telegram', () =>
-      { openInNewTab(
+      );
+    })
+    .with('Telegram', () => {
+      openInNewTab(
         `https://telegram.me/share/url?url=${encodeURIComponent(url)}`,
-      ); },
-    )
-    .with('WhatsApp', () =>
-      { openInNewTab(
+      );
+    })
+    .with('WhatsApp', () => {
+      openInNewTab(
         `https://${
           isMobileOrTablet() ? 'api' : 'web'
         }.whatsapp.com/send?text=${encodeURIComponent(url)}`,
-      ); },
-    )
+      );
+    })
     .exhaustive();
 }
 
@@ -82,8 +82,12 @@ export function ShareDropdown({
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
         asChild
-        onPointerDown={(e) => { e.preventDefault(); }}
-        onClick={() => { setOpen((v) => !v); }}
+        onPointerDown={(e) => {
+          e.preventDefault();
+        }}
+        onClick={() => {
+          setOpen((v) => !v);
+        }}
       >
         {children}
       </DropdownMenuTrigger>
@@ -92,7 +96,9 @@ export function ShareDropdown({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className='flex items-center cursor-pointer'
-          onClick={() => { handleShare('Facebook', url.href); }}
+          onClick={() => {
+            handleShare('Facebook', url.href);
+          }}
         >
           <Image
             src='/img/icon/facebook.svg'
@@ -105,7 +111,9 @@ export function ShareDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem
           className='flex items-center cursor-pointer'
-          onClick={() => { handleShare('X', url.href); }}
+          onClick={() => {
+            handleShare('X', url.href);
+          }}
         >
           <Image
             src='/img/icon/twitter.svg'
@@ -118,7 +126,9 @@ export function ShareDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem
           className='flex items-center cursor-pointer'
-          onClick={() => { handleShare('Telegram', url.href); }}
+          onClick={() => {
+            handleShare('Telegram', url.href);
+          }}
         >
           <Image
             src='/img/icon/telegram.svg'
@@ -131,7 +141,9 @@ export function ShareDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem
           className='flex items-center cursor-pointer'
-          onClick={() => { handleShare('WhatsApp', url.href); }}
+          onClick={() => {
+            handleShare('WhatsApp', url.href);
+          }}
         >
           <Image
             src='/img/icon/whatsapp.svg'
@@ -144,7 +156,9 @@ export function ShareDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={handleCopyLinkClick}
-          onSelect={(event) => { event.preventDefault(); }}
+          onSelect={(event) => {
+            event.preventDefault();
+          }}
         >
           <span className='flex items-center'>
             {copied ? (

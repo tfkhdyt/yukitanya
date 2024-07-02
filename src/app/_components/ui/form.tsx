@@ -32,10 +32,10 @@ const FormField = <
 >({
   ...properties
 }: ControllerProps<TFieldValues, TName>) => (
-    <FormFieldContext.Provider value={{ name: properties.name }}>
-      <Controller {...properties} />
-    </FormFieldContext.Provider>
-  );
+  <FormFieldContext.Provider value={{ name: properties.name }}>
+    <Controller {...properties} />
+  </FormFieldContext.Provider>
+);
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);

@@ -101,7 +101,9 @@ export function SigninForm() {
                     <Button
                       aria-label='Show password'
                       className='rounded-full p-2'
-                      onClick={() => { setIsPasswordShowed((v) => !v); }}
+                      onClick={() => {
+                        setIsPasswordShowed((v) => !v);
+                      }}
                       tabIndex={-1}
                       type='button'
                       variant='outline'

@@ -155,7 +155,9 @@ export function SignupForm() {
                     <Button
                       aria-label='Show password'
                       className='rounded-full p-2'
-                      onClick={() => { setIsPasswordShowed((v) => !v); }}
+                      onClick={() => {
+                        setIsPasswordShowed((v) => !v);
+                      }}
                       tabIndex={-1}
                       type='button'
                       variant='outline'
@@ -188,7 +190,9 @@ export function SignupForm() {
                     <Button
                       aria-label='Show confirm password'
                       className='rounded-full p-2'
-                      onClick={() => { setIsConfirmPasswordShowed((v) => !v); }}
+                      onClick={() => {
+                        setIsConfirmPasswordShowed((v) => !v);
+                      }}
                       tabIndex={-1}
                       type='button'
                       variant='outline'

@@ -42,7 +42,9 @@ export function Hero() {
               placeholder='Cari pertanyaan...!'
               type='text'
               value={query}
-              onChange={(e) => { setQuery(e.target.value); }}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
             />
             <button
               aria-label='Search'

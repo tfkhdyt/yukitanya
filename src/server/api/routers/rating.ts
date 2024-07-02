@@ -80,15 +80,18 @@ export const ratingRouter = createTRPCRouter({
         answerId: z.string(),
       }),
     )
-    .mutation(({ ctx, input }) => ctx.db
+    .mutation(({ ctx, input }) =>
+      ctx.db
         .delete(ratings)
         .where(
           and(
             eq(ratings.answerId, input.answerId),
             eq(ratings.userId, input.userId),
           ),
-        )),
-  getQuestionBestAnswerRating: publicProcedure.query(({ ctx }) => ctx.db
+        ),
+    ),
+  getQuestionBestAnswerRating: publicProcedure.query(({ ctx }) =>
+    ctx.db
       .select({
         averageRating: sql<number>`AVG(${ratings.value})`,
         questionId: answers.questionId,
@@ -96,10 +99,12 @@ export const ratingRouter = createTRPCRouter({
       .from(ratings)
       .innerJoin(answers, eq(answers.id, ratings.answerId))
       .where(eq(answers.isBestAnswer, true))
-      .groupBy(answers.questionId)),
+      .groupBy(answers.questionId),
+  ),
   getAnswerRatings: publicProcedure
     .input(z.string().array())
-    .query(({ ctx, input: answerIds }) => ctx.db
+    .query(({ ctx, input: answerIds }) =>
+      ctx.db
         .select({
           answerId: ratings.answerId,
           average: sql<number>`AVG(${ratings.value})`,
@@ -107,5 +112,6 @@ export const ratingRouter = createTRPCRouter({
         })
         .from(ratings)
         .where(inArray(ratings.answerId, answerIds))
-        .groupBy(ratings.answerId)),
+        .groupBy(ratings.answerId),
+    ),
 });

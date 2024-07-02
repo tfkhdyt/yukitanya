@@ -48,9 +48,9 @@ const SelectContent = React.forwardRef<
       ref={
         reference ??
         ((reference) =>
-          reference?.addEventListener('touchend', (event) =>
-            { event.preventDefault(); },
-          ))
+          reference?.addEventListener('touchend', (event) => {
+            event.preventDefault();
+          }))
       }
       {...properties}
     >

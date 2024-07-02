@@ -23,7 +23,9 @@ const badgeVariants = cva(
   },
 );
 
-export type BadgeProperties = Record<string, unknown> & React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof badgeVariants>
+export type BadgeProperties = Record<string, unknown> &
+  React.HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof badgeVariants>;
 
 function Badge({ className, variant, ...properties }: BadgeProperties) {
   return (

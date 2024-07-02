@@ -49,7 +49,9 @@ const sheetVariants = cva(
   },
 );
 
-type SheetContentProperties = Record<string, unknown> & React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & VariantProps<typeof sheetVariants>
+type SheetContentProperties = Record<string, unknown> &
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> &
+  VariantProps<typeof sheetVariants>;
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
