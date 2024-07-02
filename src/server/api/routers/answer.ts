@@ -26,7 +26,7 @@ export const answerRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      if (!(badwords.flag(input.schema.content) as boolean)) {
+      if (badwords.flag(input.schema.content) as boolean) {
         throw new Error('Jawaban anda mengandung kata terlarang!');
       }
 
@@ -173,7 +173,7 @@ export const answerRouter = createTRPCRouter({
     .input(updateAnswerSchema)
     .mutation(async ({ ctx, input }) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      if (!(badwords.flag(input.content) as boolean)) {
+      if (badwords.flag(input.content) as boolean) {
         throw new Error('Jawaban anda mengandung kata terlarang!');
       }
 
