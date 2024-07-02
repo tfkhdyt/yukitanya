@@ -1,4 +1,6 @@
 import { match } from 'ts-pattern';
+// @ts-expect-error untyped library
+import badwords from 'indonesian-badwords';
 
 import { verifyCaptchaToken } from '@/lib/turnstile';
 import { utapi } from '@/lib/uploadthing/server';
@@ -36,6 +38,11 @@ class QuestionService {
   ) {}
 
   async createQuestion(payload: CreateQuestion) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    if (!(badwords.flag(payload.schema.content) as boolean)) {
+      throw new Error('Pertanyaan anda mengandung kata terlarang!');
+    }
+
     await verifyCaptchaToken(payload.token);
 
     const membership = await this.membershipRepo.findValidMembership(
@@ -188,6 +195,11 @@ class QuestionService {
   }
 
   async updateQuestion(payload: UpdateQuestion) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    if (!(badwords.flag(payload.schema.content) as boolean)) {
+      throw new Error('Pertanyaan anda mengandung kata terlarang!');
+    }
+
     await verifyCaptchaToken(payload.token);
 
     const question = await this.questionRepo.findQuestionById(
