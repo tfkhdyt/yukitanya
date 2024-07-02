@@ -9,10 +9,10 @@ import {
   updateAnswerSchema,
 } from '@/server/db/schema';
 
-import { openai } from '@/lib/openai';
 import { verifyCaptchaToken } from '@/lib/turnstile';
 import cuid from 'cuid';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+import { model } from '@/lib/gemini';
 
 export const answerRouter = createTRPCRouter({
   createAnswer: protectedProcedure
@@ -229,11 +229,9 @@ export const answerRouter = createTRPCRouter({
   askAI: protectedProcedure
     .input(z.string())
     .query(async ({ input: question }) => {
-      const chatCompletion = await openai.chat.completions.create({
-        messages: [{ role: 'user', content: question }],
-        model: 'gpt-3.5-turbo-1106',
-      });
+      const result = await model.generateContent(question);
+      const response = result.response.text;
 
-      return chatCompletion.choices;
+      return response;
     }),
 });

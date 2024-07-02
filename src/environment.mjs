@@ -49,7 +49,8 @@ export const environment = createEnv({
     UPLOADTHING_APP_ID: z.string(),
     UPLOADTHING_SECRET: z.string(),
     MIDTRANS_SERVER_KEY: z.string(),
-    OPENAI_API_KEY: z.string(),
+    OPENAI_API_KEY: z.string().optional(),
+    GEMINI_API_KEY: z.string(),
   },
   /**
    * Makes it so that empty strings are treated as undefined.
@@ -82,6 +83,7 @@ export const environment = createEnv({
       process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY,
     MIDTRANS_SERVER_KEY: process.env.MIDTRANS_SERVER_KEY,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     // VERCEL_URL: process.env.VERCEL_URL,
   },
   skipValidation: Boolean(process.env.SKIP_ENV_VALIDATION),

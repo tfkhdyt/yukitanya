@@ -21,6 +21,7 @@
     "@ducanh2912/next-pwa": "^10.2.7",
     "@fontsource-variable/rubik": "^5.0.22",
     "@fontsource/poppins": "^5.0.14",
+    "@google/generative-ai": "^0.14.1",
     "@hookform/resolvers": "^3.6.0",
     "@marsidev/react-turnstile": "^0.4.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
