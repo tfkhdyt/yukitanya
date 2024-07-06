@@ -65,11 +65,11 @@ type Question = {
 };
 
 export function QuestionPost({
-  highlightedWords,
+  //highlightedWords,
   question,
   session,
 }: {
-  highlightedWords?: string[];
+  //highlightedWords?: string[];
   question: Question;
   session?: Session;
 }) {
@@ -174,19 +174,7 @@ export function QuestionPost({
             )}
             truncatedEndingComponent='...  '
           >
-            {question.content.split(' ').map((word, index) => {
-              if (highlightedWords?.includes(word.toLowerCase())) {
-                return (
-                  <span key={`${word}-${index}`}>
-                    <span className='bg-[#F48C06] px-1 font-medium text-white'>
-                      {word}
-                    </span>{' '}
-                  </span>
-                );
-              }
-
-              return <span key={`${word}-${index}`}>{word} </span>;
-            })}
+            {question.content}
           </ReactShowMoreText>
         </Link>
         {question.images.length > 0 && (

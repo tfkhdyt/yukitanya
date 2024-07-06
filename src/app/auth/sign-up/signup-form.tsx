@@ -49,9 +49,15 @@ const usePasswordStrength = (password: string) => {
   const [result, setResult] = useState<ZxcvbnResult | undefined>();
   const deferredPassword = useDebounce(password, 500);
 
+  const calculatePwdStrength = async (pwd: string) => {
+    const response = await zxcvbnAsync(pwd);
+    setResult(response);
+  };
+
   useEffect(() => {
-    if (deferredPassword)
-      zxcvbnAsync(deferredPassword).then((response) => setResult(response));
+    if (deferredPassword) {
+      calculatePwdStrength(deferredPassword);
+    }
   }, [deferredPassword]);
 
   return result;

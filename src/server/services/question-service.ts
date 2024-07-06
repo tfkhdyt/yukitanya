@@ -7,10 +7,6 @@ import { utapi } from '@/lib/uploadthing/server';
 import type { CreateQuestion, UpdateQuestion } from '@/schema/question-schema';
 
 import {
-  type QuestionRepoAlgolia,
-  questionRepoAlgolia,
-} from '../repositories/algolia/question-repo-algolia';
-import {
   type MembershipRepoPg,
   membershipRepoPg,
 } from '../repositories/postgres/membership-repo-pg';
@@ -26,6 +22,8 @@ import {
   type QuestionRepoPg,
   questionRepoPg,
 } from '../repositories/postgres/question-repo-pg';
+import { typesenseClient } from '@/lib/typesense';
+import { QuestionRepoTypesense } from '../repositories/typesense/question-repo-typesense';
 
 class QuestionService {
   // eslint-disable-next-line
@@ -34,7 +32,6 @@ class QuestionService {
     private readonly questionImageRepo: QuestionImageRepoPg,
     private readonly questionRepo: QuestionRepoPg,
     private readonly oldSlugRepo: OldSlugRepoPg,
-    private readonly questionRepoAlgolia: QuestionRepoAlgolia,
   ) {}
 
   async createQuestion(payload: CreateQuestion) {
@@ -87,6 +84,12 @@ class QuestionService {
 
       await this.questionImageRepo.addQuestionImage(...imagesInput);
     }
+
+    await typesenseClient.collections('questions').documents().create({
+      id: createdQuestion?.id,
+      content: payload.schema.content,
+      subjectId: payload.schema.subjectId,
+    });
   }
 
   async deleteQuestionById(questionId: string) {
@@ -96,6 +99,11 @@ class QuestionService {
     if (images.length > 0) {
       await utapi.deleteFiles(images.map((image) => image.id));
     }
+
+    await typesenseClient
+      .collections('questions')
+      .documents(questionId)
+      .delete();
   }
 
   async getTodayQuestionCount(userId: string) {
@@ -146,15 +154,25 @@ class QuestionService {
     query: string,
     { subjectId, cursor, limit }: SearchQuestionDto,
   ) {
-    const searchResult = await this.questionRepoAlgolia.searchQuestion(
+    const searchResult = await QuestionRepoTypesense.searchQuestion(
       query,
       subjectId,
     );
-    const data = await this.questionRepo.findAllQuestionsById(
+    const hitIds = searchResult.map((s) => s.id);
+
+    let data = await this.questionRepo.findAllQuestionsById(
       cursor,
       limit,
-      ...searchResult,
+      ...hitIds,
     );
+
+    data = data.map((dt) => ({
+      ...dt,
+      content:
+        searchResult.find((snip) => snip.id === dt.id)?.snippet ?? dt.content,
+    }));
+
+    console.log({ data, searchResult });
 
     let nextCursor: typeof cursor | undefined;
     if (data.length > limit) {
@@ -230,6 +248,14 @@ class QuestionService {
     }
 
     await this.questionRepo.updateQuestion(payload.schema);
+
+    await typesenseClient
+      .collections('questions')
+      .documents(payload.schema.id)
+      .update({
+        content: payload.schema.content,
+        subjectId: payload.schema.subjectId,
+      });
   }
 
   async findMostPopularQuestion(subjectId?: string) {
@@ -268,5 +294,4 @@ export const questionService = new QuestionService(
   questionImageRepoPg,
   questionRepoPg,
   oldSlugRepoPg,
-  questionRepoAlgolia,
 );

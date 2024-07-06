@@ -82,7 +82,7 @@ export function QuestionList({
             key={question.id}
           >
             <QuestionPost
-              highlightedWords={query.toLowerCase().split(' ')}
+              //highlightedWords={query.toLowerCase().split(' ')}
               question={{
                 content: question.content,
                 createdAt: question.createdAt,

@@ -51,6 +51,8 @@ export const environment = createEnv({
     MIDTRANS_SERVER_KEY: z.string(),
     OPENAI_API_KEY: z.string().optional(),
     GEMINI_API_KEY: z.string(),
+    TYPESENSE_API_KEY: z.string(),
+    TYPESENSE_HOST: z.string().default('localhost'),
   },
   /**
    * Makes it so that empty strings are treated as undefined.
@@ -84,7 +86,8 @@ export const environment = createEnv({
     MIDTRANS_SERVER_KEY: process.env.MIDTRANS_SERVER_KEY,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
-    // VERCEL_URL: process.env.VERCEL_URL,
+    TYPESENSE_API_KEY: process.env.TYPESENSE_API_KEY,
+    TYPESENSE_HOST: process.env.TYPESENSE_HOST,
   },
   skipValidation: Boolean(process.env.SKIP_ENV_VALIDATION),
 });
