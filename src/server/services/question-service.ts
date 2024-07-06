@@ -38,7 +38,6 @@ class QuestionService {
   ) {}
 
   async createQuestion(payload: CreateQuestion) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (badwords.flag(payload.schema.content) as boolean) {
       throw new Error('Pertanyaan anda mengandung kata terlarang!');
     }
@@ -195,7 +194,6 @@ class QuestionService {
   }
 
   async updateQuestion(payload: UpdateQuestion) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (badwords.flag(payload.schema.content) as boolean) {
       throw new Error('Pertanyaan anda mengandung kata terlarang!');
     }
