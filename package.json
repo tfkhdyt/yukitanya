@@ -8,6 +8,7 @@
 		"db:generate": "dotenv drizzle-kit generate:pg",
 		"db:migrate": "dotenv tsx ./src/server/db/migrate.ts",
 		"db:seed": "dotenv tsx ./src/server/db/seed.ts",
+		"typesense:seed": "dotenv tsx ./src/lib/typesense/seed.ts",
 		"db:studio": "dotenv drizzle-kit studio",
 		"dev": "next dev",
 		"lint": "next lint",

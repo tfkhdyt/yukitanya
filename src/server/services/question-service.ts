@@ -172,8 +172,6 @@ class QuestionService {
         searchResult.find((snip) => snip.id === dt.id)?.snippet ?? dt.content,
     }));
 
-    console.log({ data, searchResult });
-
     let nextCursor: typeof cursor | undefined;
     if (data.length > limit) {
       const nextItem = data.pop();
