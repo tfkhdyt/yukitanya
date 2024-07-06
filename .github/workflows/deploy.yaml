@@ -1,5 +1,5 @@
 name: deploy yukitanya
-on: 
+on:
   push:
     branches:
       - master
@@ -15,8 +15,10 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
+          set -e
           cd /root/yukitanya
           git pull
           npx pnpm i
           npm run build
           pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+
