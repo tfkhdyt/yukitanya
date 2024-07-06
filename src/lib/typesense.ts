@@ -4,7 +4,7 @@ import Typesense from 'typesense';
 export const typesenseClient = new Typesense.Client({
   nodes: [
     {
-      host: 'localhost',
+      host: environment.TYPESENSE_HOST,
       port: 8108,
       protocol: 'http',
     },
@@ -23,7 +23,7 @@ if (!isQuestionSchemaExists) {
     fields: [
       { name: 'id', type: 'string' },
       { name: 'content', type: 'string' },
-      { name: 'subjectId', type: 'string', facet: true },
+      { name: 'subjectId', type: 'string' },
     ],
   });
 }
