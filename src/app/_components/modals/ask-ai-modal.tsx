@@ -114,7 +114,7 @@ export function AskAIModal({
                 </div>
               </div>
               <p className='line-clamp-4 whitespace-pre-wrap text-left text-sm leading-relaxed text-[#696984]'>
-                {question.content}
+                {question.content.replace(/<\/?mark>/g, '')}
               </p>
               <div className='flex justify-start'>
                 <Link
