@@ -50,13 +50,8 @@ const usePasswordStrength = (password: string) => {
   const deferredPassword = useDebounce(password, 500);
 
   useEffect(() => {
-    const calculatePwdStrength = async (pwd: string) => {
-      const response = await zxcvbnAsync(pwd);
-      setResult(response);
-    };
-
     if (deferredPassword) {
-      calculatePwdStrength(deferredPassword);
+      zxcvbnAsync(deferredPassword).then((response) => setResult(response));
     }
   }, [deferredPassword]);
 
