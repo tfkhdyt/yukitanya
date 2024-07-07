@@ -20,5 +20,5 @@ jobs:
           git pull
           npx pnpm i
           npm run build
-          pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+          pm2 startOrGracefulReload ecosystem.config.js
 
