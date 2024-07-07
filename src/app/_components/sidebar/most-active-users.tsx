@@ -60,7 +60,7 @@ export function MostActiveUsers({
                 </Link>
               </div>
               <p
-                className='ml-auto bg-orange-500 rounded-full text-white p-4 size-10 flex justify-center items-center font-medium'
+                className='ml-auto bg-orange-500 rounded-full text-white p-2 size-8 text-sm flex justify-center items-center font-medium'
                 title='Score, dihitung berdasarkan jumlah pertanyaan, jawaban, dan favorit'
               >
                 {score}
