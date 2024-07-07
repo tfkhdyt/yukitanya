@@ -4,9 +4,9 @@ import { environment } from '@/environment.mjs';
 
 export default {
   dbCredentials: {
-    connectionString: environment.DATABASE_URL,
+    url: environment.DATABASE_URL,
   },
-  driver: 'pg',
+  dialect: 'postgresql',
   out: './drizzle',
   schema: './src/server/db/schema.ts',
 } satisfies Config;
