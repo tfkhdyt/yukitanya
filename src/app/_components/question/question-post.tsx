@@ -227,23 +227,62 @@ export function QuestionPost({
           )}
         </div>
         <div className='flex flex-wrap gap-2 pt-2 text-[#696984]'>
-          <Button
-            className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
-            disabled={favoriteMutation.isLoading}
-            onClick={handleFavorite}
-            size='sm'
-            title='Favorit'
-            variant='ghost'
-          >
-            <>
-              {question.isFavorited ? (
-                <Heart className='mr-1' color='red' fill='red' size={18} />
-              ) : (
-                <Heart className='mr-1' size={18} />
-              )}
-              {question.numberOfFavorites}
-            </>
-          </Button>
+          {session ? (
+            <Button
+              className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+              disabled={favoriteMutation.isLoading}
+              onClick={handleFavorite}
+              size='sm'
+              title='Favorit'
+              variant='ghost'
+            >
+              <>
+                {question.isFavorited ? (
+                  <Heart className='mr-1' color='red' fill='red' size={18} />
+                ) : (
+                  <Heart className='mr-1' size={18} />
+                )}
+                {question.numberOfFavorites}
+              </>
+            </Button>
+          ) : (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  className='rounded-full text-sm hover:bg-slate-100 hover:text-[#696984]'
+                  disabled={favoriteMutation.isLoading}
+                  onClick={handleFavorite}
+                  size='sm'
+                  title='Favorit'
+                  variant='ghost'
+                >
+                  <>
+                    {question.isFavorited ? (
+                      <Heart
+                        className='mr-1'
+                        color='red'
+                        fill='red'
+                        size={18}
+                      />
+                    ) : (
+                      <Heart className='mr-1' size={18} />
+                    )}
+                    {question.numberOfFavorites}
+                  </>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='text-[#696984] font-medium rounded-xl'>
+                Anda harus{' '}
+                <Link
+                  href='/auth/sign-in'
+                  className='font-bold hover:underline'
+                >
+                  Sign In
+                </Link>{' '}
+                untuk menggunakan fitur ini.
+              </PopoverContent>
+            </Popover>
+          )}
           {session ? (
             <AnswerModal question={question} session={session}>
               <Button
