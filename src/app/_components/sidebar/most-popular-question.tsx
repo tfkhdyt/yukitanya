@@ -36,7 +36,7 @@ export function MostPopularQuestionSection({
     return (
       <div className='space-y-4'>
         <h2 className='text-xl font-extrabold uppercase text-[#F48C06]'>
-          PERTANYAAN {subject?.name} TERPOPULER MINGGU INI
+          PERTANYAAN {subject?.name} TERPOPULER MUSIM INI
         </h2>
 
         <div>

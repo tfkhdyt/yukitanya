@@ -19,7 +19,7 @@ export function MostActiveUsers({
     return (
       <div className='space-y-4'>
         <h2 className='text-xl font-extrabold uppercase text-[#F48C06]'>
-          PENGGUNA TERAKTIF MINGGU INI
+          PENGGUNA TERAKTIF MUSIM INI
         </h2>
 
         <ol className='space-y-5'>
