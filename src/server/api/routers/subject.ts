@@ -6,7 +6,7 @@ import { createTRPCRouter, publicProcedure } from '../trpc';
 export const subjectRouter = createTRPCRouter({
   findMostPopularSubjects: publicProcedure.query(async ({ ctx }) => {
     const score =
-      sql`COUNT(${questions.id}) * 2 + COUNT(${answers.id}) * 3 + COUNT(${favorites.userId})`.mapWith(
+      sql`COUNT(DISTINCT ${questions.id}) * 2 + COUNT(DISTINCT ${answers.id}) * 3 + COUNT(DISTINCT ${favorites.userId})`.mapWith(
         Number,
       );
 

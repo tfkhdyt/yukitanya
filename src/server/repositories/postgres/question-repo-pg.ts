@@ -1,5 +1,14 @@
 import dayjs from 'dayjs';
-import { and, count, desc, eq, gt, inArray, lte, sql } from 'drizzle-orm';
+import {
+  and,
+  countDistinct,
+  desc,
+  eq,
+  gt,
+  inArray,
+  lte,
+  sql,
+} from 'drizzle-orm';
 import { P, match } from 'ts-pattern';
 
 import { type Pg, db } from '@/server/db';
@@ -18,7 +27,7 @@ class QuestionRepoPg {
   async getTodayQuestionCount(userId: string) {
     const [thisDayPostsCount] = await this.db
       .select({
-        count: count(questions),
+        count: countDistinct(questions),
       })
       .from(questions)
       .where(
@@ -267,7 +276,7 @@ class QuestionRepoPg {
 
   async findMostPopularQuestion(subjectId?: string) {
     const popularity =
-      sql`COUNT(${favorites.userId}) * 1 + COUNT(${answers.id}) * 2`.mapWith(
+      sql`COUNT(DISTINCT ${favorites.userId}) * 1 + COUNT(DISTINCT ${answers.id}) * 2`.mapWith(
         Number,
       );
 
@@ -277,8 +286,8 @@ class QuestionRepoPg {
         question: questions,
         owner: users,
         subject: subjects,
-        numberOfFavorites: count(favorites.userId),
-        numberOfAnswers: count(answers.id),
+        numberOfFavorites: countDistinct(favorites.userId),
+        numberOfAnswers: countDistinct(answers.id),
       })
       .from(questions)
       .leftJoin(favorites, eq(favorites.questionId, questions.id))

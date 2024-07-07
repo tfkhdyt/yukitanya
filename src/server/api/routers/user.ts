@@ -183,7 +183,7 @@ export const userRouter = createTRPCRouter({
     ),
   findMostActiveUsers: publicProcedure.query(async ({ ctx }) => {
     const score =
-      sql`COUNT(${questions.id}) * 2 + COUNT(${answers.id}) * 3 + COUNT(${favorites.questionId}) * 1`.mapWith(
+      sql`COUNT(DISTINCT ${questions.id}) * 2 + COUNT(DISTINCT ${answers.id}) * 3 + COUNT(DISTINCT ${favorites.questionId}) * 1`.mapWith(
         Number,
       );
 
