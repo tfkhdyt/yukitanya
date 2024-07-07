@@ -1,11 +1,12 @@
 'use client';
 
-import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { BadgeXIcon, GithubIcon, LucideIcon, PanelTopIcon } from 'lucide-react';
 
 type TKeunggulan = {
   image: {
     alt: string;
-    url: string;
+    Icon: LucideIcon;
   };
   text: string;
 };
@@ -14,24 +15,24 @@ export function Keunggulan() {
   const keunggulan: TKeunggulan[] = [
     {
       image: {
-        alt: 'Fitur unik',
-        url: '/img/fitur/unik.png',
+        alt: 'Tanpa iklan',
+        Icon: BadgeXIcon,
       },
-      text: 'Memiliki fitur yang berbeda dari web lainnya karena dapat memfasilitasi para siswa SD untuk saling berdiskusi mengenai mata pelajaran SD.',
+      text: 'Platform ini menghadirkan pengalaman belajar tanpa gangguan iklan, memungkinkan siswa fokus sepenuhnya pada tugas dan diskusi.',
     },
     {
       image: {
-        alt: 'Tampilan menarik',
-        url: '/img/fitur/menarik.png',
+        alt: 'User Interface yang clean dan friendly',
+        Icon: PanelTopIcon,
       },
-      text: 'Tampilan platform menarik dan sederhana. Sehingga memudahkan pengguna untuk mencari fitur yang ada pada platform.',
+      text: 'Dengan antarmuka yang simpel dan intuitif, aplikasi ini memudahkan setiap pengguna menjelajahi fitur-fitur tanpa kesulitan.',
     },
     {
       image: {
-        alt: 'Verifikasi Jawaban',
-        url: '/img/fitur/verifikasi.png',
+        alt: 'Free and Open Source',
+        Icon: GithubIcon,
       },
-      text: 'Memiliki fitur verifikasi jawaban untuk menilai keakuratan dari jawaban tersebut sehingga memperkuat tingkat kebenarannya.',
+      text: 'Platform ini tidak hanya gratis, tetapi juga open source, memberi kebebasan bagi siapa saja untuk mengakses, mengkustomisasi, dan berkontribusi.',
     },
   ];
 
@@ -50,18 +51,19 @@ export function Keunggulan() {
           sekolah.
         </p>
         <div className='grid grid-cols-1 gap-48 pb-96 pt-40 md:grid-cols-3 md:gap-16'>
-          {keunggulan.map((each) => (
+          {keunggulan.map((each, idx) => (
             <div
-              className='relative flex rounded-2xl bg-white px-6 py-20 shadow-lg lg:px-12 lg:py-24'
+              className='relative flex rounded-2xl bg-white px-6 py-20 shadow-lg lg:px-12 lg:py-16'
               key={each.text}
             >
-              <Image
-                alt={each.image.alt}
-                className='absolute inset-x-0 -top-32 mx-auto'
-                height={179}
-                src={each.image.url}
-                width={146}
-              />
+              <div
+                className={cn(
+                  idx % 2 === 0 ? 'bg-stone-600' : 'bg-amber-500',
+                  'absolute inset-x-0 -top-12 mx-auto p-6 w-fit rounded-full shadow-md',
+                )}
+              >
+                <each.image.Icon className='text-white' size={48} />
+              </div>
               <p className='text-center text-sm font-medium leading-loose text-[#77425A] lg:text-base'>
                 {each.text}
               </p>

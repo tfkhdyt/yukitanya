@@ -21,50 +21,30 @@ export function Fitur() {
         'Fitur ini memungkinkan siswa untuk mengajukan pertanyaan menggunakan teks atau gambar. Kemudian, siswa lain dapat memberikan jawaban atas pertanyaan tersebut. Selain itu, siswa lain juga dapat memberikan penilaian untuk setiap jawaban.',
       image: {
         alt: 'Forum Tanya Jawab',
-        url: '/img/fitur/forum_tanya_jawab.png',
+        url: '/img/fitur/qna.png',
       },
       title: ['Forum', 'tanya jawab'],
       isComingSoon: false,
     },
     {
       description:
-        'Suatu fitur pelengkap yang memberikan kemudahan dalam melakukan diskusi untuk merubah suara dalam bentuk tulisan.',
+        'Fitur ini memungkinkan pengguna untuk mendapatkan jawaban instan dari kecerdasan buatan terkait tugas sekolah mereka dengan mengajukan pertanyaan secara langsung.',
       image: {
-        alt: 'Speech to text',
-        url: '/img/fitur/tts.png',
+        alt: 'Tanyakan pada AI',
+        url: '/img/fitur/ai.svg',
       },
-      title: ['Speech', 'to text'],
-      isComingSoon: true,
+      title: ['Tanyakan pada', 'AI'],
+      isComingSoon: false,
     },
     {
       description:
-        'Fitur ini memudahkan siswa dalam berdiskusi sesuai dengan mata pelajaran yang sedang mereka tempuh dalam jenjang pendidikan sekolah dasar.',
+        'Fitur ini memungkinkan pengguna untuk mendapatkan poin dari jawaban mereka dan bersaing dalam peringkat bulanan untuk meraih penghargaan dan pengakuan.',
       image: {
-        alt: 'Chat room',
-        url: '/img/fitur/chatroom.png',
+        alt: 'Mendaki puncak Leaderboard',
+        url: '/img/fitur/leaderboard.svg',
       },
-      title: ["Course's", 'chat room'],
-      isComingSoon: true,
-    },
-    {
-      description:
-        'Fitur ini dapat di akses siswa ketika hendak berdiskusi lebih dalam dengan siswa lainnya yang membantu memberi jawaban di fitur tanya jawab maupun fitur course’s room chat secara private.',
-      image: {
-        alt: 'Private chat',
-        url: '/img/fitur/private_chat.png',
-      },
-      title: ['Private chat', 'antar siswa'],
-      isComingSoon: true,
-    },
-    {
-      description:
-        'Fitur ini bertujuan untuk merefleksikan atau memberikan suasana yang pas terhadap mood siswa layaknya seperti video game, biasanya ketika adegan semangat maka akan memberikan sound yang semangat juga. Sehingga siswa terbawa suasananya menjadi semangat, tenang dan fokus dalam belajar. Fitur ini juga bisa di nonaktifkan jika siswa tidak mau mengaktifkannya.',
-      image: {
-        alt: 'Background music instrumental',
-        url: '/img/fitur/music.png',
-      },
-      title: ['Background music', 'instrumental'],
-      isComingSoon: true,
+      title: ['Mendaki Puncak', 'Leaderboard'],
+      isComingSoon: false,
     },
   ];
 

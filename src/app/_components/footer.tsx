@@ -1,6 +1,6 @@
 'use client';
 
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { Facebook, GithubIcon, Instagram, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollIntoView from 'react-scroll-into-view';
@@ -8,9 +8,8 @@ import ScrollIntoView from 'react-scroll-into-view';
 export function Footer({ scroll = false }: { scroll?: boolean }) {
   const fitur = [
     { id: 'forum-tanya-jawab', name: 'Forum tanya jawab' },
-    { id: 'speech-to-text', name: 'Speech to text' },
-    { id: 'chat-room', name: "Course's chat room" },
-    { id: 'private-chat', name: 'Private chat' },
+    { id: 'tanyakan-pada-ai', name: 'Tanyakan pada AI' },
+    { id: 'mendaki-puncak-leaderboard', name: 'Mendaki Puncak Leaderboard' },
   ];
 
   return (
@@ -55,6 +54,14 @@ export function Footer({ scroll = false }: { scroll?: boolean }) {
             >
               <Twitter />
             </button>
+            <a href='https://github.com/tfkhdyt/yukitanya' target='_blank'>
+              <button
+                aria-label='Source Code'
+                className='rounded-lg bg-white p-2'
+              >
+                <GithubIcon />
+              </button>
+            </a>
           </div>
         </div>
         <div className='grid grid-cols-2 gap-8 py-8 md:grid-cols-3'>
