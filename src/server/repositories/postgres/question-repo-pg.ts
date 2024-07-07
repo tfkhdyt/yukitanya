@@ -298,9 +298,9 @@ class QuestionRepoPg {
         subjectId
           ? and(
               eq(questions.subjectId, subjectId),
-              gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+              gt(questions.createdAt, dayjs().subtract(6, 'months').toDate()),
             )
-          : gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
+          : gt(questions.createdAt, dayjs().subtract(6, 'months').toDate()),
       )
       .orderBy(desc(popularity))
       .groupBy(

@@ -197,8 +197,8 @@ export const userRouter = createTRPCRouter({
       .leftJoin(favorites, eq(favorites.userId, users.id))
       .where(
         and(
-          gt(questions.createdAt, dayjs().subtract(7, 'days').toDate()),
-          gt(answers.createdAt, dayjs().subtract(7, 'days').toDate()),
+          gt(questions.createdAt, dayjs().subtract(6, 'months').toDate()),
+          gt(answers.createdAt, dayjs().subtract(6, 'months').toDate()),
         ),
       )
       .groupBy(users.id)
