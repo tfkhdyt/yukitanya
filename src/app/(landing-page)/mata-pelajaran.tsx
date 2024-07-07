@@ -11,10 +11,10 @@ export function MataPelajaran() {
       id='tentang-kami'
     >
       <div className='container space-y-16 text-[#696984] md:px-12'>
-        <p className='text-center text-2xl font-bold text-[#77425A]'>
+        <div className='text-center text-2xl font-bold text-[#77425A]'>
           Yuk tanya{' '}
           <span className='text-[#F48C06]'>pelajaran favoritmu disini!</span>
-        </p>
+        </div>
         <div className='grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-7'>
           {mapel.map((each) => (
             <div className='flex flex-col items-center' key={each.name}>

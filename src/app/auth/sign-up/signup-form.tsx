@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
-import { Eye, EyeOff, Facebook } from 'lucide-react';
+import { Eye, EyeOff, FacebookIcon } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -49,12 +49,12 @@ const usePasswordStrength = (password: string) => {
   const [result, setResult] = useState<ZxcvbnResult | undefined>();
   const deferredPassword = useDebounce(password, 500);
 
-  const calculatePwdStrength = async (pwd: string) => {
-    const response = await zxcvbnAsync(pwd);
-    setResult(response);
-  };
-
   useEffect(() => {
+    const calculatePwdStrength = async (pwd: string) => {
+      const response = await zxcvbnAsync(pwd);
+      setResult(response);
+    };
+
     if (deferredPassword) {
       calculatePwdStrength(deferredPassword);
     }
@@ -190,7 +190,7 @@ export function SignupForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <>
+                  <div>
                     <span className='flex space-x-2'>
                       <Input
                         placeholder='Password'
@@ -238,7 +238,7 @@ export function SignupForm() {
                           .otherwise(() => 'Empty')}
                       </span>
                     </div>
-                  </>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -327,10 +327,10 @@ export function SignupForm() {
             })
           }
         >
-          <Facebook color='black' />
+          <FacebookIcon color='black' />
         </Button>
       </div>
-      <p className='mt-4 text-center text-sm font-medium'>
+      <div className='mt-4 text-center text-sm font-medium'>
         Sudah punya akun?{' '}
         <Link
           className='font-semibold text-[#00B6EF] underline'
@@ -338,7 +338,7 @@ export function SignupForm() {
         >
           Masuk
         </Link>
-      </p>
+      </div>
     </>
   );
 }

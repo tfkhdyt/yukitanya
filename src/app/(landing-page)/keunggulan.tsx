@@ -42,9 +42,9 @@ export function Keunggulan() {
       id='keunggulan'
     >
       <div className='container space-y-12 md:px-16'>
-        <p className='text-center text-2xl font-bold text-[#F48C06]'>
+        <div className='text-center text-2xl font-bold text-[#F48C06] mx-auto w-full'>
           <span className='text-[#77425A]'>Keunggulan</span> Platform Kami
-        </p>
+        </div>
         <p className='mx-auto max-w-4xl text-center leading-loose text-[#696984] md:text-lg md:leading-loose'>
           Yukitanya adalah salah satu platform tanya jawab online yang
           menggabungkan semua alat yang diperlukan untuk menunjang tugas

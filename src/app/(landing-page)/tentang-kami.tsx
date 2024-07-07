@@ -4,9 +4,9 @@ export function TentangKami() {
   return (
     <section className='bg-[url(/img/tentang_kami_bg.svg)] bg-cover pt-10'>
       <div className='container space-y-12 md:px-16'>
-        <p className='text-center text-2xl font-bold text-[#77425A]'>
+        <div className='text-center text-2xl font-bold text-[#77425A]'>
           <span className='text-[#F48C06]'>Apa itu</span> Yukitanya?
-        </p>
+        </div>
         <p className='mx-auto max-w-4xl text-center leading-loose text-[#696984] lg:text-lg lg:leading-loose'>
           Yukitanya adalah sebuah website yang menghubungkan banyak siswa ke
           dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara

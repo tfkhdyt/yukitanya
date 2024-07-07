@@ -53,10 +53,10 @@ export function Fitur() {
       className='scroll-mt-20 bg-[url(/img/fitur/bg_2.svg)] bg-cover pb-32 pt-12'
       id='fitur'
     >
-      <div className='container space-y-12 md:px-12'>
-        <p className='text-center text-2xl font-bold text-[#F48C06]'>
+      <div className='container space-y-6 md:px-12'>
+        <div className='text-center text-2xl font-bold text-[#F48C06]'>
           <span className='text-[#77425A]'>Fitur</span> Kami
-        </p>
+        </div>
         <p className='text-center leading-loose text-[#696984]'>
           Fitur yang sangat luar biasa ini, dapat membuat kegiatan belajar
           menjadi lebih efisien
@@ -64,7 +64,7 @@ export function Fitur() {
         {fitur.map((each, index) => (
           <section
             className={clsx(
-              'flex scroll-mt-20 flex-col items-center gap-8 pt-12 md:flex-row lg:pt-20',
+              'flex scroll-mt-20 flex-col items-center gap-8 pt-12 md:flex-row',
               index % 2 === 1 && 'md:flex-row-reverse',
             )}
             id={each.image.alt.replaceAll(' ', '-').toLowerCase()}
@@ -82,22 +82,22 @@ export function Fitur() {
             <div className='space-y-8 md:w-1/2 md:p-6 lg:p-32'>
               {match(index % 2)
                 .with(0, () => (
-                  <p className='text-center text-2xl font-extrabold text-[#77425A]'>
+                  <div className='text-center text-2xl font-extrabold text-[#77425A]'>
                     <span className='text-[#F48C06]'>{each.title[0]}</span>{' '}
                     {each.title[1]}
                     {each.isComingSoon && (
                       <span className='text-xs'> (Coming soon)</span>
                     )}
-                  </p>
+                  </div>
                 ))
                 .otherwise(() => (
-                  <p className='text-center text-2xl font-extrabold text-[#F48C06]'>
+                  <div className='text-center text-2xl font-extrabold text-[#F48C06]'>
                     <span className='text-[#77425A]'>{each.title[0]}</span>{' '}
                     {each.title[1]}
                     {each.isComingSoon && (
                       <span className='text-xs'> (Coming soon)</span>
                     )}
-                  </p>
+                  </div>
                 ))}
 
               <p className='text-center leading-loose text-[#696984]'>

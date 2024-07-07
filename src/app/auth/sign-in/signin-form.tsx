@@ -175,7 +175,7 @@ export function SigninForm() {
           <Facebook color='black' />
         </Button>
       </div>
-      <p className='mt-4 text-center text-sm font-medium'>
+      <div className='mt-4 text-center text-sm font-medium'>
         Belum punya akun?{' '}
         <Link
           className='font-semibold text-[#00B6EF] underline'
@@ -183,7 +183,7 @@ export function SigninForm() {
         >
           Daftar
         </Link>
-      </p>
+      </div>
     </>
   );
 }

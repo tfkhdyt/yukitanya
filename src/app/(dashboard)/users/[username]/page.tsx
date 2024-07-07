@@ -78,22 +78,22 @@ export default async function UserPage({
             {user.name}
           </p>
           <UserStat username={user.username} />
-          <p className='hidden text-sm md:block md:text-base'>
+          <span className='hidden text-sm md:block md:text-base'>
             Bergabung sejak{' '}
             <span title={formatLongDateTime(user.createdAt)}>
               {dayjs(user.createdAt).format('D MMMM YYYY')}
             </span>
-          </p>
+          </span>
         </div>
       </div>
       <div className='m-4 mb-6 space-y-1 text-[#696984] md:hidden'>
         <p className='line-clamp-1 font-medium md:text-lg'>{user.name}</p>
-        <p className='text-sm'>
+        <span className='text-sm'>
           Bergabung sejak{' '}
           <span title={formatLongDateTime(user.createdAt)}>
             {dayjs(user.createdAt).format('D MMMM YYYY')}
           </span>
-        </p>
+        </span>
       </div>
       <div className='w-full'>
         <UserTabs

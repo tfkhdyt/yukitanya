@@ -227,7 +227,7 @@ export function AnswerModal({
                       </FormItem>
                     )}
                   />
-                  <p className='text-right text-[#696984]'>
+                  <div className='text-right text-[#696984]'>
                     <span
                       className={clsx(
                         answerLength > 1000 && 'font-semibold text-red-700',
@@ -236,7 +236,7 @@ export function AnswerModal({
                       {answerLength}
                     </span>
                     /1000
-                  </p>
+                  </div>
                   <div className='flex justify-between flex-wrap-reverse gap-4 items-center'>
                     <Turnstile
                       siteKey={environment.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
