@@ -283,6 +283,7 @@ export function SignupForm() {
           <Turnstile
             siteKey={environment.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
             onSuccess={setToken}
+            onError={(code) => console.log('Error code ->', code)}
             ref={captcha}
             options={{
               theme: 'light',
