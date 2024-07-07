@@ -177,56 +177,25 @@ export function DetailedQuestion({
         </div>
       </div>
       <div className='flex flex-wrap items-center justify-around md:justify-evenly border-b-2 py-2 text-[#696984] md:gap-2'>
-        {session?.user.membership ? (
-          <Button
-            className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
-            size='sm'
-            title='Favorit'
-            variant='ghost'
-            disabled={favoriteMutation.isLoading}
-            onClick={handleFavorite}
-          >
-            <>
-              {questionMetadata.data?.favorites.some(
-                (favorite) => favorite.userId === session?.user.id,
-              ) ? (
-                <Heart className='mr-1' color='red' fill='red' size={18} />
-              ) : (
-                <Heart className='mr-1' size={18} />
-              )}
-            </>
-            <span className='hidden md:inline'>Favorit</span>
-          </Button>
-        ) : (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
-                size='sm'
-                title='Favorit'
-                variant='ghost'
-              >
-                <>
-                  {questionMetadata.data?.favorites.some(
-                    (favorite) => favorite.userId === session?.user.id,
-                  ) ? (
-                    <Heart className='mr-1' color='red' fill='red' size={18} />
-                  ) : (
-                    <Heart className='mr-1' size={18} />
-                  )}
-                </>
-                <span className='hidden md:inline'>Favorit</span>
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className='text-[#696984] font-medium rounded-xl'>
-              Anda harus menjadi pengguna{' '}
-              <Link href='/premium' className='font-bold hover:underline'>
-                Premium
-              </Link>{' '}
-              untuk menggunakan fitur ini.
-            </PopoverContent>
-          </Popover>
-        )}
+        <Button
+          className='space-x-2 rounded-full px-3 text-base hover:bg-slate-100 hover:text-[#696984]'
+          size='sm'
+          title='Favorit'
+          variant='ghost'
+          disabled={favoriteMutation.isLoading}
+          onClick={handleFavorite}
+        >
+          <>
+            {questionMetadata.data?.favorites.some(
+              (favorite) => favorite.userId === session?.user.id,
+            ) ? (
+              <Heart className='mr-1' color='red' fill='red' size={18} />
+            ) : (
+              <Heart className='mr-1' size={18} />
+            )}
+          </>
+          <span className='hidden md:inline'>Favorit</span>
+        </Button>
 
         {session ? (
           <AnswerModal question={question} session={session}>

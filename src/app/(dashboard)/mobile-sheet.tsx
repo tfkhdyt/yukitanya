@@ -82,8 +82,6 @@ export function MobileSheet({ session }: { session?: Session }) {
         </div>
         <div className='mt-4 space-y-4'>
           {menu.map((mn) => {
-            if (mn.title === 'Favorit' && !session.user.membership) return;
-
             return (
               <Link
                 key={mn.title}

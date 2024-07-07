@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Favorit() {
   const session = await getServerAuthSession();
-  if (!session?.user.membership) {
+  if (!session) {
     return redirect('/home');
   }
 

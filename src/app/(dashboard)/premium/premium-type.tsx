@@ -134,7 +134,7 @@ export function PremiumType({ user }: { user: User }) {
               <p className='mt-1 text-gray-500'>Rp29.999/bulan</p>
               <ul className='mt-4 text-gray-600 font-normal list-disc ml-4 space-y-1'>
                 <li>Dapat Menyisipkan Gambar ke dalam Pertanyaan</li>
-                <li>Akses ke Fitur &quot;Favorit&quot; Pertanyaan</li>
+                {/* <li>Akses ke Fitur &quot;Favorit&quot; Pertanyaan</li> */}
                 <li>Batas Membuat 10 Pertanyaan/hari</li>
                 <li>Premium Badge</li>
               </ul>
@@ -177,8 +177,8 @@ export function PremiumType({ user }: { user: User }) {
               <p className='mt-1 text-gray-500'>Rp49.999/bulan</p>
               <ul className='mt-4 text-gray-600 font-normal list-disc ml-4 space-y-1'>
                 <li>Dapat Menyisipkan Gambar ke dalam Pertanyaan</li>
-                <li>Akses ke Fitur &quot;Favorit&quot; Pertanyaan</li>
-                <li>Tanpa Batas</li>
+                {/*<li>Akses ke Fitur &quot;Favorit&quot; Pertanyaan</li>*/}
+                <li>Buat Pertanyaan Tanpa Batas</li>
                 <li>Premium+ Badge</li>
                 <li>Akses ke Fitur &quot;Tanyakan pada AI&quot;</li>
               </ul>

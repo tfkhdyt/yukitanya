@@ -45,7 +45,7 @@ export function LeftSidebar({
           if (each.title === 'Notifikasi' && !session?.user) return;
           if (each.title === 'Buat') return;
           if (each.title === 'Premium' && !session?.user) return;
-          if (each.title === 'Favorit' && !session?.user.membership) return;
+          if (each.title === 'Favorit' && !session?.user) return;
 
           return (
             <Link
