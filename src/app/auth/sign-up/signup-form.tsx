@@ -7,14 +7,10 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { match } from 'ts-pattern';
-import { zxcvbnOptions, zxcvbnAsync, type ZxcvbnResult } from '@zxcvbn-ts/core';
-import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
-import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
-import * as zxcvbnIdPackage from '@zxcvbn-ts/language-id';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,34 +25,6 @@ import { Input } from '@/components/ui/input';
 import { environment } from '@/environment.mjs';
 import { type SignupSchema, signupSchema } from '@/schema/signup-schema';
 import { api } from '@/trpc/react';
-import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
-import { useDebounce } from '@uidotdev/usehooks';
-
-const options = {
-  dictionary: {
-    ...zxcvbnCommonPackage.dictionary,
-    ...zxcvbnEnPackage.dictionary,
-    ...zxcvbnIdPackage.dictionary,
-  },
-  graphs: zxcvbnCommonPackage.adjacencyGraphs,
-  useLevenshteinDistance: true,
-  translations: zxcvbnEnPackage.translations,
-};
-zxcvbnOptions.setOptions(options);
-
-const usePasswordStrength = (password: string) => {
-  const [result, setResult] = useState<ZxcvbnResult | undefined>();
-  const deferredPassword = useDebounce(password, 500);
-
-  useEffect(() => {
-    if (deferredPassword) {
-      zxcvbnAsync(deferredPassword).then((response) => setResult(response));
-    }
-  }, [deferredPassword]);
-
-  return result;
-};
 
 export function SignupForm() {
   const [isPasswordShowed, setIsPasswordShowed] = useState(false);
@@ -65,13 +33,6 @@ export function SignupForm() {
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
   });
-  const password = useWatch({ control: form.control, name: 'password' });
-  const passwordStrength = usePasswordStrength(password);
-  const pwdStrengthValue = useMemo(
-    () =>
-      passwordStrength?.score ? ((passwordStrength.score + 1) / 5) * 100 : 20,
-    [passwordStrength],
-  );
 
   const router = useRouter();
 
@@ -185,55 +146,29 @@ export function SignupForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <div>
-                    <span className='flex space-x-2'>
-                      <Input
-                        placeholder='Password'
-                        type={isPasswordShowed ? 'text' : 'password'}
-                        {...field}
-                        className='rounded-full'
-                      />
-                      <Button
-                        aria-label='Show password'
-                        className='rounded-full p-2'
-                        onClick={() => {
-                          setIsPasswordShowed((v) => !v);
-                        }}
-                        tabIndex={-1}
-                        type='button'
-                        variant='outline'
-                      >
-                        {match(isPasswordShowed)
-                          .with(true, () => <EyeOff size={20} />)
-                          .with(false, () => <Eye size={20} />)
-                          .exhaustive()}
-                      </Button>
-                    </span>
-                    <div className='flex items-center space-x-2 justify-between'>
-                      <Progress
-                        value={password ? pwdStrengthValue : 0}
-                        className={cn(
-                          match(passwordStrength?.score ?? 0)
-                            .with(0, () => '[&>*]:bg-red-500')
-                            .with(1, () => '[&>*]:bg-orange-500')
-                            .with(2, () => '[&>*]:bg-yellow-500')
-                            .with(3, () => '[&>*]:bg-green-500')
-                            .with(4, () => '[&>*]:bg-blue-500')
-                            .otherwise(() => ''),
-                          'grow',
-                        )}
-                      />
-                      <span className='text-sm text-center font-medium text-nowrap'>
-                        {match(passwordStrength?.score ?? 0)
-                          .with(0, () => 'Very weak')
-                          .with(1, () => 'Weak')
-                          .with(2, () => 'Fair')
-                          .with(3, () => 'Good')
-                          .with(4, () => 'Strong')
-                          .otherwise(() => 'Empty')}
-                      </span>
-                    </div>
-                  </div>
+                  <span className='flex space-x-2'>
+                    <Input
+                      placeholder='Password'
+                      type={isPasswordShowed ? 'text' : 'password'}
+                      {...field}
+                      className='rounded-full'
+                    />
+                    <Button
+                      aria-label='Show password'
+                      className='rounded-full p-2'
+                      onClick={() => {
+                        setIsPasswordShowed((v) => !v);
+                      }}
+                      tabIndex={-1}
+                      type='button'
+                      variant='outline'
+                    >
+                      {match(isPasswordShowed)
+                        .with(true, () => <EyeOff size={20} />)
+                        .with(false, () => <Eye size={20} />)
+                        .exhaustive()}
+                    </Button>
+                  </span>
                 </FormControl>
                 <FormMessage />
               </FormItem>
