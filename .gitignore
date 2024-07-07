@@ -50,3 +50,6 @@ yarn-error.log*
 **/public/workbox-*.js.map
 **/public/swe-worker-*.js
 **/public/fallback-*.js
+public/robots.txt
+public/sitemap-0.xml
+public/sitemap.xml
