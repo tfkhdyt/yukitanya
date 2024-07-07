@@ -44,8 +44,6 @@ export const environment = createEnv({
     FB_CLIENT_ID: z.string(),
     FB_CLIENT_SECRET: z.string(),
     TURNSTILE_SECRET_KEY: z.string(),
-    ALGOLIA_APP_ID: z.string(),
-    ALGOLIA_API_KEY: z.string(),
     UPLOADTHING_APP_ID: z.string(),
     UPLOADTHING_SECRET: z.string(),
     MIDTRANS_SERVER_KEY: z.string(),
@@ -77,8 +75,6 @@ export const environment = createEnv({
     FB_CLIENT_SECRET: process.env.FB_CLIENT_SECRET,
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
     TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
-    ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
-    ALGOLIA_API_KEY: process.env.ALGOLIA_API_KEY,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     NEXT_PUBLIC_MIDTRANS_CLIENT_KEY:
