@@ -276,7 +276,7 @@ class QuestionRepoPg {
 
   async findMostPopularQuestion(subjectId?: string) {
     const popularity =
-      sql`COUNT(DISTINCT ${favorites.userId}) + COUNT(DISTINCT ${answers.id}) * 2`.mapWith(
+      sql`COUNT(DISTINCT ${favorites.userId}) * 1 + COUNT(DISTINCT ${answers.id}) * 2`.mapWith(
         Number,
       );
 
