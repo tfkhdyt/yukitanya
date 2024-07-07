@@ -56,7 +56,6 @@ export function MostActiveUsers({
                         className='max-w-[10rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
                         href={`/users/${user.username}`}
                         onClick={setSheetOpen}
-                        title={user.name ?? user.username}
                       >
                         {user.name}
                       </Link>
@@ -64,14 +63,13 @@ export function MostActiveUsers({
                         className='max-w-[10rem] truncate font-normal md:max-w-[12rem] block text-base'
                         href={`/users/${user.username}`}
                         onClick={setSheetOpen}
-                        title={`@${user.username}`}
                       >
                         @{user.username}
                       </Link>
                     </div>
                   </li>
                 </TooltipTrigger>
-                <TooltipContent className='my-6'>
+                <TooltipContent className='my-6 text-[#696984]'>
                   <p>Score: {score}</p>
                 </TooltipContent>
               </Tooltip>
