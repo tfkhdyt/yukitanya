@@ -43,7 +43,7 @@ export function MostActiveUsers({
               </Link>
               <div className='text-[#696984] grow'>
                 <Link
-                  className='max-w-[10rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
+                  className='max-w-[9rem] cursor-pointer truncate font-medium decoration-2 hover:underline md:max-w-[12rem] block text-base'
                   href={`/users/${user.username}`}
                   onClick={setSheetOpen}
                   title={user.name ?? user.username}
