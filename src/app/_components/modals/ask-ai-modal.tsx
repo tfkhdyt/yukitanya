@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
-import Markdown from 'react-markdown';
+import removeMd from 'remove-markdown';
 
 import { badgeVariants } from '@/components/ui/badge';
 import {
@@ -169,9 +169,9 @@ export function AskAIModal({
                 .with(false, () => {
                   if (data) {
                     return (
-                      <Markdown className='whitespace-pre-wrap text-left text-sm leading-relaxed max-h-52 overflow-y-auto'>
-                        {data}
-                      </Markdown>
+                      <div className='whitespace-pre-wrap text-left text-sm leading-relaxed max-h-52 overflow-y-auto'>
+                        {removeMd(data)}
+                      </div>
                     );
                   }
                 })
