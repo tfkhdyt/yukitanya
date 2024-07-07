@@ -1,12 +1,12 @@
 import { answers, favorites, questions, subjects } from '@/server/db/schema';
 import dayjs from 'dayjs';
-import { and, desc, eq, gt, sql } from 'drizzle-orm';
+import { desc, eq, gt, or, sql } from 'drizzle-orm';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 
 export const subjectRouter = createTRPCRouter({
   findMostPopularSubjects: publicProcedure.query(async ({ ctx }) => {
     const score =
-      sql`COUNT(DISTINCT ${questions.id}) * 2 + COUNT(DISTINCT ${answers.id}) * 3 + COUNT(DISTINCT ${favorites.userId})`.mapWith(
+      sql`COUNT(${questions.id}) * 2 + COUNT(${answers.id}) * 3 + COUNT(${favorites.userId})`.mapWith(
         Number,
       );
 
@@ -20,7 +20,7 @@ export const subjectRouter = createTRPCRouter({
       .leftJoin(answers, eq(answers.questionId, questions.id))
       .leftJoin(favorites, eq(favorites.questionId, questions.id))
       .where(
-        and(
+        or(
           gt(questions.createdAt, dayjs().subtract(6, 'months').toDate()),
           gt(answers.createdAt, dayjs().subtract(6, 'months').toDate()),
         ),
