@@ -2,26 +2,12 @@
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
-import withPWAInit from '@ducanh2912/next-pwa';
 
 await import('./src/environment.mjs');
 
 // const withBundleAnalyzer = bundleAnalyzer({
 // 	enabled: process.env.ANALYZE === 'true',
 // });
-
-const withPWA = withPWAInit({
-	dest: 'public',
-	cacheOnFrontEndNav: true,
-	aggressiveFrontEndNavCaching: true,
-	reloadOnOnline: true,
-	fallbacks: {
-		document: '/offline',
-	},
-	workboxOptions: {
-		disableDevLogs: true,
-	},
-});
 
 // const withSerwist = withSerwistInit({
 // 	cacheOnFrontEndNav: true,
@@ -32,14 +18,14 @@ const withPWA = withPWAInit({
 
 /** @type {import("next").NextConfig} */
 const config = {
-	reactStrictMode: true,
-	images: {
-		remotePatterns: [
-			{
-				hostname: 'utfs.io',
-			},
-		],
-	},
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'utfs.io',
+      },
+    ],
+  },
 };
 
-export default withPWA(config);
+export default config;

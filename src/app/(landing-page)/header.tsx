@@ -122,15 +122,6 @@ export function Header() {
             >
               Daftar
             </Link>
-            <Link href='/apk/Yukitanya-v0.0.1.apk' className='p-0' download>
-              <Image
-                src='/img/pwa-button.png'
-                alt='PWA'
-                height={28}
-                width={135}
-                className='h-full rounded-lg'
-              />
-            </Link>
           </div>
         </nav>
       </div>
