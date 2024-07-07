@@ -190,6 +190,7 @@ export const userRouter = createTRPCRouter({
     const data = await ctx.db
       .select({
         user: users,
+        score,
       })
       .from(users)
       .leftJoin(questions, eq(questions.userId, users.id))
@@ -219,11 +220,13 @@ export const userRouter = createTRPCRouter({
           gt(memberships.expiresAt, new Date()),
         ),
       );
+
     return data.map((dt) => ({
       user: {
         ...dt.user,
         membership: _memberships.find((mb) => mb.userId === dt.user.id),
       },
+      score: dt.score,
     }));
   }),
 });
