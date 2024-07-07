@@ -208,15 +208,7 @@ export function DetailedQuestion({
                 disabled={favoriteMutation.isLoading}
                 onClick={handleFavorite}
               >
-                <>
-                  {questionMetadata.data?.favorites.some(
-                    (favorite) => favorite.userId === session?.user.id,
-                  ) ? (
-                    <Heart className='mr-1' color='red' fill='red' size={18} />
-                  ) : (
-                    <Heart className='mr-1' size={18} />
-                  )}
-                </>
+                <Heart className='mr-1' size={18} />
                 <span className='hidden md:inline'>Favorit</span>
               </Button>
             </PopoverTrigger>

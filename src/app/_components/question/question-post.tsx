@@ -256,19 +256,8 @@ export function QuestionPost({
                   title='Favorit'
                   variant='ghost'
                 >
-                  <>
-                    {question.isFavorited ? (
-                      <Heart
-                        className='mr-1'
-                        color='red'
-                        fill='red'
-                        size={18}
-                      />
-                    ) : (
-                      <Heart className='mr-1' size={18} />
-                    )}
-                    {question.numberOfFavorites}
-                  </>
+                  <Heart className='mr-1' size={18} />
+                  {question.numberOfFavorites}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className='text-[#696984] font-medium rounded-xl'>
