@@ -1,28 +1,94 @@
-# Create T3 App
+[![ReadMeSupportPalestine](https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/banner-project.svg)](https://github.com/Safouene1/support-palestine-banner/Markdown-pages/Support.md)
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# Yukitanya
 
-## What's next? How do I make an app with this?
+Yukitanya adalah platform yang menghubungkan banyak siswa ke dalam sebuah forum diskusi untuk menyelesaikan tugas sekolah secara bersama.
+Terinspirasi dari Brainly dan Twitter.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Fitur-fitur
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- Membuat pertanyaan berdasarkan mata pelajaran tertentu
+- Membuat pertanyaan dengan gambar
+- Bagikan link pertanyaan ke sosial media
+- Filtering kata-kata terlarang
+- CAPTCHA
+- Rating jawaban
+- Tanyakan kepada AI
+- Fitur search pertanyaan dan pengguna
+- Fitur notifikasi
+- Tampilan responsive
+- Pembayaran membership dengan payment gateway
+- dan lain-lain
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Tech Stack
 
-## Learn More
+- Node.js
+- Next.js
+- TypeScript
+- Drizzle ORM
+- PostgreSQL
+- Tailwind CSS
+- Shadcn UI
+- Typesense
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Instalasi
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Requirement
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- Node.js (Minimal LTS)
+- PostgreSQL
+- [Google](https://console.cloud.google.com/apis/dashboard) dan [Facebook](https://developers.facebook.com/apps/) OAuth key
+- [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) key
+- [Uploadthing](https://uploadthing.com/) API key
+- [Midtrans](https://midtrans.com/) key
+- [Typesense](https://typesense.org/)
 
-## How do I deploy this?
+## Langkah-langkah
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+1. Clone repo
+
+```bash
+git clone https://github.com/tfkhdyt/yukitanya
+```
+
+1. Instal dependency
+
+```bash
+pnpm i # atau npm i
+```
+
+1. Buat salinan file `.env.example`
+
+```bash
+cp .env.example .env
+```
+
+1. Isi konfigurasi `.env` yang diperlukan
+1. Lakukan seeding database
+
+```bash
+pnpm db:seed # atau npm run db:seed
+```
+
+1. Push schema ke database
+
+```bash
+pnpm db:push # atau npm run db:push
+```
+
+1. Selesai
+
+## Cara Penggunaan
+
+### Development
+
+```bash
+pnpm dev
+```
+
+### Production
+
+```bash
+pnpm build
+pnpm start # atau pm2 start ecosystem.config.js jika menggunakan pm2
+```
