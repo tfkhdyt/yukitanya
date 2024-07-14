@@ -47,34 +47,35 @@ Terinspirasi dari Brainly dan Twitter.
 
 1. Clone repo
 
-```bash
-git clone https://github.com/tfkhdyt/yukitanya
-```
+   ```bash
+   git clone https://github.com/tfkhdyt/yukitanya
+   ```
 
 1. Instal dependency
 
-```bash
-pnpm i # atau npm i
-```
+   ```bash
+   pnpm i # atau npm i
+   ```
 
 1. Buat salinan file `.env.example`
 
-```bash
-cp .env.example .env
-```
+   ```bash
+   cp .env.example .env
+   ```
 
 1. Isi konfigurasi `.env` yang diperlukan
+
 1. Lakukan seeding database
 
-```bash
-pnpm db:seed # atau npm run db:seed
-```
+   ```bash
+   pnpm db:seed # atau npm run db:seed
+   ```
 
 1. Push schema ke database
 
-```bash
-pnpm db:push # atau npm run db:push
-```
+   ```bash
+   pnpm db:push # atau npm run db:push
+   ```
 
 1. Selesai
 
