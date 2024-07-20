@@ -65,16 +65,16 @@ Terinspirasi dari Brainly dan Twitter.
 
 1. Isi konfigurasi `.env` yang diperlukan
 
-1. Lakukan seeding database
-
-   ```bash
-   pnpm db:seed # atau npm run db:seed
-   ```
-
 1. Push schema ke database
 
    ```bash
    pnpm db:push # atau npm run db:push
+   ```
+
+1. Lakukan seeding database
+
+   ```bash
+   pnpm db:seed # atau npm run db:seed
    ```
 
 1. Selesai
