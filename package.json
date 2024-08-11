@@ -2,6 +2,7 @@
 	"name": "yukitanya",
 	"version": "0.1.0",
 	"private": true,
+	"packageManager": "pnpm@9.6.0",
 	"scripts": {
 		"build": "next build",
 		"postbuild": "next-sitemap",
